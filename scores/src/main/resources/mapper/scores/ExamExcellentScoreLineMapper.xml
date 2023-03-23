@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hysro.scores.mapper.ExamExcellentScoreLineMapper">
+    
+    <resultMap type="ExamExcellentScoreLine" id="ExamExcellentScoreLineResult">
+        <result property="excellentId"    column="excellent_id"    />
+        <result property="subject"    column="subject"    />
+        <result property="excellentScore"    column="excellent_score"    />
+        <result property="grade"    column="grade"    />
+    </resultMap>
+
+    <sql id="selectExamExcellentScoreLineVo">
+        select excellent_id, subject, excellent_score, grade from exam_excellent_score_line
+    </sql>
+
+    <select id="selectExamExcellentScoreLineList" parameterType="ExamExcellentScoreLine" resultMap="ExamExcellentScoreLineResult">
+        <include refid="selectExamExcellentScoreLineVo"/>
+        <where>  
+            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+        </where>
+    </select>
+    
+    <select id="selectExamExcellentScoreLineByExcellentId" parameterType="Long" resultMap="ExamExcellentScoreLineResult">
+        <include refid="selectExamExcellentScoreLineVo"/>
+        where excellent_id = #{excellentId}
+    </select>
+        
+    <insert id="insertExamExcellentScoreLine" parameterType="ExamExcellentScoreLine">
+        insert into exam_excellent_score_line
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="excellentId != null">excellent_id,</if>
+            <if test="subject != null">subject,</if>
+            <if test="excellentScore != null">excellent_score,</if>
+            <if test="grade != null">grade,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="excellentId != null">#{excellentId},</if>
+            <if test="subject != null">#{subject},</if>
+            <if test="excellentScore != null">#{excellentScore},</if>
+            <if test="grade != null">#{grade},</if>
+         </trim>
+    </insert>
+
+    <update id="updateExamExcellentScoreLine" parameterType="ExamExcellentScoreLine">
+        update exam_excellent_score_line
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="subject != null">subject = #{subject},</if>
+            <if test="excellentScore != null">excellent_score = #{excellentScore},</if>
+            <if test="grade != null">grade = #{grade},</if>
+        </trim>
+        where excellent_id = #{excellentId}
+    </update>
+
+    <delete id="deleteExamExcellentScoreLineByExcellentId" parameterType="Long">
+        delete from exam_excellent_score_line where excellent_id = #{excellentId}
+    </delete>
+
+    <delete id="deleteExamExcellentScoreLineByExcellentIds" parameterType="String">
+        delete from exam_excellent_score_line where excellent_id in 
+        <foreach item="excellentId" collection="array" open="(" separator="," close=")">
+            #{excellentId}
+        </foreach>
+    </delete>
+</mapper>
