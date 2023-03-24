@@ -65,6 +65,16 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="考试ID" align="center" prop="examId" />
       <el-table-column label="考试名称" align="center" prop="examName" />
+      <el-table-column label="启用状态" align="center" key="enableFlag">
+        <template slot-scope="scope">
+          <el-switch
+            v-model="scope.row.enableFlag"
+            active-value="0"
+            inactive-value="1"
+            @change="handleEnableFlagChange(scope.row)"
+          ></el-switch>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -84,7 +94,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -157,6 +167,19 @@ export default {
         this.examsList = response.rows;
         this.total = response.total;
         this.loading = false;
+        console.log(response.rows)
+      });
+    },
+    // 考试启用状态修改
+    handleEnableFlagChange(row) {
+      let text = row.enableFlag === "0" ? "启用" : "停用";
+      this.$modal.confirm('确认要"' + text + '""' + row.examName + '"考试吗？').then(function() {
+        let queryExame = {examId: row.examId,enableFlag:row.enableFlag};
+        return updateExams(queryExame);
+      }).then(() => {
+        this.$modal.msgSuccess(text + "成功");
+      }).catch(function() {
+        row.enableFlag = row.enableFlag === "0" ? "1" : "0";
       });
     },
     // 取消按钮
@@ -170,7 +193,8 @@ export default {
         examId: null,
         examName: null,
         createTime: null,
-        createBy: null
+        createBy: null,
+        enableFlag:null,
       };
       this.resetForm("form");
     },
@@ -194,7 +218,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加各种考试";
+      this.title = "添加考试";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -203,7 +227,7 @@ export default {
       getExams(examId).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改各种考试";
+        this.title = "修改考试";
       });
     },
     /** 提交按钮 */
@@ -229,7 +253,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const examIds = row.examId || this.ids;
-      this.$modal.confirm('是否确认删除各种考试编号为"' + examIds + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除考试编号为"' + examIds + '"的数据项？').then(function() {
         return delExams(examIds);
       }).then(() => {
         this.getList();

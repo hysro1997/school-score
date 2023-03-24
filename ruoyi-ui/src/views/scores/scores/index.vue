@@ -2,36 +2,63 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="年级" prop="grade">
-        <el-input
+        <!--el-input
           v-model="queryParams.grade"
           placeholder="请输入年级"
           clearable
           @keyup.enter.native="handleQuery"
-        />
+        /-->
+        <el-select v-model="queryParams.grade" placeholder="请选择年级">
+          <el-option
+            v-for="item in gradeOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            @keyup.enter.native="handleQuery">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="班级" prop="classes">
-        <el-input
+        <!--el-input
           v-model="queryParams.classes"
           placeholder="请输入班级"
           clearable
           @keyup.enter.native="handleQuery"
-        />
+        /-->
+        <el-select v-model="queryParams.classes" placeholder="请选择班级">
+          <el-option
+            v-for="item in classesOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            @keyup.enter.native="handleQuery">
+          </el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="考试号" prop="examNumber">
+      <!--el-form-item label="考试号" prop="examNumber">
         <el-input
           v-model="queryParams.examNumber"
           placeholder="请输入考试号"
           clearable
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item>
+      </el-form-item-->
       <el-form-item label="学科" prop="subject">
-        <el-input
+        <el-select v-model="queryParams.subject" placeholder="请选择学科">
+          <el-option
+            v-for="item in subjectOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            @keyup.enter.native="handleQuery">
+          </el-option>
+        </el-select>
+        <!--el-input
           v-model="queryParams.subject"
           placeholder="请输入学科"
           clearable
           @keyup.enter.native="handleQuery"
-        />
+        /-->
       </el-form-item>
       <el-form-item label="考试ID" prop="examId">
         <el-input
@@ -95,7 +122,7 @@
 
     <el-table v-loading="loading" :data="scoresList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="分数ID" align="center" prop="scoreId" />
+      <el-table-column label="分数编号" align="center" prop="scoreId" />
       <el-table-column label="年级" align="center" prop="grade" />
       <el-table-column label="班级" align="center" prop="classes" />
       <el-table-column label="考试号" align="center" prop="examNumber" />
@@ -121,7 +148,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -134,24 +161,60 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="年级" prop="grade">
-          <el-input v-model="form.grade" placeholder="请输入年级" />
+          <!--el-input v-model="form.grade" placeholder="请输入年级" /-->
+          <el-select v-model="form.grade" placeholder="请选择年级">
+            <el-option
+              v-for="item in gradeOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              @keyup.enter.native="handleQuery">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="班级" prop="classes">
-          <el-input v-model="form.classes" placeholder="请输入班级" />
+          <!--el-input v-model="form.classes" placeholder="请输入班级" /-->
+          <el-select v-model="form.classes" placeholder="请选择班级">
+            <el-option
+              v-for="item in classesOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              @keyup.enter.native="handleQuery">
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="考试号" prop="examNumber">
-          <el-input v-model="form.examNumber" placeholder="请输入考试号" />
-        </el-form-item>
+
         <el-form-item label="学科" prop="subject">
-          <el-input v-model="form.subject" placeholder="请输入学科" />
+          <!--el-input v-model="form.subject" placeholder="请输入学科" /-->
+          <el-select v-model="form.subject" placeholder="请选择学科">
+            <el-option
+              v-for="item in subjectOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              @keyup.enter.native="handleQuery">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="分数" prop="score">
           <el-input v-model="form.score" placeholder="请输入分数" />
         </el-form-item>
-        <el-form-item label="考试ID" prop="examId">
-          <el-input v-model="form.examId" placeholder="请输入考试ID" />
+        <el-form-item label="考试号" prop="examNumber">
+          <el-input v-model="form.examNumber" placeholder="请输入考试号" />
         </el-form-item>
-        <el-divider content-position="center">各种考试信息</el-divider>
+        <el-form-item label="考试名称" prop="examId">
+          <!--el-input v-model="form.examId" placeholder="请输入考试ID" /-->
+          <el-select v-model="form.examId" placeholder="请选择考试">
+            <el-option
+              v-for="item in examsList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <!--el-divider content-position="center">考试信息</el-divider>
         <el-row :gutter="10" class="mb8">
           <el-col :span="1.5">
             <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddExams">添加</el-button>
@@ -168,7 +231,7 @@
               <el-input v-model="scope.row.examName" placeholder="请输入考试名称" />
             </template>
           </el-table-column>
-        </el-table>
+        </el-table-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -180,11 +243,75 @@
 
 <script>
 import { listScores, getScores, delScores, addScores, updateScores } from "@/api/scores/scores";
+import { listExams } from '../../../api/examination/exams'
 
 export default {
   name: "Scores",
   data() {
     return {
+      //学科选项
+      subjectOptions:[{
+        value: '语文',
+        label: '语文'
+      }, {
+        value: '数学',
+        label: '数学'
+      }, {
+        value: '英语',
+        label: '英语'
+      }],
+      //年级选项
+      gradeOptions:[{
+        value: '一年级',
+        label: '一年级'
+      }, {
+        value: '二年级',
+        label: '二年级'
+      }, {
+        value: '三年级',
+        label: '三年级'
+      }, {
+        value: '四年级',
+        label: '四年级'
+      }, {
+        value: '五年级',
+        label: '五年级'
+      }, {
+        value: '六年级',
+        label: '六年级'
+      }],
+      //班级选项
+      classesOptions:[{
+        value: '1班',
+        label: '1班'
+      }, {
+        value: '2班',
+        label: '2班'
+      }, {
+        value: '3班',
+        label: '3班'
+      }, {
+        value: '4班',
+        label: '4班'
+      }, {
+        value: '5班',
+        label: '5班'
+      }, {
+        value: '6班',
+        label: '6班'
+      }, {
+        value: '7班',
+        label: '7班'
+      }, {
+        value: '8班',
+        label: '8班'
+      }, {
+        value: '9班',
+        label: '9班'
+      }, {
+        value: '10班',
+        label: '10班'
+      }],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -203,6 +330,7 @@ export default {
       scoresList: [],
       // 各种考试表格数据
       examsList: [],
+      temptExamsList:[],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -236,6 +364,21 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+      this.loading = true;
+      listExams().then(response => {
+        let that = this;
+        let examinations = {"value":"","label":""};
+        this.examsList = [];
+        for (let i = 0;i<response.rows.length;i++){
+          examinations.value = response.rows[i].examId;
+          examinations.label = response.rows[i].examName;
+          that.examsList.push(examinations);
+          examinations={};
+        }
+        this.temptExamsList = [];
+        this.temptExamsList = this.examsList;
+        this.loading = false;
+      })
     },
     // 取消按钮
     cancel() {
@@ -258,6 +401,7 @@ export default {
         examId: null
       };
       this.examsList = [];
+      this.examsList = this.temptExamsList;
       this.resetForm("form");
     },
     /** 搜索按钮操作 */
@@ -288,7 +432,7 @@ export default {
       const scoreId = row.scoreId || this.ids
       getScores(scoreId).then(response => {
         this.form = response.data;
-        this.examsList = response.data.examsList;
+        //this.examsList = response.data.examsList;
         this.open = true;
         this.title = "修改学生分数情况";
       });
@@ -297,7 +441,7 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          this.form.examsList = this.examsList;
+          this.form.examsList = null;
           if (this.form.scoreId != null) {
             updateScores(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
@@ -324,17 +468,17 @@ export default {
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
     },
-	/** 各种考试序号 */
+	/** 各种考试序号
     rowExamsIndex({ row, rowIndex }) {
       row.index = rowIndex + 1;
-    },
-    /** 各种考试添加按钮操作 */
+    },*/
+    /** 各种考试添加按钮操作
     handleAddExams() {
       let obj = {};
       obj.examName = "";
       this.examsList.push(obj);
-    },
-    /** 各种考试删除按钮操作 */
+    },*/
+    /** 各种考试删除按钮操作
     handleDeleteExams() {
       if (this.checkedExams.length == 0) {
         this.$modal.msgError("请先选择要删除的各种考试数据");
@@ -345,7 +489,7 @@ export default {
           return checkedExams.indexOf(item.index) == -1
         });
       }
-    },
+    },*/
     /** 复选框选中数据 */
     handleExamsSelectionChange(selection) {
       this.checkedExams = selection.map(item => item.index)

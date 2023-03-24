@@ -3,30 +3,31 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hysro.scores.mapper.ExamsMapper">
-    
+
     <resultMap type="Exams" id="ExamsResult">
         <result property="examId"    column="exam_id"    />
         <result property="examName"    column="exam_name"    />
         <result property="createTime"    column="create_time"    />
         <result property="createBy"    column="create_by"    />
+        <result property="enableFlag"    column="enable_flag"    />
     </resultMap>
 
     <sql id="selectExamsVo">
-        select exam_id, exam_name, create_time, create_by from exams
+        select exam_id, exam_name, create_time, create_by, enable_flag from exams
     </sql>
 
     <select id="selectExamsList" parameterType="Exams" resultMap="ExamsResult">
         <include refid="selectExamsVo"/>
-        <where>  
+        <where>
             <if test="examName != null  and examName != ''"> and exam_name like concat('%', #{examName}, '%')</if>
         </where>
     </select>
-    
+
     <select id="selectExamsByExamId" parameterType="Long" resultMap="ExamsResult">
         <include refid="selectExamsVo"/>
         where exam_id = #{examId}
     </select>
-        
+
     <insert id="insertExams" parameterType="Exams">
         insert into exams
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -34,12 +35,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="examName != null">exam_name,</if>
             <if test="createTime != null">create_time,</if>
             <if test="createBy != null">create_by,</if>
+            <if test="enableFlag != null">enable_flag,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="examId != null">#{examId},</if>
             <if test="examName != null">#{examName},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="createBy != null">#{createBy},</if>
+            <if test="enableFlag != null">#{enableFlag},</if>
          </trim>
     </insert>
 
@@ -49,6 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="examName != null">exam_name = #{examName},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="enableFlag != null">enable_flag = #{enableFlag},</if>
         </trim>
         where exam_id = #{examId}
     </update>
@@ -58,7 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteExamsByExamIds" parameterType="String">
-        delete from exams where exam_id in 
+        delete from exams where exam_id in
         <foreach item="examId" collection="array" open="(" separator="," close=")">
             #{examId}
         </foreach>

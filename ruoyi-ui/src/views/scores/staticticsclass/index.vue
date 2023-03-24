@@ -2,28 +2,55 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="年级" prop="grade">
-        <el-input
+        <!--el-input
           v-model="queryParams.grade"
           placeholder="请输入年级"
           clearable
           @keyup.enter.native="handleQuery"
-        />
+        /-->
+        <el-select v-model="queryParams.grade" placeholder="请选择年级">
+          <el-option
+            v-for="item in gradeOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            @keyup.enter.native="handleQuery">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="班级" prop="classes">
-        <el-input
+        <!--el-input
           v-model="queryParams.classes"
           placeholder="请输入班级"
           clearable
           @keyup.enter.native="handleQuery"
-        />
+        /-->
+        <el-select v-model="queryParams.classes" placeholder="请选择班级">
+          <el-option
+            v-for="item in classesOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            @keyup.enter.native="handleQuery">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="学科" prop="subject">
-        <el-input
+        <!--el-input
           v-model="queryParams.subject"
           placeholder="请输入学科"
           clearable
           @keyup.enter.native="handleQuery"
-        />
+        /-->
+        <el-select v-model="queryParams.subject" placeholder="请选择学科">
+          <el-option
+            v-for="item in subjectOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            @keyup.enter.native="handleQuery">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="考试ID" prop="examId">
         <el-input
@@ -40,7 +67,7 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
+      <!--el-col :span="1.5">
         <el-button
           type="primary"
           plain
@@ -60,7 +87,7 @@
           @click="handleUpdate"
           v-hasPermi="['scores:staticticsclass:edit']"
         >修改</el-button>
-      </el-col>
+      </el-col-->
       <el-col :span="1.5">
         <el-button
           type="danger"
@@ -87,7 +114,7 @@
 
     <el-table v-loading="loading" :data="staticticsclassList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="统计记录ID" align="center" prop="examStatisticsId" />
+      <!--el-table-column label="统计记录ID" align="center" prop="examStatisticsId" /-->
       <el-table-column label="年级" align="center" prop="grade" />
       <el-table-column label="班级" align="center" prop="classes" />
       <el-table-column label="学科" align="center" prop="subject" />
@@ -109,13 +136,13 @@
       <el-table-column label="排名" align="center" prop="rate" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
+          <!--el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['scores:staticticsclass:edit']"
-          >修改</el-button>
+          >修改</el-button-->
           <el-button
             size="mini"
             type="text"
@@ -126,7 +153,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -172,6 +199,69 @@ export default {
   name: "Staticticsclass",
   data() {
     return {
+      //学科选项
+      subjectOptions:[{
+        value: '语文',
+        label: '语文'
+      }, {
+        value: '数学',
+        label: '数学'
+      }, {
+        value: '英语',
+        label: '英语'
+      }],
+      //年级选项
+      gradeOptions:[{
+        value: '一年级',
+        label: '一年级'
+      }, {
+        value: '二年级',
+        label: '二年级'
+      }, {
+        value: '三年级',
+        label: '三年级'
+      }, {
+        value: '四年级',
+        label: '四年级'
+      }, {
+        value: '五年级',
+        label: '五年级'
+      }, {
+        value: '六年级',
+        label: '六年级'
+      }],
+      //班级选项
+      classesOptions:[{
+        value: '1班',
+        label: '1班'
+      }, {
+        value: '2班',
+        label: '2班'
+      }, {
+        value: '3班',
+        label: '3班'
+      }, {
+        value: '4班',
+        label: '4班'
+      }, {
+        value: '5班',
+        label: '5班'
+      }, {
+        value: '6班',
+        label: '6班'
+      }, {
+        value: '7班',
+        label: '7班'
+      }, {
+        value: '8班',
+        label: '8班'
+      }, {
+        value: '9班',
+        label: '9班'
+      }, {
+        value: '10班',
+        label: '10班'
+      }],
       // 遮罩层
       loading: true,
       // 选中数组

@@ -2,20 +2,38 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="学科" prop="subject">
-        <el-input
+        <!--el-input
           v-model="queryParams.subject"
           placeholder="请输入学科"
           clearable
           @keyup.enter.native="handleQuery"
-        />
+        /-->
+        <el-select v-model="queryParams.subject" placeholder="请选择学科">
+          <el-option
+            v-for="item in subjectOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            @keyup.enter.native="handleQuery">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="年级" prop="grade">
-        <el-input
+        <!--el-input
           v-model="queryParams.grade"
           placeholder="请输入年级"
           clearable
           @keyup.enter.native="handleQuery"
-        />
+        /-->
+        <el-select v-model="queryParams.grade" placeholder="请选择年级">
+          <el-option
+            v-for="item in gradeOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            @keyup.enter.native="handleQuery">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -94,7 +112,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -107,13 +125,29 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="学科" prop="subject">
-          <el-input v-model="form.subject" placeholder="请输入学科" />
+          <!--el-input v-model="form.subject" placeholder="请输入学科" /-->
+          <el-select v-model="form.subject" placeholder="请选择学科">
+            <el-option
+              v-for="item in subjectOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="优秀分数" prop="excellentScore">
           <el-input v-model="form.excellentScore" placeholder="请输入优秀分数" />
         </el-form-item>
         <el-form-item label="年级" prop="grade">
-          <el-input v-model="form.grade" placeholder="请输入年级" />
+          <!--el-input v-model="form.grade" placeholder="请输入年级" /-->
+          <el-select v-model="form.grade" placeholder="请选择年级">
+            <el-option
+              v-for="item in gradeOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -131,6 +165,37 @@ export default {
   name: "Line",
   data() {
     return {
+      //学科选项
+      subjectOptions:[{
+        value: '语文',
+        label: '语文'
+      }, {
+        value: '数学',
+        label: '数学'
+      }, {
+        value: '英语',
+        label: '英语'
+      }],
+      //年级选项
+      gradeOptions:[{
+        value: '一年级',
+        label: '一年级'
+      }, {
+        value: '二年级',
+        label: '二年级'
+      }, {
+        value: '三年级',
+        label: '三年级'
+      }, {
+        value: '四年级',
+        label: '四年级'
+      }, {
+        value: '五年级',
+        label: '五年级'
+      }, {
+        value: '六年级',
+        label: '六年级'
+      }],
       // 遮罩层
       loading: true,
       // 选中数组

@@ -14,19 +14,19 @@ import com.hysro.scores.service.IExamStudentScoresService;
 
 /**
  * 学生分数情况Service业务层处理
- * 
+ *
  * @author hysro
  * @date 2023-03-23
  */
 @Service
-public class ExamStudentScoresServiceImpl implements IExamStudentScoresService 
+public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
 {
     @Autowired
     private ExamStudentScoresMapper examStudentScoresMapper;
 
     /**
      * 查询学生分数情况
-     * 
+     *
      * @param scoreId 学生分数情况主键
      * @return 学生分数情况
      */
@@ -38,7 +38,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
 
     /**
      * 查询学生分数情况列表
-     * 
+     *
      * @param examStudentScores 学生分数情况
      * @return 学生分数情况
      */
@@ -50,7 +50,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
 
     /**
      * 新增学生分数情况
-     * 
+     *
      * @param examStudentScores 学生分数情况
      * @return 结果
      */
@@ -66,7 +66,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
 
     /**
      * 修改学生分数情况
-     * 
+     *
      * @param examStudentScores 学生分数情况
      * @return 结果
      */
@@ -75,14 +75,12 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     public int updateExamStudentScores(ExamStudentScores examStudentScores)
     {
         examStudentScores.setUpdateTime(DateUtils.getNowDate());
-        examStudentScoresMapper.deleteExamsByExamId(examStudentScores.getScoreId());
-        insertExams(examStudentScores);
         return examStudentScoresMapper.updateExamStudentScores(examStudentScores);
     }
 
     /**
      * 批量删除学生分数情况
-     * 
+     *
      * @param scoreIds 需要删除的学生分数情况主键
      * @return 结果
      */
@@ -90,13 +88,12 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     @Override
     public int deleteExamStudentScoresByScoreIds(Long[] scoreIds)
     {
-        examStudentScoresMapper.deleteExamsByExamIds(scoreIds);
         return examStudentScoresMapper.deleteExamStudentScoresByScoreIds(scoreIds);
     }
 
     /**
      * 删除学生分数情况信息
-     * 
+     *
      * @param scoreId 学生分数情况主键
      * @return 结果
      */
@@ -104,13 +101,12 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     @Override
     public int deleteExamStudentScoresByScoreId(Long scoreId)
     {
-        examStudentScoresMapper.deleteExamsByExamId(scoreId);
         return examStudentScoresMapper.deleteExamStudentScoresByScoreId(scoreId);
     }
 
     /**
      * 新增各种考试信息
-     * 
+     *
      * @param examStudentScores 学生分数情况对象
      */
     public void insertExams(ExamStudentScores examStudentScores)

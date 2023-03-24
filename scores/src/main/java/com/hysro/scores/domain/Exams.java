@@ -7,7 +7,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 各种考试对象 exams
- * 
+ *
  * @author hysro
  * @date 2023-03-23
  */
@@ -23,21 +23,31 @@ public class Exams extends BaseEntity
     @Excel(name = "考试名称")
     private String examName;
 
-    public void setExamId(Long examId) 
+    private String enableFlag;
+
+    public String getEnableFlag() {
+        return enableFlag;
+    }
+
+    public void setEnableFlag(String enableFlag) {
+        this.enableFlag = enableFlag;
+    }
+
+    public void setExamId(Long examId)
     {
         this.examId = examId;
     }
 
-    public Long getExamId() 
+    public Long getExamId()
     {
         return examId;
     }
-    public void setExamName(String examName) 
+    public void setExamName(String examName)
     {
         this.examName = examName;
     }
 
-    public String getExamName() 
+    public String getExamName()
     {
         return examName;
     }
@@ -49,6 +59,7 @@ public class Exams extends BaseEntity
             .append("examName", getExamName())
             .append("createTime", getCreateTime())
             .append("createBy", getCreateBy())
+            .append("enableFlag",getEnableFlag())
             .toString();
     }
 }
