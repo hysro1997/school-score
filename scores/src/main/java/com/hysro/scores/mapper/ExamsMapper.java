@@ -34,6 +34,13 @@ public interface ExamsMapper
     public List<Exams> selectExamsList(Exams exams);
 
     /**
+     * 查询已启用的考试
+     *
+     * @return 各种考试集合
+     */
+    public Exams selectExamsEnabled();
+
+    /**
      * 新增各种考试
      *
      * @param exams 各种考试

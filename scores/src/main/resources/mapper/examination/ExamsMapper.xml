@@ -34,6 +34,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where exam_id = #{examId}
     </select>
 
+    <select id="selectExamsEnabled" parameterType="Exams" resultMap="ExamsResult">
+        <include refid="selectExamsVo"/>
+        where enable_flag = 0
+    </select>
+
     <insert id="insertExams" parameterType="Exams">
         insert into exams
         <trim prefix="(" suffix=")" suffixOverrides=",">

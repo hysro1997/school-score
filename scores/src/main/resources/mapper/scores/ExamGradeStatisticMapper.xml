@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hysro.scores.mapper.ExamGradeStatisticMapper">
-    
+
     <resultMap type="ExamGradeStatistic" id="ExamGradeStatisticResult">
         <result property="examGradeStatisticsId"    column="exam_grade_statistics_id"    />
         <result property="examNumbers"    column="exam_numbers"    />
@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <resultMap id="ExamGradeStatisticExamsResult" type="ExamGradeStatistic" extends="ExamGradeStatisticResult">
-        <collection property="examsList" notNullColumn="sub_exam_id" javaType="java.util.List" resultMap="ExamsResult" />
+        <collection property="exams" notNullColumn="sub_exam_id" javaType="Exams" resultMap="ExamsResult" />
     </resultMap>
 
     <resultMap type="Exams" id="ExamsResult">
@@ -30,26 +30,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectExamGradeStatisticVo">
-        select exam_grade_statistics_id, exam_numbers, triple_qualified_numbers, triple_excellent_numbers, triple_qualified_percentage, triple_excellent_percentage, muitiple_score, grade, classes, rate, exam_id from exam_grade_statistic
-    </sql>
-
-    <select id="selectExamGradeStatisticList" parameterType="ExamGradeStatistic" resultMap="ExamGradeStatisticResult">
-        <include refid="selectExamGradeStatisticVo"/>
-        <where>  
-            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
-            <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
-            <if test="examId != null "> and exam_id = #{examId}</if>
-        </where>
-    </select>
-    
-    <select id="selectExamGradeStatisticByExamGradeStatisticsId" parameterType="Long" resultMap="ExamGradeStatisticExamsResult">
         select a.exam_grade_statistics_id, a.exam_numbers, a.triple_qualified_numbers, a.triple_excellent_numbers, a.triple_qualified_percentage, a.triple_excellent_percentage, a.muitiple_score, a.grade, a.classes, a.rate, a.exam_id,
  b.exam_id as sub_exam_id, b.exam_name as sub_exam_name, b.create_time as sub_create_time, b.create_by as sub_create_by
         from exam_grade_statistic a
         left join exams b on b.exam_id = a.exam_grade_statistics_id
+    </sql>
+
+    <select id="selectExamGradeStatisticList" parameterType="ExamGradeStatistic" resultMap="ExamGradeStatisticExamsResult">
+        <include refid="selectExamGradeStatisticVo"/>
+        <where>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
+            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="exams != null and exams.examName != null  and exams.examName != ''"> and exam_name like concat('%', #{exams.examName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectExamGradeStatisticByExamGradeStatisticsId" parameterType="Long" resultMap="ExamGradeStatisticExamsResult">
+        <include refid="selectExamGradeStatisticVo"/>
         where a.exam_grade_statistics_id = #{examGradeStatisticsId}
     </select>
-        
+
     <insert id="insertExamGradeStatistic" parameterType="ExamGradeStatistic">
         insert into exam_grade_statistic
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -102,14 +103,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteExamGradeStatisticByExamGradeStatisticsIds" parameterType="String">
-        delete from exam_grade_statistic where exam_grade_statistics_id in 
+        delete from exam_grade_statistic where exam_grade_statistics_id in
         <foreach item="examGradeStatisticsId" collection="array" open="(" separator="," close=")">
             #{examGradeStatisticsId}
         </foreach>
     </delete>
-    
+
     <delete id="deleteExamsByExamIds" parameterType="String">
-        delete from exams where exam_id in 
+        delete from exams where exam_id in
         <foreach item="examId" collection="array" open="(" separator="," close=")">
             #{examId}
         </foreach>

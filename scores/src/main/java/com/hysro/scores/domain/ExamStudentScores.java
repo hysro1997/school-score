@@ -9,7 +9,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 学生分数情况对象 exam_student_scores
- * 
+ *
  * @author hysro
  * @date 2023-03-23
  */
@@ -41,84 +41,83 @@ public class ExamStudentScores extends BaseEntity
     private BigDecimal score;
 
     /** 考试ID */
-    @Excel(name = "考试ID")
+    //@Excel(name = "考试ID")
     private Long examId;
 
     /** 各种考试信息 */
-    private List<Exams> examsList;
+    @Excel(name = "考试名称", targetAttr = "examName", type = Excel.Type.EXPORT)
+    private Exams exams;
 
-    public void setScoreId(Long scoreId) 
+    public void setScoreId(Long scoreId)
     {
         this.scoreId = scoreId;
     }
 
-    public Long getScoreId() 
+    public Long getScoreId()
     {
         return scoreId;
     }
-    public void setGrade(String grade) 
+    public void setGrade(String grade)
     {
         this.grade = grade;
     }
 
-    public String getGrade() 
+    public String getGrade()
     {
         return grade;
     }
-    public void setClasses(String classes) 
+    public void setClasses(String classes)
     {
         this.classes = classes;
     }
 
-    public String getClasses() 
+    public String getClasses()
     {
         return classes;
     }
-    public void setExamNumber(String examNumber) 
+    public void setExamNumber(String examNumber)
     {
         this.examNumber = examNumber;
     }
 
-    public String getExamNumber() 
+    public String getExamNumber()
     {
         return examNumber;
     }
-    public void setSubject(String subject) 
+    public void setSubject(String subject)
     {
         this.subject = subject;
     }
 
-    public String getSubject() 
+    public String getSubject()
     {
         return subject;
     }
-    public void setScore(BigDecimal score) 
+    public void setScore(BigDecimal score)
     {
         this.score = score;
     }
 
-    public BigDecimal getScore() 
+    public BigDecimal getScore()
     {
         return score;
     }
-    public void setExamId(Long examId) 
+    public void setExamId(Long examId)
     {
         this.examId = examId;
     }
 
-    public Long getExamId() 
+    public Long getExamId()
     {
         return examId;
     }
 
-    public List<Exams> getExamsList()
-    {
-        return examsList;
+    public Exams getExams() {
+        return exams;
     }
 
-    public void setExamsList(List<Exams> examsList)
-    {
-        this.examsList = examsList;
+    public void setExams(Exams exams) {
+        this.exams = exams;
     }
 
     @Override
@@ -135,7 +134,7 @@ public class ExamStudentScores extends BaseEntity
             .append("updateTime", getUpdateTime())
             .append("updateBy", getUpdateBy())
             .append("examId", getExamId())
-            .append("examsList", getExamsList())
+            .append("exams", getExams())
             .toString();
     }
 }

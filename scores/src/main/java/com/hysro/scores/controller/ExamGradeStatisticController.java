@@ -2,6 +2,8 @@ package com.hysro.scores.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.hysro.scores.domain.Exams;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 年级数据统计情况Controller
- * 
+ *
  * @author hysro
  * @date 2023-03-23
  */
@@ -39,9 +41,10 @@ public class ExamGradeStatisticController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('scores:statisticsgrade:list')")
     @GetMapping("/list")
-    public TableDataInfo list(ExamGradeStatistic examGradeStatistic)
+    public TableDataInfo list(ExamGradeStatistic examGradeStatistic, Exams exams)
     {
         startPage();
+        examGradeStatistic.setExams(exams);
         List<ExamGradeStatistic> list = examGradeStatisticService.selectExamGradeStatisticList(examGradeStatistic);
         return getDataTable(list);
     }

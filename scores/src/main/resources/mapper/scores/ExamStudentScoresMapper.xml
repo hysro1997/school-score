@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hysro.scores.mapper.ExamStudentScoresMapper">
-    
+
     <resultMap type="ExamStudentScores" id="ExamStudentScoresResult">
         <result property="scoreId"    column="score_id"    />
         <result property="grade"    column="grade"    />
@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <resultMap id="ExamStudentScoresExamsResult" type="ExamStudentScores" extends="ExamStudentScoresResult">
-        <collection property="examsList" notNullColumn="sub_exam_id" javaType="java.util.List" resultMap="ExamsResult" />
+        <collection property="exams" notNullColumn="sub_exam_id" javaType="Exams" resultMap="ExamsResult" />
     </resultMap>
 
     <resultMap type="Exams" id="ExamsResult">
@@ -30,28 +30,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectExamStudentScoresVo">
-        select score_id, grade, classes, exam_number, subject, score, create_time, create_by, update_time, update_by, exam_id from exam_student_scores
+        select a.score_id, a.grade, a.classes, a.exam_number, a.subject, a.score, a.create_time, a.create_by, a.update_time, a.update_by, a.exam_id,
+ b.exam_id as sub_exam_id, b.exam_name as sub_exam_name, b.create_time as sub_create_time, b.create_by as sub_create_by
+        from exam_student_scores a
+        left join exams b on b.exam_id = a.exam_id
     </sql>
 
-    <select id="selectExamStudentScoresList" parameterType="ExamStudentScores" resultMap="ExamStudentScoresResult">
+    <select id="selectExamStudentScoresList" parameterType="ExamStudentScores" resultMap="ExamStudentScoresExamsResult">
         <include refid="selectExamStudentScoresVo"/>
-        <where>  
+        <where>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
             <if test="examNumber != null  and examNumber != ''"> and exam_number = #{examNumber}</if>
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
             <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="exams != null and exams.examName != null  and exams.examName != ''"> and exam_name like concat('%', #{exams.examName}, '%')</if>
         </where>
+        order by score_id desc
     </select>
-    
+
     <select id="selectExamStudentScoresByScoreId" parameterType="Long" resultMap="ExamStudentScoresExamsResult">
-        select a.score_id, a.grade, a.classes, a.exam_number, a.subject, a.score, a.create_time, a.create_by, a.update_time, a.update_by, a.exam_id,
- b.exam_id as sub_exam_id, b.exam_name as sub_exam_name, b.create_time as sub_create_time, b.create_by as sub_create_by
-        from exam_student_scores a
-        left join exams b on b.exam_id = a.score_id
+        <include refid="selectExamStudentScoresVo"/>
         where a.score_id = #{scoreId}
     </select>
-        
+
     <insert id="insertExamStudentScores" parameterType="ExamStudentScores">
         insert into exam_student_scores
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -104,14 +106,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteExamStudentScoresByScoreIds" parameterType="String">
-        delete from exam_student_scores where score_id in 
+        delete from exam_student_scores where score_id in
         <foreach item="scoreId" collection="array" open="(" separator="," close=")">
             #{scoreId}
         </foreach>
     </delete>
-    
+
     <delete id="deleteExamsByExamIds" parameterType="String">
-        delete from exams where exam_id in 
+        delete from exams where exam_id in
         <foreach item="examId" collection="array" open="(" separator="," close=")">
             #{examId}
         </foreach>

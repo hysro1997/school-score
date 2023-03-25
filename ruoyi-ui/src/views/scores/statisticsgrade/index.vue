@@ -35,10 +35,10 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="考试ID" prop="examId">
+      <el-form-item label="考试名称" prop="examName">
         <el-input
-          v-model="queryParams.examId"
-          placeholder="请输入考试ID"
+          v-model="queryParams.examName"
+          placeholder="请输入考试名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -107,7 +107,7 @@
       <el-table-column label="年级" align="center" prop="grade" />
       <el-table-column label="班级" align="center" prop="classes" />
       <el-table-column label="排名" align="center" prop="rate" />
-      <el-table-column label="考试ID" align="center" prop="examId" />
+      <el-table-column label="考试名称" align="center" prop="exams.examName" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -253,7 +253,8 @@ export default {
         pageSize: 10,
         grade: null,
         classes: null,
-        examId: null
+        examId: null,
+        examName:null
       },
       // 表单参数
       form: {},

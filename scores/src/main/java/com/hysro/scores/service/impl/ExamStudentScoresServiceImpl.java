@@ -2,6 +2,7 @@ package com.hysro.scores.service.impl;
 
 import java.util.List;
 
+import com.hysro.scores.mapper.ExamsMapper;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.DateUtils;
@@ -35,6 +36,8 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     protected Validator validator;
     @Autowired
     private ExamStudentScoresMapper examStudentScoresMapper;
+    @Autowired
+    private ExamsMapper examsMapper;
 
     /**
      * 查询学生分数情况
@@ -71,9 +74,18 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     public int insertExamStudentScores(ExamStudentScores examStudentScores)
     {
         examStudentScores.setCreateTime(DateUtils.getNowDate());
-        int rows = examStudentScoresMapper.insertExamStudentScores(examStudentScores);
-        insertExams(examStudentScores);
-        return rows;
+        String operName = SecurityUtils.getUsername();
+        examStudentScores.setCreateBy(operName);
+        if (1 == examsMapper.countExamsEnables()){
+            Exams exams = examsMapper.selectExamsEnabled();
+            examStudentScores.setExamId(exams.getExamId());
+            return examStudentScoresMapper.insertExamStudentScores(examStudentScores);
+        }else {
+            return 0;
+        }
+        //int rows = examStudentScoresMapper.insertExamStudentScores(examStudentScores);
+        //insertExams(examStudentScores);
+        //return rows;
     }
 
     /**
@@ -87,6 +99,8 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     public int updateExamStudentScores(ExamStudentScores examStudentScores)
     {
         examStudentScores.setUpdateTime(DateUtils.getNowDate());
+        String operName = SecurityUtils.getUsername();
+        examStudentScores.setCreateBy(operName);
         return examStudentScoresMapper.updateExamStudentScores(examStudentScores);
     }
 
@@ -128,6 +142,9 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         {
             throw new ServiceException("导入学生分数数据不能为空！");
         }
+        if (1 != examsMapper.countExamsEnables()) {
+            throw new ServiceException("考试尚未开启分数录入");
+        }
         int successNum = 0;
         int failureNum = 0;
         StringBuilder successMsg = new StringBuilder();
@@ -167,7 +184,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
      *
      * @param examStudentScores 学生分数情况对象
      */
-    public void insertExams(ExamStudentScores examStudentScores)
+    /**public void insertExams(ExamStudentScores examStudentScores)
     {
         List<Exams> examsList = examStudentScores.getExamsList();
         Long scoreId = examStudentScores.getScoreId();
@@ -184,5 +201,5 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
                 examStudentScoresMapper.batchExams(list);
             }
         }
-    }
+    }**/
 }

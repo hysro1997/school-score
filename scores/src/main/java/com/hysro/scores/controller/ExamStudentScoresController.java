@@ -3,6 +3,8 @@ package com.hysro.scores.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.hysro.scores.domain.Exams;
+import com.hysro.scores.service.IExamsService;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +38,18 @@ public class ExamStudentScoresController extends BaseController
 {
     @Autowired
     private IExamStudentScoresService examStudentScoresService;
+    @Autowired
+    private IExamsService examsService;
 
     /**
      * 查询学生分数情况列表
      */
     @PreAuthorize("@ss.hasPermi('scores:scores:list')")
     @GetMapping("/list")
-    public TableDataInfo list(ExamStudentScores examStudentScores)
+    public TableDataInfo list(ExamStudentScores examStudentScores,Exams exams)
     {
         startPage();
+        examStudentScores.setExams(exams);
         List<ExamStudentScores> list = examStudentScoresService.selectExamStudentScoresList(examStudentScores);
         return getDataTable(list);
     }
@@ -80,6 +85,7 @@ public class ExamStudentScoresController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody ExamStudentScores examStudentScores)
     {
+
         return toAjax(examStudentScoresService.insertExamStudentScores(examStudentScores));
     }
 

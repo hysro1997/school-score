@@ -60,10 +60,10 @@
           @keyup.enter.native="handleQuery"
         /-->
       </el-form-item>
-      <el-form-item label="考试ID" prop="examId">
+      <el-form-item label="考试名称" prop="examName">
         <el-input
-          v-model="queryParams.examId"
-          placeholder="请输入考试ID"
+          v-model="queryParams.examName"
+          placeholder="请输入考试名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -138,7 +138,7 @@
       <el-table-column label="考试号" align="center" prop="examNumber" />
       <el-table-column label="学科" align="center" prop="subject" />
       <el-table-column label="分数" align="center" prop="score" />
-      <el-table-column label="考试ID" align="center" prop="examId" />
+      <el-table-column label="考试名称" align="center" prop="exams.examName" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -213,8 +213,8 @@
         <el-form-item label="考试号" prop="examNumber">
           <el-input v-model="form.examNumber" placeholder="请输入考试号" />
         </el-form-item>
-        <el-form-item label="考试名称" prop="examId">
-          <!--el-input v-model="form.examId" placeholder="请输入考试ID" /-->
+        <!--el-form-item label="考试名称" prop="examId">
+          <el-input v-model="form.examId" placeholder="请输入考试ID" />
           <el-select v-model="form.examId" placeholder="请选择考试">
             <el-option
               v-for="item in examsList"
@@ -224,7 +224,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <!--el-divider content-position="center">考试信息</el-divider>
+        <el-divider content-position="center">考试信息</el-divider>
         <el-row :gutter="10" class="mb8">
           <el-col :span="1.5">
             <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddExams">添加</el-button>
@@ -284,7 +284,7 @@
 
 <script>
 import { listScores, getScores, delScores, addScores, updateScores } from "@/api/scores/scores";
-import { listExams } from '../../../api/examination/exams'
+import { getExamsEnables } from '@/api/examination/exams'
 import { getToken } from "@/utils/auth";
 
 export default {
@@ -385,7 +385,8 @@ export default {
         classes: null,
         examNumber: null,
         subject: null,
-        examId: null
+        examId: null,
+        examName:null
       },
       // 表单参数
       form: {},
@@ -421,21 +422,6 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
-      this.loading = true;
-      listExams().then(response => {
-        let that = this;
-        let examinations = {"value":"","label":""};
-        this.examsList = [];
-        for (let i = 0;i<response.rows.length;i++){
-          examinations.value = response.rows[i].examId;
-          examinations.label = response.rows[i].examName;
-          that.examsList.push(examinations);
-          examinations={};
-        }
-        this.temptExamsList = [];
-        this.temptExamsList = this.examsList;
-        this.loading = false;
-      })
     },
     // 取消按钮
     cancel() {
@@ -455,7 +441,8 @@ export default {
         createBy: null,
         updateTime: null,
         updateBy: null,
-        examId: null
+        examId: null,
+        examName: null
       };
       this.examsList = [];
       this.examsList = this.temptExamsList;
@@ -559,8 +546,17 @@ export default {
     },
     /** 导入按钮操作 */
     handleImport() {
-      this.upload.title = "学生分数导入";
-      this.upload.open = true;
+      let that = this;
+      getExamsEnables().then(response => {
+        let enableNumbers = response.data;
+        if (1!==enableNumbers){
+          this.$modal.alertWarning("考试尚未开启分数录入");
+          that.upload.open = false;
+        }else {
+          this.upload.title = "学生分数导入";
+          this.upload.open = true;
+        }
+      });
     },
     /** 下载模板操作 */
     importTemplate() {

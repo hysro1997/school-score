@@ -13,19 +13,19 @@ import com.hysro.scores.service.IExamClassStaticticsService;
 
 /**
  * 班级成绩统计情况Service业务层处理
- * 
+ *
  * @author hysro
  * @date 2023-03-23
  */
 @Service
-public class ExamClassStaticticsServiceImpl implements IExamClassStaticticsService 
+public class ExamClassStaticticsServiceImpl implements IExamClassStaticticsService
 {
     @Autowired
     private ExamClassStaticticsMapper examClassStaticticsMapper;
 
     /**
      * 查询班级成绩统计情况
-     * 
+     *
      * @param examStatisticsId 班级成绩统计情况主键
      * @return 班级成绩统计情况
      */
@@ -37,7 +37,7 @@ public class ExamClassStaticticsServiceImpl implements IExamClassStaticticsServi
 
     /**
      * 查询班级成绩统计情况列表
-     * 
+     *
      * @param examClassStatictics 班级成绩统计情况
      * @return 班级成绩统计情况
      */
@@ -49,7 +49,7 @@ public class ExamClassStaticticsServiceImpl implements IExamClassStaticticsServi
 
     /**
      * 新增班级成绩统计情况
-     * 
+     *
      * @param examClassStatictics 班级成绩统计情况
      * @return 结果
      */
@@ -57,14 +57,12 @@ public class ExamClassStaticticsServiceImpl implements IExamClassStaticticsServi
     @Override
     public int insertExamClassStatictics(ExamClassStatictics examClassStatictics)
     {
-        int rows = examClassStaticticsMapper.insertExamClassStatictics(examClassStatictics);
-        insertExams(examClassStatictics);
-        return rows;
+        return examClassStaticticsMapper.insertExamClassStatictics(examClassStatictics);
     }
 
     /**
      * 修改班级成绩统计情况
-     * 
+     *
      * @param examClassStatictics 班级成绩统计情况
      * @return 结果
      */
@@ -72,14 +70,12 @@ public class ExamClassStaticticsServiceImpl implements IExamClassStaticticsServi
     @Override
     public int updateExamClassStatictics(ExamClassStatictics examClassStatictics)
     {
-        examClassStaticticsMapper.deleteExamsByExamId(examClassStatictics.getExamStatisticsId());
-        insertExams(examClassStatictics);
         return examClassStaticticsMapper.updateExamClassStatictics(examClassStatictics);
     }
 
     /**
      * 批量删除班级成绩统计情况
-     * 
+     *
      * @param examStatisticsIds 需要删除的班级成绩统计情况主键
      * @return 结果
      */
@@ -87,13 +83,12 @@ public class ExamClassStaticticsServiceImpl implements IExamClassStaticticsServi
     @Override
     public int deleteExamClassStaticticsByExamStatisticsIds(Long[] examStatisticsIds)
     {
-        examClassStaticticsMapper.deleteExamsByExamIds(examStatisticsIds);
         return examClassStaticticsMapper.deleteExamClassStaticticsByExamStatisticsIds(examStatisticsIds);
     }
 
     /**
      * 删除班级成绩统计情况信息
-     * 
+     *
      * @param examStatisticsId 班级成绩统计情况主键
      * @return 结果
      */
@@ -101,15 +96,14 @@ public class ExamClassStaticticsServiceImpl implements IExamClassStaticticsServi
     @Override
     public int deleteExamClassStaticticsByExamStatisticsId(Long examStatisticsId)
     {
-        examClassStaticticsMapper.deleteExamsByExamId(examStatisticsId);
         return examClassStaticticsMapper.deleteExamClassStaticticsByExamStatisticsId(examStatisticsId);
     }
 
     /**
      * 新增各种考试信息
-     * 
+     *
      * @param examClassStatictics 班级成绩统计情况对象
-     */
+     *
     public void insertExams(ExamClassStatictics examClassStatictics)
     {
         List<Exams> examsList = examClassStatictics.getExamsList();
@@ -128,4 +122,5 @@ public class ExamClassStaticticsServiceImpl implements IExamClassStaticticsServi
             }
         }
     }
+    */
 }

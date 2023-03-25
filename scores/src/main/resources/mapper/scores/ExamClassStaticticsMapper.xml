@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hysro.scores.mapper.ExamClassStaticticsMapper">
-    
+
     <resultMap type="ExamClassStatictics" id="ExamClassStaticticsResult">
         <result property="examStatisticsId"    column="exam_statistics_id"    />
         <result property="grade"    column="grade"    />
@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <resultMap id="ExamClassStaticticsExamsResult" type="ExamClassStatictics" extends="ExamClassStaticticsResult">
-        <collection property="examsList" notNullColumn="sub_exam_id" javaType="java.util.List" resultMap="ExamsResult" />
+        <collection property="exams" notNullColumn="sub_exam_id" javaType="Exams" resultMap="ExamsResult" />
     </resultMap>
 
     <resultMap type="Exams" id="ExamsResult">
@@ -39,27 +39,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectExamClassStaticticsVo">
-        select exam_statistics_id, grade, classes, subject, exam_numbers, full_socre_numbers, excellent_numbers, good_numbers, qualified_numbers, unqualified_one_numbers, unqualified_two_numbers, unqualified_three_numbers, unqualified_four_numbers, total_score, average_score, qualified_percentage, excellent_percentage, mutiple_score, exam_id, rate from exam_class_statictics
-    </sql>
-
-    <select id="selectExamClassStaticticsList" parameterType="ExamClassStatictics" resultMap="ExamClassStaticticsResult">
-        <include refid="selectExamClassStaticticsVo"/>
-        <where>  
-            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
-            <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
-            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
-            <if test="examId != null "> and exam_id = #{examId}</if>
-        </where>
-    </select>
-    
-    <select id="selectExamClassStaticticsByExamStatisticsId" parameterType="Long" resultMap="ExamClassStaticticsExamsResult">
         select a.exam_statistics_id, a.grade, a.classes, a.subject, a.exam_numbers, a.full_socre_numbers, a.excellent_numbers, a.good_numbers, a.qualified_numbers, a.unqualified_one_numbers, a.unqualified_two_numbers, a.unqualified_three_numbers, a.unqualified_four_numbers, a.total_score, a.average_score, a.qualified_percentage, a.excellent_percentage, a.mutiple_score, a.exam_id, a.rate,
  b.exam_id as sub_exam_id, b.exam_name as sub_exam_name, b.create_time as sub_create_time, b.create_by as sub_create_by
         from exam_class_statictics a
         left join exams b on b.exam_id = a.exam_statistics_id
+    </sql>
+
+    <select id="selectExamClassStaticticsList" parameterType="ExamClassStatictics" resultMap="ExamClassStaticticsExamsResult">
+        <include refid="selectExamClassStaticticsVo"/>
+        <where>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
+            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
+            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="exams != null and exams.examName != null  and exams.examName != ''"> and exam_name like concat('%', #{exams.examName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectExamClassStaticticsByExamStatisticsId" parameterType="Long" resultMap="ExamClassStaticticsExamsResult">
+        <include refid="selectExamClassStaticticsVo"/>
         where a.exam_statistics_id = #{examStatisticsId}
     </select>
-        
+
     <insert id="insertExamClassStatictics" parameterType="ExamClassStatictics">
         insert into exam_class_statictics
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -139,14 +140,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteExamClassStaticticsByExamStatisticsIds" parameterType="String">
-        delete from exam_class_statictics where exam_statistics_id in 
+        delete from exam_class_statictics where exam_statistics_id in
         <foreach item="examStatisticsId" collection="array" open="(" separator="," close=")">
             #{examStatisticsId}
         </foreach>
     </delete>
-    
+
     <delete id="deleteExamsByExamIds" parameterType="String">
-        delete from exams where exam_id in 
+        delete from exams where exam_id in
         <foreach item="examId" collection="array" open="(" separator="," close=")">
             #{examId}
         </foreach>

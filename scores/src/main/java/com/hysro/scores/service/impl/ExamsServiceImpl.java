@@ -2,6 +2,7 @@ package com.hysro.scores.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.hysro.scores.mapper.ExamsMapper;
@@ -63,6 +64,8 @@ public class ExamsServiceImpl implements IExamsService
     public int insertExams(Exams exams)
     {
         exams.setCreateTime(DateUtils.getNowDate());
+        String operName = SecurityUtils.getUsername();
+        exams.setCreateBy(operName);
         return examsMapper.insertExams(exams);
     }
 
@@ -75,6 +78,9 @@ public class ExamsServiceImpl implements IExamsService
     @Override
     public int updateExams(Exams exams)
     {
+        if (null != exams.getEnableFlag() && "0"==exams.getEnableFlag()){
+            return 1 <= countExamsEnables() ? 0 : examsMapper.updateExams(exams);
+        }
         return examsMapper.updateExams(exams);
     }
 

@@ -8,7 +8,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 年级数据统计情况对象 exam_grade_statistic
- * 
+ *
  * @author hysro
  * @date 2023-03-23
  */
@@ -56,120 +56,119 @@ public class ExamGradeStatistic extends BaseEntity
     private Integer rate;
 
     /** 考试ID */
-    @Excel(name = "考试ID")
+    //@Excel(name = "考试ID")
     private Long examId;
 
     /** 各种考试信息 */
-    private List<Exams> examsList;
+    @Excel(name = "考试名称", targetAttr = "examName", type = Excel.Type.EXPORT)
+    private Exams exams;
 
-    public void setExamGradeStatisticsId(Long examGradeStatisticsId) 
+    public void setExamGradeStatisticsId(Long examGradeStatisticsId)
     {
         this.examGradeStatisticsId = examGradeStatisticsId;
     }
 
-    public Long getExamGradeStatisticsId() 
+    public Long getExamGradeStatisticsId()
     {
         return examGradeStatisticsId;
     }
-    public void setExamNumbers(Long examNumbers) 
+    public void setExamNumbers(Long examNumbers)
     {
         this.examNumbers = examNumbers;
     }
 
-    public Long getExamNumbers() 
+    public Long getExamNumbers()
     {
         return examNumbers;
     }
-    public void setTripleQualifiedNumbers(Long tripleQualifiedNumbers) 
+    public void setTripleQualifiedNumbers(Long tripleQualifiedNumbers)
     {
         this.tripleQualifiedNumbers = tripleQualifiedNumbers;
     }
 
-    public Long getTripleQualifiedNumbers() 
+    public Long getTripleQualifiedNumbers()
     {
         return tripleQualifiedNumbers;
     }
-    public void setTripleExcellentNumbers(Long tripleExcellentNumbers) 
+    public void setTripleExcellentNumbers(Long tripleExcellentNumbers)
     {
         this.tripleExcellentNumbers = tripleExcellentNumbers;
     }
 
-    public Long getTripleExcellentNumbers() 
+    public Long getTripleExcellentNumbers()
     {
         return tripleExcellentNumbers;
     }
-    public void setTripleQualifiedPercentage(String tripleQualifiedPercentage) 
+    public void setTripleQualifiedPercentage(String tripleQualifiedPercentage)
     {
         this.tripleQualifiedPercentage = tripleQualifiedPercentage;
     }
 
-    public String getTripleQualifiedPercentage() 
+    public String getTripleQualifiedPercentage()
     {
         return tripleQualifiedPercentage;
     }
-    public void setTripleExcellentPercentage(String tripleExcellentPercentage) 
+    public void setTripleExcellentPercentage(String tripleExcellentPercentage)
     {
         this.tripleExcellentPercentage = tripleExcellentPercentage;
     }
 
-    public String getTripleExcellentPercentage() 
+    public String getTripleExcellentPercentage()
     {
         return tripleExcellentPercentage;
     }
-    public void setMuitipleScore(String muitipleScore) 
+    public void setMuitipleScore(String muitipleScore)
     {
         this.muitipleScore = muitipleScore;
     }
 
-    public String getMuitipleScore() 
+    public String getMuitipleScore()
     {
         return muitipleScore;
     }
-    public void setGrade(String grade) 
+    public void setGrade(String grade)
     {
         this.grade = grade;
     }
 
-    public String getGrade() 
+    public String getGrade()
     {
         return grade;
     }
-    public void setClasses(String classes) 
+    public void setClasses(String classes)
     {
         this.classes = classes;
     }
 
-    public String getClasses() 
+    public String getClasses()
     {
         return classes;
     }
-    public void setRate(Integer rate) 
+    public void setRate(Integer rate)
     {
         this.rate = rate;
     }
 
-    public Integer getRate() 
+    public Integer getRate()
     {
         return rate;
     }
-    public void setExamId(Long examId) 
+    public void setExamId(Long examId)
     {
         this.examId = examId;
     }
 
-    public Long getExamId() 
+    public Long getExamId()
     {
         return examId;
     }
 
-    public List<Exams> getExamsList()
-    {
-        return examsList;
+    public Exams getExams() {
+        return exams;
     }
 
-    public void setExamsList(List<Exams> examsList)
-    {
-        this.examsList = examsList;
+    public void setExams(Exams exams) {
+        this.exams = exams;
     }
 
     @Override
@@ -186,7 +185,7 @@ public class ExamGradeStatistic extends BaseEntity
             .append("classes", getClasses())
             .append("rate", getRate())
             .append("examId", getExamId())
-            .append("examsList", getExamsList())
+            .append("exams", getExams())
             .toString();
     }
 }

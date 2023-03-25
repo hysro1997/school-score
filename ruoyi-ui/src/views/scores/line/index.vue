@@ -162,7 +162,7 @@
 import { listLine, getLine, delLine, addLine, updateLine } from "@/api/scores/line";
 
 export default {
-  name: "Line",
+  name: "Score-Line",
   data() {
     return {
       //学科选项
