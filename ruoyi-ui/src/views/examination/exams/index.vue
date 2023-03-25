@@ -130,8 +130,7 @@
 </template>
 
 <script>
-import { listExams, getExams, delExams, addExams, updateExams } from "@/api/examination/exams";
-import { getExamsEnables } from '../../../api/examination/exams'
+import { listExams, getExams, delExams, addExams, updateExams, getExamsEnables, statisticExams } from "@/api/examination/exams";
 
 export default {
   name: "Exams",
@@ -267,8 +266,11 @@ export default {
     handleStatistics(row) {
       if ("0"===row.enableFlag){
         this.$modal.alertWarning("本场考试尚未停止，还不能统计数据");
+      }else {
+        statisticExams(row.examId).then(response => {
+          console.log(123)
+        });
       }
-      console.log("统计数据")
     },
     /** 提交按钮 */
     submitForm() {

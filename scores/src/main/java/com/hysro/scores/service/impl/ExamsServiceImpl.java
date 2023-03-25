@@ -1,6 +1,12 @@
 package com.hysro.scores.service.impl;
 
 import java.util.List;
+import java.util.Map;
+
+import com.hysro.scores.domain.ExamExcellentScoreLine;
+import com.hysro.scores.domain.ExamStudentScores;
+import com.hysro.scores.mapper.ExamExcellentScoreLineMapper;
+import com.hysro.scores.mapper.ExamStudentScoresMapper;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +26,10 @@ public class ExamsServiceImpl implements IExamsService
 {
     @Autowired
     private ExamsMapper examsMapper;
+    @Autowired
+    private ExamStudentScoresMapper studentScoresMapper;
+    @Autowired
+    private ExamExcellentScoreLineMapper scoreLineMapper;
 
     /**
      * 查询各种考试
@@ -106,5 +116,40 @@ public class ExamsServiceImpl implements IExamsService
     public int deleteExamsByExamId(Long examId)
     {
         return examsMapper.deleteExamsByExamId(examId);
+    }
+
+    /**
+     * 统计考试数据
+     *
+     * @param exams 考试的主键
+     * @return 结果
+     */
+    @Override
+    public List<Map<String, String>> calculateStatisticExams(Exams exams) {
+        List<Map<String,String>> gradeClassMap = studentScoresMapper.selectDistinctClassesMapByExamId(exams.getExamId());
+        if (gradeClassMap.isEmpty()){
+            //这里直接抛出空的，给前端判断处理，节省服务器资源
+            return gradeClassMap;
+        }
+        //如果不是空的，就开始统计数据
+        //System.out.println(gradeClassMap.toString());
+        ExamStudentScores studentScores;
+        ExamExcellentScoreLine scoreLine;
+        for (Map<String,String> gradeClass :gradeClassMap){
+            studentScores = new ExamStudentScores();
+            studentScores.setGrade(gradeClass.get("grade"));
+            studentScores.setClasses(gradeClass.get("classes"));
+            //获取了需要统计的这一个班级的成绩的年级和班级，开始根据年级、班级、考试id开始统计
+            //先根据年级条件来获取优秀分数线，如果没有，直接清空map并抛出给前端
+            scoreLine = new ExamExcellentScoreLine();
+            scoreLine.setGrade(gradeClass.get("grade"));
+            List<ExamExcellentScoreLine> scoreLineList = scoreLineMapper.selectExamExcellentScoreLineList(scoreLine);
+            if (scoreLineList.isEmpty()){
+                gradeClassMap.clear();
+                return gradeClassMap;
+            }
+            //不是空的，有数据，我们就继续根据年级、班级、学科优秀分数线开始统计优秀
+        }
+        return gradeClassMap;
     }
 }

@@ -90,6 +90,22 @@ public class ExamsController extends BaseController
     }
 
     /**
+     * 统计考试数据
+     */
+    @PreAuthorize("@ss.hasPermi('examination:exams:edit')")
+    @Log(title = "统计考试数据", businessType = BusinessType.OTHER)
+    @PostMapping("/statisticExams")
+    public AjaxResult statisticExams(@RequestBody Long examId)
+    {
+        Exams exams = examsService.selectExamsByExamId(examId);
+        if ("0".equals(exams.getEnableFlag())){
+            return warn("考试尚未结束");
+        }else {
+            return success(examsService.calculateStatisticExams(exams));
+        }
+    }
+
+    /**
      * 修改各种考试
      */
     @PreAuthorize("@ss.hasPermi('examination:exams:edit')")

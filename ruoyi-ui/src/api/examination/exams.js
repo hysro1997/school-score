@@ -35,6 +35,15 @@ export function addExams(data) {
   })
 }
 
+// 统计考试数据
+export function statisticExams(data) {
+  return request({
+    url: '/examination/exams/statisticExams',
+    method: 'post',
+    data: data
+  })
+}
+
 // 修改各种考试
 export function updateExams(data) {
   return request({

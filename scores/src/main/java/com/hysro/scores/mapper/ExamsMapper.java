@@ -1,6 +1,8 @@
 package com.hysro.scores.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import com.hysro.scores.domain.Exams;
 
 /**

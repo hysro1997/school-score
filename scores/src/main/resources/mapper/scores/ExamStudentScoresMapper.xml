@@ -54,6 +54,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where a.score_id = #{scoreId}
     </select>
 
+    <select id="selectDistinctClassesMapByExamId" resultType="map">
+        SELECT DISTINCT grade, classes FROM exam_student_scores WHERE exam_id = #{examId};
+    </select>
+
     <insert id="insertExamStudentScores" parameterType="ExamStudentScores">
         insert into exam_student_scores
         <trim prefix="(" suffix=")" suffixOverrides=",">
