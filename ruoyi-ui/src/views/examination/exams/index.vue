@@ -187,11 +187,12 @@ export default {
       if ("0"===row.enableFlag){
         getExamsEnables().then(response => {
           let enableNumbers = response.data;
-          if (10 <= enableNumbers){
+          if (1 <= enableNumbers){
             this.$modal.alertWarning("最多同时启用10场考试，请先停用已完成成绩录入的考试");
             row.enableFlag = 1;
             return false;
           }else {
+            //这里为什么这么做呢，因为异步，这两个请求都会发出，做不到判断不能启用再发请求
             this.$modal.confirm('确认要"' + text + '""' + row.examName + '"考试吗？').then(function() {
               let queryExame = {examId: row.examId,enableFlag:row.enableFlag};
               return updateExams(queryExame);

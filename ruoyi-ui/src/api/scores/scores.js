@@ -34,7 +34,14 @@ export function updateScores(data) {
     data: data
   })
 }
-
+// 导入学生分数表
+export function importStudentScoreTable(data) {
+  return request({
+    url: '/scores/scores/importTable',
+    method: 'post',
+    params: data
+  })
+}
 // 删除学生分数情况
 export function delScores(scoreId) {
   return request({
