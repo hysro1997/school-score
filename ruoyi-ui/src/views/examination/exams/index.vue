@@ -75,6 +75,17 @@
           ></el-switch>
         </template>
       </el-table-column>
+      <el-table-column label="统计数据" align="center" class-name="small-padding fixed-width">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-tickets"
+            @click="handleStatistics(scope.row)"
+            v-hasPermi="['examination:exams:edit']"
+          >统计考试结果</el-button>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -105,9 +116,9 @@
 
     <!-- 添加或修改各种考试对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px" @submit.native.prevent>
         <el-form-item label="考试名称" prop="examName">
-          <el-input v-model="form.examName" placeholder="请输入考试名称" />
+          <el-input v-model="form.examName" placeholder="请输入考试名称" @keyup.enter.native="submitForm"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -120,6 +131,7 @@
 
 <script>
 import { listExams, getExams, delExams, addExams, updateExams } from "@/api/examination/exams";
+import { getExamsEnables } from '../../../api/examination/exams'
 
 export default {
   name: "Exams",
@@ -167,20 +179,40 @@ export default {
         this.examsList = response.rows;
         this.total = response.total;
         this.loading = false;
-        console.log(response.rows)
       });
     },
     // 考试启用状态修改
     handleEnableFlagChange(row) {
       let text = row.enableFlag === "0" ? "启用" : "停用";
-      this.$modal.confirm('确认要"' + text + '""' + row.examName + '"考试吗？').then(function() {
-        let queryExame = {examId: row.examId,enableFlag:row.enableFlag};
-        return updateExams(queryExame);
-      }).then(() => {
-        this.$modal.msgSuccess(text + "成功");
-      }).catch(function() {
-        row.enableFlag = row.enableFlag === "0" ? "1" : "0";
-      });
+      if ("0"===row.enableFlag){
+        getExamsEnables().then(response => {
+          let enableNumbers = response.data;
+          if (10 <= enableNumbers){
+            this.$modal.alertWarning("最多同时启用10场考试，请先停用已完成成绩录入的考试");
+            row.enableFlag = 1;
+            return false;
+          }else {
+            this.$modal.confirm('确认要"' + text + '""' + row.examName + '"考试吗？').then(function() {
+              let queryExame = {examId: row.examId,enableFlag:row.enableFlag};
+              return updateExams(queryExame);
+            }).then(() => {
+              this.$modal.msgSuccess(text + "成功");
+            }).catch(function() {
+              row.enableFlag = row.enableFlag === "0" ? "1" : "0";
+            });
+          }
+        });
+      }else {
+        this.$modal.confirm('确认要"' + text + '""' + row.examName + '"考试吗？').then(function() {
+          let queryExame = {examId: row.examId,enableFlag:row.enableFlag};
+          return updateExams(queryExame);
+        }).then(() => {
+          this.$modal.msgSuccess(text + "成功");
+        }).catch(function() {
+          row.enableFlag = row.enableFlag === "0" ? "1" : "0";
+        });
+      }
+
     },
     // 取消按钮
     cancel() {
@@ -229,6 +261,13 @@ export default {
         this.open = true;
         this.title = "修改考试";
       });
+    },
+    /** 统计考试的结果数据 */
+    handleStatistics(row) {
+      if ("0"===row.enableFlag){
+        this.$modal.alertWarning("本场考试尚未停止，还不能统计数据");
+      }
+      console.log("统计数据")
     },
     /** 提交按钮 */
     submitForm() {

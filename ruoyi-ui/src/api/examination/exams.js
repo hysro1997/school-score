@@ -17,6 +17,15 @@ export function getExams(examId) {
   })
 }
 
+//查询启用考试的数量
+export function getExamsEnables() {
+  return request({
+    url:'/examination/exams/getExamsEnables',
+    method:'get'
+  })
+
+}
+
 // 新增各种考试
 export function addExams(data) {
   return request({

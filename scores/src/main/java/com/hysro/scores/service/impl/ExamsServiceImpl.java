@@ -10,19 +10,19 @@ import com.hysro.scores.service.IExamsService;
 
 /**
  * 各种考试Service业务层处理
- * 
+ *
  * @author hysro
  * @date 2023-03-23
  */
 @Service
-public class ExamsServiceImpl implements IExamsService 
+public class ExamsServiceImpl implements IExamsService
 {
     @Autowired
     private ExamsMapper examsMapper;
 
     /**
      * 查询各种考试
-     * 
+     *
      * @param examId 各种考试主键
      * @return 各种考试
      */
@@ -33,8 +33,17 @@ public class ExamsServiceImpl implements IExamsService
     }
 
     /**
+     * 查询已启用的考试数量
+     * @return 启用考试的数量
+     */
+    @Override
+    public Integer countExamsEnables() {
+        return examsMapper.countExamsEnables();
+    }
+
+    /**
      * 查询各种考试列表
-     * 
+     *
      * @param exams 各种考试
      * @return 各种考试
      */
@@ -46,7 +55,7 @@ public class ExamsServiceImpl implements IExamsService
 
     /**
      * 新增各种考试
-     * 
+     *
      * @param exams 各种考试
      * @return 结果
      */
@@ -59,7 +68,7 @@ public class ExamsServiceImpl implements IExamsService
 
     /**
      * 修改各种考试
-     * 
+     *
      * @param exams 各种考试
      * @return 结果
      */
@@ -71,7 +80,7 @@ public class ExamsServiceImpl implements IExamsService
 
     /**
      * 批量删除各种考试
-     * 
+     *
      * @param examIds 需要删除的各种考试主键
      * @return 结果
      */
@@ -83,7 +92,7 @@ public class ExamsServiceImpl implements IExamsService
 
     /**
      * 删除各种考试信息
-     * 
+     *
      * @param examId 各种考试主键
      * @return 结果
      */
