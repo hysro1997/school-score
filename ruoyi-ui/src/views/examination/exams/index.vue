@@ -118,7 +118,7 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px" @submit.native.prevent>
         <el-form-item label="考试名称" prop="examName">
-          <el-input v-model="form.examName" placeholder="请输入考试名称" @keyup.enter.native="submitForm"/>
+          <el-input v-model="form.examName" maxlength="50" placeholder="请输入考试名称" @keyup.enter.native="submitForm"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

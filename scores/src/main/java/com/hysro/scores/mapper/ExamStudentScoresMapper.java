@@ -3,6 +3,8 @@ package com.hysro.scores.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.hysro.scores.domain.ExamClassStatictics;
+import com.hysro.scores.domain.ExamScoreLineHelper;
 import com.hysro.scores.domain.ExamStudentScores;
 import com.hysro.scores.domain.Exams;
 
@@ -94,4 +96,27 @@ public interface ExamStudentScoresMapper
      * @return 结果
      */
     public List<Map<String,String>> selectDistinctClassesMapByExamId(Long examId);
+
+    /**
+     * 通过考试ID获取不重复的年级、学科数据条数，有多少个年级、学科有考试数据
+     *
+     * @param examId 考试id
+     * @return 结果
+     */
+    public List<Map<String,String>> selectDistinctGradeSubjectMapByExamId(Long examId);
+
+    /**
+     * 通过年级、班级、学科、考试id，查询该班此次考试某一学科的考试人数和总分
+     *
+     * @param examStudentScores 考试
+     * @return 结果 年级、班级、学科、考试人数、总分
+     */
+    public ExamClassStatictics selectExamNumbersAndTotalScores(ExamStudentScores examStudentScores);
+
+    /**
+     *通过分数线查询对应人数
+     *
+     * @return 结果
+     */
+    public Long selectScoreNumbersByScoreLine(ExamScoreLineHelper helper);
 }
