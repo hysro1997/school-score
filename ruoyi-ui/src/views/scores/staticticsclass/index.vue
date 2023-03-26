@@ -112,7 +112,7 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="staticticsclassList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="staticticsclassList" @selection-change="handleSelectionChange" :row-class-name="tableRowClassName">
       <el-table-column type="selection" width="55" align="center" />
       <!--el-table-column label="统计记录ID" align="center" prop="examStatisticsId" /-->
       <el-table-column label="年级" align="center" prop="grade" />
@@ -305,6 +305,12 @@ export default {
     this.getList();
   },
   methods: {
+    tableRowClassName({row, rowIndex}) {
+      if (1 === rowIndex % 2) {
+        return 'success-row';
+      }
+      return '';
+    },
     /** 查询班级成绩统计情况列表 */
     getList() {
       this.loading = true;

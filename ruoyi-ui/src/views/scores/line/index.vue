@@ -87,7 +87,7 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="lineList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="lineList" @selection-change="handleSelectionChange" :row-class-name="tableRowClassName">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="excellentId" />
       <el-table-column label="学科" align="center" prop="subject" />
@@ -232,6 +232,12 @@ export default {
     this.getList();
   },
   methods: {
+    tableRowClassName({row, rowIndex}) {
+      if (1 === rowIndex % 2) {
+        return 'success-row';
+      }
+      return '';
+    },
     /** 查询优秀分数线列表 */
     getList() {
       this.loading = true;

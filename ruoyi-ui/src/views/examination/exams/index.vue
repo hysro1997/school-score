@@ -61,7 +61,7 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="examsList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="examsList" @selection-change="handleSelectionChange" :row-class-name="tableRowClassName">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="考试ID" align="center" prop="examId" />
       <el-table-column label="考试名称" align="center" prop="examName" />
@@ -171,6 +171,12 @@ export default {
     this.getList();
   },
   methods: {
+    tableRowClassName({row, rowIndex}) {
+      if (1 === rowIndex % 2) {
+        return 'success-row';
+      }
+      return '';
+    },
     /** 查询各种考试列表 */
     getList() {
       this.loading = true;

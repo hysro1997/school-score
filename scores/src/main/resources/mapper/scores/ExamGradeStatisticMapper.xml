@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select a.exam_grade_statistics_id, a.exam_numbers, a.triple_qualified_numbers, a.triple_excellent_numbers, a.triple_qualified_percentage, a.triple_excellent_percentage, a.muitiple_score, a.grade, a.classes, a.rate, a.exam_id,
  b.exam_id as sub_exam_id, b.exam_name as sub_exam_name, b.create_time as sub_create_time, b.create_by as sub_create_by
         from exam_grade_statistic a
-        left join exams b on b.exam_id = a.exam_grade_statistics_id
+        left join exams b on b.exam_id = a.exam_id
     </sql>
 
     <select id="selectExamGradeStatisticList" parameterType="ExamGradeStatistic" resultMap="ExamGradeStatisticExamsResult">

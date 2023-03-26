@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select a.exam_statistics_id, a.grade, a.classes, a.subject, a.exam_numbers, a.full_socre_numbers, a.excellent_numbers, a.good_numbers, a.qualified_numbers, a.unqualified_one_numbers, a.unqualified_two_numbers, a.unqualified_three_numbers, a.unqualified_four_numbers, a.total_score, a.average_score, a.qualified_percentage, a.excellent_percentage, a.mutiple_score, a.exam_id, a.rate,
  b.exam_id as sub_exam_id, b.exam_name as sub_exam_name, b.create_time as sub_create_time, b.create_by as sub_create_by
         from exam_class_statictics a
-        left join exams b on b.exam_id = a.exam_statistics_id
+        left join exams b on b.exam_id = a.exam_id
     </sql>
 
     <select id="selectExamClassStaticticsList" parameterType="ExamClassStatictics" resultMap="ExamClassStaticticsExamsResult">
@@ -54,6 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="examId != null "> and exam_id = #{examId}</if>
             <if test="exams != null and exams.examName != null  and exams.examName != ''"> and exam_name like concat('%', #{exams.examName}, '%')</if>
         </where>
+        order by exam_statistics_id desc
     </select>
 
     <select id="selectExamClassSubjectRateList" parameterType="ExamClassStatictics" resultMap="ExamClassStaticticsResult">
