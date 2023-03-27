@@ -129,8 +129,16 @@
       <el-table-column label="不及格人数(40分以下)" align="center" prop="unqualifiedFourNumbers" />
       <el-table-column label="全班总分" align="center" prop="totalScore" />
       <el-table-column label="平均分" align="center" prop="averageScore" />
-      <el-table-column label="及格率" align="center" prop="qualifiedPercentage" />
-      <el-table-column label="优秀率" align="center" prop="excellentPercentage" />
+      <el-table-column label="及格率" align="center" prop="qualifiedPercentage" >
+        <template slot-scope="scope">
+          <p>{{scope.row.qualifiedPercentage}} %</p>
+        </template>
+      </el-table-column>
+      <el-table-column label="优秀率" align="center" prop="excellentPercentage" >
+        <template slot-scope="scope">
+          <p>{{scope.row.excellentPercentage}} %</p>
+        </template>
+      </el-table-column>
       <el-table-column label="综合分" align="center" prop="mutipleScore" />
       <el-table-column label="考试名称" align="center" prop="exams.examName" />
       <el-table-column label="排名" align="center" prop="rate" />

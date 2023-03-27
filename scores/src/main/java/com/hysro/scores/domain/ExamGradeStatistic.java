@@ -39,6 +39,14 @@ public class ExamGradeStatistic extends BaseEntity
     @Excel(name = "三优秀率")
     private String tripleExcellentPercentage;
 
+    /** 总得分 */
+    @Excel(name = "总得分")
+    private String allScore;
+
+    /** 得分率 */
+    @Excel(name = "得分率")
+    private String allScorePercentage;
+
     /** 综合分 */
     @Excel(name = "综合分")
     private String muitipleScore;
@@ -66,6 +74,22 @@ public class ExamGradeStatistic extends BaseEntity
     public void setExamGradeStatisticsId(Long examGradeStatisticsId)
     {
         this.examGradeStatisticsId = examGradeStatisticsId;
+    }
+
+    public String getAllScore() {
+        return allScore;
+    }
+
+    public void setAllScore(String allScore) {
+        this.allScore = allScore;
+    }
+
+    public String getAllScorePercentage() {
+        return allScorePercentage;
+    }
+
+    public void setAllScorePercentage(String allScorePercentage) {
+        this.allScorePercentage = allScorePercentage;
     }
 
     public Long getExamGradeStatisticsId()
@@ -186,6 +210,8 @@ public class ExamGradeStatistic extends BaseEntity
             .append("rate", getRate())
             .append("examId", getExamId())
             .append("exams", getExams())
+            .append("allScore", getAllScore())
+            .append("allScorePercentage", getAllScorePercentage())
             .toString();
     }
 }

@@ -2,18 +2,19 @@ package com.hysro.scores.mapper;
 
 import java.util.List;
 import com.hysro.scores.domain.ExamExcellentScoreLine;
+import com.hysro.scores.domain.ExamStatisticScoreLineHelper;
 
 /**
  * 优秀分数线Mapper接口
- * 
+ *
  * @author hysro
  * @date 2023-03-23
  */
-public interface ExamExcellentScoreLineMapper 
+public interface ExamExcellentScoreLineMapper
 {
     /**
      * 查询优秀分数线
-     * 
+     *
      * @param excellentId 优秀分数线主键
      * @return 优秀分数线
      */
@@ -21,7 +22,7 @@ public interface ExamExcellentScoreLineMapper
 
     /**
      * 查询优秀分数线列表
-     * 
+     *
      * @param examExcellentScoreLine 优秀分数线
      * @return 优秀分数线集合
      */
@@ -29,7 +30,7 @@ public interface ExamExcellentScoreLineMapper
 
     /**
      * 新增优秀分数线
-     * 
+     *
      * @param examExcellentScoreLine 优秀分数线
      * @return 结果
      */
@@ -37,7 +38,7 @@ public interface ExamExcellentScoreLineMapper
 
     /**
      * 修改优秀分数线
-     * 
+     *
      * @param examExcellentScoreLine 优秀分数线
      * @return 结果
      */
@@ -45,7 +46,7 @@ public interface ExamExcellentScoreLineMapper
 
     /**
      * 删除优秀分数线
-     * 
+     *
      * @param excellentId 优秀分数线主键
      * @return 结果
      */
@@ -53,9 +54,15 @@ public interface ExamExcellentScoreLineMapper
 
     /**
      * 批量删除优秀分数线
-     * 
+     *
      * @param excellentIds 需要删除的数据主键集合
      * @return 结果
      */
     public int deleteExamExcellentScoreLineByExcellentIds(Long[] excellentIds);
+
+    /**
+     * 根据年级 列转行 选出所有年级的分数线
+     * @return 结果
+     */
+    public List<ExamStatisticScoreLineHelper> selectAllSubjectScoreLinesByGrade();
 }

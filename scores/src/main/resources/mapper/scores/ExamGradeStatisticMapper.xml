@@ -11,6 +11,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="tripleExcellentNumbers"    column="triple_excellent_numbers"    />
         <result property="tripleQualifiedPercentage"    column="triple_qualified_percentage"    />
         <result property="tripleExcellentPercentage"    column="triple_excellent_percentage"    />
+        <result property="allScore"    column="all_score"    />
+        <result property="allScorePercentage"    column="all_score_percentage"    />
         <result property="muitipleScore"    column="muitiple_score"    />
         <result property="grade"    column="grade"    />
         <result property="classes"    column="classes"    />
@@ -30,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectExamGradeStatisticVo">
-        select a.exam_grade_statistics_id, a.exam_numbers, a.triple_qualified_numbers, a.triple_excellent_numbers, a.triple_qualified_percentage, a.triple_excellent_percentage, a.muitiple_score, a.grade, a.classes, a.rate, a.exam_id,
+        select a.exam_grade_statistics_id, a.exam_numbers, a.triple_qualified_numbers, a.triple_excellent_numbers, a.triple_qualified_percentage, a.triple_excellent_percentage,a.all_score,a.all_score_percentage, a.muitiple_score, a.grade, a.classes, a.rate, a.exam_id,
  b.exam_id as sub_exam_id, b.exam_name as sub_exam_name, b.create_time as sub_create_time, b.create_by as sub_create_by
         from exam_grade_statistic a
         left join exams b on b.exam_id = a.exam_id
@@ -60,6 +62,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="tripleExcellentNumbers != null">triple_excellent_numbers,</if>
             <if test="tripleQualifiedPercentage != null">triple_qualified_percentage,</if>
             <if test="tripleExcellentPercentage != null">triple_excellent_percentage,</if>
+            <if test="allScore != null">all_score,</if>
+            <if test="allScorePercentage != null">all_score_percentage,</if>
             <if test="muitipleScore != null">muitiple_score,</if>
             <if test="grade != null">grade,</if>
             <if test="classes != null">classes,</if>
@@ -73,6 +77,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="tripleExcellentNumbers != null">#{tripleExcellentNumbers},</if>
             <if test="tripleQualifiedPercentage != null">#{tripleQualifiedPercentage},</if>
             <if test="tripleExcellentPercentage != null">#{tripleExcellentPercentage},</if>
+            <if test="allScore != null">#{allScore},</if>
+            <if test="allScorePercentage != null">#{allScorePercentage},</if>
             <if test="muitipleScore != null">#{muitipleScore},</if>
             <if test="grade != null">#{grade},</if>
             <if test="classes != null">#{classes},</if>
@@ -89,6 +95,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="tripleExcellentNumbers != null">triple_excellent_numbers = #{tripleExcellentNumbers},</if>
             <if test="tripleQualifiedPercentage != null">triple_qualified_percentage = #{tripleQualifiedPercentage},</if>
             <if test="tripleExcellentPercentage != null">triple_excellent_percentage = #{tripleExcellentPercentage},</if>
+            <if test="allScore != null">all_score = #{allScore},</if>
+            <if test="allScorePercentage != null">all_score_percentage = #{allScorePercentage},</if>
             <if test="muitipleScore != null">muitiple_score = #{muitipleScore},</if>
             <if test="grade != null">grade = #{grade},</if>
             <if test="classes != null">classes = #{classes},</if>
@@ -100,6 +108,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <delete id="deleteExamGradeStatisticByExamGradeStatisticsId" parameterType="Long">
         delete from exam_grade_statistic where exam_grade_statistics_id = #{examGradeStatisticsId}
+    </delete>
+
+    <delete id="deleteExamGradeStaticticsByExamId" parameterType="Long">
+        delete from exam_grade_statistic where exam_id = #{examId}
     </delete>
 
     <delete id="deleteExamGradeStatisticByExamGradeStatisticsIds" parameterType="String">

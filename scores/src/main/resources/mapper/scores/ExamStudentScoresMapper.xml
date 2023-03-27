@@ -67,12 +67,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectExamNumbersAndTotalScores" parameterType="ExamStudentScores" resultMap="ToClassStatisticResult">
-        SELECT grade,classes,`subject`,COUNT(classes) AS `exam_numbers`,SUM(score) AS `total_score` FROM exam_student_scores
+        SELECT grade,classes,`subject`,COUNT(score) AS `exam_numbers`,SUM(score) AS `total_score` FROM exam_student_scores
         <where>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
             <if test="examId != null "> and exam_id = #{examId}</if>
+        </where>
+    </select>
+
+    <select id="countQualifiedNumbersByStatisticScoreLineHelper" parameterType="ExamStatisticScoreLineHelper" resultType="Long">
+        SELECT count(*) FROM
+        (
+            SELECT exam_number
+                <trim prefix=",">
+                    <if test="chineseLine != null and chineseLine != ''">SUM(IF(`subject`='语文',score,0)) AS chinese</if>
+                </trim>
+                <trim prefix=",">
+                    <if test="mathsLine != null and mathsLine != ''">SUM(IF(`subject`='数学',score,0)) AS maths</if>
+                </trim>
+                <trim prefix=",">
+                    <if test="englishLine != null and englishLine != ''">SUM(IF(`subject`='英语',score,0)) AS english</if>
+                </trim>
+            FROM `exam_student_scores`
+                <where>
+                    <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+                    <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
+                    <if test="examId != null "> and exam_id = #{examId}</if>
+                </where>
+            GROUP BY exam_number
+        ) AS a
+        <where>
+            <if test="chineseLine != null and chineseLine != ''">and chinese &gt;= #{chineseLine}</if>
+            <if test="mathsLine != null and mathsLine != ''">and maths &gt;= #{mathsLine}</if>
+            <if test="englishLine != null and englishLine != ''">and english &gt;= #{englishLine}</if>
         </where>
     </select>
 

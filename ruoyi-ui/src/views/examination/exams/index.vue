@@ -126,6 +126,22 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+
+    <!-- 统计进度显示对话框 -->
+    <el-dialog :title="title" :visible.sync="processOpen" width="500px" append-to-body :show-close="false">
+      <el-input
+        style="font-size: 16px"
+        type="textarea"
+        :rows="20"
+        placeholder="处理进度"
+        v-model="processingTextarea"
+        disabled>
+      </el-input>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="processOpen = false" :disabled="finishDisable">完 成</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -136,6 +152,10 @@ export default {
   name: "Exams",
   data() {
     return {
+      //统计按钮统计完成前禁用
+      finishDisable:true,
+      //统计进度显示内容
+      processingTextarea:'',
       // 遮罩层
       loading: true,
       // 选中数组
@@ -154,6 +174,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      //进度显示层
+      processOpen:false,
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -270,12 +292,43 @@ export default {
     },
     /** 统计考试的结果数据 */
     handleStatistics(row) {
+      this.processOpen = true;
+      this.finishDisable = true;
+      this.processingTextarea = "";
+      this.title = "统计进度";
       if ("0"===row.enableFlag){
         this.$modal.alertWarning("本场考试尚未停止，还不能统计数据");
       }else {
         statisticExams(row.examId).then(response => {
-          console.log(123)
+          let data = response.data;
+          if (undefined === data || null === data || ''=== data || 0 >= data.length){
+            this.processingTextarea = "统计失败！\n\n 可能原因如下：\n\n 1.学生成绩尚未录入\n 2.没有设置优秀分数线 \n 3.系统出错了，请稍后再试，或练习运维人员";
+            this.finishDisable = false;
+            return false;
+          }
+          //接下来有数据了，我们就可以开始为收优化费做准备了
+          this.processingTextarea = "统计开始!\n 正在读取数据\n";
+          let that = this;
+          let delay = function(s){
+            return new Promise(function(resolve,reject) {
+              setTimeout(resolve,s);
+            })
+          };
+          delay().then(function() {
+            that.processingTextarea = that.processingTextarea.concat("数据读取完成！开始分析数据\n");
+            return delay(3000);
+          }).then(function() {
+            data.forEach(function(element) {
+              that.processingTextarea = that.processingTextarea.concat("正在统计" + element.grade + " " + element.classes + "的成绩情况\n");
+            });
+            return delay(Math.random()*3000);
+          }).then(function() {
+            that.processingTextarea = that.processingTextarea.concat("\n班级成绩统计完成！");
+            that.finishDisable = false;
+            return delay(1000);
+          });
         });
+
       }
     },
     /** 提交按钮 */

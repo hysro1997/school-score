@@ -5,15 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.hysro.scores.domain.*;
-import com.hysro.scores.mapper.ExamClassStaticticsMapper;
-import com.hysro.scores.mapper.ExamExcellentScoreLineMapper;
-import com.hysro.scores.mapper.ExamStudentScoresMapper;
+import com.hysro.scores.mapper.*;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.hysro.scores.mapper.ExamsMapper;
 import com.hysro.scores.service.IExamsService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +31,8 @@ public class ExamsServiceImpl implements IExamsService
     private ExamExcellentScoreLineMapper scoreLineMapper;
     @Autowired
     private ExamClassStaticticsMapper classStaticticsMapper;
+    @Autowired
+    private ExamGradeStatisticMapper gradeStatisticMapper;
 
     /**
      * 查询各种考试
@@ -134,6 +133,7 @@ public class ExamsServiceImpl implements IExamsService
 
         //根据考试ID清空已存在的统计
         classStaticticsMapper.deleteExamClassStaticticsByExamId(exams.getExamId());
+        gradeStatisticMapper.deleteExamGradeStaticticsByExamId(exams.getExamId());
 
         //获取年级、班级
         List<Map<String,String>> gradeClassMap = studentScoresMapper.selectDistinctClassesMapByExamId(exams.getExamId());
@@ -146,8 +146,16 @@ public class ExamsServiceImpl implements IExamsService
         ExamStudentScores studentScores;
         ExamExcellentScoreLine scoreLine;
         ExamClassStatictics classStatictics;
-        ExamScoreLineHelper helper;
-        DecimalFormat df = new DecimalFormat("0.000");
+        ExamScoreLineHelper examScoreLineHelper;
+        ExamGradeStatistic examGradeStatistic;
+        //获取到 年级 语文 数学 英语
+        List<ExamStatisticScoreLineHelper> statisticScoreLineHelperList = scoreLineMapper.selectAllSubjectScoreLinesByGrade();
+        if (statisticScoreLineHelperList.isEmpty()){
+            gradeClassMap.clear();
+            return gradeClassMap;
+        }
+
+        DecimalFormat df = new DecimalFormat("0.00");
         for (Map<String,String> gradeClass :gradeClassMap){
             studentScores = new ExamStudentScores();
             studentScores.setGrade(gradeClass.get("grade"));
@@ -176,15 +184,15 @@ public class ExamsServiceImpl implements IExamsService
                 Double average = Double.parseDouble(classStatictics.getTotalScore())/(classStatictics.getExamNumbers());
                 classStatictics.setAverageScore(df.format(average));
                 //接下来要数满分，优秀人数，良好，合格，四种不合格
-                helper = new ExamScoreLineHelper(gradeClass.get("grade"),gradeClass.get("classes"),excellentScoreLine.getSubject(),exams.getExamId());
+                examScoreLineHelper = new ExamScoreLineHelper(gradeClass.get("grade"),gradeClass.get("classes"),excellentScoreLine.getSubject(),exams.getExamId());
                 //先是满分
-                helper.setUnderLine(ExamScoreLineEnum.FULL_MARK.getUnderLine());
-                classStatictics.setFullSocreNumbers(studentScoresMapper.selectScoreNumbersByScoreLine(helper));
+                examScoreLineHelper.setUnderLine(ExamScoreLineEnum.FULL_MARK.getUnderLine());
+                classStatictics.setFullSocreNumbers(studentScoresMapper.selectScoreNumbersByScoreLine(examScoreLineHelper));
 
                 //接下来是优秀 假优秀人数-满分人数
-                helper.setUnderLine(excellentScoreLine.getExcellentScore().intValue());
+                examScoreLineHelper.setUnderLine(excellentScoreLine.getExcellentScore().intValue());
                 //假优秀人数
-                Long fExcellentNums = studentScoresMapper.selectScoreNumbersByScoreLine(helper);
+                Long fExcellentNums = studentScoresMapper.selectScoreNumbersByScoreLine(examScoreLineHelper);
                 classStatictics.setExcellentNumbers(fExcellentNums-classStatictics.getFullSocreNumbers());
 
                 //计算优秀率
@@ -192,46 +200,108 @@ public class ExamsServiceImpl implements IExamsService
                 classStatictics.setExcellentPercentage(df.format(excellentPercentage));
 
                 //良好人数 假良好人数-假优秀人数
-                helper.setUnderLine(ExamScoreLineEnum.GOOD_LINE.getUnderLine());
-                Long fGoodNums = studentScoresMapper.selectScoreNumbersByScoreLine(helper);
+                examScoreLineHelper.setUnderLine(ExamScoreLineEnum.GOOD_LINE.getUnderLine());
+                Long fGoodNums = studentScoresMapper.selectScoreNumbersByScoreLine(examScoreLineHelper);
                 classStatictics.setGoodNumbers(fGoodNums-fExcellentNums);
 
                 //合格人数 假合格人数-假良好人数
-                helper.setUnderLine(ExamScoreLineEnum.QUALIFIED_LINE.getUnderLine());
-                Long fQualifiedNums = studentScoresMapper.selectScoreNumbersByScoreLine(helper);
+                examScoreLineHelper.setUnderLine(ExamScoreLineEnum.QUALIFIED_LINE.getUnderLine());
+                Long fQualifiedNums = studentScoresMapper.selectScoreNumbersByScoreLine(examScoreLineHelper);
                 classStatictics.setQualifiedNumbers(fQualifiedNums-fGoodNums);
 
                 //计算合格率
                 classStatictics.setQualifiedPercentage(df.format((double)fQualifiedNums/(double)classStatictics.getExamNumbers()*100));
 
                 //55-59 假55-59-假合格
-                helper.setUnderLine(ExamScoreLineEnum.UNQUALIFIED_HEIGH_LINE.getUnderLine());
-                Long fUnqualifiedHeigh = studentScoresMapper.selectScoreNumbersByScoreLine(helper);
+                examScoreLineHelper.setUnderLine(ExamScoreLineEnum.UNQUALIFIED_HEIGH_LINE.getUnderLine());
+                Long fUnqualifiedHeigh = studentScoresMapper.selectScoreNumbersByScoreLine(examScoreLineHelper);
                 classStatictics.setUnqualifiedOneNumbers(fUnqualifiedHeigh-fQualifiedNums);
 
                 //50-54 假50-54-假55-59
-                helper.setUnderLine(ExamScoreLineEnum.UNQUALIFIED_MEDIUM_LINE.getUnderLine());
-                Long fUnqualifiedMedium = studentScoresMapper.selectScoreNumbersByScoreLine(helper);
+                examScoreLineHelper.setUnderLine(ExamScoreLineEnum.UNQUALIFIED_MEDIUM_LINE.getUnderLine());
+                Long fUnqualifiedMedium = studentScoresMapper.selectScoreNumbersByScoreLine(examScoreLineHelper);
                 classStatictics.setUnqualifiedTwoNumbers(fUnqualifiedMedium-fUnqualifiedHeigh);
 
                 //40-49 假40-49-假50-54
-                helper.setUnderLine(ExamScoreLineEnum.UNQUALIFIED_LOW_LINE.getUnderLine());
-                Long fUnqualifiedLow = studentScoresMapper.selectScoreNumbersByScoreLine(helper);
+                examScoreLineHelper.setUnderLine(ExamScoreLineEnum.UNQUALIFIED_LOW_LINE.getUnderLine());
+                Long fUnqualifiedLow = studentScoresMapper.selectScoreNumbersByScoreLine(examScoreLineHelper);
                 classStatictics.setUnqualifiedThreeNumbers(fUnqualifiedLow-fUnqualifiedMedium);
 
                 //40以下 假40以下-假合格
-                helper.setUnderLine(ExamScoreLineEnum.UNQUALIFIED_UNQUALIFIED.getUnderLine());
-                Long fUnqualifiedUnqualified = studentScoresMapper.selectScoreNumbersByScoreLine(helper);
+                examScoreLineHelper.setUnderLine(ExamScoreLineEnum.UNQUALIFIED_UNQUALIFIED.getUnderLine());
+                Long fUnqualifiedUnqualified = studentScoresMapper.selectScoreNumbersByScoreLine(examScoreLineHelper);
                 classStatictics.setUnqualifiedFourNumbers(fUnqualifiedUnqualified-fUnqualifiedLow);
 
                 //求这个班这门学科的综合分
                 classStatictics.setMutipleScore(df.format(Double.parseDouble(classStatictics.getAverageScore())*0.4+Double.parseDouble(classStatictics.getQualifiedPercentage())*0.3+Double.parseDouble(classStatictics.getExcellentPercentage())*0.3));
-                //插入数据，等会计算排名
+                //插入数据，等班级数据插入完成后计算排名
                 classStaticticsMapper.insertExamClassStatictics(classStatictics);
-
             }
 
         }
+
+        for (ExamStatisticScoreLineHelper statisticScoreLineHelper : statisticScoreLineHelperList){
+            for (Map<String,String> gradeClass :gradeClassMap){
+                //如果各学科分数线的年级和数据的年级匹配，就进入统计班级的数据
+                if (statisticScoreLineHelper.getGrade().equals(gradeClass.get("grade"))){
+                    //设置班级
+                    statisticScoreLineHelper.setClasses(gradeClass.get("classes"));
+                    statisticScoreLineHelper.setExamId(exams.getExamId());
+                    examGradeStatistic = new ExamGradeStatistic();
+                    //设置班级 考试ID 年级
+                    examGradeStatistic.setClasses(statisticScoreLineHelper.getClasses());
+                    examGradeStatistic.setExamId(exams.getExamId());
+                    examGradeStatistic.setGrade(statisticScoreLineHelper.getGrade());
+                    //设置3优人数
+                    examGradeStatistic.setTripleExcellentNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
+                    //设置3合格人数
+                    statisticScoreLineHelper.setChineseLine(60L);
+                    statisticScoreLineHelper.setMathsLine(60L);
+                    //如果不是一二年级，就加个英语
+                    if (!"一年级".equals(statisticScoreLineHelper.getGrade())&&!"二年级".equals(statisticScoreLineHelper.getGrade())){
+                        statisticScoreLineHelper.setEnglishLine(60L);
+                        examGradeStatistic.setTripleQualifiedNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
+                    }else {
+                        examGradeStatistic.setTripleQualifiedNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
+                    }
+                    //设置3都是0分人数，即考试人数
+                    statisticScoreLineHelper.setChineseLine(0L);
+                    statisticScoreLineHelper.setMathsLine(0L);
+                    if (!"一年级".equals(statisticScoreLineHelper.getGrade())&&!"二年级".equals(statisticScoreLineHelper.getGrade())){
+                        statisticScoreLineHelper.setEnglishLine(0L);
+                        examGradeStatistic.setExamNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
+                    }else {
+                        examGradeStatistic.setExamNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
+                    }
+                    //下面计算三优率
+                    examGradeStatistic.setTripleExcellentPercentage(df.format(examGradeStatistic.getTripleExcellentNumbers() / examGradeStatistic.getExamNumbers()));
+                    //下面计算3合格率
+                    examGradeStatistic.setTripleQualifiedPercentage(df.format(examGradeStatistic.getTripleQualifiedNumbers() / examGradeStatistic.getExamNumbers()));
+                    //计算总得分和得分率
+                    classStatictics = new ExamClassStatictics();
+                    classStatictics.setGrade(statisticScoreLineHelper.getGrade());
+                    classStatictics.setClasses(statisticScoreLineHelper.getClasses());
+                    classStatictics.setExamId(exams.getExamId());
+                    List<ExamClassStatictics> list = classStaticticsMapper.selectExamClassStaticticsList(classStatictics);
+                    double totalScore = 0d;
+                    int examerNumber = 0;
+                    for (ExamClassStatictics single : list){
+                        totalScore = totalScore + Double.parseDouble(single.getTotalScore());
+                        examerNumber += single.getExamNumbers();
+                    }
+                    examGradeStatistic.setAllScore( String.valueOf(totalScore));
+                    examGradeStatistic.setAllScorePercentage(df.format(Double.parseDouble(examGradeStatistic.getAllScore()) / (list.size()*100*examerNumber)));
+
+                    //计算综合分
+                    examGradeStatistic.setMuitipleScore(df.format(Double.parseDouble(examGradeStatistic.getAllScorePercentage())*0.4+Double.parseDouble(examGradeStatistic.getTripleExcellentPercentage())*0.3+Double.parseDouble(examGradeStatistic.getTripleQualifiedPercentage())*0.3));
+                    //插入数据
+                    gradeStatisticMapper.insertExamGradeStatistic(examGradeStatistic);
+                }
+            }
+        }
+
+
+
         //本次考试有几个年级场次几个学科
         List<Map<String,String>> gradeSubjectMap = studentScoresMapper.selectDistinctGradeSubjectMapByExamId(exams.getExamId());
         //完成每个年级每门学科的排名分析

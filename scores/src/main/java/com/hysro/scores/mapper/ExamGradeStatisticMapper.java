@@ -6,15 +6,15 @@ import com.hysro.scores.domain.Exams;
 
 /**
  * 年级数据统计情况Mapper接口
- * 
+ *
  * @author hysro
  * @date 2023-03-23
  */
-public interface ExamGradeStatisticMapper 
+public interface ExamGradeStatisticMapper
 {
     /**
      * 查询年级数据统计情况
-     * 
+     *
      * @param examGradeStatisticsId 年级数据统计情况主键
      * @return 年级数据统计情况
      */
@@ -22,7 +22,7 @@ public interface ExamGradeStatisticMapper
 
     /**
      * 查询年级数据统计情况列表
-     * 
+     *
      * @param examGradeStatistic 年级数据统计情况
      * @return 年级数据统计情况集合
      */
@@ -30,7 +30,7 @@ public interface ExamGradeStatisticMapper
 
     /**
      * 新增年级数据统计情况
-     * 
+     *
      * @param examGradeStatistic 年级数据统计情况
      * @return 结果
      */
@@ -38,7 +38,7 @@ public interface ExamGradeStatisticMapper
 
     /**
      * 修改年级数据统计情况
-     * 
+     *
      * @param examGradeStatistic 年级数据统计情况
      * @return 结果
      */
@@ -46,7 +46,7 @@ public interface ExamGradeStatisticMapper
 
     /**
      * 删除年级数据统计情况
-     * 
+     *
      * @param examGradeStatisticsId 年级数据统计情况主键
      * @return 结果
      */
@@ -54,32 +54,39 @@ public interface ExamGradeStatisticMapper
 
     /**
      * 批量删除年级数据统计情况
-     * 
+     *
      * @param examGradeStatisticsIds 需要删除的数据主键集合
      * @return 结果
      */
     public int deleteExamGradeStatisticByExamGradeStatisticsIds(Long[] examGradeStatisticsIds);
 
     /**
+     * 删除年级数据统计
+     * @param examId 考试id
+     * @return 结果
+     */
+    public int deleteExamGradeStaticticsByExamId(Long examId);
+
+    /**
      * 批量删除各种考试
-     * 
+     *
      * @param examGradeStatisticsIds 需要删除的数据主键集合
      * @return 结果
      */
     public int deleteExamsByExamIds(Long[] examGradeStatisticsIds);
-    
+
     /**
      * 批量新增各种考试
-     * 
+     *
      * @param examsList 各种考试列表
      * @return 结果
      */
     public int batchExams(List<Exams> examsList);
-    
+
 
     /**
      * 通过年级数据统计情况主键删除各种考试信息
-     * 
+     *
      * @param examGradeStatisticsId 年级数据统计情况ID
      * @return 结果
      */

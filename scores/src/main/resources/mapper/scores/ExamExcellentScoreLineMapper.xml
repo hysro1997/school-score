@@ -3,12 +3,19 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hysro.scores.mapper.ExamExcellentScoreLineMapper">
-    
+
     <resultMap type="ExamExcellentScoreLine" id="ExamExcellentScoreLineResult">
         <result property="excellentId"    column="excellent_id"    />
         <result property="subject"    column="subject"    />
         <result property="excellentScore"    column="excellent_score"    />
         <result property="grade"    column="grade"    />
+    </resultMap>
+
+    <resultMap type="ExamStatisticScoreLineHelper" id="ExamStatisticScoreLineHelperResult">
+        <result property="grade"    column="grade"    />
+        <result property="chineseLine" column="chinese_line" />
+        <result property="mathsLine" column="maths_line" />
+        <result property="englishLine" column="english_line" />
     </resultMap>
 
     <sql id="selectExamExcellentScoreLineVo">
@@ -17,17 +24,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectExamExcellentScoreLineList" parameterType="ExamExcellentScoreLine" resultMap="ExamExcellentScoreLineResult">
         <include refid="selectExamExcellentScoreLineVo"/>
-        <where>  
+        <where>
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
         </where>
     </select>
-    
+
+    <select id="selectAllSubjectScoreLinesByGrade" resultMap="ExamStatisticScoreLineHelperResult">
+        SELECT grade,
+            SUM(IF(`subject` = '语文',excellent_score,NULL)) AS chinese_line,
+            SUM(IF(`subject` = '英语',excellent_score,NULL)) AS maths_line,
+            SUM(IF(`subject` = '数学',excellent_score,NULL)) AS english_line
+        FROM exam_excellent_score_line
+        GROUP BY grade
+    </select>
+
     <select id="selectExamExcellentScoreLineByExcellentId" parameterType="Long" resultMap="ExamExcellentScoreLineResult">
         <include refid="selectExamExcellentScoreLineVo"/>
         where excellent_id = #{excellentId}
     </select>
-        
+
     <insert id="insertExamExcellentScoreLine" parameterType="ExamExcellentScoreLine">
         insert into exam_excellent_score_line
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -59,7 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteExamExcellentScoreLineByExcellentIds" parameterType="String">
-        delete from exam_excellent_score_line where excellent_id in 
+        delete from exam_excellent_score_line where excellent_id in
         <foreach item="excellentId" collection="array" open="(" separator="," close=")">
             #{excellentId}
         </foreach>

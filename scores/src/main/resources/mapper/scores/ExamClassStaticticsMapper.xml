@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
-            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="examId != null "> and a.exam_id = #{examId}</if>
             <if test="exams != null and exams.examName != null  and exams.examName != ''"> and exam_name like concat('%', #{exams.examName}, '%')</if>
         </where>
         order by exam_statistics_id desc

@@ -131,9 +131,9 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     }
 
     /**
-     * 导入用户数据
+     * 导入学生分数数据
      *
-     * @param scoresList 用户数据列表
+     * @param scoresList 学生分数数据列表
      * @return 结果
      */
     @Override

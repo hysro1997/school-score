@@ -3,10 +3,7 @@ package com.hysro.scores.mapper;
 import java.util.List;
 import java.util.Map;
 
-import com.hysro.scores.domain.ExamClassStatictics;
-import com.hysro.scores.domain.ExamScoreLineHelper;
-import com.hysro.scores.domain.ExamStudentScores;
-import com.hysro.scores.domain.Exams;
+import com.hysro.scores.domain.*;
 
 /**
  * 学生分数情况Mapper接口
@@ -119,4 +116,11 @@ public interface ExamStudentScoresMapper
      * @return 结果
      */
     public Long selectScoreNumbersByScoreLine(ExamScoreLineHelper helper);
+
+    /**
+     * 通过优秀分数下帮助类来查询 同时满足 所有学科分数同时满足条件的数量
+     * @param helper 优秀分数下帮助类
+     * @return 结果
+     */
+    public Long countQualifiedNumbersByStatisticScoreLineHelper(ExamStatisticScoreLineHelper helper);
 }

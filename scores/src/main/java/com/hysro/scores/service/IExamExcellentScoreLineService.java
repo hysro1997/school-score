@@ -2,18 +2,19 @@ package com.hysro.scores.service;
 
 import java.util.List;
 import com.hysro.scores.domain.ExamExcellentScoreLine;
+import com.hysro.scores.domain.ExamStatisticScoreLineHelper;
 
 /**
  * 优秀分数线Service接口
- * 
+ *
  * @author hysro
  * @date 2023-03-23
  */
-public interface IExamExcellentScoreLineService 
+public interface IExamExcellentScoreLineService
 {
     /**
      * 查询优秀分数线
-     * 
+     *
      * @param excellentId 优秀分数线主键
      * @return 优秀分数线
      */
@@ -21,7 +22,7 @@ public interface IExamExcellentScoreLineService
 
     /**
      * 查询优秀分数线列表
-     * 
+     *
      * @param examExcellentScoreLine 优秀分数线
      * @return 优秀分数线集合
      */
@@ -29,7 +30,7 @@ public interface IExamExcellentScoreLineService
 
     /**
      * 新增优秀分数线
-     * 
+     *
      * @param examExcellentScoreLine 优秀分数线
      * @return 结果
      */
@@ -37,7 +38,7 @@ public interface IExamExcellentScoreLineService
 
     /**
      * 修改优秀分数线
-     * 
+     *
      * @param examExcellentScoreLine 优秀分数线
      * @return 结果
      */
@@ -45,7 +46,7 @@ public interface IExamExcellentScoreLineService
 
     /**
      * 批量删除优秀分数线
-     * 
+     *
      * @param excellentIds 需要删除的优秀分数线主键集合
      * @return 结果
      */
@@ -53,7 +54,7 @@ public interface IExamExcellentScoreLineService
 
     /**
      * 删除优秀分数线信息
-     * 
+     *
      * @param excellentId 优秀分数线主键
      * @return 结果
      */
