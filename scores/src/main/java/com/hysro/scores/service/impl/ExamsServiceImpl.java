@@ -78,6 +78,9 @@ public class ExamsServiceImpl implements IExamsService
     {
         exams.setCreateTime(DateUtils.getNowDate());
         String operName = SecurityUtils.getUsername();
+        if (null == exams.getExamName() || "".equals(exams.getExamName())){
+            return 0;
+        }
         exams.setCreateBy(operName);
         return examsMapper.insertExams(exams);
     }

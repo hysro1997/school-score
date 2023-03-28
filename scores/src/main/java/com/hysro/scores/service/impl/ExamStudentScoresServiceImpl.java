@@ -73,6 +73,21 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     @Override
     public int insertExamStudentScores(ExamStudentScores examStudentScores)
     {
+        if (null == examStudentScores.getGrade() || "".equals(examStudentScores.getGrade())){
+            return 0;
+        }
+        if (null == examStudentScores.getSubject() || "".equals(examStudentScores.getSubject())){
+            return 0;
+        }
+        if (null == examStudentScores.getClasses() || "".equals(examStudentScores.getClasses())){
+            return 0;
+        }
+        if (null == examStudentScores.getExamNumber() || "".equals(examStudentScores.getExamNumber())){
+            return 0;
+        }
+        if (null == examStudentScores.getScore()){
+            return 0;
+        }
         examStudentScores.setCreateTime(DateUtils.getNowDate());
         String operName = SecurityUtils.getUsername();
         examStudentScores.setCreateBy(operName);
@@ -98,6 +113,21 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     @Override
     public int updateExamStudentScores(ExamStudentScores examStudentScores)
     {
+        if (null == examStudentScores.getGrade() || "".equals(examStudentScores.getGrade())){
+            return 0;
+        }
+        if (null == examStudentScores.getSubject() || "".equals(examStudentScores.getSubject())){
+            return 0;
+        }
+        if (null == examStudentScores.getClasses() || "".equals(examStudentScores.getClasses())){
+            return 0;
+        }
+        if (null == examStudentScores.getExamNumber() || "".equals(examStudentScores.getExamNumber())){
+            return 0;
+        }
+        if (null == examStudentScores.getScore()){
+            return 0;
+        }
         examStudentScores.setUpdateTime(DateUtils.getNowDate());
         String operName = SecurityUtils.getUsername();
         examStudentScores.setCreateBy(operName);
