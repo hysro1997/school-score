@@ -1,0 +1,177 @@
+package com.hysro.scores.domain;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import com.ruoyi.common.annotation.Excel;
+import com.ruoyi.common.core.domain.BaseEntity;
+
+/**
+ * 年级总体情况对象 exam_grade_summary
+ *
+ * @author hysro
+ * @date 2023-03-28
+ */
+public class ExamGradeSummary extends BaseEntity
+{
+    private static final long serialVersionUID = 1L;
+
+    /** ID */
+    @Excel(name = "ID")
+    private Long examGradeSummaryId;
+
+    /** 年级 */
+    @Excel(name = "年级")
+    private String grade;
+
+    /** 学科 */
+    @Excel(name = "学科")
+    private String subject;
+
+    /** 考试总人数 */
+    @Excel(name = "考试总人数")
+    private Long examTotalNumbers;
+
+    /** 年级总分 */
+    @Excel(name = "年级总分")
+    private String gradeTotalScores;
+
+    /** 年级均分 */
+    @Excel(name = "年级均分")
+    private String gradeAverageScore;
+
+    /** 年级及格率 */
+    @Excel(name = "年级及格率")
+    private String gradeQualifiedPercentage;
+
+    /** 年级优秀率 */
+    @Excel(name = "年级优秀率")
+    private String gradeExcellentPercentage;
+
+    /** 不及格人数 */
+    @Excel(name = "不及格人数")
+    private Long gradeUnqualifiedNumbers;
+
+    /** 考试ID */
+    //@Excel(name = "考试ID")
+    private Long examId;
+
+    /** 考试信息 */
+    @Excel(name = "考试名称", targetAttr = "examName", type = Excel.Type.EXPORT)
+    private Exams exams;
+
+    public Exams getExams() {
+        return exams;
+    }
+
+    public void setExams(Exams exams) {
+        this.exams = exams;
+    }
+
+    public void setExamGradeSummaryId(Long examGradeSummaryId)
+    {
+        this.examGradeSummaryId = examGradeSummaryId;
+    }
+
+    public Long getExamGradeSummaryId()
+    {
+        return examGradeSummaryId;
+    }
+    public void setGrade(String grade)
+    {
+        this.grade = grade;
+    }
+
+    public String getGrade()
+    {
+        return grade;
+    }
+    public void setSubject(String subject)
+    {
+        this.subject = subject;
+    }
+
+    public String getSubject()
+    {
+        return subject;
+    }
+    public void setExamTotalNumbers(Long examTotalNumbers)
+    {
+        this.examTotalNumbers = examTotalNumbers;
+    }
+
+    public Long getExamTotalNumbers()
+    {
+        return examTotalNumbers;
+    }
+    public void setGradeTotalScores(String gradeTotalScores)
+    {
+        this.gradeTotalScores = gradeTotalScores;
+    }
+
+    public String getGradeTotalScores()
+    {
+        return gradeTotalScores;
+    }
+    public void setGradeAverageScore(String gradeAverageScore)
+    {
+        this.gradeAverageScore = gradeAverageScore;
+    }
+
+    public String getGradeAverageScore()
+    {
+        return gradeAverageScore;
+    }
+    public void setGradeQualifiedPercentage(String gradeQualifiedPercentage)
+    {
+        this.gradeQualifiedPercentage = gradeQualifiedPercentage;
+    }
+
+    public String getGradeQualifiedPercentage()
+    {
+        return gradeQualifiedPercentage;
+    }
+    public void setGradeExcellentPercentage(String gradeExcellentPercentage)
+    {
+        this.gradeExcellentPercentage = gradeExcellentPercentage;
+    }
+
+    public String getGradeExcellentPercentage()
+    {
+        return gradeExcellentPercentage;
+    }
+    public void setGradeUnqualifiedNumbers(Long gradeUnqualifiedNumbers)
+    {
+        this.gradeUnqualifiedNumbers = gradeUnqualifiedNumbers;
+    }
+
+    public Long getGradeUnqualifiedNumbers()
+    {
+        return gradeUnqualifiedNumbers;
+    }
+    public void setExamId(Long examId)
+    {
+        this.examId = examId;
+    }
+
+    public Long getExamId()
+    {
+        return examId;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
+            .append("examGradeSummaryId", getExamGradeSummaryId())
+            .append("grade", getGrade())
+            .append("subject", getSubject())
+            .append("examTotalNumbers", getExamTotalNumbers())
+            .append("gradeTotalScores", getGradeTotalScores())
+            .append("gradeAverageScore", getGradeAverageScore())
+            .append("gradeQualifiedPercentage", getGradeQualifiedPercentage())
+            .append("gradeExcellentPercentage", getGradeExcellentPercentage())
+            .append("gradeUnqualifiedNumbers", getGradeUnqualifiedNumbers())
+            .append("examId", getExamId())
+            .append("exams", getExams())
+            .toString();
+    }
+}
