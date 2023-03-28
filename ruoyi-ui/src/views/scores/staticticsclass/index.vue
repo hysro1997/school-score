@@ -114,7 +114,7 @@
 
     <el-table v-loading="loading" :data="staticticsclassList" @selection-change="handleSelectionChange" :row-class-name="tableRowClassName">
       <el-table-column type="selection" width="55" align="center" />
-      <!--el-table-column label="统计记录ID" align="center" prop="examStatisticsId" /-->
+      <el-table-column label="ID" align="center" prop="examStatisticsId" />
       <el-table-column label="年级" align="center" prop="grade" />
       <el-table-column label="班级" align="center" prop="classes" />
       <el-table-column label="学科" align="center" prop="subject" />
@@ -131,12 +131,12 @@
       <el-table-column label="平均分" align="center" prop="averageScore" />
       <el-table-column label="及格率" align="center" prop="qualifiedPercentage" >
         <template slot-scope="scope">
-          <p>{{scope.row.qualifiedPercentage}} %</p>
-        </template>
+        <p>{{scope.row.qualifiedPercentage}}%</p>
+      </template>
       </el-table-column>
       <el-table-column label="优秀率" align="center" prop="excellentPercentage" >
         <template slot-scope="scope">
-          <p>{{scope.row.excellentPercentage}} %</p>
+          <p>{{scope.row.excellentPercentage}}%</p>
         </template>
       </el-table-column>
       <el-table-column label="综合分" align="center" prop="mutipleScore" />

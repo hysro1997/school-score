@@ -224,7 +224,16 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {
+      rules:{
+        subject: [
+        { required: true, message: '请选择学科', trigger: 'change' }
+        ],
+        grade: [
+          { required: true, message: '请选择年级', trigger: 'change' }
+        ],
+        excellentScore: [
+          { required: true, message: '请填写优秀分数线', trigger: 'blur' }
+        ]
       }
     };
   },

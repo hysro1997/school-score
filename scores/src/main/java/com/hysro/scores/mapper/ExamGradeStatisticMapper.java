@@ -1,6 +1,8 @@
 package com.hysro.scores.mapper;
 
 import java.util.List;
+
+import com.hysro.scores.domain.ExamClassStatictics;
 import com.hysro.scores.domain.ExamGradeStatistic;
 import com.hysro.scores.domain.Exams;
 
@@ -91,4 +93,13 @@ public interface ExamGradeStatisticMapper
      * @return 结果
      */
     public int deleteExamsByExamId(Long examGradeStatisticsId);
+
+
+    /**
+     * 查询班级成绩的排名
+     *
+     * @param examGradeStatistic 班级成绩统计情况
+     * @return 班级排名
+     */
+    public List<ExamGradeStatistic> selectExamGradeRateList(ExamGradeStatistic examGradeStatistic);
 }

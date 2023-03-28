@@ -66,6 +66,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT DISTINCT grade,`subject` FROM exam_student_scores WHERE exam_id = #{examId};
     </select>
 
+    <select id="selectDistinctGradeMapByExamId" resultType="map">
+        SELECT DISTINCT grade FROM exam_student_scores WHERE exam_id = #{examId};
+    </select>
+
     <select id="selectExamNumbersAndTotalScores" parameterType="ExamStudentScores" resultMap="ToClassStatisticResult">
         SELECT grade,classes,`subject`,COUNT(score) AS `exam_numbers`,SUM(score) AS `total_score` FROM exam_student_scores
         <where>

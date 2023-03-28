@@ -241,9 +241,19 @@ public class ExamsServiceImpl implements IExamsService
         }
 
         for (ExamStatisticScoreLineHelper statisticScoreLineHelper : statisticScoreLineHelperList){
+            //临时存储的语数英优秀分数线
+            ExamStatisticScoreLineHelper temHelper = new ExamStatisticScoreLineHelper();
+            temHelper.setChineseLine(statisticScoreLineHelper.getChineseLine());
+            temHelper.setMathsLine(statisticScoreLineHelper.getMathsLine());
+            temHelper.setEnglishLine(statisticScoreLineHelper.getEnglishLine());
             for (Map<String,String> gradeClass :gradeClassMap){
+
                 //如果各学科分数线的年级和数据的年级匹配，就进入统计班级的数据
                 if (statisticScoreLineHelper.getGrade().equals(gradeClass.get("grade"))){
+                    //从临时存储的语数英优秀分数线中读取优秀分数线
+                    statisticScoreLineHelper.setChineseLine(temHelper.getChineseLine());
+                    statisticScoreLineHelper.setMathsLine(temHelper.getMathsLine());
+                    statisticScoreLineHelper.setEnglishLine(temHelper.getEnglishLine());
                     //设置班级
                     statisticScoreLineHelper.setClasses(gradeClass.get("classes"));
                     statisticScoreLineHelper.setExamId(exams.getExamId());
@@ -274,9 +284,9 @@ public class ExamsServiceImpl implements IExamsService
                         examGradeStatistic.setExamNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
                     }
                     //下面计算三优率
-                    examGradeStatistic.setTripleExcellentPercentage(df.format(examGradeStatistic.getTripleExcellentNumbers() / examGradeStatistic.getExamNumbers()));
+                    examGradeStatistic.setTripleExcellentPercentage(df.format((double)examGradeStatistic.getTripleExcellentNumbers() / (double)examGradeStatistic.getExamNumbers()*100));
                     //下面计算3合格率
-                    examGradeStatistic.setTripleQualifiedPercentage(df.format(examGradeStatistic.getTripleQualifiedNumbers() / examGradeStatistic.getExamNumbers()));
+                    examGradeStatistic.setTripleQualifiedPercentage(df.format((double)examGradeStatistic.getTripleQualifiedNumbers() / (double)examGradeStatistic.getExamNumbers()*100));
                     //计算总得分和得分率
                     classStatictics = new ExamClassStatictics();
                     classStatictics.setGrade(statisticScoreLineHelper.getGrade());
@@ -290,7 +300,7 @@ public class ExamsServiceImpl implements IExamsService
                         examerNumber += single.getExamNumbers();
                     }
                     examGradeStatistic.setAllScore( String.valueOf(totalScore));
-                    examGradeStatistic.setAllScorePercentage(df.format(Double.parseDouble(examGradeStatistic.getAllScore()) / (list.size()*100*examerNumber)));
+                    examGradeStatistic.setAllScorePercentage(df.format(Double.parseDouble(examGradeStatistic.getAllScore()) / (100*examerNumber)*100));
 
                     //计算综合分
                     examGradeStatistic.setMuitipleScore(df.format(Double.parseDouble(examGradeStatistic.getAllScorePercentage())*0.4+Double.parseDouble(examGradeStatistic.getTripleExcellentPercentage())*0.3+Double.parseDouble(examGradeStatistic.getTripleQualifiedPercentage())*0.3));
@@ -303,9 +313,9 @@ public class ExamsServiceImpl implements IExamsService
 
 
         //本次考试有几个年级场次几个学科
-        List<Map<String,String>> gradeSubjectMap = studentScoresMapper.selectDistinctGradeSubjectMapByExamId(exams.getExamId());
+        List<Map<String,String>> gradeSubjectMapList = studentScoresMapper.selectDistinctGradeSubjectMapByExamId(exams.getExamId());
         //完成每个年级每门学科的排名分析
-        for (Map<String,String> gradeSubject :gradeSubjectMap) {
+        for (Map<String,String> gradeSubject :gradeSubjectMapList) {
             classStatictics = new ExamClassStatictics();
             classStatictics.setExamId(exams.getExamId());
             classStatictics.setGrade(gradeSubject.get("grade"));
@@ -317,6 +327,20 @@ public class ExamsServiceImpl implements IExamsService
                 classStaticticsMapper.updateExamClassStatictics(examClassStatictics);
             }
 
+
+
+        }
+        //本次考试有几个年级
+        List<Map<String,String>> gradeMapList = studentScoresMapper.selectDistinctGradeMapByExamId(exams.getExamId());
+        //完成每个年级的班级排名分析
+        for (Map<String,String> grademap: gradeMapList){
+            examGradeStatistic = new ExamGradeStatistic();
+            examGradeStatistic.setGrade(grademap.get("grade"));
+            examGradeStatistic.setExamId(exams.getExamId());
+            List<ExamGradeStatistic> examGradeStatisticList = gradeStatisticMapper.selectExamGradeRateList(examGradeStatistic);
+            for (ExamGradeStatistic examGradeSt : examGradeStatisticList){
+                gradeStatisticMapper.updateExamGradeStatistic(examGradeSt);
+            }
         }
 
         return gradeClassMap;

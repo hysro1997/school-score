@@ -103,6 +103,14 @@ public interface ExamStudentScoresMapper
     public List<Map<String,String>> selectDistinctGradeSubjectMapByExamId(Long examId);
 
     /**
+     * 通过考试ID获取不重复的年级数据条数，有多少个年级有考试数据
+     *
+     * @param examId 考试id
+     * @return 结果
+     */
+    public List<Map<String,String>> selectDistinctGradeMapByExamId(Long examId);
+
+    /**
      * 通过年级、班级、学科、考试id，查询该班此次考试某一学科的考试人数和总分
      *
      * @param examStudentScores 考试

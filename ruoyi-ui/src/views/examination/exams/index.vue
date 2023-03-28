@@ -186,6 +186,9 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        examName: [
+          { required: true, message: '请填写优秀分数线', trigger: 'blur' }
+        ]
       }
     };
   },

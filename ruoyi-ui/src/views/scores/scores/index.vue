@@ -407,6 +407,21 @@ export default {
       },
       // 表单校验
       rules: {
+        subject: [
+          { required: true, message: '请选择学科', trigger: 'change' }
+        ],
+        grade: [
+          { required: true, message: '请选择年级', trigger: 'change' }
+        ],
+        classes: [
+          { required: true, message: '请选择班级', trigger: 'change' }
+        ],
+        examNumber: [
+          { required: true, message: '请填写考试号', trigger: 'blur' }
+        ],
+        score: [
+          { required: true, message: '请填写分数线', trigger: 'blur' }
+        ]
       }
     };
   },
@@ -473,8 +488,19 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
-      this.open = true;
-      this.title = "添加学生分数情况";
+      //this.open = true;
+      //this.title = "添加学生分数情况";
+      let that = this;
+      getExamsEnables().then(response => {
+        let enableNumbers = response.data;
+        if (1!==enableNumbers){
+          this.$modal.alertWarning("考试尚未开启分数录入");
+          that.upload.open = false;
+        }else {
+          this.open = true;
+          this.title = "添加学生分数情况";
+        }
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

@@ -48,6 +48,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
 
+    <select id="selectExamGradeRateList" parameterType="ExamGradeStatistic" resultMap="ExamGradeStatisticResult">
+        SELECT a.*,(@i:=@i+1) AS rate FROM(
+
+        SELECT exam_grade_statistics_id FROM exam_grade_statistic
+        <where>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="examId != null "> and exam_id = #{examId}</if>
+        </where>
+        ORDER BY muitiple_score DESC)a,(SELECT @i:=0)b;
+    </select>
+
     <select id="selectExamGradeStatisticByExamGradeStatisticsId" parameterType="Long" resultMap="ExamGradeStatisticExamsResult">
         <include refid="selectExamGradeStatisticVo"/>
         where a.exam_grade_statistics_id = #{examGradeStatisticsId}
