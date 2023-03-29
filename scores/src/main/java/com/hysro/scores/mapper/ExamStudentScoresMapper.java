@@ -131,4 +131,12 @@ public interface ExamStudentScoresMapper
      * @return 结果
      */
     public Long countQualifiedNumbersByStatisticScoreLineHelper(ExamStatisticScoreLineHelper helper);
+
+    /**
+     * 通过年级、学科、考试id，查询该班此次考试这一个年纪某一学科的情况
+     *
+     * @param scores 年级、学科、考试id
+     * @return 结果
+     */
+    public ExamGradeSummary countGradeSummaryByExamStudentScores(ExamStudentScores scores);
 }

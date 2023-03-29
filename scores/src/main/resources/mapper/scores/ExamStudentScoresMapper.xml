@@ -149,6 +149,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
+    <select id="countGradeSummaryByExamStudentScores" parameterType="ExamStudentScores" resultMap="com.hysro.scores.mapper.ExamGradeSummaryMapper.ExamGradeSummaryResult">
+        SELECT
+        COUNT(*) AS exam_total_numbers,
+        SUM( score ) AS grade_total_scores,
+        ROUND( AVG( score ), 2 ) AS grade_average_score,
+        CONCAT(
+        ROUND((
+        SELECT
+        COUNT(*)
+        FROM
+        exam_student_scores
+        WHERE
+        exam_id = #{examId}
+        AND grade = #{grade}
+        AND `subject` = #{subject}
+        AND score &gt;= 60
+        ) / ( SELECT COUNT(*) FROM exam_student_scores WHERE exam_id = #{examId} AND grade = #{grade} AND `subject` = #{subject} ) * 100,
+        2
+        ),
+        "%"
+        ) AS grade_qualified_percentage,
+        CONCAT(
+        ROUND((
+        SELECT
+        COUNT(*)
+        FROM
+        exam_student_scores
+        WHERE
+        exam_id = #{examId}
+        AND grade = #{grade}
+        AND `subject` = #{subject}
+        AND score &gt;= #{score}
+        ) / ( SELECT COUNT(*) FROM exam_student_scores WHERE exam_id = #{examId} AND grade = #{grade} AND `subject` = #{subject} ) * 100,
+        2
+        ),
+        "%"
+        ) AS grade_excellent_percentage,
+        ( SELECT COUNT(*) FROM exam_student_scores WHERE exam_id = #{examId} AND grade = #{grade} AND `subject` = #{subject} AND score &lt; 60 ) AS grade_unqualified_numbers,
+        grade,subject
+        FROM
+        exam_student_scores a
+        WHERE
+        exam_id = #{examId}
+        AND grade = #{grade}
+        AND `subject` = #{subject}
+    </select>
+
     <update id="updateExamStudentScores" parameterType="ExamStudentScores">
         update exam_student_scores
         <trim prefix="SET" suffixOverrides=",">

@@ -1,5 +1,6 @@
 package com.hysro.scores.service.impl;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,8 @@ public class ExamsServiceImpl implements IExamsService
     private ExamClassStaticticsMapper classStaticticsMapper;
     @Autowired
     private ExamGradeStatisticMapper gradeStatisticMapper;
+    @Autowired
+    private ExamGradeSummaryMapper gradeSummaryMapper;
 
     /**
      * 查询各种考试
@@ -137,6 +140,7 @@ public class ExamsServiceImpl implements IExamsService
         //根据考试ID清空已存在的统计
         classStaticticsMapper.deleteExamClassStaticticsByExamId(exams.getExamId());
         gradeStatisticMapper.deleteExamGradeStaticticsByExamId(exams.getExamId());
+        gradeSummaryMapper.deleteExamGradeSummaryByExamId(exams.getExamId());
 
         //获取年级、班级
         List<Map<String,String>> gradeClassMap = studentScoresMapper.selectDistinctClassesMapByExamId(exams.getExamId());
@@ -314,7 +318,7 @@ public class ExamsServiceImpl implements IExamsService
         }
 
 
-
+        ExamGradeSummary gradeSummary;
         //本次考试有几个年级场次几个学科
         List<Map<String,String>> gradeSubjectMapList = studentScoresMapper.selectDistinctGradeSubjectMapByExamId(exams.getExamId());
         //完成每个年级每门学科的排名分析
@@ -329,6 +333,20 @@ public class ExamsServiceImpl implements IExamsService
             for (ExamClassStatictics examClassStatictics:examClassStaticticsList){
                 classStaticticsMapper.updateExamClassStatictics(examClassStatictics);
             }
+            //年级情况概要统计
+            studentScores = new ExamStudentScores();
+            studentScores.setExamId(exams.getExamId());
+            studentScores.setGrade(gradeSubject.get("grade"));
+            studentScores.setSubject(gradeSubject.get("subject"));
+            scoreLine = new ExamExcellentScoreLine();
+            scoreLine.setGrade(gradeSubject.get("grade"));
+            scoreLine.setSubject(gradeSubject.get("subject"));
+            List<ExamExcellentScoreLine> scoreLineLists = scoreLineMapper.selectExamExcellentScoreLineList(scoreLine);
+            studentScores.setScore(BigDecimal.valueOf(scoreLineLists.get(0).getExcellentScore()));
+            gradeSummary = studentScoresMapper.countGradeSummaryByExamStudentScores(studentScores);
+            gradeSummary.setExamId(exams.getExamId());
+            gradeSummaryMapper.insertExamGradeSummary(gradeSummary);
+
 
 
 
@@ -345,6 +363,8 @@ public class ExamsServiceImpl implements IExamsService
                 gradeStatisticMapper.updateExamGradeStatistic(examGradeSt);
             }
         }
+
+
 
         return gradeClassMap;
     }
