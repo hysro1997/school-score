@@ -279,6 +279,7 @@ public class ExamsServiceImpl implements IExamsService
                         statisticScoreLineHelper.setEnglishLine(60L);
                         examGradeStatistic.setTripleQualifiedNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
                     }else {
+                        statisticScoreLineHelper.setEnglishLine(null);
                         examGradeStatistic.setTripleQualifiedNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
                     }
                     //设置3都是0分人数，即考试人数
@@ -288,6 +289,7 @@ public class ExamsServiceImpl implements IExamsService
                         statisticScoreLineHelper.setEnglishLine(0L);
                         examGradeStatistic.setExamNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
                     }else {
+                        statisticScoreLineHelper.setEnglishLine(null);
                         examGradeStatistic.setExamNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
                     }
                     //下面计算三优率
