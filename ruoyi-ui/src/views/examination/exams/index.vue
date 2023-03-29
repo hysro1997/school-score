@@ -305,7 +305,7 @@ export default {
         statisticExams(row.examId).then(response => {
           let data = response.data;
           if (undefined === data || null === data || ''=== data || 0 >= data.length){
-            this.processingTextarea = "统计失败！\n\n 可能原因如下：\n\n 1.本次考试的学生成绩尚未录入\n 2.没有设置优秀分数线 \n 3.系统出错了，请稍后再试，或练习运维人员";
+            this.processingTextarea = "统计失败！\n\n 可能原因如下：\n\n 1.本次考试的学生成绩尚未录入\n2.语文、数学、英语有一门学科没有录入成绩\n 3.没有设置优秀分数线 \n 4.系统出错了，请稍后再试，或练习运维人员";
             this.finishDisable = false;
             return false;
           }

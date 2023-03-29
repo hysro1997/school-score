@@ -185,7 +185,9 @@ public class ExamsServiceImpl implements IExamsService
                 classStatictics = new ExamClassStatictics();
                 //获取到了当前班级某一学科的考试人数、总分
                 classStatictics = studentScoresMapper.selectExamNumbersAndTotalScores(studentScores);
-
+                if (null == classStatictics.getTotalScore()){
+                    continue;
+                }
                 classStatictics.setExamId(exams.getExamId());
                 //计算平均分
                 Double average = Double.parseDouble(classStatictics.getTotalScore())/(classStatictics.getExamNumbers());

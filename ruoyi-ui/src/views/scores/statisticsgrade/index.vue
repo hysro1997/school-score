@@ -97,7 +97,11 @@
 
     <el-table v-loading="loading" :data="statisticsgradeList" @selection-change="handleSelectionChange" :row-class-name="tableRowClassName">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="年级数据ID" align="center" prop="examGradeStatisticsId" />
+      <el-table-column label="数据ID" align="center" prop="examGradeStatisticsId" />
+      <el-table-column label="年级" align="center" prop="grade" />
+      <el-table-column label="班级" align="center" prop="classes" />
+      <el-table-column label="排名" align="center" prop="rate" />
+      <el-table-column label="综合分" align="center" prop="muitipleScore" />
       <el-table-column label="考试人数" align="center" prop="examNumbers" />
       <el-table-column label="三及格人数" align="center" prop="tripleQualifiedNumbers" />
       <el-table-column label="三优秀人数" align="center" prop="tripleExcellentNumbers" />
@@ -117,10 +121,6 @@
           <p>{{scope.row.allScorePercentage}}%</p>
         </template>
       </el-table-column>
-      <el-table-column label="综合分" align="center" prop="muitipleScore" />
-      <el-table-column label="年级" align="center" prop="grade" />
-      <el-table-column label="班级" align="center" prop="classes" />
-      <el-table-column label="排名" align="center" prop="rate" />
       <el-table-column label="考试名称" align="center" prop="exams.examName" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">

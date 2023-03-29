@@ -49,7 +49,7 @@ public class ExamsController extends BaseController
     /**
      * 获取已启用的考试数量
      */
-    @PreAuthorize("@ss.hasPermi('examination:exams:list')")
+    //@PreAuthorize("@ss.hasPermi('examination:exams:list')")
     @GetMapping("/getExamsEnables")
     public AjaxResult getExamsEnables(){
         return success(examsService.countExamsEnables());

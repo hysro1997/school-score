@@ -118,6 +118,8 @@
       <el-table-column label="年级" align="center" prop="grade" />
       <el-table-column label="班级" align="center" prop="classes" />
       <el-table-column label="学科" align="center" prop="subject" />
+      <el-table-column label="排名" align="center" prop="rate" />
+      <el-table-column label="综合分" align="center" prop="mutipleScore" />
       <el-table-column label="参加考试的人数" align="center" prop="examNumbers" />
       <el-table-column label="满分人数" align="center" prop="fullSocreNumbers" />
       <el-table-column label="优秀人数" align="center" prop="excellentNumbers" />
@@ -139,9 +141,9 @@
           <p>{{scope.row.excellentPercentage}}%</p>
         </template>
       </el-table-column>
-      <el-table-column label="综合分" align="center" prop="mutipleScore" />
+
       <el-table-column label="考试名称" align="center" prop="exams.examName" />
-      <el-table-column label="排名" align="center" prop="rate" />
+
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <!--el-button
