@@ -9,6 +9,15 @@ export function listExams(query) {
   })
 }
 
+// 查询考试
+export function allExams(query) {
+  return request({
+    url: '/examination/exams/allExams',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询各种考试详细
 export function getExams(examId) {
   return request({

@@ -13,6 +13,27 @@
       <p></p>
     </div>
 
+    <div style="text-align: center">
+      查看考试：
+        <el-select
+          v-model="examId"
+          filterable
+          remote
+          reserve-keyword
+          placeholder="请输入考试名称"
+          :remote-method="remoteMethod"
+          :loading="loading"
+          @change="drawAllEcharts">
+          <el-option
+            v-for="item in options"
+            :key="item.examId"
+            :label="item.examName"
+            :value="item.examId">
+          </el-option>
+        </el-select>
+      的综合分排名数据
+    </div>
+
     <el-row :gutter="20">
       <el-col :span="12"><div class="grid-content bg-purple" id="rateChart1" style="width: 700px;height: 400px">
         <el-empty description="一年级暂无数据"></el-empty>
@@ -46,12 +67,15 @@
   import { getUserProfile } from "@/api/system/user";
   import { getStaticticsclass } from "@/api/scores/infoForEcharts"
   import * as echarts from 'echarts';
+  import { allExams } from '../api/examination/exams'
 
 export default {
   name: "Index",
   data() {
     return {
-      // 版本号
+      options: [],
+      examId: '',
+      loading: false,
       user: {
         dept:{
           deptName: ''
@@ -61,22 +85,63 @@ export default {
         grade: null,
         examId: null,
       },
+      examQueryParams:{
+        pageNum: 1,
+        pageSize: 10,
+        examName: null,
+      },
       roleGroup: {},
-      postGroup: {}
+      postGroup: {},
+      rateChart1: null,
+      rateChart2: null,
+      rateChart3: null,
+      rateChart4: null,
+      rateChart5: null,
+      rateChart6: null
     };
   },
   created() {
     this.getUser();
+    this.initExams();
   },
   mounted() {
-    this.drawChart(1,18,"一年级");
-    this.drawChart(2,18,"二年级");
-    this.drawChart(3,18,"三年级");
-    this.drawChart(4,18,"四年级");
-    this.drawChart(5,18,"五年级");
-    this.drawChart(6,18,"六年级");
+    this.initEchartsInfo();
   },
   methods: {
+    initExams(){
+      allExams(this.examQueryParams).then(response => {
+        this.options = response.data;
+      });
+    },
+    initEchartsInfo(){
+      setTimeout(() =>{
+        if (this.options.length>0){
+          this.drawAllEcharts(this.options[0].examId);
+          this.examId = this.options[0].examId;
+        }
+      },2500);
+
+    },
+    drawAllEcharts(examId){
+      this.drawChart(this.rateChart1,"rateChart1",examId,"一年级");
+      this.drawChart(this.rateChart2,"rateChart2",examId,"二年级");
+      this.drawChart(this.rateChart3,"rateChart3",examId,"三年级");
+      this.drawChart(this.rateChart4,"rateChart4",examId,"四年级");
+      this.drawChart(this.rateChart5,"rateChart5",examId,"五年级");
+      this.drawChart(this.rateChart6,"rateChart6",examId,"六年级");
+    },
+    remoteMethod(query){
+      if (query !== '') {
+        this.loading = true;
+        this.examQueryParams.examName = query;
+        allExams(this.examQueryParams).then(response => {
+          this.options = response.data;
+        });
+        this.loading = false;
+      } else {
+        this.options = [];
+      }
+    },
     goTarget(href) {
       window.open(href, "_blank");
     },
@@ -87,7 +152,7 @@ export default {
         this.postGroup = response.postGroup;
       });
     },
-    drawChart(index,examId, grade){
+    drawChart(chart,index,examId, grade){
       this.queryParams.examId = examId;
       this.queryParams.grade = grade;
       let subjectList = null;
@@ -95,10 +160,14 @@ export default {
       let rateList = [];
       getStaticticsclass(this.queryParams).then(response => {
         if (null === response.data.classes || response.data.classes.length ===0){
+          chart = echarts.getInstanceByDom(document.getElementById(index));
+          if (null != chart){
+            chart.dispose();
+          }
           //this.$modal.msgWarning("没有数据");
           return;
         }
-        let myChart = echarts.init(document.getElementById('rateChart'+index));
+        chart = echarts.init(document.getElementById(index));
         subjectList = response.data.subjects;
         classesList = response.data.classes;
         subjectList.forEach(function(value) {
@@ -118,7 +187,7 @@ export default {
           rateList.push(subjectsRates);
         });
         // 绘制图表
-        myChart.setOption({
+        chart.setOption({
           title: {
             text: grade
           },

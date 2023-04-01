@@ -47,6 +47,17 @@ public class ExamsController extends BaseController
     }
 
     /**
+     * 查询各种考试列表
+     */
+    @GetMapping("/allExams")
+    public AjaxResult getExams(Exams exams)
+    {
+        startPage();
+        List<Exams> list = examsService.selectExamsList(exams);
+        return success(list);
+    }
+
+    /**
      * 获取已启用的考试数量
      */
     //@PreAuthorize("@ss.hasPermi('examination:exams:list')")

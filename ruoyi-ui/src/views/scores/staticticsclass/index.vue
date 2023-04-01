@@ -118,19 +118,19 @@
       <el-table-column label="年级" align="center" prop="grade" />
       <el-table-column label="班级" align="center" prop="classes" />
       <el-table-column label="学科" align="center" prop="subject" />
-      <el-table-column label="排名" align="center" prop="rate" />
-      <el-table-column label="综合分" align="center" prop="mutipleScore" />
+      <el-table-column label="综合分排名" align="center" prop="rate" />
+      <el-table-column label="平均分" sortable align="center" prop="averageScore" />
+      <el-table-column label="综合分" sortable align="center" prop="mutipleScore" />
       <el-table-column label="参加考试的人数" align="center" prop="examNumbers" />
       <el-table-column label="满分人数" align="center" prop="fullSocreNumbers" />
       <el-table-column label="优秀人数" align="center" prop="excellentNumbers" />
       <el-table-column label="良好人数" align="center" prop="goodNumbers" />
       <el-table-column label="及格人数" align="center" prop="qualifiedNumbers" />
-      <el-table-column label="不及格人数(55-59)" align="center" prop="unqualifiedOneNumbers" />
-      <el-table-column label="不及格人数(50-54)" align="center" prop="unqualifiedTwoNumbers" />
-      <el-table-column label="不及格人数(40-49)" align="center" prop="unqualifiedThreeNumbers" />
-      <el-table-column label="不及格人数(40分以下)" align="center" prop="unqualifiedFourNumbers" />
+      <el-table-column label="55-59" align="center" prop="unqualifiedOneNumbers" />
+      <el-table-column label="50-54" align="center" prop="unqualifiedTwoNumbers" />
+      <el-table-column label="40-49" align="center" prop="unqualifiedThreeNumbers" />
+      <el-table-column label="40分以下" align="center" prop="unqualifiedFourNumbers" />
       <el-table-column label="全班总分" align="center" prop="totalScore" />
-      <el-table-column label="平均分" align="center" prop="averageScore" />
       <el-table-column label="及格率" align="center" prop="qualifiedPercentage" >
         <template slot-scope="scope">
         <p>{{scope.row.qualifiedPercentage}}%</p>
