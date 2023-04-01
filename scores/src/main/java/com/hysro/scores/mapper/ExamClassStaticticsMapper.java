@@ -1,5 +1,6 @@
 package com.hysro.scores.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.hysro.scores.domain.ExamClassStatictics;
 import com.hysro.scores.domain.Exams;
@@ -100,4 +101,28 @@ public interface ExamClassStaticticsMapper
      * @return 结果
      */
     public int deleteExamsByExamId(Long examStatisticsId);
+
+    /**
+     * 根据年级和examId查询年级的班级学科
+     *
+     * @param statictics 年级和examId
+     * @return 结果列表
+     */
+    public String[] selectSubjectsByExamIdAndGrade(ExamClassStatictics statictics);
+
+    /**
+     * 根据年级和examId查询年级的班级排名
+     *
+     * @param statictics 年级和examId
+     * @return 结果列表
+     */
+    public String[] selectClassesRateByExamIdAndGrade(ExamClassStatictics statictics);
+
+    /**
+     * 根据年级和examId查询年级的班级学科排名
+     *
+     * @param statictics 年级和examId
+     * @return 结果列表
+     */
+    public int[] selectClassesSubjectRateByExamIdAndGrade(ExamClassStatictics statictics);
 }

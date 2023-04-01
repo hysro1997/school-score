@@ -14,8 +14,28 @@
     </div>
 
     <el-row :gutter="20">
-      <el-col :span="12"><div class="grid-content bg-purple" id="rateChart1" style="width: 700px;height: 400px"></div></el-col>
-      <el-col :span="12"><div class="grid-content bg-purple" id="rateChart2" style="width: 700px;height: 400px"></div></el-col>
+      <el-col :span="12"><div class="grid-content bg-purple" id="rateChart1" style="width: 700px;height: 400px">
+        <el-empty description="一年级暂无数据"></el-empty>
+      </div></el-col>
+      <el-col :span="12"><div class="grid-content bg-purple" id="rateChart2" style="width: 700px;height: 400px">
+        <el-empty description="二年级暂无数据"></el-empty>
+      </div></el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="12"><div class="grid-content bg-purple" id="rateChart3" style="width: 700px;height: 400px">
+        <el-empty description="三年级暂无数据"></el-empty>
+      </div></el-col>
+      <el-col :span="12"><div class="grid-content bg-purple" id="rateChart4" style="width: 700px;height: 400px">
+        <el-empty description="四年级暂无数据"></el-empty>
+      </div></el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="12"><div class="grid-content bg-purple" id="rateChart5" style="width: 700px;height: 400px">
+        <el-empty description="五年级暂无数据"></el-empty>
+      </div></el-col>
+      <el-col :span="12"><div class="grid-content bg-purple" id="rateChart6" style="width: 700px;height: 400px">
+        <el-empty description="六年级暂无数据"></el-empty>
+      </div></el-col>
     </el-row>
 
   </div>
@@ -24,6 +44,7 @@
 <script>
 
   import { getUserProfile } from "@/api/system/user";
+  import { getStaticticsclass } from "@/api/scores/infoForEcharts"
   import * as echarts from 'echarts';
 
 export default {
@@ -36,6 +57,10 @@ export default {
           deptName: ''
         }
       },
+      queryParams: {
+        grade: null,
+        examId: null,
+      },
       roleGroup: {},
       postGroup: {}
     };
@@ -44,8 +69,12 @@ export default {
     this.getUser();
   },
   mounted() {
-    this.drawChart(1);
-    this.drawChart(2);
+    this.drawChart(1,18,"一年级");
+    this.drawChart(2,18,"二年级");
+    this.drawChart(3,18,"三年级");
+    this.drawChart(4,18,"四年级");
+    this.drawChart(5,18,"五年级");
+    this.drawChart(6,18,"六年级");
   },
   methods: {
     goTarget(href) {
@@ -58,45 +87,59 @@ export default {
         this.postGroup = response.postGroup;
       });
     },
-    drawChart(index){
-      let myChart = echarts.init(document.getElementById('rateChart'+index));
-      // 绘制图表
-      myChart.setOption({
-        title: {
-          text: 'ECharts 入门示例' + index
-        },
-        tooltip: {},
-        legend:{
-          data: ["语文","数学","英语"],
-          orient: 'horizontal',
-          right: 0,
-        },
-        label:{
-          show: true,
-          position: 'top'
-        },
-        xAxis: {
-          data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子','羊毛裤','棉毛裤']
-        },
-        yAxis: {},
-        series: [
-          {
-            name: '语文',
+    drawChart(index,examId, grade){
+      this.queryParams.examId = examId;
+      this.queryParams.grade = grade;
+      let subjectList = null;
+      let classesList = null;
+      let rateList = [];
+      getStaticticsclass(this.queryParams).then(response => {
+        if (null === response.data.classes || response.data.classes.length ===0){
+          //this.$modal.msgWarning("没有数据");
+          return;
+        }
+        let myChart = echarts.init(document.getElementById('rateChart'+index));
+        subjectList = response.data.subjects;
+        classesList = response.data.classes;
+        subjectList.forEach(function(value) {
+          let subjectsRates = {
+            name: null,
             type: 'bar',
-            data: [1, 3, 2, 7, 6, 5, 8, 4]
-          },
-          {
-            name: '数学',
-            type: 'bar',
-            data: [8, 5, 6, 2, 1, 3, 4, 7]
-          },
-          {
-            name: '英语',
-            type: 'bar',
-            data: [4, 3, 8, 1, 7, 5, 6, 2]
+            data: []
+          };
+          subjectsRates.name = value;
+          if ("语文"===value){
+            subjectsRates.data = response.data.chineseRates;
+          }else if ("数学"===value){
+            subjectsRates.data = response.data.mathsRates;
+          }else if ("英语"===value){
+            subjectsRates.data = response.data.englishRates;
           }
-        ]
+          rateList.push(subjectsRates);
+        });
+        // 绘制图表
+        myChart.setOption({
+          title: {
+            text: grade
+          },
+          tooltip: {},
+          legend:{
+            data: subjectList,
+            orient: 'horizontal',
+            right: 0,
+          },
+          label:{
+            show: true,
+            position: 'top'
+          },
+          xAxis: {
+            data: classesList
+          },
+          yAxis: {},
+          series: rateList
+        });
       });
+
     }
   }
 };

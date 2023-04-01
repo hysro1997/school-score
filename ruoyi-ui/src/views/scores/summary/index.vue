@@ -107,6 +107,9 @@
           >删除</el-button>
         </template>
       </el-table-column>
+      <div slot="empty" >
+        <el-empty description="暂无数据"></el-empty>
+      </div>
     </el-table>
 
     <pagination

@@ -48,13 +48,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectExamClassStaticticsList" parameterType="ExamClassStatictics" resultMap="ExamClassStaticticsExamsResult">
         <include refid="selectExamClassStaticticsVo"/>
         <where>
+            <if test="examId != null "> and a.exam_id = #{examId}</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
-            <if test="examId != null "> and a.exam_id = #{examId}</if>
             <if test="exams != null and exams.examName != null  and exams.examName != ''"> and exam_name like concat('%', #{exams.examName}, '%')</if>
         </where>
         order by exam_statistics_id desc
+    </select>
+
+    <select id="selectSubjectsByExamIdAndGrade" parameterType="ExamClassStatictics" resultType="String">
+        SELECT DISTINCT `subject` FROM `exam_class_statictics`
+        <where>
+            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="subject != null  and subject != ''"> and `subject` = #{subject}</if>
+        </where>
+    </select>
+    <select id="selectClassesRateByExamIdAndGrade" parameterType="ExamClassStatictics" resultType="String">
+        SELECT DISTINCT classes FROM `exam_class_statictics`
+        <where>
+            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="subject != null  and subject != ''"> and `subject` = #{subject}</if>
+        </where>
+        ORDER BY classes
+    </select>
+    <select id="selectClassesSubjectRateByExamIdAndGrade" parameterType="ExamClassStatictics" resultType="int">
+        SELECT rate FROM `exam_class_statictics`
+        <where>
+            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="subject != null  and subject != ''"> and `subject` = #{subject}</if>
+        </where>
+        ORDER BY classes
     </select>
 
     <select id="selectExamClassSubjectRateList" parameterType="ExamClassStatictics" resultMap="ExamClassStaticticsResult">
@@ -62,9 +89,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
         SELECT exam_statistics_id FROM exam_class_statictics
         <where>
+            <if test="examId != null "> and exam_id = #{examId}</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
-            <if test="examId != null "> and exam_id = #{examId}</if>
         </where>
         ORDER BY mutiple_score DESC)a,(SELECT @i:=0)b;
     </select>

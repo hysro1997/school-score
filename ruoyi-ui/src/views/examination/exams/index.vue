@@ -104,6 +104,9 @@
           >删除</el-button>
         </template>
       </el-table-column>
+      <div slot="empty" >
+        <el-empty description="暂无数据"></el-empty>
+      </div>
     </el-table>
 
     <pagination
@@ -328,6 +331,7 @@ export default {
           }).then(function() {
             that.processingTextarea = that.processingTextarea.concat("\n班级成绩统计完成！");
             that.finishDisable = false;
+            this.$modal.msgSuccess("班级成绩统计完成！");
             return delay(1000);
           });
         });

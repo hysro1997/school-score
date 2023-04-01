@@ -41,9 +41,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectExamGradeStatisticList" parameterType="ExamGradeStatistic" resultMap="ExamGradeStatisticExamsResult">
         <include refid="selectExamGradeStatisticVo"/>
         <where>
+            <if test="examId != null "> and exam_id = #{examId}</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
-            <if test="examId != null "> and exam_id = #{examId}</if>
             <if test="exams != null and exams.examName != null  and exams.examName != ''"> and exam_name like concat('%', #{exams.examName}, '%')</if>
         </where>
     </select>
@@ -53,8 +53,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
         SELECT exam_grade_statistics_id FROM exam_grade_statistic
         <where>
-            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
         </where>
         ORDER BY muitiple_score DESC)a,(SELECT @i:=0)b;
     </select>
