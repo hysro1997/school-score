@@ -185,7 +185,9 @@ public class ExamsServiceImpl implements IExamsService
                 studentScores.setExcellentLine(excellentScoreLine.getExcellentScore());
                 classStatictics = studentScoresMapper.selectExamNumbersAndTotalScores(studentScores);
                 //插入数据，等班级数据插入完成后计算排名
-                classStaticticsMapper.insertExamClassStatictics(classStatictics);
+                if (null != classStatictics.getGrade()){
+                    classStaticticsMapper.insertExamClassStatictics(classStatictics);
+                }
             }
 
         }
