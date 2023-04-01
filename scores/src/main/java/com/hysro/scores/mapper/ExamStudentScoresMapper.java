@@ -119,6 +119,14 @@ public interface ExamStudentScoresMapper
     public ExamClassStatictics selectExamNumbersAndTotalScores(ExamStudentScores examStudentScores);
 
     /**
+     * 通过考试id，年级、班级，查询考试人数，总分，得分率
+     *
+     * @param examStudentScores 考试
+     * @return 结果
+     */
+    public ExamGradeStatistic selectExamGradeExamNumbersAndAllScore(ExamStudentScores examStudentScores);
+
+    /**
      * 通过优秀分数下帮助类来查询 同时满足 所有学科分数同时满足条件的数量
      * @param helper 优秀分数下帮助类
      * @return 结果

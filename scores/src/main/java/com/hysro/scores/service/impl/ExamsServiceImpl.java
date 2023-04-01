@@ -209,11 +209,12 @@ public class ExamsServiceImpl implements IExamsService
                     //设置班级
                     statisticScoreLineHelper.setClasses(gradeClass.get("classes"));
                     statisticScoreLineHelper.setExamId(exams.getExamId());
-                    examGradeStatistic = new ExamGradeStatistic();
-                    //设置班级 考试ID 年级
-                    examGradeStatistic.setClasses(statisticScoreLineHelper.getClasses());
-                    examGradeStatistic.setExamId(exams.getExamId());
-                    examGradeStatistic.setGrade(statisticScoreLineHelper.getGrade());
+
+                    studentScores = new ExamStudentScores();
+                    studentScores.setExamId(exams.getExamId());
+                    studentScores.setGrade(gradeClass.get("grade"));
+                    studentScores.setClasses(gradeClass.get("classes"));
+                    examGradeStatistic = studentScoresMapper.selectExamGradeExamNumbersAndAllScore(studentScores);
                     //设置3优人数
                     examGradeStatistic.setTripleExcellentNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
                     //设置3合格人数
@@ -227,34 +228,10 @@ public class ExamsServiceImpl implements IExamsService
                         statisticScoreLineHelper.setEnglishLine(null);
                         examGradeStatistic.setTripleQualifiedNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
                     }
-                    //设置3都是0分人数，即考试人数
-                    statisticScoreLineHelper.setChineseLine(0L);
-                    statisticScoreLineHelper.setMathsLine(0L);
-                    if (!"一年级".equals(statisticScoreLineHelper.getGrade())&&!"二年级".equals(statisticScoreLineHelper.getGrade())){
-                        statisticScoreLineHelper.setEnglishLine(0L);
-                        examGradeStatistic.setExamNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
-                    }else {
-                        statisticScoreLineHelper.setEnglishLine(null);
-                        examGradeStatistic.setExamNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
-                    }
                     //下面计算三优率
                     examGradeStatistic.setTripleExcellentPercentage(df.format((double)examGradeStatistic.getTripleExcellentNumbers() / (double)examGradeStatistic.getExamNumbers()*100));
                     //下面计算3合格率
                     examGradeStatistic.setTripleQualifiedPercentage(df.format((double)examGradeStatistic.getTripleQualifiedNumbers() / (double)examGradeStatistic.getExamNumbers()*100));
-                    //计算总得分和得分率
-                    classStatictics = new ExamClassStatictics();
-                    classStatictics.setGrade(statisticScoreLineHelper.getGrade());
-                    classStatictics.setClasses(statisticScoreLineHelper.getClasses());
-                    classStatictics.setExamId(exams.getExamId());
-                    List<ExamClassStatictics> list = classStaticticsMapper.selectExamClassStaticticsList(classStatictics);
-                    double totalScore = 0d;
-                    int examerNumber = 0;
-                    for (ExamClassStatictics single : list){
-                        totalScore = totalScore + Double.parseDouble(single.getTotalScore());
-                        examerNumber += single.getExamNumbers();
-                    }
-                    examGradeStatistic.setAllScore( String.valueOf(totalScore));
-                    examGradeStatistic.setAllScorePercentage(df.format(Double.parseDouble(examGradeStatistic.getAllScore()) / (100*examerNumber)*100));
 
                     //计算综合分
                     examGradeStatistic.setMuitipleScore(df.format(Double.parseDouble(examGradeStatistic.getAllScorePercentage())*0.4+Double.parseDouble(examGradeStatistic.getTripleExcellentPercentage())*0.3+Double.parseDouble(examGradeStatistic.getTripleQualifiedPercentage())*0.3));
