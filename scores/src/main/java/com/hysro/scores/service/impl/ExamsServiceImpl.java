@@ -153,7 +153,6 @@ public class ExamsServiceImpl implements IExamsService
         ExamStudentScores studentScores;
         ExamExcellentScoreLine scoreLine;
         ExamClassStatictics classStatictics;
-        ExamScoreLineHelper examScoreLineHelper;
         ExamGradeStatistic examGradeStatistic;
         //获取到 年级 语文 数学 英语
         List<ExamStatisticScoreLineHelper> statisticScoreLineHelperList = scoreLineMapper.selectAllSubjectScoreLinesByGrade();
@@ -167,6 +166,7 @@ public class ExamsServiceImpl implements IExamsService
             studentScores = new ExamStudentScores();
             studentScores.setGrade(gradeClass.get("grade"));
             studentScores.setClasses(gradeClass.get("classes"));
+            studentScores.setExamId(exams.getExamId());
             //获取了需要统计的这一个班级的成绩的年级和班级，开始根据年级、班级、考试id开始统计
             //先根据年级条件来获取优秀分数线，如果没有，直接清空map并抛出给前端
             scoreLine = new ExamExcellentScoreLine();
@@ -179,70 +179,11 @@ public class ExamsServiceImpl implements IExamsService
                 gradeClassMap.clear();
                 return gradeClassMap;
             }
-            //不是空的，有数据，我们就继续根据年级、班级、学科优秀分数线开始统计优秀
+            //优秀分数线不是空的，有数据，我们就继续根据年级、班级、学科优秀分数线开始统计优秀
             for (ExamExcellentScoreLine excellentScoreLine: scoreLineList){
                 studentScores.setSubject(excellentScoreLine.getSubject());
-                classStatictics = new ExamClassStatictics();
-                //获取到了当前班级某一学科的考试人数、总分
+                studentScores.setExcellentLine(excellentScoreLine.getExcellentScore());
                 classStatictics = studentScoresMapper.selectExamNumbersAndTotalScores(studentScores);
-                if (null == classStatictics.getTotalScore()){
-                    continue;
-                }
-                classStatictics.setExamId(exams.getExamId());
-                //计算平均分
-                Double average = Double.parseDouble(classStatictics.getTotalScore())/(classStatictics.getExamNumbers());
-                classStatictics.setAverageScore(df.format(average));
-                //接下来要数满分，优秀人数，良好，合格，四种不合格
-                examScoreLineHelper = new ExamScoreLineHelper(gradeClass.get("grade"),gradeClass.get("classes"),excellentScoreLine.getSubject(),exams.getExamId());
-                //先是满分
-                examScoreLineHelper.setUnderLine(ExamScoreLineEnum.FULL_MARK.getUnderLine());
-                classStatictics.setFullSocreNumbers(studentScoresMapper.selectScoreNumbersByScoreLine(examScoreLineHelper));
-
-                //接下来是优秀 假优秀人数-满分人数
-                examScoreLineHelper.setUnderLine(excellentScoreLine.getExcellentScore().intValue());
-                //假优秀人数
-                Long fExcellentNums = studentScoresMapper.selectScoreNumbersByScoreLine(examScoreLineHelper);
-                classStatictics.setExcellentNumbers(fExcellentNums-classStatictics.getFullSocreNumbers());
-
-                //计算优秀率
-                double excellentPercentage = (double)fExcellentNums/(double)classStatictics.getExamNumbers()*100;
-                classStatictics.setExcellentPercentage(df.format(excellentPercentage));
-
-                //良好人数 假良好人数-假优秀人数
-                examScoreLineHelper.setUnderLine(ExamScoreLineEnum.GOOD_LINE.getUnderLine());
-                Long fGoodNums = studentScoresMapper.selectScoreNumbersByScoreLine(examScoreLineHelper);
-                classStatictics.setGoodNumbers(fGoodNums-fExcellentNums);
-
-                //合格人数 假合格人数-假良好人数
-                examScoreLineHelper.setUnderLine(ExamScoreLineEnum.QUALIFIED_LINE.getUnderLine());
-                Long fQualifiedNums = studentScoresMapper.selectScoreNumbersByScoreLine(examScoreLineHelper);
-                classStatictics.setQualifiedNumbers(fQualifiedNums-fGoodNums);
-
-                //计算合格率
-                classStatictics.setQualifiedPercentage(df.format((double)fQualifiedNums/(double)classStatictics.getExamNumbers()*100));
-
-                //55-59 假55-59-假合格
-                examScoreLineHelper.setUnderLine(ExamScoreLineEnum.UNQUALIFIED_HEIGH_LINE.getUnderLine());
-                Long fUnqualifiedHeigh = studentScoresMapper.selectScoreNumbersByScoreLine(examScoreLineHelper);
-                classStatictics.setUnqualifiedOneNumbers(fUnqualifiedHeigh-fQualifiedNums);
-
-                //50-54 假50-54-假55-59
-                examScoreLineHelper.setUnderLine(ExamScoreLineEnum.UNQUALIFIED_MEDIUM_LINE.getUnderLine());
-                Long fUnqualifiedMedium = studentScoresMapper.selectScoreNumbersByScoreLine(examScoreLineHelper);
-                classStatictics.setUnqualifiedTwoNumbers(fUnqualifiedMedium-fUnqualifiedHeigh);
-
-                //40-49 假40-49-假50-54
-                examScoreLineHelper.setUnderLine(ExamScoreLineEnum.UNQUALIFIED_LOW_LINE.getUnderLine());
-                Long fUnqualifiedLow = studentScoresMapper.selectScoreNumbersByScoreLine(examScoreLineHelper);
-                classStatictics.setUnqualifiedThreeNumbers(fUnqualifiedLow-fUnqualifiedMedium);
-
-                //40以下 假40以下-假合格
-                examScoreLineHelper.setUnderLine(ExamScoreLineEnum.UNQUALIFIED_UNQUALIFIED.getUnderLine());
-                Long fUnqualifiedUnqualified = studentScoresMapper.selectScoreNumbersByScoreLine(examScoreLineHelper);
-                classStatictics.setUnqualifiedFourNumbers(fUnqualifiedUnqualified-fUnqualifiedLow);
-
-                //求这个班这门学科的综合分
-                classStatictics.setMutipleScore(df.format(Double.parseDouble(classStatictics.getAverageScore())*0.4+Double.parseDouble(classStatictics.getQualifiedPercentage())*0.3+Double.parseDouble(classStatictics.getExcellentPercentage())*0.3));
                 //插入数据，等班级数据插入完成后计算排名
                 classStaticticsMapper.insertExamClassStatictics(classStatictics);
             }

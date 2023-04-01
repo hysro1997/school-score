@@ -114,16 +114,9 @@ public interface ExamStudentScoresMapper
      * 通过年级、班级、学科、考试id，查询该班此次考试某一学科的考试人数和总分
      *
      * @param examStudentScores 考试
-     * @return 结果 年级、班级、学科、考试人数、总分
+     * @return 结果 年级、班级、学科、考试人数、总分等等除排名外各项数据
      */
     public ExamClassStatictics selectExamNumbersAndTotalScores(ExamStudentScores examStudentScores);
-
-    /**
-     *通过分数线查询对应人数
-     *
-     * @return 结果
-     */
-    public Long selectScoreNumbersByScoreLine(ExamScoreLineHelper helper);
 
     /**
      * 通过优秀分数下帮助类来查询 同时满足 所有学科分数同时满足条件的数量

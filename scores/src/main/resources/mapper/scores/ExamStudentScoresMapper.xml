@@ -40,6 +40,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join exams b on b.exam_id = a.exam_id
     </sql>
 
+    <sql id="sqlUniversalWhere">
+        WHERE exam_id = #{examId} AND `subject` = #{subject} AND grade = #{grade} AND classes = #{classes}
+    </sql>
+
     <select id="selectExamStudentScoresList" parameterType="ExamStudentScores" resultMap="ExamStudentScoresExamsResult">
         <include refid="selectExamStudentScoresVo"/>
         <where>
@@ -71,13 +75,78 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectExamNumbersAndTotalScores" parameterType="ExamStudentScores" resultMap="ToClassStatisticResult">
-        SELECT grade,classes,`subject`,COUNT(score) AS `exam_numbers`,SUM(score) AS `total_score` FROM exam_student_scores
-        <where>
-            <if test="examId != null "> and exam_id = #{examId}</if>
-            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
-            <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
-            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
-        </where>
+        SELECT
+        *,
+        ROUND( b.average_score * 0.4 + b.excellent_percentage * 0.3 + b.qualified_percentage * 0.3, 2 ) AS mutiple_score
+        FROM
+        (
+        SELECT
+        *,
+        ROUND( a.excellent_numbers / a.exam_numbers * 100, 2 ) AS excellent_percentage,
+        ROUND(( a.excellent_numbers + a.good_numbers + a.qualified_numbers ) / a.exam_numbers * 100, 2 ) AS qualified_percentage
+        FROM
+        (
+        SELECT
+        grade,
+        classes,
+        `subject`,
+        exam_id,
+        COUNT(*) AS exam_numbers,
+        SUM( score ) AS total_score,
+        ROUND( AVG( score ), 2 ) AS average_score,
+        ( SELECT COUNT(*) FROM `exam_student_scores` <include refid="sqlUniversalWhere" /> AND score &gt;= #{excellentLine} ) AS excellent_numbers,
+        ( SELECT COUNT(*) FROM `exam_student_scores` <include refid="sqlUniversalWhere" /> AND score = 100 ) AS full_socre_numbers,
+        (
+        SELECT
+        COUNT(*)
+        FROM
+        `exam_student_scores`
+        <include refid="sqlUniversalWhere" />
+        AND score BETWEEN 75
+        AND (#{excellentLine}-1)
+        ) AS good_numbers,
+        (
+        SELECT
+        COUNT(*)
+        FROM
+        `exam_student_scores`
+        <include refid="sqlUniversalWhere" />
+        AND score BETWEEN 60
+        AND 74
+        ) AS qualified_numbers,
+        (
+        SELECT
+        COUNT(*)
+        FROM
+        `exam_student_scores`
+        <include refid="sqlUniversalWhere" />
+        AND score BETWEEN 55
+        AND 59
+        ) AS unqualified_one_numbers,
+        (
+        SELECT
+        COUNT(*)
+        FROM
+        `exam_student_scores`
+        <include refid="sqlUniversalWhere" />
+        AND score BETWEEN 50
+        AND 54
+        ) AS unqualified_two_numbers,
+        (
+        SELECT
+        COUNT(*)
+        FROM
+        `exam_student_scores`
+        <include refid="sqlUniversalWhere" />
+        AND score BETWEEN 40
+        AND 49
+        ) AS unqualified_three_numbers,
+        ( SELECT COUNT(*) FROM `exam_student_scores` <include refid="sqlUniversalWhere" /> AND score &lt; 40 ) AS unqualified_four_numbers
+        FROM
+        `exam_student_scores`
+        <include refid="sqlUniversalWhere" />
+        ) a
+        ) b
     </select>
 
     <select id="countQualifiedNumbersByStatisticScoreLineHelper" parameterType="ExamStatisticScoreLineHelper" resultType="Long">
@@ -105,17 +174,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="chineseLine != null and chineseLine != ''">and chinese &gt;= #{chineseLine}</if>
             <if test="mathsLine != null and mathsLine != ''">and maths &gt;= #{mathsLine}</if>
             <if test="englishLine != null and englishLine != ''">and english &gt;= #{englishLine}</if>
-        </where>
-    </select>
-
-    <select id="selectScoreNumbersByScoreLine" resultType="java.lang.Long" parameterType="ExamScoreLineHelper">
-        SELECT count(score) FROM exam_student_scores
-        <where>
-            <if test="examId != null "> and exam_id = #{examId}</if>
-            <if test="underLine != null and underLine !=''"> and score >= #{underLine}</if>
-            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
-            <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
-            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
         </where>
     </select>
 

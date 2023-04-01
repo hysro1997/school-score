@@ -44,9 +44,19 @@ public class ExamStudentScores extends BaseEntity
     //@Excel(name = "考试ID")
     private Long examId;
 
+    private Long excellentLine;
+
     /** 各种考试信息 */
     @Excel(name = "考试名称", targetAttr = "examName", type = Excel.Type.EXPORT)
     private Exams exams;
+
+    public Long getExcellentLine() {
+        return excellentLine;
+    }
+
+    public void setExcellentLine(Long excellentLine) {
+        this.excellentLine = excellentLine;
+    }
 
     public void setScoreId(Long scoreId)
     {
@@ -135,6 +145,7 @@ public class ExamStudentScores extends BaseEntity
             .append("updateBy", getUpdateBy())
             .append("examId", getExamId())
             .append("exams", getExams())
+            .append("excellentLine", getExcellentLine())
             .toString();
     }
 }
