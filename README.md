@@ -1,3 +1,7 @@
+
+<p>常州地区最受欢迎的成绩管理系统，吹牛不打草稿</p>
+
+
 <p align="center">
 	<img alt="logo" src="https://oscimg.oschina.net/oscnet/up-d3d0a9303e11d522a06cd263f3079027715.png">
 </p>
@@ -8,7 +12,6 @@
 	<a href="https://gitee.com/y_project/RuoYi-Vue"><img src="https://img.shields.io/badge/RuoYi-v3.8.5-brightgreen.svg"></a>
 	<a href="https://gitee.com/y_project/RuoYi-Vue/blob/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
 </p>
-<p>常州地区最受欢迎的成绩管理系统，吹牛不打草稿</p>
 
 ## 平台简介
 
