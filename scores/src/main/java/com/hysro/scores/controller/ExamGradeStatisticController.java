@@ -23,7 +23,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 年级数据统计情况Controller
- * 
+ *
  * @author hysro
  * @date 2023-04-04
  */
@@ -71,7 +71,7 @@ public class ExamGradeStatisticController extends BaseController
 
     /**
      * 新增年级数据统计情况
-     */
+
     @PreAuthorize("@ss.hasPermi('scores:statistic:add')")
     @Log(title = "年级数据统计情况", businessType = BusinessType.INSERT)
     @PostMapping
@@ -79,10 +79,11 @@ public class ExamGradeStatisticController extends BaseController
     {
         return toAjax(examGradeStatisticService.insertExamGradeStatistic(examGradeStatistic));
     }
+     */
 
     /**
      * 修改年级数据统计情况
-     */
+
     @PreAuthorize("@ss.hasPermi('scores:statistic:edit')")
     @Log(title = "年级数据统计情况", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -90,6 +91,7 @@ public class ExamGradeStatisticController extends BaseController
     {
         return toAjax(examGradeStatisticService.updateExamGradeStatistic(examGradeStatistic));
     }
+     */
 
     /**
      * 删除年级数据统计情况

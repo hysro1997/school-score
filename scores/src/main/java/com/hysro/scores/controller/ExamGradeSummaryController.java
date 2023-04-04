@@ -23,7 +23,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 年级总体情况Controller
- * 
+ *
  * @author hysro
  * @date 2023-04-04
  */
@@ -71,7 +71,7 @@ public class ExamGradeSummaryController extends BaseController
 
     /**
      * 新增年级总体情况
-     */
+
     @PreAuthorize("@ss.hasPermi('scores:summary:add')")
     @Log(title = "年级总体情况", businessType = BusinessType.INSERT)
     @PostMapping
@@ -79,10 +79,11 @@ public class ExamGradeSummaryController extends BaseController
     {
         return toAjax(examGradeSummaryService.insertExamGradeSummary(examGradeSummary));
     }
+     */
 
     /**
      * 修改年级总体情况
-     */
+
     @PreAuthorize("@ss.hasPermi('scores:summary:edit')")
     @Log(title = "年级总体情况", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -90,6 +91,7 @@ public class ExamGradeSummaryController extends BaseController
     {
         return toAjax(examGradeSummaryService.updateExamGradeSummary(examGradeSummary));
     }
+     */
 
     /**
      * 删除年级总体情况
