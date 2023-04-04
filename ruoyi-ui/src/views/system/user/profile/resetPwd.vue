@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import { updateUserPwd } from "@/api/system/user";
+  import { updateUserPwd } from '@/api/system/user'
 
-export default {
+  export default {
   data() {
     const equalToPassword = (rule, value, callback) => {
       if (this.user.newPassword !== value) {

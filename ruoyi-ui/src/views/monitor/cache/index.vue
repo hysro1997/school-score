@@ -65,10 +65,10 @@
 </template>
 
 <script>
-import { getCache } from "@/api/monitor/cache";
-import * as echarts from "echarts";
+  import { getCache } from '@/api/monitor/cache'
+  import * as echarts from 'echarts'
 
-export default {
+  export default {
   name: "Cache",
   data() {
     return {

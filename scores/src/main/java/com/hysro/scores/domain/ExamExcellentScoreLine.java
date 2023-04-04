@@ -1,13 +1,13 @@
 package com.hysro.scores.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 优秀分数线对象 exam_excellent_score_line
- * 
+ *
  * @author hysro
  * @date 2023-03-23
  */
@@ -30,39 +30,39 @@ public class ExamExcellentScoreLine extends BaseEntity
     @Excel(name = "年级")
     private String grade;
 
-    public void setExcellentId(Long excellentId) 
+    public void setExcellentId(Long excellentId)
     {
         this.excellentId = excellentId;
     }
 
-    public Long getExcellentId() 
+    public Long getExcellentId()
     {
         return excellentId;
     }
-    public void setSubject(String subject) 
+    public void setSubject(String subject)
     {
         this.subject = subject;
     }
 
-    public String getSubject() 
+    public String getSubject()
     {
         return subject;
     }
-    public void setExcellentScore(Long excellentScore) 
+    public void setExcellentScore(Long excellentScore)
     {
         this.excellentScore = excellentScore;
     }
 
-    public Long getExcellentScore() 
+    public Long getExcellentScore()
     {
         return excellentScore;
     }
-    public void setGrade(String grade) 
+    public void setGrade(String grade)
     {
         this.grade = grade;
     }
 
-    public String getGrade() 
+    public String getGrade()
     {
         return grade;
     }

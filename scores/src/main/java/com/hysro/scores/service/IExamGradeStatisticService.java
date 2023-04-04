@@ -7,7 +7,7 @@ import com.hysro.scores.domain.ExamGradeStatistic;
  * 年级数据统计情况Service接口
  * 
  * @author hysro
- * @date 2023-03-23
+ * @date 2023-04-04
  */
 public interface IExamGradeStatisticService 
 {

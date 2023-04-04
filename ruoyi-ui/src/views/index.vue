@@ -64,10 +64,10 @@
 
 <script>
 
-  import { getUserProfile } from "@/api/system/user";
-  import { getStaticticsclass } from "@/api/scores/infoForEcharts"
-  import * as echarts from 'echarts';
-  import { allExams } from '../api/examination/exams'
+//  import { getUserProfile } from "@/api/system/user";
+//  import { getStaticticsclass } from "@/api/scores/infoForEcharts"
+//  import * as echarts from 'echarts';
+ // import { allExams } from '../api/examination/exams'
 
 export default {
   name: "Index",
@@ -101,11 +101,11 @@ export default {
     };
   },
   created() {
-    this.getUser();
-    this.initExams();
+    //this.getUser();
+    //this.initExams();
   },
   mounted() {
-    this.initEchartsInfo();
+    //this.initEchartsInfo();
   },
   methods: {
     initExams(){

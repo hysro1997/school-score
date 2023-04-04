@@ -3,14 +3,15 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hysro.scores.mapper.ExamStudentScoresMapper">
-
+    
     <resultMap type="ExamStudentScores" id="ExamStudentScoresResult">
         <result property="scoreId"    column="score_id"    />
         <result property="grade"    column="grade"    />
         <result property="classes"    column="classes"    />
         <result property="examNumber"    column="exam_number"    />
-        <result property="subject"    column="subject"    />
-        <result property="score"    column="score"    />
+        <result property="chineseScore"    column="chinese_score"    />
+        <result property="mathsScore"    column="maths_score"    />
+        <result property="englishScore"    column="english_score"    />
         <result property="createTime"    column="create_time"    />
         <result property="createBy"    column="create_by"    />
         <result property="updateTime"    column="update_time"    />
@@ -18,202 +19,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="examId"    column="exam_id"    />
     </resultMap>
 
-    <resultMap id="ExamStudentScoresExamsResult" type="ExamStudentScores" extends="ExamStudentScoresResult">
-        <collection property="exams" notNullColumn="sub_exam_id" javaType="Exams" resultMap="ExamsResult" />
-    </resultMap>
-
-    <resultMap id="ToClassStatisticResult" type="com.hysro.scores.domain.ExamClassStatictics" extends="com.hysro.scores.mapper.ExamClassStaticticsMapper.ExamClassStaticticsResult">
-
-    </resultMap>
-
-    <resultMap type="Exams" id="ExamsResult">
-        <result property="examId"    column="sub_exam_id"    />
-        <result property="examName"    column="sub_exam_name"    />
-        <result property="createTime"    column="sub_create_time"    />
-        <result property="createBy"    column="sub_create_by"    />
-    </resultMap>
-
     <sql id="selectExamStudentScoresVo">
-        select a.score_id, a.grade, a.classes, a.exam_number, a.subject, a.score, a.create_time, a.create_by, a.update_time, a.update_by, a.exam_id,
- b.exam_id as sub_exam_id, b.exam_name as sub_exam_name, b.create_time as sub_create_time, b.create_by as sub_create_by
-        from exam_student_scores a
-        left join exams b on b.exam_id = a.exam_id
+        select score_id, grade, classes, exam_number, chinese_score, maths_score, english_score, create_time, create_by, update_time, update_by, exam_id from exam_student_scores
     </sql>
 
-    <sql id="sqlUniversalWhere">
-        WHERE exam_id = #{examId} AND `subject` = #{subject} AND grade = #{grade} AND classes = #{classes}
-    </sql>
-    <sql id="sqlUniversalWhereTwo">
-        WHERE exam_id = #{examId} AND grade = #{grade} AND classes = #{classes}
-    </sql>
-
-    <select id="selectExamStudentScoresList" parameterType="ExamStudentScores" resultMap="ExamStudentScoresExamsResult">
+    <select id="selectExamStudentScoresList" parameterType="ExamStudentScores" resultMap="ExamStudentScoresResult">
         <include refid="selectExamStudentScoresVo"/>
-        <where>
-            <if test="examId != null "> and exam_id = #{examId}</if>
+        <where>  
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
             <if test="examNumber != null  and examNumber != ''"> and exam_number = #{examNumber}</if>
-            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
-            <if test="exams != null and exams.examName != null  and exams.examName != ''"> and exam_name like concat('%', #{exams.examName}, '%')</if>
+            <if test="examId != null "> and exam_id = #{examId}</if>
         </where>
-        order by score_id desc
     </select>
-
-    <select id="selectExamStudentScoresByScoreId" parameterType="Long" resultMap="ExamStudentScoresExamsResult">
+    
+    <select id="selectExamStudentScoresByScoreId" parameterType="Long" resultMap="ExamStudentScoresResult">
         <include refid="selectExamStudentScoresVo"/>
-        where a.score_id = #{scoreId}
+        where score_id = #{scoreId}
     </select>
-
-    <select id="selectDistinctClassesMapByExamId" resultType="map">
-        SELECT DISTINCT grade, classes FROM exam_student_scores WHERE exam_id = #{examId};
-    </select>
-
-    <select id="selectDistinctGradeSubjectMapByExamId" resultType="map">
-        SELECT DISTINCT grade,`subject` FROM exam_student_scores WHERE exam_id = #{examId};
-    </select>
-
-    <select id="selectDistinctGradeMapByExamId" resultType="map">
-        SELECT DISTINCT grade FROM exam_student_scores WHERE exam_id = #{examId};
-    </select>
-
-    <select id="selectExamGradeExamNumbersAndAllScore" resultMap="com.hysro.scores.mapper.ExamGradeStatisticMapper.ExamGradeStatisticResult">
-        SELECT
-	*,
-	ROUND(a.all_score / ((SELECT COUNT( DISTINCT `subject` ) AS subjectNums FROM `exam_student_scores` <include
-            refid="sqlUniversalWhereTwo" />)*100*a.exam_numbers)*100,2) AS all_score_percentage
-FROM
-	(
-	SELECT
-		grade,
-		classes,
-		exam_id,
-		ROUND(
-			COUNT( score ) / (SELECT COUNT( DISTINCT `subject` ) AS subjectNums FROM `exam_student_scores` <include
-            refid="sqlUniversalWhereTwo" />),
-			0
-		) AS exam_numbers,
-		( SELECT SUM( score ) FROM `exam_student_scores` <include
-            refid="sqlUniversalWhereTwo" /> ) AS all_score
-	FROM
-		`exam_student_scores`
-        <include
-                refid="sqlUniversalWhereTwo" />
-	) a
-    </select>
-
-    <select id="selectExamNumbersAndTotalScores" parameterType="ExamStudentScores" resultMap="ToClassStatisticResult">
-        SELECT
-        *,
-        ROUND( b.average_score * 0.4 + b.excellent_percentage * 0.3 + b.qualified_percentage * 0.3, 2 ) AS mutiple_score
-        FROM
-        (
-        SELECT
-        *,
-        ROUND( a.excellent_numbers / a.exam_numbers * 100, 2 ) AS excellent_percentage,
-        ROUND(( a.excellent_numbers + a.good_numbers + a.qualified_numbers ) / a.exam_numbers * 100, 2 ) AS qualified_percentage
-        FROM
-        (
-        SELECT
-        grade,
-        classes,
-        `subject`,
-        exam_id,
-        COUNT(*) AS exam_numbers,
-        SUM( score ) AS total_score,
-        ROUND( AVG( score ), 2 ) AS average_score,
-        ( SELECT COUNT(*) FROM `exam_student_scores` <include refid="sqlUniversalWhere" /> AND score &gt;= #{excellentLine} ) AS excellent_numbers,
-        ( SELECT COUNT(*) FROM `exam_student_scores` <include refid="sqlUniversalWhere" /> AND score = 100 ) AS full_socre_numbers,
-        (
-        SELECT
-        COUNT(*)
-        FROM
-        `exam_student_scores`
-        <include refid="sqlUniversalWhere" />
-        AND score BETWEEN 75
-        AND (#{excellentLine}-1)
-        ) AS good_numbers,
-        (
-        SELECT
-        COUNT(*)
-        FROM
-        `exam_student_scores`
-        <include refid="sqlUniversalWhere" />
-        AND score BETWEEN 60
-        AND 74
-        ) AS qualified_numbers,
-        (
-        SELECT
-        COUNT(*)
-        FROM
-        `exam_student_scores`
-        <include refid="sqlUniversalWhere" />
-        AND score BETWEEN 55
-        AND 59
-        ) AS unqualified_one_numbers,
-        (
-        SELECT
-        COUNT(*)
-        FROM
-        `exam_student_scores`
-        <include refid="sqlUniversalWhere" />
-        AND score BETWEEN 50
-        AND 54
-        ) AS unqualified_two_numbers,
-        (
-        SELECT
-        COUNT(*)
-        FROM
-        `exam_student_scores`
-        <include refid="sqlUniversalWhere" />
-        AND score BETWEEN 40
-        AND 49
-        ) AS unqualified_three_numbers,
-        ( SELECT COUNT(*) FROM `exam_student_scores` <include refid="sqlUniversalWhere" /> AND score &lt; 40 ) AS unqualified_four_numbers
-        FROM
-        `exam_student_scores`
-        <include refid="sqlUniversalWhere" />
-        ) a
-        ) b
-    </select>
-
-    <select id="countQualifiedNumbersByStatisticScoreLineHelper" parameterType="ExamStatisticScoreLineHelper" resultType="Long">
-        SELECT count(*) FROM
-        (
-            SELECT exam_number
-                <trim prefix=",">
-                    <if test="chineseLine != null and chineseLine != ''">SUM(IF(`subject`='语文',score,0)) AS chinese</if>
-                </trim>
-                <trim prefix=",">
-                    <if test="mathsLine != null and mathsLine != ''">SUM(IF(`subject`='数学',score,0)) AS maths</if>
-                </trim>
-                <trim prefix=",">
-                    <if test="englishLine != null and englishLine != ''">SUM(IF(`subject`='英语',score,0)) AS english</if>
-                </trim>
-            FROM `exam_student_scores`
-                <where>
-                    <if test="examId != null "> and exam_id = #{examId}</if>
-                    <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
-                    <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
-                </where>
-            GROUP BY exam_number
-        ) AS a
-        <where>
-            <if test="chineseLine != null and chineseLine != ''">and chinese &gt;= #{chineseLine}</if>
-            <if test="mathsLine != null and mathsLine != ''">and maths &gt;= #{mathsLine}</if>
-            <if test="englishLine != null and englishLine != ''">and english &gt;= #{englishLine}</if>
-        </where>
-    </select>
-
-    <insert id="insertExamStudentScores" parameterType="ExamStudentScores">
+        
+    <insert id="insertExamStudentScores" parameterType="ExamStudentScores" useGeneratedKeys="true" keyProperty="scoreId">
         insert into exam_student_scores
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="scoreId != null">score_id,</if>
             <if test="grade != null">grade,</if>
             <if test="classes != null">classes,</if>
-            <if test="examNumber != null">exam_number,</if>
-            <if test="subject != null">subject,</if>
-            <if test="score != null">score,</if>
+            <if test="examNumber != null and examNumber != ''">exam_number,</if>
+            <if test="chineseScore != null">chinese_score,</if>
+            <if test="mathsScore != null">maths_score,</if>
+            <if test="englishScore != null">english_score,</if>
             <if test="createTime != null">create_time,</if>
             <if test="createBy != null">create_by,</if>
             <if test="updateTime != null">update_time,</if>
@@ -221,12 +54,12 @@ FROM
             <if test="examId != null">exam_id,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="scoreId != null">#{scoreId},</if>
             <if test="grade != null">#{grade},</if>
             <if test="classes != null">#{classes},</if>
-            <if test="examNumber != null">#{examNumber},</if>
-            <if test="subject != null">#{subject},</if>
-            <if test="score != null">#{score},</if>
+            <if test="examNumber != null and examNumber != ''">#{examNumber},</if>
+            <if test="chineseScore != null">#{chineseScore},</if>
+            <if test="mathsScore != null">#{mathsScore},</if>
+            <if test="englishScore != null">#{englishScore},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
@@ -235,61 +68,15 @@ FROM
          </trim>
     </insert>
 
-    <select id="countGradeSummaryByExamStudentScores" parameterType="ExamStudentScores" resultMap="com.hysro.scores.mapper.ExamGradeSummaryMapper.ExamGradeSummaryResult">
-        SELECT
-        COUNT(*) AS exam_total_numbers,
-        SUM( score ) AS grade_total_scores,
-        ROUND( AVG( score ), 2 ) AS grade_average_score,
-        CONCAT(
-        ROUND((
-        SELECT
-        COUNT(*)
-        FROM
-        exam_student_scores
-        WHERE
-        exam_id = #{examId}
-        AND grade = #{grade}
-        AND `subject` = #{subject}
-        AND score &gt;= 60
-        ) / ( SELECT COUNT(*) FROM exam_student_scores WHERE exam_id = #{examId} AND grade = #{grade} AND `subject` = #{subject} ) * 100,
-        2
-        ),
-        "%"
-        ) AS grade_qualified_percentage,
-        CONCAT(
-        ROUND((
-        SELECT
-        COUNT(*)
-        FROM
-        exam_student_scores
-        WHERE
-        exam_id = #{examId}
-        AND grade = #{grade}
-        AND `subject` = #{subject}
-        AND score &gt;= #{score}
-        ) / ( SELECT COUNT(*) FROM exam_student_scores WHERE exam_id = #{examId} AND grade = #{grade} AND `subject` = #{subject} ) * 100,
-        2
-        ),
-        "%"
-        ) AS grade_excellent_percentage,
-        ( SELECT COUNT(*) FROM exam_student_scores WHERE exam_id = #{examId} AND grade = #{grade} AND `subject` = #{subject} AND score &lt; 60 ) AS grade_unqualified_numbers,
-        grade,subject
-        FROM
-        exam_student_scores a
-        WHERE
-        exam_id = #{examId}
-        AND grade = #{grade}
-        AND `subject` = #{subject}
-    </select>
-
     <update id="updateExamStudentScores" parameterType="ExamStudentScores">
         update exam_student_scores
         <trim prefix="SET" suffixOverrides=",">
             <if test="grade != null">grade = #{grade},</if>
             <if test="classes != null">classes = #{classes},</if>
-            <if test="examNumber != null">exam_number = #{examNumber},</if>
-            <if test="subject != null">subject = #{subject},</if>
-            <if test="score != null">score = #{score},</if>
+            <if test="examNumber != null and examNumber != ''">exam_number = #{examNumber},</if>
+            <if test="chineseScore != null">chinese_score = #{chineseScore},</if>
+            <if test="mathsScore != null">maths_score = #{mathsScore},</if>
+            <if test="englishScore != null">english_score = #{englishScore},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
@@ -304,27 +91,9 @@ FROM
     </delete>
 
     <delete id="deleteExamStudentScoresByScoreIds" parameterType="String">
-        delete from exam_student_scores where score_id in
+        delete from exam_student_scores where score_id in 
         <foreach item="scoreId" collection="array" open="(" separator="," close=")">
             #{scoreId}
         </foreach>
     </delete>
-
-    <delete id="deleteExamsByExamIds" parameterType="String">
-        delete from exams where exam_id in
-        <foreach item="examId" collection="array" open="(" separator="," close=")">
-            #{examId}
-        </foreach>
-    </delete>
-
-    <delete id="deleteExamsByExamId" parameterType="Long">
-        delete from exams where exam_id = #{examId}
-    </delete>
-
-    <insert id="batchExams">
-        insert into exams( exam_id, exam_name, create_time, create_by) values
-		<foreach item="item" index="index" collection="list" separator=",">
-            ( #{item.examId}, #{item.examName}, #{item.createTime}, #{item.createBy})
-        </foreach>
-    </insert>
 </mapper>

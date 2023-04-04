@@ -190,10 +190,10 @@
 </template>
 
 <script>
-import { listData, getData, delData, addData, updateData } from "@/api/system/dict/data";
-import { optionselect as getDictOptionselect, getType } from "@/api/system/dict/type";
+  import { addData, delData, getData, listData, updateData } from '@/api/system/dict/data'
+  import { getType, optionselect as getDictOptionselect } from '@/api/system/dict/type'
 
-export default {
+  export default {
   name: "Data",
   dicts: ['sys_normal_disable'],
   data() {

@@ -59,12 +59,12 @@
 </template>
 
 <script>
-import userAvatar from "./userAvatar";
-import userInfo from "./userInfo";
-import resetPwd from "./resetPwd";
-import { getUserProfile } from "@/api/system/user";
+  import userAvatar from './userAvatar'
+  import userInfo from './userInfo'
+  import resetPwd from './resetPwd'
+  import { getUserProfile } from '@/api/system/user'
 
-export default {
+  export default {
   name: "Profile",
   components: { userAvatar, userInfo, resetPwd },
   data() {

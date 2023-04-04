@@ -54,12 +54,12 @@
 </template>
 
 <script>
-import store from "@/store";
-import { VueCropper } from "vue-cropper";
-import { uploadAvatar } from "@/api/system/user";
-import { debounce } from '@/utils'
+  import store from '@/store'
+  import { VueCropper } from 'vue-cropper'
+  import { uploadAvatar } from '@/api/system/user'
+  import { debounce } from '@/utils'
 
-export default {
+  export default {
   components: { VueCropper },
   props: {
     user: {

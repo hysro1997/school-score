@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import screenfull from 'screenfull'
+  import screenfull from 'screenfull'
 
-export default {
+  export default {
   name: 'Screenfull',
   data() {
     return {

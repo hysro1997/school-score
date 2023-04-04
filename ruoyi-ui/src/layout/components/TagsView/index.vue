@@ -29,10 +29,10 @@
 </template>
 
 <script>
-import ScrollPane from './ScrollPane'
-import path from 'path'
+  import ScrollPane from './ScrollPane'
+  import path from 'path'
 
-export default {
+  export default {
   components: { ScrollPane },
   data() {
     return {

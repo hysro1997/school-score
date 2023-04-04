@@ -40,9 +40,9 @@
 </template>
 
 <script>
-import { getToken } from "@/utils/auth";
+  import { getToken } from '@/utils/auth'
 
-export default {
+  export default {
   name: "FileUpload",
   props: {
     // 值

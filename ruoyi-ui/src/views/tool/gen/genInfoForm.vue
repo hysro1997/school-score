@@ -214,10 +214,10 @@
 </template>
 
 <script>
-import Treeselect from "@riophae/vue-treeselect";
-import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-export default {
+  export default {
   components: { Treeselect },
   props: {
     info: {

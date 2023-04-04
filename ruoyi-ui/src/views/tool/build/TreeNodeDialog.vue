@@ -71,9 +71,9 @@
   </div>
 </template>
 <script>
-import { isNumberStr } from '@/utils/index'
+  import { isNumberStr } from '@/utils/index'
 
-export default {
+  export default {
   components: {},
   inheritAttrs: false,
   props: [],

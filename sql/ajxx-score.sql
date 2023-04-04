@@ -11,7 +11,7 @@
  Target Server Version : 50741
  File Encoding         : 65001
 
- Date: 01/04/2023 15:18:01
+ Date: 04/04/2023 17:26:28
 */
 
 SET NAMES utf8mb4;
@@ -23,14 +23,14 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `exam_class_statictics`;
 CREATE TABLE `exam_class_statictics`  (
   `exam_statistics_id` bigint(20) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT COMMENT '统计记录ID',
-  `grade` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '年级',
-  `classes` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '班级',
-  `subject` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '学科',
+  `grade` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '年级',
+  `classes` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '班级',
+  `subject` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '学科',
   `exam_numbers` int(11) NULL DEFAULT NULL COMMENT '参加考试的人数',
   `full_socre_numbers` int(11) NULL DEFAULT NULL COMMENT '满分人数',
-  `excellent_numbers` int(11) NULL DEFAULT NULL COMMENT '优秀人数',
-  `good_numbers` int(11) NULL DEFAULT NULL COMMENT '良好人数',
-  `qualified_numbers` int(11) NULL DEFAULT NULL COMMENT '及格人数',
+  `excellent_numbers` int(11) NULL DEFAULT NULL COMMENT '优秀人数(优秀-99)',
+  `good_numbers` int(11) NULL DEFAULT NULL COMMENT '良好人数(75-优秀)',
+  `qualified_numbers` int(11) NULL DEFAULT NULL COMMENT '及格人数(60-75)',
   `unqualified_one_numbers` int(11) NULL DEFAULT NULL COMMENT '不及格人数(55-59)',
   `unqualified_two_numbers` int(11) NULL DEFAULT NULL COMMENT '不及格人数(50-54)',
   `unqualified_three_numbers` int(11) NULL DEFAULT NULL COMMENT '不及格人数(40-49)',
@@ -39,27 +39,16 @@ CREATE TABLE `exam_class_statictics`  (
   `average_score` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '平均分',
   `qualified_percentage` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '及格率',
   `excellent_percentage` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '优秀率',
-  `mutiple_score` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '综合分（平均分*40%，及格率*30%，优秀率*30%）',
+  `muitiple_score` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '综合分（平均分*40%，及格率*30%，优秀率*30%）',
   `exam_id` bigint(20) NULL DEFAULT NULL COMMENT '考试ID',
-  `rate` int(5) NULL DEFAULT NULL COMMENT '排名',
+  `muitiple_rank` int(5) NULL DEFAULT NULL COMMENT '综合分排名',
+  `average_rank` int(5) NULL DEFAULT NULL COMMENT '平均分排名',
   PRIMARY KEY (`exam_statistics_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 486 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '班级成绩统计情况' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '班级成绩统计情况' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam_class_statictics
 -- ----------------------------
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000457, '三年级', '1班', '语文', 50, 0, 38, 9, 2, 0, 0, 0, 1, '4291.00', '85.82', '98.00', '76.00', '86.53', 18, 1);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000458, '三年级', '1班', '数学', 50, 0, 25, 17, 7, 0, 0, 0, 1, '4284.00', '85.68', '98.00', '50.00', '78.67', 18, 1);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000459, '三年级', '1班', '英语', 50, 2, 42, 5, 0, 0, 0, 0, 1, '4654.00', '93.08', '98.00', '88.00', '93.03', 18, 1);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000460, '三年级', '2班', '语文', 50, 0, 31, 13, 5, 0, 1, 0, 0, '4275.00', '85.50', '98.00', '62.00', '82.20', 18, 2);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000461, '三年级', '2班', '数学', 49, 1, 24, 16, 5, 2, 0, 0, 1, '4170.00', '85.10', '93.88', '51.02', '77.51', 18, 2);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000462, '三年级', '2班', '英语', 50, 1, 35, 11, 2, 0, 0, 0, 1, '4486.00', '89.72', '98.00', '72.00', '86.89', 18, 3);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000463, '三年级', '3班', '语文', 49, 0, 24, 9, 12, 0, 0, 2, 2, '3819.00', '77.94', '91.84', '48.98', '73.42', 18, 3);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000464, '三年级', '3班', '数学', 49, 2, 21, 14, 9, 0, 1, 2, 0, '4122.00', '84.12', '93.88', '46.94', '75.89', 18, 3);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000465, '三年级', '3班', '英语', 49, 4, 34, 10, 1, 0, 0, 0, 0, '4533.00', '92.51', '100.00', '77.55', '90.27', 18, 2);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000483, '二年级', '4班', '语文', 44, 0, 0, 21, 15, 1, 2, 4, 1, '3109.00', '70.66', '81.82', '0.00', '52.81', 20, 1);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000484, '二年级', '4班', '数学', 44, 0, 1, 19, 12, 2, 1, 5, 4, '2902.00', '65.95', '72.73', '2.27', '48.88', 20, 1);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000485, '四年级', '3班', '数学', 1, 0, 1, 0, 0, 0, 0, 0, 0, '91.00', '91.00', '100.00', '100.00', '96.40', 20, 1);
 
 -- ----------------------------
 -- Table structure for exam_excellent_score_line
@@ -102,26 +91,22 @@ CREATE TABLE `exam_grade_statistic`  (
   `exam_numbers` int(11) NULL DEFAULT NULL COMMENT '考试人数',
   `triple_qualified_numbers` int(11) NULL DEFAULT NULL COMMENT '三及格人数',
   `triple_excellent_numbers` int(11) NULL DEFAULT NULL COMMENT '三优秀人数',
-  `triple_qualified_percentage` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '三及格率',
-  `triple_excellent_percentage` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '三优秀率',
-  `muitiple_score` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '综合分',
-  `grade` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '年级',
-  `classes` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '班级',
-  `rate` int(5) NULL DEFAULT NULL COMMENT '排名',
+  `triple_qualified_percentage` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '三及格率',
+  `triple_excellent_percentage` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '三优秀率',
+  `muitiple_score` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '综合分',
+  `grade` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '年级',
+  `classes` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '班级',
+  `muitiple_rank` int(5) NULL DEFAULT NULL COMMENT '综合分排名',
+  `average_rank` int(5) NULL DEFAULT NULL COMMENT '平均分排名',
   `exam_id` int(11) NULL DEFAULT NULL COMMENT '考试ID',
-  `all_score` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '总得分',
-  `all_score_percentage` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '得分率',
+  `all_score` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '总得分',
+  `all_score_percentage` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '得分率',
   PRIMARY KEY (`exam_grade_statistics_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 57 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '年级数据统计情况' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '年级数据统计情况' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam_grade_statistic
 -- ----------------------------
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000046, 50, 49, 23, '98.00', '46.00', '78.48', '三年级', '1班', 1, 18, '13229.0', '88.19');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000047, 50, 46, 22, '92.00', '44.00', '75.52', '三年级', '2班', 2, 18, '12931.0', '86.79');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000048, 49, 45, 20, '91.84', '40.82', '73.74', '三年级', '3班', 3, 18, '12474.0', '84.86');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000055, 44, 29, 0, '65.91', '0.00', '47.10', '二年级', '4班', 1, 20, '6011.0', '68.31');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000056, 1, 0, 0, '0.00', '0.00', '36.40', '四年级', '3班', 1, 20, '91.0', '91.00');
 
 -- ----------------------------
 -- Table structure for exam_grade_summary
@@ -129,27 +114,21 @@ INSERT INTO `exam_grade_statistic` VALUES (00000000000000000056, 1, 0, 0, '0.00'
 DROP TABLE IF EXISTS `exam_grade_summary`;
 CREATE TABLE `exam_grade_summary`  (
   `exam_grade_summary_id` bigint(20) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `grade` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '年级',
-  `subject` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '学科',
+  `grade` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '年级',
+  `subject` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '学科',
   `exam_total_numbers` int(11) NULL DEFAULT NULL COMMENT '考试总人数',
-  `grade_total_scores` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '年级总分',
-  `grade_average_score` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '年级均分',
-  `grade_qualified_percentage` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '年级及格率',
-  `grade_excellent_percentage` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '年级优秀率',
+  `grade_total_scores` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '年级总分',
+  `grade_average_score` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '年级均分',
+  `grade_qualified_percentage` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '年级及格率',
+  `grade_excellent_percentage` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '年级优秀率',
   `grade_unqualified_numbers` int(11) NULL DEFAULT NULL COMMENT '不及格人数',
   `exam_id` bigint(20) NULL DEFAULT NULL COMMENT '考试ID',
   PRIMARY KEY (`exam_grade_summary_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '年级总体情况' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '年级总体情况' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam_grade_summary
 -- ----------------------------
-INSERT INTO `exam_grade_summary` VALUES (00000000000000000031, '三年级', '语文', 149, '12385.00', '83.12', '95.97%', '62.42%', 6, 18);
-INSERT INTO `exam_grade_summary` VALUES (00000000000000000032, '三年级', '数学', 149, '12576.00', '84.97', '94.63%', '48.99%', 7, 18);
-INSERT INTO `exam_grade_summary` VALUES (00000000000000000033, '三年级', '英语', 149, '13673.00', '91.77', '98.66%', '79.19%', 2, 18);
-INSERT INTO `exam_grade_summary` VALUES (00000000000000000045, '二年级', '语文', 44, '3109.00', '70.66', '81.82%', '0.00%', 8, 20);
-INSERT INTO `exam_grade_summary` VALUES (00000000000000000046, '二年级', '数学', 44, '2902.00', '65.95', '72.73%', '2.27%', 12, 20);
-INSERT INTO `exam_grade_summary` VALUES (00000000000000000047, '四年级', '数学', 1, '91.00', '91.00', '100.00%', '100.00%', 0, 20);
 
 -- ----------------------------
 -- Table structure for exam_student_scores
@@ -157,558 +136,23 @@ INSERT INTO `exam_grade_summary` VALUES (00000000000000000047, '四年级', '数
 DROP TABLE IF EXISTS `exam_student_scores`;
 CREATE TABLE `exam_student_scores`  (
   `score_id` bigint(20) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT COMMENT '分数ID',
-  `grade` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '年级',
-  `classes` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '班级',
-  `exam_number` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '考试号',
-  `subject` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '学科',
-  `score` decimal(7, 2) NULL DEFAULT NULL COMMENT '分数',
+  `grade` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '年级',
+  `classes` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '班级',
+  `exam_number` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '考试号',
+  `chinese_score` decimal(7, 1) NULL DEFAULT NULL COMMENT '语文分数',
+  `maths_score` decimal(7, 1) NULL DEFAULT NULL COMMENT '数学分数',
+  `english_score` decimal(7, 1) NULL DEFAULT NULL COMMENT '英语分数',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '录入时间',
   `create_by` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '录入者',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `update_by` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新者',
   `exam_id` bigint(20) NULL DEFAULT NULL COMMENT '考试ID',
   PRIMARY KEY (`score_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1137 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '学生分数情况' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '学生分数情况' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam_student_scores
 -- ----------------------------
-INSERT INTO `exam_student_scores` VALUES (00000000000000000601, '三年级', '1班', '101', '语文', 85.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000602, '三年级', '1班', '102', '语文', 86.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000603, '三年级', '1班', '103', '语文', 78.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000604, '三年级', '1班', '104', '语文', 85.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000605, '三年级', '1班', '105', '语文', 87.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000606, '三年级', '1班', '106', '语文', 90.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000607, '三年级', '1班', '107', '语文', 87.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000608, '三年级', '1班', '108', '语文', 87.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000609, '三年级', '1班', '109', '语文', 94.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000610, '三年级', '1班', '110', '语文', 89.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000611, '三年级', '1班', '111', '语文', 91.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000612, '三年级', '1班', '112', '语文', 85.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000613, '三年级', '1班', '113', '语文', 84.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000614, '三年级', '1班', '114', '语文', 87.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000615, '三年级', '1班', '115', '语文', 92.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000616, '三年级', '1班', '116', '语文', 88.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000617, '三年级', '1班', '117', '语文', 86.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000618, '三年级', '1班', '118', '语文', 85.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000619, '三年级', '1班', '119', '语文', 90.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000620, '三年级', '1班', '120', '语文', 93.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000621, '三年级', '1班', '121', '语文', 82.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000622, '三年级', '1班', '122', '语文', 86.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000623, '三年级', '1班', '123', '语文', 86.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000624, '三年级', '1班', '124', '语文', 90.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000625, '三年级', '1班', '125', '语文', 0.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000626, '三年级', '1班', '126', '语文', 83.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000627, '三年级', '1班', '127', '语文', 88.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000628, '三年级', '1班', '128', '语文', 78.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000629, '三年级', '1班', '129', '语文', 94.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000630, '三年级', '1班', '130', '语文', 89.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000631, '三年级', '1班', '131', '语文', 90.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000632, '三年级', '1班', '132', '语文', 93.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000633, '三年级', '1班', '133', '语文', 84.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000634, '三年级', '1班', '134', '语文', 97.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000635, '三年级', '1班', '135', '语文', 93.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000636, '三年级', '1班', '136', '语文', 97.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000637, '三年级', '1班', '137', '语文', 79.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000638, '三年级', '1班', '138', '语文', 92.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000639, '三年级', '1班', '139', '语文', 93.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000640, '三年级', '1班', '140', '语文', 92.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000641, '三年级', '1班', '141', '语文', 90.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000642, '三年级', '1班', '142', '语文', 98.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000643, '三年级', '1班', '143', '语文', 70.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000644, '三年级', '1班', '144', '语文', 73.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000645, '三年级', '1班', '145', '语文', 92.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000646, '三年级', '1班', '146', '语文', 91.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000647, '三年级', '1班', '147', '语文', 80.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000648, '三年级', '1班', '148', '语文', 94.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000649, '三年级', '1班', '149', '语文', 76.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000650, '三年级', '1班', '150', '语文', 92.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000651, '三年级', '1班', '101', '数学', 90.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000652, '三年级', '1班', '102', '数学', 83.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000653, '三年级', '1班', '103', '数学', 85.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000654, '三年级', '1班', '104', '数学', 92.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000655, '三年级', '1班', '105', '数学', 89.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000656, '三年级', '1班', '106', '数学', 93.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000657, '三年级', '1班', '107', '数学', 80.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000658, '三年级', '1班', '108', '数学', 95.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000659, '三年级', '1班', '109', '数学', 69.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000660, '三年级', '1班', '110', '数学', 94.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000661, '三年级', '1班', '111', '数学', 80.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000662, '三年级', '1班', '112', '数学', 95.00, '2023-03-27 21:26:30', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000663, '三年级', '1班', '113', '数学', 87.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000664, '三年级', '1班', '114', '数学', 90.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000665, '三年级', '1班', '115', '数学', 97.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000666, '三年级', '1班', '116', '数学', 73.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000667, '三年级', '1班', '117', '数学', 92.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000668, '三年级', '1班', '118', '数学', 78.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000669, '三年级', '1班', '119', '数学', 98.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000670, '三年级', '1班', '120', '数学', 89.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000671, '三年级', '1班', '121', '数学', 74.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000672, '三年级', '1班', '122', '数学', 79.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000673, '三年级', '1班', '123', '数学', 93.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000674, '三年级', '1班', '124', '数学', 96.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000675, '三年级', '1班', '125', '数学', 0.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000676, '三年级', '1班', '126', '数学', 73.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000677, '三年级', '1班', '127', '数学', 87.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000678, '三年级', '1班', '128', '数学', 80.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000679, '三年级', '1班', '129', '数学', 87.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000680, '三年级', '1班', '130', '数学', 96.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000681, '三年级', '1班', '131', '数学', 94.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000682, '三年级', '1班', '132', '数学', 95.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000683, '三年级', '1班', '133', '数学', 90.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000684, '三年级', '1班', '134', '数学', 91.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000685, '三年级', '1班', '135', '数学', 96.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000686, '三年级', '1班', '136', '数学', 96.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000687, '三年级', '1班', '137', '数学', 71.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000688, '三年级', '1班', '138', '数学', 74.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000689, '三年级', '1班', '139', '数学', 97.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000690, '三年级', '1班', '140', '数学', 91.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000691, '三年级', '1班', '141', '数学', 92.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000692, '三年级', '1班', '142', '数学', 98.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000693, '三年级', '1班', '143', '数学', 83.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000694, '三年级', '1班', '144', '数学', 72.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000695, '三年级', '1班', '145', '数学', 95.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000696, '三年级', '1班', '146', '数学', 98.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000697, '三年级', '1班', '147', '数学', 79.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000698, '三年级', '1班', '148', '数学', 88.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000699, '三年级', '1班', '149', '数学', 83.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000700, '三年级', '1班', '150', '数学', 87.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000701, '三年级', '1班', '101', '英语', 98.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000702, '三年级', '1班', '102', '英语', 92.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000703, '三年级', '1班', '103', '英语', 89.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000704, '三年级', '1班', '104', '英语', 97.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000705, '三年级', '1班', '105', '英语', 97.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000706, '三年级', '1班', '106', '英语', 100.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000707, '三年级', '1班', '107', '英语', 90.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000708, '三年级', '1班', '108', '英语', 98.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000709, '三年级', '1班', '109', '英语', 94.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000710, '三年级', '1班', '110', '英语', 95.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000711, '三年级', '1班', '111', '英语', 99.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000712, '三年级', '1班', '112', '英语', 86.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000713, '三年级', '1班', '113', '英语', 98.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000714, '三年级', '1班', '114', '英语', 96.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000715, '三年级', '1班', '115', '英语', 98.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000716, '三年级', '1班', '116', '英语', 93.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000717, '三年级', '1班', '117', '英语', 95.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000718, '三年级', '1班', '118', '英语', 95.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000719, '三年级', '1班', '119', '英语', 95.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000720, '三年级', '1班', '120', '英语', 97.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000721, '三年级', '1班', '121', '英语', 90.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000722, '三年级', '1班', '122', '英语', 94.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000723, '三年级', '1班', '123', '英语', 93.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000724, '三年级', '1班', '124', '英语', 96.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000725, '三年级', '1班', '125', '英语', 29.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000726, '三年级', '1班', '126', '英语', 93.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000727, '三年级', '1班', '127', '英语', 97.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000728, '三年级', '1班', '128', '英语', 97.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000729, '三年级', '1班', '129', '英语', 92.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000730, '三年级', '1班', '130', '英语', 95.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000731, '三年级', '1班', '131', '英语', 94.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000732, '三年级', '1班', '132', '英语', 99.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000733, '三年级', '1班', '133', '英语', 95.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000734, '三年级', '1班', '134', '英语', 95.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000735, '三年级', '1班', '135', '英语', 100.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000736, '三年级', '1班', '136', '英语', 99.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000737, '三年级', '1班', '137', '英语', 86.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000738, '三年级', '1班', '138', '英语', 97.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000739, '三年级', '1班', '139', '英语', 91.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000740, '三年级', '1班', '140', '英语', 99.00, '2023-03-27 21:26:31', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000741, '三年级', '1班', '141', '英语', 96.00, '2023-03-27 21:26:32', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000742, '三年级', '1班', '142', '英语', 95.00, '2023-03-27 21:26:32', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000743, '三年级', '1班', '143', '英语', 92.00, '2023-03-27 21:26:32', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000744, '三年级', '1班', '144', '英语', 87.00, '2023-03-27 21:26:32', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000745, '三年级', '1班', '145', '英语', 94.00, '2023-03-27 21:26:32', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000746, '三年级', '1班', '146', '英语', 95.00, '2023-03-27 21:26:32', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000747, '三年级', '1班', '147', '英语', 90.00, '2023-03-27 21:26:32', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000748, '三年级', '1班', '148', '英语', 97.00, '2023-03-27 21:26:32', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000749, '三年级', '1班', '149', '英语', 79.00, '2023-03-27 21:26:32', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000750, '三年级', '1班', '150', '英语', 96.00, '2023-03-27 21:26:32', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000751, '三年级', '2班', '201', '语文', 77.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000752, '三年级', '2班', '202', '语文', 71.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000753, '三年级', '2班', '203', '语文', 75.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000754, '三年级', '2班', '204', '语文', 96.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000755, '三年级', '2班', '205', '语文', 88.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000756, '三年级', '2班', '206', '语文', 72.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000757, '三年级', '2班', '207', '语文', 92.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000758, '三年级', '2班', '208', '语文', 84.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000759, '三年级', '2班', '209', '语文', 95.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000760, '三年级', '2班', '210', '语文', 77.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000761, '三年级', '2班', '211', '语文', 90.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000762, '三年级', '2班', '212', '语文', 90.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000763, '三年级', '2班', '213', '语文', 80.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000764, '三年级', '2班', '214', '语文', 89.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000765, '三年级', '2班', '215', '语文', 80.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000766, '三年级', '2班', '216', '语文', 91.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000767, '三年级', '2班', '217', '语文', 96.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000768, '三年级', '2班', '218', '语文', 92.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000769, '三年级', '2班', '219', '语文', 91.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000770, '三年级', '2班', '220', '语文', 94.00, '2023-03-27 21:26:41', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000771, '三年级', '2班', '221', '语文', 96.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000772, '三年级', '2班', '222', '语文', 93.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000773, '三年级', '2班', '223', '语文', 95.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000774, '三年级', '2班', '224', '语文', 79.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000775, '三年级', '2班', '225', '语文', 84.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000776, '三年级', '2班', '226', '语文', 83.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000777, '三年级', '2班', '227', '语文', 87.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000778, '三年级', '2班', '228', '语文', 88.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000779, '三年级', '2班', '229', '语文', 82.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000780, '三年级', '2班', '230', '语文', 90.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000781, '三年级', '2班', '231', '语文', 91.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000782, '三年级', '2班', '232', '语文', 87.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000783, '三年级', '2班', '233', '语文', 85.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000784, '三年级', '2班', '234', '语文', 91.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000785, '三年级', '2班', '235', '语文', 93.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000786, '三年级', '2班', '236', '语文', 70.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000787, '三年级', '2班', '237', '语文', 83.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000788, '三年级', '2班', '238', '语文', 90.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000789, '三年级', '2班', '239', '语文', 92.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000790, '三年级', '2班', '240', '语文', 89.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000791, '三年级', '2班', '241', '语文', 89.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000792, '三年级', '2班', '242', '语文', 72.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000793, '三年级', '2班', '243', '语文', 91.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000794, '三年级', '2班', '244', '语文', 95.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000795, '三年级', '2班', '245', '语文', 94.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000796, '三年级', '2班', '246', '语文', 84.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000797, '三年级', '2班', '247', '语文', 82.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000798, '三年级', '2班', '248', '语文', 85.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000799, '三年级', '2班', '249', '语文', 61.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000800, '三年级', '2班', '250', '语文', 54.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000801, '三年级', '2班', '201', '数学', 80.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000802, '三年级', '2班', '202', '数学', 57.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000803, '三年级', '2班', '203', '数学', 57.00, '2023-03-27 21:26:42', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000804, '三年级', '2班', '204', '数学', 95.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000805, '三年级', '2班', '205', '数学', 97.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000806, '三年级', '2班', '206', '数学', NULL, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000807, '三年级', '2班', '207', '数学', 90.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000808, '三年级', '2班', '208', '数学', 96.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000809, '三年级', '2班', '209', '数学', 97.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000810, '三年级', '2班', '210', '数学', 88.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000811, '三年级', '2班', '211', '数学', 100.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000812, '三年级', '2班', '212', '数学', 68.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000813, '三年级', '2班', '213', '数学', 89.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000814, '三年级', '2班', '214', '数学', 94.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000815, '三年级', '2班', '215', '数学', 74.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000816, '三年级', '2班', '216', '数学', 94.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000817, '三年级', '2班', '217', '数学', 97.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000818, '三年级', '2班', '218', '数学', 97.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000819, '三年级', '2班', '219', '数学', 79.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000820, '三年级', '2班', '220', '数学', 90.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000821, '三年级', '2班', '221', '数学', 86.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000822, '三年级', '2班', '222', '数学', 85.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000823, '三年级', '2班', '223', '数学', 90.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000824, '三年级', '2班', '224', '数学', 94.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000825, '三年级', '2班', '225', '数学', 78.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000826, '三年级', '2班', '226', '数学', 63.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000827, '三年级', '2班', '227', '数学', 79.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000828, '三年级', '2班', '228', '数学', 86.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000829, '三年级', '2班', '229', '数学', 80.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000830, '三年级', '2班', '230', '数学', 94.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000831, '三年级', '2班', '231', '数学', 99.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000832, '三年级', '2班', '232', '数学', 92.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000833, '三年级', '2班', '233', '数学', 89.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000834, '三年级', '2班', '234', '数学', 94.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000835, '三年级', '2班', '235', '数学', 84.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000836, '三年级', '2班', '236', '数学', 76.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000837, '三年级', '2班', '237', '数学', 84.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000838, '三年级', '2班', '238', '数学', 96.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000839, '三年级', '2班', '239', '数学', 92.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000840, '三年级', '2班', '240', '数学', 94.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000841, '三年级', '2班', '241', '数学', 96.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000842, '三年级', '2班', '242', '数学', 72.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000843, '三年级', '2班', '243', '数学', 94.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000844, '三年级', '2班', '244', '数学', 97.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000845, '三年级', '2班', '245', '数学', 99.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000846, '三年级', '2班', '246', '数学', 80.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000847, '三年级', '2班', '247', '数学', 75.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000848, '三年级', '2班', '248', '数学', 95.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000849, '三年级', '2班', '249', '数学', 65.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000850, '三年级', '2班', '250', '数学', 23.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000851, '三年级', '2班', '201', '英语', 87.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000852, '三年级', '2班', '202', '英语', 60.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000853, '三年级', '2班', '203', '英语', 83.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000854, '三年级', '2班', '204', '英语', 97.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000855, '三年级', '2班', '205', '英语', 94.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000856, '三年级', '2班', '206', '英语', 85.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000857, '三年级', '2班', '207', '英语', 92.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000858, '三年级', '2班', '208', '英语', 94.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000859, '三年级', '2班', '209', '英语', 95.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000860, '三年级', '2班', '210', '英语', 79.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000861, '三年级', '2班', '211', '英语', 90.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000862, '三年级', '2班', '212', '英语', 96.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000863, '三年级', '2班', '213', '英语', 77.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000864, '三年级', '2班', '214', '英语', 99.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000865, '三年级', '2班', '215', '英语', 90.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000866, '三年级', '2班', '216', '英语', 91.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000867, '三年级', '2班', '217', '英语', 99.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000868, '三年级', '2班', '218', '英语', 95.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000869, '三年级', '2班', '219', '英语', 93.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000870, '三年级', '2班', '220', '英语', 96.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000871, '三年级', '2班', '221', '英语', 96.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000872, '三年级', '2班', '222', '英语', 97.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000873, '三年级', '2班', '223', '英语', 91.00, '2023-03-27 21:26:43', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000874, '三年级', '2班', '224', '英语', 93.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000875, '三年级', '2班', '225', '英语', 75.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000876, '三年级', '2班', '226', '英语', 92.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000877, '三年级', '2班', '227', '英语', 87.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000878, '三年级', '2班', '228', '英语', 95.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000879, '三年级', '2班', '229', '英语', 90.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000880, '三年级', '2班', '230', '英语', 97.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000881, '三年级', '2班', '231', '英语', 96.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000882, '三年级', '2班', '232', '英语', 97.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000883, '三年级', '2班', '233', '英语', 89.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000884, '三年级', '2班', '234', '英语', 94.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000885, '三年级', '2班', '235', '英语', 93.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000886, '三年级', '2班', '236', '英语', 77.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000887, '三年级', '2班', '237', '英语', 93.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000888, '三年级', '2班', '238', '英语', 97.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000889, '三年级', '2班', '239', '英语', 97.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000890, '三年级', '2班', '240', '英语', 97.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000891, '三年级', '2班', '241', '英语', 97.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000892, '三年级', '2班', '242', '英语', 65.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000893, '三年级', '2班', '243', '英语', 99.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000894, '三年级', '2班', '244', '英语', 100.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000895, '三年级', '2班', '245', '英语', 97.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000896, '三年级', '2班', '246', '英语', 85.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000897, '三年级', '2班', '247', '英语', 93.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000898, '三年级', '2班', '248', '英语', 89.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000899, '三年级', '2班', '249', '英语', 90.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000900, '三年级', '2班', '250', '英语', 36.00, '2023-03-27 21:26:44', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000901, '三年级', '3班', '301', '语文', 72.00, '2023-03-27 21:26:53', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000902, '三年级', '3班', '302', '语文', 89.00, '2023-03-27 21:26:53', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000903, '三年级', '3班', '303', '语文', 99.00, '2023-03-27 21:26:53', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000904, '三年级', '3班', '304', '语文', 87.00, '2023-03-27 21:26:53', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000905, '三年级', '3班', '305', '语文', 44.00, '2023-03-27 21:26:53', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000906, '三年级', '3班', '306', '语文', 62.00, '2023-03-27 21:26:53', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000907, '三年级', '3班', '307', '语文', 85.00, '2023-03-27 21:26:53', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000908, '三年级', '3班', '308', '语文', 89.00, '2023-03-27 21:26:53', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000909, '三年级', '3班', '309', '语文', 76.00, '2023-03-27 21:26:53', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000910, '三年级', '3班', '310', '语文', 90.00, '2023-03-27 21:26:53', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000911, '三年级', '3班', '311', '语文', 84.00, '2023-03-27 21:26:53', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000912, '三年级', '3班', '312', '语文', 77.00, '2023-03-27 21:26:53', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000913, '三年级', '3班', '313', '语文', 65.00, '2023-03-27 21:26:53', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000914, '三年级', '3班', '314', '语文', 80.00, '2023-03-27 21:26:53', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000915, '三年级', '3班', '315', '语文', 72.00, '2023-03-27 21:26:53', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000916, '三年级', '3班', '316', '语文', 61.00, '2023-03-27 21:26:55', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000917, '三年级', '3班', '317', '语文', 91.00, '2023-03-27 21:26:55', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000918, '三年级', '3班', '318', '语文', 94.00, '2023-03-27 21:26:55', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000919, '三年级', '3班', '319', '语文', 86.00, '2023-03-27 21:26:55', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000920, '三年级', '3班', '320', '语文', 74.00, '2023-03-27 21:26:55', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000921, '三年级', '3班', '321', '语文', 80.00, '2023-03-27 21:26:55', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000922, '三年级', '3班', '322', '语文', 61.00, '2023-03-27 21:26:55', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000923, '三年级', '3班', '323', '语文', 38.00, '2023-03-27 21:26:55', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000924, '三年级', '3班', '324', '语文', 86.00, '2023-03-27 21:26:55', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000925, '三年级', '3班', '325', '语文', 67.00, '2023-03-27 21:26:55', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000926, '三年级', '3班', '326', '语文', 60.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000927, '三年级', '3班', '327', '语文', 36.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000928, '三年级', '3班', '328', '语文', 93.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000929, '三年级', '3班', '329', '语文', 94.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000930, '三年级', '3班', '330', '语文', 79.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000931, '三年级', '3班', '331', '语文', 85.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000932, '三年级', '3班', '332', '语文', 45.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000933, '三年级', '3班', '333', '语文', 66.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000934, '三年级', '3班', '334', '语文', 69.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000935, '三年级', '3班', '335', '语文', 87.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000936, '三年级', '3班', '336', '语文', 85.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000937, '三年级', '3班', '337', '语文', 82.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000938, '三年级', '3班', '338', '语文', 63.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000939, '三年级', '3班', '339', '语文', 95.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000940, '三年级', '3班', '340', '语文', 91.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000941, '三年级', '3班', '341', '语文', 86.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000942, '三年级', '3班', '342', '语文', 89.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000943, '三年级', '3班', '343', '语文', 89.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000944, '三年级', '3班', '344', '语文', 88.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000945, '三年级', '3班', '345', '语文', 89.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000946, '三年级', '3班', '346', '语文', 87.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000947, '三年级', '3班', '347', '语文', 84.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000948, '三年级', '3班', '348', '语文', 88.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000949, '三年级', '3班', '349', '语文', 80.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000950, '三年级', '3班', '301', '数学', 72.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000951, '三年级', '3班', '302', '数学', 95.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000952, '三年级', '3班', '303', '数学', 98.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000953, '三年级', '3班', '304', '数学', 94.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000954, '三年级', '3班', '305', '数学', 53.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000955, '三年级', '3班', '306', '数学', 89.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000956, '三年级', '3班', '307', '数学', 98.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000957, '三年级', '3班', '308', '数学', 85.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000958, '三年级', '3班', '309', '数学', 77.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000959, '三年级', '3班', '310', '数学', 99.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000960, '三年级', '3班', '311', '数学', 94.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000961, '三年级', '3班', '312', '数学', 88.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000962, '三年级', '3班', '313', '数学', 68.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000963, '三年级', '3班', '314', '数学', 75.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000964, '三年级', '3班', '315', '数学', 62.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000965, '三年级', '3班', '316', '数学', 75.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000966, '三年级', '3班', '317', '数学', 95.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000967, '三年级', '3班', '318', '数学', 93.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000968, '三年级', '3班', '319', '数学', 94.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000969, '三年级', '3班', '320', '数学', 73.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000970, '三年级', '3班', '321', '数学', 87.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000971, '三年级', '3班', '322', '数学', 62.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000972, '三年级', '3班', '323', '数学', 66.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000973, '三年级', '3班', '324', '数学', 94.00, '2023-03-27 21:26:56', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000974, '三年级', '3班', '325', '数学', 74.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000975, '三年级', '3班', '326', '数学', 79.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000976, '三年级', '3班', '327', '数学', 43.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000977, '三年级', '3班', '328', '数学', 89.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000978, '三年级', '3班', '329', '数学', 98.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000979, '三年级', '3班', '330', '数学', 87.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000980, '三年级', '3班', '331', '数学', 92.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000981, '三年级', '3班', '332', '数学', 46.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000982, '三年级', '3班', '333', '数学', 68.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000983, '三年级', '3班', '334', '数学', 78.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000984, '三年级', '3班', '335', '数学', 98.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000985, '三年级', '3班', '336', '数学', 93.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000986, '三年级', '3班', '337', '数学', 87.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000987, '三年级', '3班', '338', '数学', 70.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000988, '三年级', '3班', '339', '数学', 100.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000989, '三年级', '3班', '340', '数学', 100.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000990, '三年级', '3班', '341', '数学', 95.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000991, '三年级', '3班', '342', '数学', 94.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000992, '三年级', '3班', '343', '数学', 94.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000993, '三年级', '3班', '344', '数学', 83.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000994, '三年级', '3班', '345', '数学', 96.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000995, '三年级', '3班', '346', '数学', 89.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000996, '三年级', '3班', '347', '数学', 93.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000997, '三年级', '3班', '348', '数学', 96.00, '2023-03-27 21:26:57', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000998, '三年级', '3班', '349', '数学', 94.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000000999, '三年级', '3班', '301', '英语', 88.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001000, '三年级', '3班', '302', '英语', 100.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001001, '三年级', '3班', '303', '英语', 100.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001002, '三年级', '3班', '304', '英语', 97.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001003, '三年级', '3班', '305', '英语', 81.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001004, '三年级', '3班', '306', '英语', 91.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001005, '三年级', '3班', '307', '英语', 95.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001006, '三年级', '3班', '308', '英语', 98.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001007, '三年级', '3班', '309', '英语', 93.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001008, '三年级', '3班', '310', '英语', 96.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001009, '三年级', '3班', '311', '英语', 98.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001010, '三年级', '3班', '312', '英语', 99.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001011, '三年级', '3班', '313', '英语', 85.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001012, '三年级', '3班', '314', '英语', 90.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001013, '三年级', '3班', '315', '英语', 85.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001014, '三年级', '3班', '316', '英语', 90.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001015, '三年级', '3班', '317', '英语', 97.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001016, '三年级', '3班', '318', '英语', 95.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001017, '三年级', '3班', '319', '英语', 94.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001018, '三年级', '3班', '320', '英语', 94.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001019, '三年级', '3班', '321', '英语', 95.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001020, '三年级', '3班', '322', '英语', 88.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001021, '三年级', '3班', '323', '英语', 76.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001022, '三年级', '3班', '324', '英语', 95.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001023, '三年级', '3班', '325', '英语', 86.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001024, '三年级', '3班', '326', '英语', 87.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001025, '三年级', '3班', '327', '英语', 60.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001026, '三年级', '3班', '328', '英语', 99.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001027, '三年级', '3班', '329', '英语', 100.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001028, '三年级', '3班', '330', '英语', 91.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001029, '三年级', '3班', '331', '英语', 98.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001030, '三年级', '3班', '332', '英语', 88.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001031, '三年级', '3班', '333', '英语', 86.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001032, '三年级', '3班', '334', '英语', 91.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001033, '三年级', '3班', '335', '英语', 100.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001034, '三年级', '3班', '336', '英语', 95.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001035, '三年级', '3班', '337', '英语', 96.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001036, '三年级', '3班', '338', '英语', 91.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001037, '三年级', '3班', '339', '英语', 99.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001038, '三年级', '3班', '340', '英语', 90.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001039, '三年级', '3班', '341', '英语', 95.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001040, '三年级', '3班', '342', '英语', 98.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001041, '三年级', '3班', '343', '英语', 96.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001042, '三年级', '3班', '344', '英语', 95.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001043, '三年级', '3班', '345', '英语', 93.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001044, '三年级', '3班', '346', '英语', 93.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001045, '三年级', '3班', '347', '英语', 94.00, '2023-03-27 21:26:58', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001046, '三年级', '3班', '348', '英语', 96.00, '2023-03-27 21:26:59', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001047, '三年级', '3班', '349', '英语', 96.00, '2023-03-27 21:26:59', 'admin', NULL, NULL, 18);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001048, '二年级', '4班', '2401', '语文', 80.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001049, '二年级', '4班', '2402', '语文', 65.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001050, '二年级', '4班', '2403', '语文', 86.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001051, '二年级', '4班', '2404', '语文', 72.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001052, '二年级', '4班', '2405', '语文', 75.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001053, '二年级', '4班', '2406', '语文', 82.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001054, '二年级', '4班', '2407', '语文', 72.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001055, '二年级', '4班', '2408', '语文', 66.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001056, '二年级', '4班', '2410', '语文', 78.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001057, '二年级', '4班', '2411', '语文', 78.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001058, '二年级', '4班', '2412', '语文', 75.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001059, '二年级', '4班', '2413', '语文', 84.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001060, '二年级', '4班', '2414', '语文', 81.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001061, '二年级', '4班', '2415', '语文', 48.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001062, '二年级', '4班', '2416', '语文', 66.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001063, '二年级', '4班', '2417', '语文', 49.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001064, '二年级', '4班', '2418', '语文', 58.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001065, '二年级', '4班', '2419', '语文', 73.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001066, '二年级', '4班', '2420', '语文', 66.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001067, '二年级', '4班', '2421', '语文', 74.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001068, '二年级', '4班', '2422', '语文', 79.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001069, '二年级', '4班', '2423', '语文', 74.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001070, '二年级', '4班', '2424', '语文', 83.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001071, '二年级', '4班', '2425', '语文', 78.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001072, '二年级', '4班', '2426', '语文', 79.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001073, '二年级', '4班', '2427', '语文', 50.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001074, '二年级', '4班', '2428', '语文', 66.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001075, '二年级', '4班', '2429', '语文', 87.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001076, '二年级', '4班', '2430', '语文', 86.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001077, '二年级', '4班', '2431', '语文', 76.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001078, '二年级', '4班', '2432', '语文', 76.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001079, '二年级', '4班', '2433', '语文', 42.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001080, '二年级', '4班', '2434', '语文', 80.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001081, '二年级', '4班', '2435', '语文', 69.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001082, '二年级', '4班', '2436', '语文', 86.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001083, '二年级', '4班', '2437', '语文', 65.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001084, '二年级', '4班', '2438', '语文', 54.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001085, '二年级', '4班', '2439', '语文', 74.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001086, '二年级', '4班', '2440', '语文', 64.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001087, '二年级', '4班', '2441', '语文', 76.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001088, '二年级', '4班', '2442', '语文', 33.00, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001089, '二年级', '4班', '2443', '语文', 66.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001090, '二年级', '4班', '2444', '语文', 48.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001091, '二年级', '4班', '2445', '语文', 78.50, '2023-03-29 20:08:44', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001092, '二年级', '4班', '2401', '数学', 75.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001093, '二年级', '4班', '2402', '数学', 78.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001094, '二年级', '4班', '2403', '数学', 76.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001095, '二年级', '4班', '2404', '数学', 63.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001096, '二年级', '4班', '2405', '数学', 73.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001097, '二年级', '4班', '2406', '数学', 84.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001098, '二年级', '4班', '2407', '数学', 82.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001099, '二年级', '4班', '2408', '数学', 60.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001100, '二年级', '4班', '2410', '数学', 76.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001101, '二年级', '4班', '2411', '数学', 88.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001102, '二年级', '4班', '2412', '数学', 61.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001103, '二年级', '4班', '2413', '数学', 87.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001104, '二年级', '4班', '2414', '数学', 86.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001105, '二年级', '4班', '2415', '数学', 52.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001106, '二年级', '4班', '2416', '数学', 44.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001107, '二年级', '4班', '2417', '数学', 64.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001108, '二年级', '4班', '2418', '数学', 65.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001109, '二年级', '4班', '2419', '数学', 77.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001110, '二年级', '4班', '2420', '数学', 64.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001111, '二年级', '4班', '2421', '数学', 55.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001112, '二年级', '4班', '2422', '数学', 85.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001113, '二年级', '4班', '2423', '数学', 77.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001114, '二年级', '4班', '2424', '数学', 94.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001115, '二年级', '4班', '2425', '数学', 77.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001116, '二年级', '4班', '2426', '数学', 85.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001117, '二年级', '4班', '2427', '数学', 29.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001118, '二年级', '4班', '2428', '数学', 41.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001119, '二年级', '4班', '2429', '数学', 75.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001120, '二年级', '4班', '2430', '数学', 97.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001121, '二年级', '4班', '2431', '数学', 73.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001122, '二年级', '4班', '2432', '数学', 56.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001123, '二年级', '4班', '2433', '数学', 12.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001124, '二年级', '4班', '2434', '数学', 73.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001125, '二年级', '4班', '2435', '数学', 85.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001126, '二年级', '4班', '2436', '数学', 82.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001127, '二年级', '4班', '2437', '数学', 41.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001128, '二年级', '4班', '2438', '数学', 68.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001129, '二年级', '4班', '2439', '数学', 67.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001130, '二年级', '4班', '2440', '数学', 29.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001131, '二年级', '4班', '2441', '数学', 61.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001132, '二年级', '4班', '2442', '数学', 11.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001133, '二年级', '4班', '2443', '数学', 49.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001134, '二年级', '4班', '2444', '数学', 46.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001135, '二年级', '4班', '2445', '数学', 79.00, '2023-03-29 20:08:45', 'admin', NULL, NULL, 20);
-INSERT INTO `exam_student_scores` VALUES (00000000000000001136, '四年级', '3班', '4301', '数学', 91.00, '2023-03-29 20:45:07', '孙豪', NULL, NULL, 20);
 
 -- ----------------------------
 -- Table structure for exams
@@ -721,23 +165,11 @@ CREATE TABLE `exams`  (
   `create_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `enable_flag` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '启用状态0启用1禁用',
   PRIMARY KEY (`exam_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '各种考试' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '各种考试' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exams
 -- ----------------------------
-INSERT INTO `exams` VALUES (00000000000000000009, '2022-2023春期中考试', '2023-03-24 21:50:05', NULL, '1');
-INSERT INTO `exams` VALUES (00000000000000000010, '2022-2023春第一次月考', '2023-03-25 07:33:15', NULL, '1');
-INSERT INTO `exams` VALUES (00000000000000000011, '2022-2023春第一周周考', '2023-03-25 07:33:31', NULL, '1');
-INSERT INTO `exams` VALUES (00000000000000000012, '第4次考试', '2023-03-25 08:41:04', NULL, '1');
-INSERT INTO `exams` VALUES (00000000000000000013, '第五次考试', '2023-03-25 08:44:29', NULL, '1');
-INSERT INTO `exams` VALUES (00000000000000000014, '666考试', '2023-03-25 08:44:38', NULL, '1');
-INSERT INTO `exams` VALUES (00000000000000000015, '7752412考试', '2023-03-25 08:44:50', NULL, '1');
-INSERT INTO `exams` VALUES (00000000000000000016, '8范德萨考试', '2023-03-25 08:44:57', NULL, '1');
-INSERT INTO `exams` VALUES (00000000000000000017, '9特斯拉考试', '2023-03-25 08:45:03', NULL, '1');
-INSERT INTO `exams` VALUES (00000000000000000018, '哈哈哈哈满了10', '2023-03-25 08:45:10', NULL, '1');
-INSERT INTO `exams` VALUES (00000000000000000019, '超慢了怎么办', '2023-03-25 08:45:18', NULL, '1');
-INSERT INTO `exams` VALUES (00000000000000000020, '鬼知道什么考试', '2023-03-28 19:29:36', 'admin', '1');
 
 -- ----------------------------
 -- Table structure for gen_table
@@ -1306,11 +738,16 @@ CREATE TABLE `sys_logininfor`  (
   PRIMARY KEY (`info_id`) USING BTREE,
   INDEX `idx_sys_logininfor_s`(`status`) USING BTREE,
   INDEX `idx_sys_logininfor_lt`(`login_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_logininfor
 -- ----------------------------
+INSERT INTO `sys_logininfor` VALUES (1, 'admin', '127.0.0.1', '内网IP', 'Chrome 11', 'Windows 10', '0', '登录成功', '2023-04-01 19:18:19');
+INSERT INTO `sys_logininfor` VALUES (2, 'admin', '127.0.0.1', '内网IP', 'Chrome 11', 'Windows 10', '0', '登录成功', '2023-04-01 20:31:00');
+INSERT INTO `sys_logininfor` VALUES (3, 'admin', '127.0.0.1', '内网IP', 'Chrome 11', 'Windows 10', '0', '登录成功', '2023-04-01 21:07:00');
+INSERT INTO `sys_logininfor` VALUES (4, 'admin', '127.0.0.1', '内网IP', 'Chrome 11', 'Windows 10', '0', '登录成功', '2023-04-01 22:10:07');
+INSERT INTO `sys_logininfor` VALUES (5, 'admin', '127.0.0.1', '内网IP', 'Chrome 11', 'Windows 10', '0', '登录成功', '2023-04-02 14:41:15');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -1515,12 +952,20 @@ CREATE TABLE `sys_oper_log`  (
   INDEX `idx_sys_oper_log_bt`(`business_type`) USING BTREE,
   INDEX `idx_sys_oper_log_s`(`status`) USING BTREE,
   INDEX `idx_sys_oper_log_ot`(`oper_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_oper_log
 -- ----------------------------
 INSERT INTO `sys_oper_log` VALUES (1, '操作日志', 9, 'com.ruoyi.web.controller.monitor.SysOperlogController.clean()', 'DELETE', 1, 'admin', NULL, '/monitor/operlog/clean', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-04-01 15:16:38', 68);
+INSERT INTO `sys_oper_log` VALUES (2, '统计考试数据', 0, 'com.hysro.scores.controller.ExamsController.statisticExams()', 'POST', 1, 'admin', NULL, '/examination/exams/statisticExams', '127.0.0.1', '内网IP', '18', '{\"msg\":\"操作成功\",\"code\":200,\"data\":[{\"grade\":\"三年级\",\"classes\":\"1班\"},{\"grade\":\"三年级\",\"classes\":\"2班\"},{\"grade\":\"三年级\",\"classes\":\"3班\"}]}', 0, NULL, '2023-04-01 20:31:06', 299);
+INSERT INTO `sys_oper_log` VALUES (3, '统计考试数据', 0, 'com.hysro.scores.controller.ExamsController.statisticExams()', 'POST', 1, 'admin', NULL, '/examination/exams/statisticExams', '127.0.0.1', '内网IP', '18', '{\"msg\":\"操作成功\",\"code\":200,\"data\":[{\"grade\":\"三年级\",\"classes\":\"1班\"},{\"grade\":\"三年级\",\"classes\":\"2班\"},{\"grade\":\"三年级\",\"classes\":\"3班\"}]}', 0, NULL, '2023-04-01 20:37:20', 315);
+INSERT INTO `sys_oper_log` VALUES (4, '统计考试数据', 0, 'com.hysro.scores.controller.ExamsController.statisticExams()', 'POST', 1, 'admin', NULL, '/examination/exams/statisticExams', '127.0.0.1', '内网IP', '20', '{\"msg\":\"操作成功\",\"code\":200,\"data\":[{\"grade\":\"二年级\",\"classes\":\"4班\"},{\"grade\":\"四年级\",\"classes\":\"3班\"}]}', 0, NULL, '2023-04-01 20:41:54', 190);
+INSERT INTO `sys_oper_log` VALUES (5, '统计考试数据', 0, 'com.hysro.scores.controller.ExamsController.statisticExams()', 'POST', 1, 'admin', NULL, '/examination/exams/statisticExams', '127.0.0.1', '内网IP', '18', '{\"msg\":\"操作成功\",\"code\":200,\"data\":[{\"grade\":\"三年级\",\"classes\":\"1班\"},{\"grade\":\"三年级\",\"classes\":\"2班\"},{\"grade\":\"三年级\",\"classes\":\"3班\"}]}', 0, NULL, '2023-04-01 20:43:32', 950);
+INSERT INTO `sys_oper_log` VALUES (6, '统计考试数据', 0, 'com.hysro.scores.controller.ExamsController.statisticExams()', 'POST', 1, 'admin', NULL, '/examination/exams/statisticExams', '127.0.0.1', '内网IP', '20', '{\"msg\":\"操作成功\",\"code\":200,\"data\":[{\"grade\":\"二年级\",\"classes\":\"4班\"},{\"grade\":\"四年级\",\"classes\":\"3班\"}]}', 0, NULL, '2023-04-01 21:07:06', 158);
+INSERT INTO `sys_oper_log` VALUES (7, '统计考试数据', 0, 'com.hysro.scores.controller.ExamsController.statisticExams()', 'POST', 1, 'admin', NULL, '/examination/exams/statisticExams', '127.0.0.1', '内网IP', '18', '{\"msg\":\"操作成功\",\"code\":200,\"data\":[{\"grade\":\"三年级\",\"classes\":\"1班\"},{\"grade\":\"三年级\",\"classes\":\"2班\"},{\"grade\":\"三年级\",\"classes\":\"3班\"}]}', 0, NULL, '2023-04-01 21:07:44', 159);
+INSERT INTO `sys_oper_log` VALUES (8, '统计考试数据', 0, 'com.hysro.scores.controller.ExamsController.statisticExams()', 'POST', 1, 'admin', NULL, '/examination/exams/statisticExams', '127.0.0.1', '内网IP', '20', '{\"msg\":\"操作成功\",\"code\":200,\"data\":[{\"grade\":\"二年级\",\"classes\":\"4班\"},{\"grade\":\"四年级\",\"classes\":\"3班\"}]}', 0, NULL, '2023-04-01 22:10:24', 1014);
+INSERT INTO `sys_oper_log` VALUES (9, '统计考试数据', 0, 'com.hysro.scores.controller.ExamsController.statisticExams()', 'POST', 1, 'admin', NULL, '/examination/exams/statisticExams', '127.0.0.1', '内网IP', '18', '{\"msg\":\"操作成功\",\"code\":200,\"data\":[{\"grade\":\"三年级\",\"classes\":\"1班\"},{\"grade\":\"三年级\",\"classes\":\"2班\"},{\"grade\":\"三年级\",\"classes\":\"3班\"}]}', 0, NULL, '2023-04-01 22:10:33', 943);
 
 -- ----------------------------
 -- Table structure for sys_post
@@ -1787,7 +1232,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 100, 'admin', '若依', '00', 'ry@163.com', '15888888888', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2023-04-01 15:14:39', 'admin', '2023-03-18 18:56:46', '', '2023-04-01 15:14:38', '管理员');
+INSERT INTO `sys_user` VALUES (1, 100, 'admin', '若依', '00', 'ry@163.com', '15888888888', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2023-04-02 14:41:15', 'admin', '2023-03-18 18:56:46', '', '2023-04-02 14:41:15', '管理员');
 INSERT INTO `sys_user` VALUES (2, 100, '黄黄黄', '黄黄黄', '00', 'ry@qq.com', '15666666666', '0', '', '$2a$10$XzBFdVK1rNgHXLY.iqOyk.ulvB58.vEo6Txwehb2TBajYTIGSRd12', '0', '0', '127.0.0.1', '2023-03-29 20:45:28', 'admin', '2023-03-18 18:56:46', 'admin', '2023-04-01 15:16:14', '管理员');
 INSERT INTO `sys_user` VALUES (3, 106, '桃桃淘', '桃桃淘', '00', '', '', '0', '', '$2a$10$VBeo.cb2hYqEAHttnlZr4u8h5e8wm0rU5DllJzYbUxH.Y6dpNYv2u', '0', '0', '127.0.0.1', '2023-03-29 20:30:33', 'admin', '2023-03-23 20:12:27', 'admin', '2023-04-01 15:16:22', NULL);
 INSERT INTO `sys_user` VALUES (4, 104, '浩浩好', '浩浩好', '00', '', '', '0', '/profile/avatar/2023/03/29/blob_20230329203008A001.png', '$2a$10$tV/30G9C5NQqpjhb.Ik6K.SiURLGQ8geuH1lSnDnykaDEXXEv8Fr.', '0', '0', '127.0.0.1', '2023-03-29 20:44:41', 'admin', '2023-03-29 20:20:44', 'admin', '2023-04-01 15:16:28', NULL);

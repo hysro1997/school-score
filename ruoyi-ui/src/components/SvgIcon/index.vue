@@ -6,9 +6,9 @@
 </template>
 
 <script>
-import { isExternal } from '@/utils/validate'
+  import { isExternal } from '@/utils/validate'
 
-export default {
+  export default {
   name: 'SvgIcon',
   props: {
     iconClass: {

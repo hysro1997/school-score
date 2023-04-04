@@ -7,7 +7,7 @@ import com.hysro.scores.domain.ExamGradeSummary;
  * 年级总体情况Service接口
  * 
  * @author hysro
- * @date 2023-03-28
+ * @date 2023-04-04
  */
 public interface IExamGradeSummaryService 
 {

@@ -2,31 +2,25 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="年级" prop="grade">
-        <el-select v-model="queryParams.grade" placeholder="请选择年级">
-          <el-option
-            v-for="item in gradeOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-            @keyup.enter.native="handleQuery">
-          </el-option>
-        </el-select>
+        <el-input
+          v-model="queryParams.grade"
+          placeholder="请输入年级"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item label="学科" prop="subject">
-        <el-select v-model="queryParams.subject" placeholder="请选择学科">
-          <el-option
-            v-for="item in subjectOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-            @keyup.enter.native="handleQuery">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="考试名称" prop="examName">
         <el-input
-          v-model="queryParams.examName"
-          placeholder="请输入考试名称"
+          v-model="queryParams.subject"
+          placeholder="请输入学科"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="考试ID" prop="examId">
+        <el-input
+          v-model="queryParams.examId"
+          placeholder="请输入考试ID"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -38,7 +32,7 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <!--el-col :span="1.5">
+      <el-col :span="1.5">
         <el-button
           type="primary"
           plain
@@ -58,7 +52,7 @@
           @click="handleUpdate"
           v-hasPermi="['scores:summary:edit']"
         >修改</el-button>
-      </el-col -->
+      </el-col>
       <el-col :span="1.5">
         <el-button
           type="danger"
@@ -94,16 +88,16 @@
       <el-table-column label="年级及格率" align="center" prop="gradeQualifiedPercentage" />
       <el-table-column label="年级优秀率" align="center" prop="gradeExcellentPercentage" />
       <el-table-column label="不及格人数" align="center" prop="gradeUnqualifiedNumbers" />
-      <el-table-column label="考试名称" align="center" prop="exams.examName" />
+      <el-table-column label="考试ID" align="center" prop="examId" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <!--el-button
+          <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['scores:summary:edit']"
-          >修改</el-button -->
+          >修改</el-button>
           <el-button
             size="mini"
             type="text"
@@ -113,9 +107,6 @@
           >删除</el-button>
         </template>
       </el-table-column>
-      <div slot="empty" >
-        <el-empty description="暂无数据"></el-empty>
-      </div>
     </el-table>
 
     <pagination
@@ -127,21 +118,21 @@
     />
 
     <!-- 添加或修改年级总体情况对话框 -->
-    <!--el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
-    </el-dialog -->
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { listSummary, getSummary, delSummary, addSummary, updateSummary } from "@/api/scores/summary";
+  import { addSummary, delSummary, getSummary, listSummary, updateSummary } from '@/api/scores/summary'
 
-export default {
+  export default {
   name: "Summary",
   data() {
     return {
@@ -169,44 +160,13 @@ export default {
         pageSize: 10,
         grade: null,
         subject: null,
-        examId: null,
-        examName:null
+        examId: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-      },//学科选项
-      subjectOptions:[{
-        value: '语文',
-        label: '语文'
-      }, {
-        value: '数学',
-        label: '数学'
-      }, {
-        value: '英语',
-        label: '英语'
-      }],
-      //年级选项
-      gradeOptions:[{
-        value: '一年级',
-        label: '一年级'
-      }, {
-        value: '二年级',
-        label: '二年级'
-      }, {
-        value: '三年级',
-        label: '三年级'
-      }, {
-        value: '四年级',
-        label: '四年级'
-      }, {
-        value: '五年级',
-        label: '五年级'
-      }, {
-        value: '六年级',
-        label: '六年级'
-      }]
+      }
     };
   },
   created() {

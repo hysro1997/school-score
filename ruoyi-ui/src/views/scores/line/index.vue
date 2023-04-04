@@ -162,9 +162,9 @@
 </template>
 
 <script>
-import { listLine, getLine, delLine, addLine, updateLine } from "@/api/scores/line";
+  import { addLine, delLine, getLine, listLine, updateLine } from '@/api/scores/line'
 
-export default {
+  export default {
   name: "Score-Line",
   data() {
     return {

@@ -2,8 +2,6 @@ package com.hysro.scores.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
-
-import com.hysro.scores.domain.Exams;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,12 +23,12 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 班级成绩统计情况Controller
- *
+ * 
  * @author hysro
- * @date 2023-03-23
+ * @date 2023-04-04
  */
 @RestController
-@RequestMapping("/scores/staticticsclass")
+@RequestMapping("/scores/statictics")
 public class ExamClassStaticticsController extends BaseController
 {
     @Autowired
@@ -39,12 +37,11 @@ public class ExamClassStaticticsController extends BaseController
     /**
      * 查询班级成绩统计情况列表
      */
-    @PreAuthorize("@ss.hasPermi('scores:staticticsclass:list')")
+    @PreAuthorize("@ss.hasPermi('scores:statictics:list')")
     @GetMapping("/list")
-    public TableDataInfo list(ExamClassStatictics examClassStatictics, Exams exams)
+    public TableDataInfo list(ExamClassStatictics examClassStatictics)
     {
         startPage();
-        examClassStatictics.setExams(exams);
         List<ExamClassStatictics> list = examClassStaticticsService.selectExamClassStaticticsList(examClassStatictics);
         return getDataTable(list);
     }
@@ -52,7 +49,7 @@ public class ExamClassStaticticsController extends BaseController
     /**
      * 导出班级成绩统计情况列表
      */
-    @PreAuthorize("@ss.hasPermi('scores:staticticsclass:export')")
+    @PreAuthorize("@ss.hasPermi('scores:statictics:export')")
     @Log(title = "班级成绩统计情况", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, ExamClassStatictics examClassStatictics)
@@ -65,7 +62,7 @@ public class ExamClassStaticticsController extends BaseController
     /**
      * 获取班级成绩统计情况详细信息
      */
-    @PreAuthorize("@ss.hasPermi('scores:staticticsclass:query')")
+    @PreAuthorize("@ss.hasPermi('scores:statictics:query')")
     @GetMapping(value = "/{examStatisticsId}")
     public AjaxResult getInfo(@PathVariable("examStatisticsId") Long examStatisticsId)
     {
@@ -75,7 +72,7 @@ public class ExamClassStaticticsController extends BaseController
     /**
      * 新增班级成绩统计情况
      */
-    @PreAuthorize("@ss.hasPermi('scores:staticticsclass:add')")
+    @PreAuthorize("@ss.hasPermi('scores:statictics:add')")
     @Log(title = "班级成绩统计情况", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ExamClassStatictics examClassStatictics)
@@ -86,7 +83,7 @@ public class ExamClassStaticticsController extends BaseController
     /**
      * 修改班级成绩统计情况
      */
-    @PreAuthorize("@ss.hasPermi('scores:staticticsclass:edit')")
+    @PreAuthorize("@ss.hasPermi('scores:statictics:edit')")
     @Log(title = "班级成绩统计情况", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ExamClassStatictics examClassStatictics)
@@ -97,7 +94,7 @@ public class ExamClassStaticticsController extends BaseController
     /**
      * 删除班级成绩统计情况
      */
-    @PreAuthorize("@ss.hasPermi('scores:staticticsclass:remove')")
+    @PreAuthorize("@ss.hasPermi('scores:statictics:remove')")
     @Log(title = "班级成绩统计情况", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{examStatisticsIds}")
     public AjaxResult remove(@PathVariable Long[] examStatisticsIds)

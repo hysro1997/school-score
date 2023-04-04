@@ -152,9 +152,16 @@
 </template>
 
 <script>
-import { listCacheName, listCacheKey, getCacheValue, clearCacheName, clearCacheKey, clearCacheAll } from "@/api/monitor/cache";
+  import {
+    clearCacheAll,
+    clearCacheKey,
+    clearCacheName,
+    getCacheValue,
+    listCacheKey,
+    listCacheName
+  } from '@/api/monitor/cache'
 
-export default {
+  export default {
   name: "CacheList",
   data() {
     return {

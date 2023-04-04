@@ -1,19 +1,15 @@
 package com.hysro.scores.service.impl;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.util.List;
-import java.util.Map;
-
-import com.hysro.scores.domain.*;
-import com.hysro.scores.mapper.*;
-import com.ruoyi.common.core.redis.RedisCache;
+import com.hysro.scores.domain.Exams;
+import com.hysro.scores.mapper.ExamExcellentScoreLineMapper;
+import com.hysro.scores.mapper.ExamsMapper;
+import com.hysro.scores.service.IExamsService;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.hysro.scores.service.IExamsService;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 各种考试Service业务层处理
@@ -27,15 +23,7 @@ public class ExamsServiceImpl implements IExamsService
     @Autowired
     private ExamsMapper examsMapper;
     @Autowired
-    private ExamStudentScoresMapper studentScoresMapper;
-    @Autowired
     private ExamExcellentScoreLineMapper scoreLineMapper;
-    @Autowired
-    private ExamClassStaticticsMapper classStaticticsMapper;
-    @Autowired
-    private ExamGradeStatisticMapper gradeStatisticMapper;
-    @Autowired
-    private ExamGradeSummaryMapper gradeSummaryMapper;
 
     /**
      * 查询各种考试
@@ -127,169 +115,5 @@ public class ExamsServiceImpl implements IExamsService
         return examsMapper.deleteExamsByExamId(examId);
     }
 
-    /**
-     * 统计考试数据
-     *
-     * @param exams 考试的主键
-     * @return 结果
-     */
-    @Override
-    @Transactional
-    public List<Map<String, String>> calculateStatisticExams(Exams exams) {
 
-        //根据考试ID清空已存在的统计
-        classStaticticsMapper.deleteExamClassStaticticsByExamId(exams.getExamId());
-        gradeStatisticMapper.deleteExamGradeStaticticsByExamId(exams.getExamId());
-        gradeSummaryMapper.deleteExamGradeSummaryByExamId(exams.getExamId());
-
-        //获取年级、班级
-        List<Map<String,String>> gradeClassMap = studentScoresMapper.selectDistinctClassesMapByExamId(exams.getExamId());
-        if (gradeClassMap.isEmpty()){
-            //这里直接抛出空的，给前端判断处理，节省服务器资源
-            return gradeClassMap;
-        }
-        //如果不是空的，就开始统计数据
-        //System.out.println(gradeClassMap.toString());
-        ExamStudentScores studentScores;
-        ExamExcellentScoreLine scoreLine;
-        ExamClassStatictics classStatictics;
-        ExamGradeStatistic examGradeStatistic;
-        //获取到 年级 语文 数学 英语
-        List<ExamStatisticScoreLineHelper> statisticScoreLineHelperList = scoreLineMapper.selectAllSubjectScoreLinesByGrade();
-        if (statisticScoreLineHelperList.isEmpty()){
-            gradeClassMap.clear();
-            return gradeClassMap;
-        }
-
-        DecimalFormat df = new DecimalFormat("0.00");
-        for (Map<String,String> gradeClass :gradeClassMap){
-            studentScores = new ExamStudentScores();
-            studentScores.setGrade(gradeClass.get("grade"));
-            studentScores.setClasses(gradeClass.get("classes"));
-            studentScores.setExamId(exams.getExamId());
-            //获取了需要统计的这一个班级的成绩的年级和班级，开始根据年级、班级、考试id开始统计
-            //先根据年级条件来获取优秀分数线，如果没有，直接清空map并抛出给前端
-            scoreLine = new ExamExcellentScoreLine();
-            scoreLine.setGrade(gradeClass.get("grade"));
-
-            //获取了优秀分数线 年级、学科、优秀分数线
-            List<ExamExcellentScoreLine> scoreLineList = scoreLineMapper.selectExamExcellentScoreLineList(scoreLine);
-
-            if (scoreLineList.isEmpty()){
-                gradeClassMap.clear();
-                return gradeClassMap;
-            }
-            //优秀分数线不是空的，有数据，我们就继续根据年级、班级、学科优秀分数线开始统计优秀
-            for (ExamExcellentScoreLine excellentScoreLine: scoreLineList){
-                studentScores.setSubject(excellentScoreLine.getSubject());
-                studentScores.setExcellentLine(excellentScoreLine.getExcellentScore());
-                classStatictics = studentScoresMapper.selectExamNumbersAndTotalScores(studentScores);
-                //插入数据，等班级数据插入完成后计算排名
-                if (null != classStatictics.getGrade()){
-                    classStaticticsMapper.insertExamClassStatictics(classStatictics);
-                }
-            }
-
-        }
-
-        for (ExamStatisticScoreLineHelper statisticScoreLineHelper : statisticScoreLineHelperList){
-            //临时存储的语数英优秀分数线
-            ExamStatisticScoreLineHelper temHelper = new ExamStatisticScoreLineHelper();
-            temHelper.setChineseLine(statisticScoreLineHelper.getChineseLine());
-            temHelper.setMathsLine(statisticScoreLineHelper.getMathsLine());
-            temHelper.setEnglishLine(statisticScoreLineHelper.getEnglishLine());
-            for (Map<String,String> gradeClass :gradeClassMap){
-
-                //如果各学科分数线的年级和数据的年级匹配，就进入统计班级的数据
-                if (statisticScoreLineHelper.getGrade().equals(gradeClass.get("grade"))){
-                    //从临时存储的语数英优秀分数线中读取优秀分数线
-                    statisticScoreLineHelper.setChineseLine(temHelper.getChineseLine());
-                    statisticScoreLineHelper.setMathsLine(temHelper.getMathsLine());
-                    statisticScoreLineHelper.setEnglishLine(temHelper.getEnglishLine());
-                    //设置班级
-                    statisticScoreLineHelper.setClasses(gradeClass.get("classes"));
-                    statisticScoreLineHelper.setExamId(exams.getExamId());
-
-                    studentScores = new ExamStudentScores();
-                    studentScores.setExamId(exams.getExamId());
-                    studentScores.setGrade(gradeClass.get("grade"));
-                    studentScores.setClasses(gradeClass.get("classes"));
-                    examGradeStatistic = studentScoresMapper.selectExamGradeExamNumbersAndAllScore(studentScores);
-                    //设置3优人数
-                    examGradeStatistic.setTripleExcellentNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
-                    //设置3合格人数
-                    statisticScoreLineHelper.setChineseLine(60L);
-                    statisticScoreLineHelper.setMathsLine(60L);
-                    //如果不是一二年级，就加个英语
-                    if (!"一年级".equals(statisticScoreLineHelper.getGrade())&&!"二年级".equals(statisticScoreLineHelper.getGrade())){
-                        statisticScoreLineHelper.setEnglishLine(60L);
-                        examGradeStatistic.setTripleQualifiedNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
-                    }else {
-                        statisticScoreLineHelper.setEnglishLine(null);
-                        examGradeStatistic.setTripleQualifiedNumbers(studentScoresMapper.countQualifiedNumbersByStatisticScoreLineHelper(statisticScoreLineHelper));
-                    }
-                    //下面计算三优率
-                    examGradeStatistic.setTripleExcellentPercentage(df.format((double)examGradeStatistic.getTripleExcellentNumbers() / (double)examGradeStatistic.getExamNumbers()*100));
-                    //下面计算3合格率
-                    examGradeStatistic.setTripleQualifiedPercentage(df.format((double)examGradeStatistic.getTripleQualifiedNumbers() / (double)examGradeStatistic.getExamNumbers()*100));
-
-                    //计算综合分
-                    examGradeStatistic.setMuitipleScore(df.format(Double.parseDouble(examGradeStatistic.getAllScorePercentage())*0.4+Double.parseDouble(examGradeStatistic.getTripleExcellentPercentage())*0.3+Double.parseDouble(examGradeStatistic.getTripleQualifiedPercentage())*0.3));
-                    //插入数据
-                    gradeStatisticMapper.insertExamGradeStatistic(examGradeStatistic);
-                }
-            }
-        }
-
-
-        ExamGradeSummary gradeSummary;
-        //本次考试有几个年级场次几个学科
-        List<Map<String,String>> gradeSubjectMapList = studentScoresMapper.selectDistinctGradeSubjectMapByExamId(exams.getExamId());
-        //完成每个年级每门学科的排名分析
-        for (Map<String,String> gradeSubject :gradeSubjectMapList) {
-            classStatictics = new ExamClassStatictics();
-            classStatictics.setExamId(exams.getExamId());
-            classStatictics.setGrade(gradeSubject.get("grade"));
-            classStatictics.setSubject(gradeSubject.get("subject"));
-            //通过sql获取到了这个年纪，这门学科的班级排名情况
-            List<ExamClassStatictics> examClassStaticticsList =classStaticticsMapper.selectExamClassSubjectRateList(classStatictics);
-            //把排名情况，根据统计数据id更新数据
-            for (ExamClassStatictics examClassStatictics:examClassStaticticsList){
-                classStaticticsMapper.updateExamClassStatictics(examClassStatictics);
-            }
-            //年级情况概要统计
-            studentScores = new ExamStudentScores();
-            studentScores.setExamId(exams.getExamId());
-            studentScores.setGrade(gradeSubject.get("grade"));
-            studentScores.setSubject(gradeSubject.get("subject"));
-            scoreLine = new ExamExcellentScoreLine();
-            scoreLine.setGrade(gradeSubject.get("grade"));
-            scoreLine.setSubject(gradeSubject.get("subject"));
-            List<ExamExcellentScoreLine> scoreLineLists = scoreLineMapper.selectExamExcellentScoreLineList(scoreLine);
-            studentScores.setScore(BigDecimal.valueOf(scoreLineLists.get(0).getExcellentScore()));
-            gradeSummary = studentScoresMapper.countGradeSummaryByExamStudentScores(studentScores);
-            gradeSummary.setExamId(exams.getExamId());
-            gradeSummaryMapper.insertExamGradeSummary(gradeSummary);
-
-
-
-
-        }
-        //本次考试有几个年级
-        List<Map<String,String>> gradeMapList = studentScoresMapper.selectDistinctGradeMapByExamId(exams.getExamId());
-        //完成每个年级的班级排名分析
-        for (Map<String,String> grademap: gradeMapList){
-            examGradeStatistic = new ExamGradeStatistic();
-            examGradeStatistic.setGrade(grademap.get("grade"));
-            examGradeStatistic.setExamId(exams.getExamId());
-            List<ExamGradeStatistic> examGradeStatisticList = gradeStatisticMapper.selectExamGradeRateList(examGradeStatistic);
-            for (ExamGradeStatistic examGradeSt : examGradeStatisticList){
-                gradeStatisticMapper.updateExamGradeStatistic(examGradeSt);
-            }
-        }
-
-
-
-        return gradeClassMap;
-    }
 }

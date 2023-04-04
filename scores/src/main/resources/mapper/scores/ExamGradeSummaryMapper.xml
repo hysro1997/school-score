@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hysro.scores.mapper.ExamGradeSummaryMapper">
-
+    
     <resultMap type="ExamGradeSummary" id="ExamGradeSummaryResult">
         <result property="examGradeSummaryId"    column="exam_grade_summary_id"    />
         <result property="grade"    column="grade"    />
@@ -17,39 +17,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="examId"    column="exam_id"    />
     </resultMap>
 
-    <resultMap id="ExamGradeSummaryExamsResult" type="ExamGradeSummary" extends="ExamGradeSummaryResult">
-        <collection property="exams" notNullColumn="sub_exam_id" javaType="Exams" resultMap="ExamsResult" />
-    </resultMap>
-
-    <resultMap type="Exams" id="ExamsResult">
-        <result property="examId"    column="sub_exam_id"    />
-        <result property="examName"    column="sub_exam_name"    />
-        <result property="createTime"    column="sub_create_time"    />
-        <result property="createBy"    column="sub_create_by"    />
-    </resultMap>
-
     <sql id="selectExamGradeSummaryVo">
-        select a.exam_grade_summary_id, a.grade, a.subject, a.exam_total_numbers, a.grade_total_scores, a.grade_average_score, a.grade_qualified_percentage, a.grade_excellent_percentage, a.grade_unqualified_numbers, a.exam_id,
-        b.exam_id as sub_exam_id, b.exam_name as sub_exam_name, b.create_time as sub_create_time, b.create_by as sub_create_by
-        from exam_grade_summary a
-        left join exams b on b.exam_id = a.exam_id
+        select exam_grade_summary_id, grade, subject, exam_total_numbers, grade_total_scores, grade_average_score, grade_qualified_percentage, grade_excellent_percentage, grade_unqualified_numbers, exam_id from exam_grade_summary
     </sql>
 
-    <select id="selectExamGradeSummaryList" parameterType="ExamGradeSummary" resultMap="ExamGradeSummaryExamsResult">
+    <select id="selectExamGradeSummaryList" parameterType="ExamGradeSummary" resultMap="ExamGradeSummaryResult">
         <include refid="selectExamGradeSummaryVo"/>
-        <where>
-            <if test="examId != null "> and exam_id = #{examId}</if>
+        <where>  
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
-            <if test="exams != null and exams.examName != null  and exams.examName != ''"> and exam_name like concat('%', #{exams.examName}, '%')</if>
+            <if test="examId != null "> and exam_id = #{examId}</if>
         </where>
     </select>
-
-    <select id="selectExamGradeSummaryByExamGradeSummaryId" parameterType="Long" resultMap="ExamGradeSummaryExamsResult">
+    
+    <select id="selectExamGradeSummaryByExamGradeSummaryId" parameterType="Long" resultMap="ExamGradeSummaryResult">
         <include refid="selectExamGradeSummaryVo"/>
         where exam_grade_summary_id = #{examGradeSummaryId}
     </select>
-
+        
     <insert id="insertExamGradeSummary" parameterType="ExamGradeSummary" useGeneratedKeys="true" keyProperty="examGradeSummaryId">
         insert into exam_grade_summary
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -96,12 +81,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from exam_grade_summary where exam_grade_summary_id = #{examGradeSummaryId}
     </delete>
 
-    <delete id="deleteExamGradeSummaryByExamId" parameterType="Long">
-        delete from exam_grade_summary where exam_id = #{examId}
-    </delete>
-
     <delete id="deleteExamGradeSummaryByExamGradeSummaryIds" parameterType="String">
-        delete from exam_grade_summary where exam_grade_summary_id in
+        delete from exam_grade_summary where exam_grade_summary_id in 
         <foreach item="examGradeSummaryId" collection="array" open="(" separator="," close=")">
             #{examGradeSummaryId}
         </foreach>

@@ -5,15 +5,15 @@ import com.hysro.scores.domain.ExamClassStatictics;
 
 /**
  * 班级成绩统计情况Service接口
- *
+ * 
  * @author hysro
- * @date 2023-03-23
+ * @date 2023-04-04
  */
-public interface IExamClassStaticticsService
+public interface IExamClassStaticticsService 
 {
     /**
      * 查询班级成绩统计情况
-     *
+     * 
      * @param examStatisticsId 班级成绩统计情况主键
      * @return 班级成绩统计情况
      */
@@ -21,7 +21,7 @@ public interface IExamClassStaticticsService
 
     /**
      * 查询班级成绩统计情况列表
-     *
+     * 
      * @param examClassStatictics 班级成绩统计情况
      * @return 班级成绩统计情况集合
      */
@@ -29,7 +29,7 @@ public interface IExamClassStaticticsService
 
     /**
      * 新增班级成绩统计情况
-     *
+     * 
      * @param examClassStatictics 班级成绩统计情况
      * @return 结果
      */
@@ -37,7 +37,7 @@ public interface IExamClassStaticticsService
 
     /**
      * 修改班级成绩统计情况
-     *
+     * 
      * @param examClassStatictics 班级成绩统计情况
      * @return 结果
      */
@@ -45,7 +45,7 @@ public interface IExamClassStaticticsService
 
     /**
      * 批量删除班级成绩统计情况
-     *
+     * 
      * @param examStatisticsIds 需要删除的班级成绩统计情况主键集合
      * @return 结果
      */
@@ -53,10 +53,9 @@ public interface IExamClassStaticticsService
 
     /**
      * 删除班级成绩统计情况信息
-     *
+     * 
      * @param examStatisticsId 班级成绩统计情况主键
      * @return 结果
      */
     public int deleteExamClassStaticticsByExamStatisticsId(Long examStatisticsId);
-
 }

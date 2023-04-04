@@ -1,6 +1,5 @@
 package com.hysro.scores.domain;
 
-import java.util.List;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -8,9 +7,9 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 班级成绩统计情况对象 exam_class_statictics
- *
+ * 
  * @author hysro
- * @date 2023-03-23
+ * @date 2023-04-04
  */
 public class ExamClassStatictics extends BaseEntity
 {
@@ -39,16 +38,16 @@ public class ExamClassStatictics extends BaseEntity
     @Excel(name = "满分人数")
     private Long fullSocreNumbers;
 
-    /** 优秀人数 */
-    @Excel(name = "优秀人数")
+    /** 优秀人数(优秀-99) */
+    @Excel(name = "优秀人数(优秀-99)")
     private Long excellentNumbers;
 
-    /** 良好人数 */
-    @Excel(name = "良好人数")
+    /** 良好人数(75-优秀) */
+    @Excel(name = "良好人数(75-优秀)")
     private Long goodNumbers;
 
-    /** 及格人数 */
-    @Excel(name = "及格人数")
+    /** 及格人数(60-75) */
+    @Excel(name = "及格人数(60-75)")
     private Long qualifiedNumbers;
 
     /** 不及格人数(55-59) */
@@ -85,207 +84,208 @@ public class ExamClassStatictics extends BaseEntity
 
     /** 综合分（平均分*40%，及格率*30%，优秀率*30%） */
     @Excel(name = "综合分", readConverterExp = "平=均分*40%，及格率*30%，优秀率*30%")
-    private String mutipleScore;
+    private String muitipleScore;
 
     /** 考试ID */
-    //@Excel(name = "考试ID")
+    @Excel(name = "考试ID")
     private Long examId;
 
-    /** 排名 */
-    @Excel(name = "排名")
-    private Integer rate;
+    /** 综合分排名 */
+    @Excel(name = "综合分排名")
+    private Integer muitipleRank;
 
-    /** 各种考试信息 */
-    @Excel(name = "考试名称", targetAttr = "examName", type = Excel.Type.EXPORT)
-    private Exams exams;
+    /** 平均分排名 */
+    @Excel(name = "平均分排名")
+    private Integer averageRank;
 
-    public void setExamStatisticsId(Long examStatisticsId)
+    public void setExamStatisticsId(Long examStatisticsId) 
     {
         this.examStatisticsId = examStatisticsId;
     }
 
-    public Long getExamStatisticsId()
+    public Long getExamStatisticsId() 
     {
         return examStatisticsId;
     }
-    public void setGrade(String grade)
+    public void setGrade(String grade) 
     {
         this.grade = grade;
     }
 
-    public String getGrade()
+    public String getGrade() 
     {
         return grade;
     }
-    public void setClasses(String classes)
+    public void setClasses(String classes) 
     {
         this.classes = classes;
     }
 
-    public String getClasses()
+    public String getClasses() 
     {
         return classes;
     }
-    public void setSubject(String subject)
+    public void setSubject(String subject) 
     {
         this.subject = subject;
     }
 
-    public String getSubject()
+    public String getSubject() 
     {
         return subject;
     }
-    public void setExamNumbers(Long examNumbers)
+    public void setExamNumbers(Long examNumbers) 
     {
         this.examNumbers = examNumbers;
     }
 
-    public Long getExamNumbers()
+    public Long getExamNumbers() 
     {
         return examNumbers;
     }
-    public void setFullSocreNumbers(Long fullSocreNumbers)
+    public void setFullSocreNumbers(Long fullSocreNumbers) 
     {
         this.fullSocreNumbers = fullSocreNumbers;
     }
 
-    public Long getFullSocreNumbers()
+    public Long getFullSocreNumbers() 
     {
         return fullSocreNumbers;
     }
-    public void setExcellentNumbers(Long excellentNumbers)
+    public void setExcellentNumbers(Long excellentNumbers) 
     {
         this.excellentNumbers = excellentNumbers;
     }
 
-    public Long getExcellentNumbers()
+    public Long getExcellentNumbers() 
     {
         return excellentNumbers;
     }
-    public void setGoodNumbers(Long goodNumbers)
+    public void setGoodNumbers(Long goodNumbers) 
     {
         this.goodNumbers = goodNumbers;
     }
 
-    public Long getGoodNumbers()
+    public Long getGoodNumbers() 
     {
         return goodNumbers;
     }
-    public void setQualifiedNumbers(Long qualifiedNumbers)
+    public void setQualifiedNumbers(Long qualifiedNumbers) 
     {
         this.qualifiedNumbers = qualifiedNumbers;
     }
 
-    public Long getQualifiedNumbers()
+    public Long getQualifiedNumbers() 
     {
         return qualifiedNumbers;
     }
-    public void setUnqualifiedOneNumbers(Long unqualifiedOneNumbers)
+    public void setUnqualifiedOneNumbers(Long unqualifiedOneNumbers) 
     {
         this.unqualifiedOneNumbers = unqualifiedOneNumbers;
     }
 
-    public Long getUnqualifiedOneNumbers()
+    public Long getUnqualifiedOneNumbers() 
     {
         return unqualifiedOneNumbers;
     }
-    public void setUnqualifiedTwoNumbers(Long unqualifiedTwoNumbers)
+    public void setUnqualifiedTwoNumbers(Long unqualifiedTwoNumbers) 
     {
         this.unqualifiedTwoNumbers = unqualifiedTwoNumbers;
     }
 
-    public Long getUnqualifiedTwoNumbers()
+    public Long getUnqualifiedTwoNumbers() 
     {
         return unqualifiedTwoNumbers;
     }
-    public void setUnqualifiedThreeNumbers(Long unqualifiedThreeNumbers)
+    public void setUnqualifiedThreeNumbers(Long unqualifiedThreeNumbers) 
     {
         this.unqualifiedThreeNumbers = unqualifiedThreeNumbers;
     }
 
-    public Long getUnqualifiedThreeNumbers()
+    public Long getUnqualifiedThreeNumbers() 
     {
         return unqualifiedThreeNumbers;
     }
-    public void setUnqualifiedFourNumbers(Long unqualifiedFourNumbers)
+    public void setUnqualifiedFourNumbers(Long unqualifiedFourNumbers) 
     {
         this.unqualifiedFourNumbers = unqualifiedFourNumbers;
     }
 
-    public Long getUnqualifiedFourNumbers()
+    public Long getUnqualifiedFourNumbers() 
     {
         return unqualifiedFourNumbers;
     }
-    public void setTotalScore(String totalScore)
+    public void setTotalScore(String totalScore) 
     {
         this.totalScore = totalScore;
     }
 
-    public String getTotalScore()
+    public String getTotalScore() 
     {
         return totalScore;
     }
-    public void setAverageScore(String averageScore)
+    public void setAverageScore(String averageScore) 
     {
         this.averageScore = averageScore;
     }
 
-    public String getAverageScore()
+    public String getAverageScore() 
     {
         return averageScore;
     }
-    public void setQualifiedPercentage(String qualifiedPercentage)
+    public void setQualifiedPercentage(String qualifiedPercentage) 
     {
         this.qualifiedPercentage = qualifiedPercentage;
     }
 
-    public String getQualifiedPercentage()
+    public String getQualifiedPercentage() 
     {
         return qualifiedPercentage;
     }
-    public void setExcellentPercentage(String excellentPercentage)
+    public void setExcellentPercentage(String excellentPercentage) 
     {
         this.excellentPercentage = excellentPercentage;
     }
 
-    public String getExcellentPercentage()
+    public String getExcellentPercentage() 
     {
         return excellentPercentage;
     }
-    public void setMutipleScore(String mutipleScore)
+    public void setMuitipleScore(String muitipleScore) 
     {
-        this.mutipleScore = mutipleScore;
+        this.muitipleScore = muitipleScore;
     }
 
-    public String getMutipleScore()
+    public String getMuitipleScore() 
     {
-        return mutipleScore;
+        return muitipleScore;
     }
-    public void setExamId(Long examId)
+    public void setExamId(Long examId) 
     {
         this.examId = examId;
     }
 
-    public Long getExamId()
+    public Long getExamId() 
     {
         return examId;
     }
-    public void setRate(Integer rate)
+    public void setMuitipleRank(Integer muitipleRank) 
     {
-        this.rate = rate;
+        this.muitipleRank = muitipleRank;
     }
 
-    public Integer getRate()
+    public Integer getMuitipleRank() 
     {
-        return rate;
+        return muitipleRank;
+    }
+    public void setAverageRank(Integer averageRank) 
+    {
+        this.averageRank = averageRank;
     }
 
-    public Exams getExams() {
-        return exams;
-    }
-
-    public void setExams(Exams exams) {
-        this.exams = exams;
+    public Integer getAverageRank() 
+    {
+        return averageRank;
     }
 
     @Override
@@ -308,10 +308,10 @@ public class ExamClassStatictics extends BaseEntity
             .append("averageScore", getAverageScore())
             .append("qualifiedPercentage", getQualifiedPercentage())
             .append("excellentPercentage", getExcellentPercentage())
-            .append("mutipleScore", getMutipleScore())
+            .append("muitipleScore", getMuitipleScore())
             .append("examId", getExamId())
-            .append("rate", getRate())
-            .append("exams", getExams())
+            .append("muitipleRank", getMuitipleRank())
+            .append("averageRank", getAverageRank())
             .toString();
     }
 }

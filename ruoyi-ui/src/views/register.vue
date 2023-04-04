@@ -67,9 +67,9 @@
 </template>
 
 <script>
-import { getCodeImg, register } from "@/api/login";
+  import { getCodeImg, register } from '@/api/login'
 
-export default {
+  export default {
   name: "Register",
   data() {
     const equalToPassword = (rule, value, callback) => {

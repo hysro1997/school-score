@@ -30,13 +30,13 @@
 </template>
 
 <script>
-import PanelGroup from './dashboard/PanelGroup'
-import LineChart from './dashboard/LineChart'
-import RaddarChart from './dashboard/RaddarChart'
-import PieChart from './dashboard/PieChart'
-import BarChart from './dashboard/BarChart'
+  import PanelGroup from './dashboard/PanelGroup'
+  import LineChart from './dashboard/LineChart'
+  import RaddarChart from './dashboard/RaddarChart'
+  import PieChart from './dashboard/PieChart'
+  import BarChart from './dashboard/BarChart'
 
-const lineChartData = {
+  const lineChartData = {
   newVisitis: {
     expectedData: [100, 120, 161, 134, 105, 160, 165],
     actualData: [120, 82, 91, 154, 162, 140, 145]

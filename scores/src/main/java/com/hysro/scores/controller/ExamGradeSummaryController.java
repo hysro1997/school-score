@@ -2,8 +2,6 @@ package com.hysro.scores.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
-
-import com.hysro.scores.domain.Exams;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +23,9 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 年级总体情况Controller
- *
+ * 
  * @author hysro
- * @date 2023-03-28
+ * @date 2023-04-04
  */
 @RestController
 @RequestMapping("/scores/summary")
@@ -41,10 +39,9 @@ public class ExamGradeSummaryController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('scores:summary:list')")
     @GetMapping("/list")
-    public TableDataInfo list(ExamGradeSummary examGradeSummary, Exams exams)
+    public TableDataInfo list(ExamGradeSummary examGradeSummary)
     {
         startPage();
-        examGradeSummary.setExams(exams);
         List<ExamGradeSummary> list = examGradeSummaryService.selectExamGradeSummaryList(examGradeSummary);
         return getDataTable(list);
     }

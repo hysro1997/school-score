@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import InnerLink from "../InnerLink/index"
+  import InnerLink from '../InnerLink/index'
 
-export default {
+  export default {
   components: { InnerLink },
   computed: {
     iframeViews() {

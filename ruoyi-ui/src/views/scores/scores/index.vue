@@ -2,68 +2,33 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="年级" prop="grade">
-        <!--el-input
+        <el-input
           v-model="queryParams.grade"
           placeholder="请输入年级"
           clearable
           @keyup.enter.native="handleQuery"
-        /-->
-        <el-select v-model="queryParams.grade" placeholder="请选择年级">
-          <el-option
-            v-for="item in gradeOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-            @keyup.enter.native="handleQuery">
-          </el-option>
-        </el-select>
+        />
       </el-form-item>
       <el-form-item label="班级" prop="classes">
-        <!--el-input
+        <el-input
           v-model="queryParams.classes"
           placeholder="请输入班级"
           clearable
           @keyup.enter.native="handleQuery"
-        /-->
-        <el-select v-model="queryParams.classes" placeholder="请选择班级">
-          <el-option
-            v-for="item in classesOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-            @keyup.enter.native="handleQuery">
-          </el-option>
-        </el-select>
+        />
       </el-form-item>
-      <!--el-form-item label="考试号" prop="examNumber">
+      <el-form-item label="考试号" prop="examNumber">
         <el-input
           v-model="queryParams.examNumber"
           placeholder="请输入考试号"
           clearable
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item-->
-      <el-form-item label="学科" prop="subject">
-        <el-select v-model="queryParams.subject" placeholder="请选择学科">
-          <el-option
-            v-for="item in subjectOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-            @keyup.enter.native="handleQuery">
-          </el-option>
-        </el-select>
-        <!--el-input
-          v-model="queryParams.subject"
-          placeholder="请输入学科"
-          clearable
-          @keyup.enter.native="handleQuery"
-        /-->
       </el-form-item>
-      <el-form-item label="考试名称" prop="examName">
+      <el-form-item label="考试ID" prop="examId">
         <el-input
-          v-model="queryParams.examName"
-          placeholder="请输入考试名称"
+          v-model="queryParams.examId"
+          placeholder="请输入考试ID"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -117,28 +82,20 @@
           v-hasPermi="['scores:scores:export']"
         >导出</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="info"
-          plain
-          icon="el-icon-upload"
-          size="mini"
-          @click="handleImport"
-          v-hasPermi="['scores:scores:import']"
-        >导入</el-button>
-      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="scoresList" @selection-change="handleSelectionChange" :row-class-name="tableRowClassName">
+    <el-table v-loading="loading" :data="scoresList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="分数编号" align="center" prop="scoreId" />
+      <el-table-column label="分数ID" align="center" prop="scoreId" />
       <el-table-column label="年级" align="center" prop="grade" />
       <el-table-column label="班级" align="center" prop="classes" />
       <el-table-column label="考试号" align="center" prop="examNumber" />
-      <el-table-column label="学科" align="center" prop="subject" />
-      <el-table-column label="分数" align="center" prop="score" />
-      <el-table-column label="考试名称" align="center" prop="exams.examName" />
+      <el-table-column label="语文分数" align="center" prop="chineseScore" />
+      <el-table-column label="数学分数" align="center" prop="mathsScore" />
+      <el-table-column label="英语分数" align="center" prop="englishScore" />
+      <el-table-column label="录入者" align="center" prop="createBy" />
+      <el-table-column label="考试ID" align="center" prop="examId" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -157,9 +114,6 @@
           >删除</el-button>
         </template>
       </el-table-column>
-      <div slot="empty" >
-        <el-empty description="暂无数据"></el-empty>
-      </div>
     </el-table>
 
     <pagination
@@ -173,196 +127,38 @@
     <!-- 添加或修改学生分数情况对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="年级" prop="grade">
-          <!--el-input v-model="form.grade" placeholder="请输入年级" /-->
-          <el-select v-model="form.grade" placeholder="请选择年级">
-            <el-option
-              v-for="item in gradeOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-              @keyup.enter.native="handleQuery">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="班级" prop="classes">
-          <!--el-input v-model="form.classes" placeholder="请输入班级" /-->
-          <el-select v-model="form.classes" placeholder="请选择班级">
-            <el-option
-              v-for="item in classesOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-              @keyup.enter.native="handleQuery">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="学科" prop="subject">
-          <!--el-input v-model="form.subject" placeholder="请输入学科" /-->
-          <el-select v-model="form.subject" placeholder="请选择学科">
-            <el-option
-              v-for="item in subjectOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-              @keyup.enter.native="handleQuery">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="分数" prop="score">
-          <el-input v-model="form.score" placeholder="请输入分数" />
-        </el-form-item>
         <el-form-item label="考试号" prop="examNumber">
           <el-input v-model="form.examNumber" placeholder="请输入考试号" />
         </el-form-item>
-        <!--el-form-item label="考试名称" prop="examId">
-          <el-input v-model="form.examId" placeholder="请输入考试ID" />
-          <el-select v-model="form.examId" placeholder="请选择考试">
-            <el-option
-              v-for="item in examsList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
+        <el-form-item label="语文分数" prop="chineseScore">
+          <el-input v-model="form.chineseScore" placeholder="请输入语文分数" />
         </el-form-item>
-        <el-divider content-position="center">考试信息</el-divider>
-        <el-row :gutter="10" class="mb8">
-          <el-col :span="1.5">
-            <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddExams">添加</el-button>
-          </el-col>
-          <el-col :span="1.5">
-            <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDeleteExams">删除</el-button>
-          </el-col>
-        </el-row>
-        <el-table :data="examsList" :row-class-name="rowExamsIndex" @selection-change="handleExamsSelectionChange" ref="exams">
-          <el-table-column type="selection" width="50" align="center" />
-          <el-table-column label="序号" align="center" prop="index" width="50"/>
-          <el-table-column label="考试名称" prop="examName" width="150">
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.examName" placeholder="请输入考试名称" />
-            </template>
-          </el-table-column>
-        </el-table-->
+        <el-form-item label="数学分数" prop="mathsScore">
+          <el-input v-model="form.mathsScore" placeholder="请输入数学分数" />
+        </el-form-item>
+        <el-form-item label="英语分数" prop="englishScore">
+          <el-input v-model="form.englishScore" placeholder="请输入英语分数" />
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-
-    <!-- 学生分数导入对话框 -->
-    <el-dialog :title="upload.title" :visible.sync="upload.open" width="400px">
-      <el-upload
-        ref="upload"
-        :limit="1"
-        accept=".xlsx, .xls"
-        :headers="upload.headers"
-        :action="upload.url"
-        :disabled="upload.isUploading"
-        :on-progress="handleFileUploadProgress"
-        :on-success="handleFileSuccess"
-        :auto-upload="false"
-        drag
-      >
-        <i class="el-icon-upload"></i>
-        <div class="el-upload__text">
-          将文件拖到此处，或
-          <em>点击上传</em>
-        </div>
-        <div class="el-upload__tip" slot="tip">
-          <!--el-checkbox v-model="upload.updateSupport" />是否更新已经存在的学生分数数据-->
-          <el-link type="info" style="font-size:12px" @click="importTemplate">下载模板</el-link>
-        </div>
-        <div class="el-upload__tip" style="color:red" slot="tip">提示：仅允许导入“xls”或“xlsx”格式文件！</div>
-      </el-upload>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitFileForm">确 定</el-button>
-        <el-button @click="upload.open = false">取 消</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import { listScores, getScores, delScores, addScores, updateScores } from "@/api/scores/scores";
-import { getExamsEnables } from '@/api/examination/exams'
-import { getToken } from "@/utils/auth";
+  import { addScores, delScores, getScores, listScores, updateScores } from '@/api/scores/scores'
 
-export default {
+  export default {
   name: "Scores",
   data() {
     return {
-      //学科选项
-      subjectOptions:[{
-        value: '语文',
-        label: '语文'
-      }, {
-        value: '数学',
-        label: '数学'
-      }, {
-        value: '英语',
-        label: '英语'
-      }],
-      //年级选项
-      gradeOptions:[{
-        value: '一年级',
-        label: '一年级'
-      }, {
-        value: '二年级',
-        label: '二年级'
-      }, {
-        value: '三年级',
-        label: '三年级'
-      }, {
-        value: '四年级',
-        label: '四年级'
-      }, {
-        value: '五年级',
-        label: '五年级'
-      }, {
-        value: '六年级',
-        label: '六年级'
-      }],
-      //班级选项
-      classesOptions:[{
-        value: '1班',
-        label: '1班'
-      }, {
-        value: '2班',
-        label: '2班'
-      }, {
-        value: '3班',
-        label: '3班'
-      }, {
-        value: '4班',
-        label: '4班'
-      }, {
-        value: '5班',
-        label: '5班'
-      }, {
-        value: '6班',
-        label: '6班'
-      }, {
-        value: '7班',
-        label: '7班'
-      }, {
-        value: '8班',
-        label: '8班'
-      }, {
-        value: '9班',
-        label: '9班'
-      }, {
-        value: '10班',
-        label: '10班'
-      }],
       // 遮罩层
       loading: true,
       // 选中数组
       ids: [],
-      // 子表选中数据
-      checkedExams: [],
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -373,9 +169,6 @@ export default {
       total: 0,
       // 学生分数情况表格数据
       scoresList: [],
-      // 各种考试表格数据
-      examsList: [],
-      temptExamsList:[],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -387,44 +180,15 @@ export default {
         grade: null,
         classes: null,
         examNumber: null,
-        subject: null,
-        examId: null,
-        examName:null
+        examId: null
       },
       // 表单参数
       form: {},
-      //学生分数导入
-      upload: {
-        // 是否显示弹出层（用户导入）
-        open: false,
-        // 弹出层标题（用户导入）
-        title: "学生分数导入",
-        // 是否禁用上传
-        isUploading: false,
-        // 是否更新已经存在的用户数据
-        updateSupport: 0,
-        // 设置上传的请求头部
-        headers: { Authorization: "Bearer " + getToken() },
-        // 上传的地址
-        url: process.env.VUE_APP_BASE_API + "/scores/scores/importData"
-      },
       // 表单校验
       rules: {
-        subject: [
-          { required: true, message: '请选择学科', trigger: 'change' }
-        ],
-        grade: [
-          { required: true, message: '请选择年级', trigger: 'change' }
-        ],
-        classes: [
-          { required: true, message: '请选择班级', trigger: 'change' }
-        ],
         examNumber: [
-          { required: true, message: '请填写考试号', trigger: 'blur' }
+          { required: true, message: "考试号不能为空", trigger: "blur" }
         ],
-        score: [
-          { required: true, message: '请填写分数线', trigger: 'blur' }
-        ]
       }
     };
   },
@@ -432,12 +196,6 @@ export default {
     this.getList();
   },
   methods: {
-    tableRowClassName({row, rowIndex}) {
-      if (1 === rowIndex % 2) {
-        return 'success-row';
-      }
-      return '';
-    },
     /** 查询学生分数情况列表 */
     getList() {
       this.loading = true;
@@ -459,17 +217,15 @@ export default {
         grade: null,
         classes: null,
         examNumber: null,
-        subject: null,
-        score: null,
+        chineseScore: null,
+        mathsScore: null,
+        englishScore: null,
         createTime: null,
         createBy: null,
         updateTime: null,
         updateBy: null,
-        examId: null,
-        examName: null
+        examId: null
       };
-      this.examsList = [];
-      this.examsList = this.temptExamsList;
       this.resetForm("form");
     },
     /** 搜索按钮操作 */
@@ -491,19 +247,8 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
-      //this.open = true;
-      //this.title = "添加学生分数情况";
-      let that = this;
-      getExamsEnables().then(response => {
-        let enableNumbers = response.data;
-        if (1!==enableNumbers){
-          this.$modal.alertWarning("考试尚未开启分数录入");
-          that.upload.open = false;
-        }else {
-          this.open = true;
-          this.title = "添加学生分数情况";
-        }
-      });
+      this.open = true;
+      this.title = "添加学生分数情况";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -511,7 +256,6 @@ export default {
       const scoreId = row.scoreId || this.ids
       getScores(scoreId).then(response => {
         this.form = response.data;
-        //this.examsList = response.data.examsList;
         this.open = true;
         this.title = "修改学生分数情况";
       });
@@ -520,7 +264,6 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          this.form.examsList = null;
           if (this.form.scoreId != null) {
             updateScores(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
@@ -547,72 +290,11 @@ export default {
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
     },
-	/** 各种考试序号
-    rowExamsIndex({ row, rowIndex }) {
-      row.index = rowIndex + 1;
-    },*/
-    /** 各种考试添加按钮操作
-    handleAddExams() {
-      let obj = {};
-      obj.examName = "";
-      this.examsList.push(obj);
-    },*/
-    /** 各种考试删除按钮操作
-    handleDeleteExams() {
-      if (this.checkedExams.length == 0) {
-        this.$modal.msgError("请先选择要删除的各种考试数据");
-      } else {
-        const examsList = this.examsList;
-        const checkedExams = this.checkedExams;
-        this.examsList = examsList.filter(function(item) {
-          return checkedExams.indexOf(item.index) == -1
-        });
-      }
-    },*/
-    /** 复选框选中数据 */
-    handleExamsSelectionChange(selection) {
-      this.checkedExams = selection.map(item => item.index)
-    },
     /** 导出按钮操作 */
     handleExport() {
       this.download('scores/scores/export', {
         ...this.queryParams
       }, `scores_${new Date().getTime()}.xlsx`)
-    },
-    /** 导入按钮操作 */
-    handleImport() {
-      let that = this;
-      getExamsEnables().then(response => {
-        let enableNumbers = response.data;
-        if (1!==enableNumbers){
-          this.$modal.alertWarning("考试尚未开启分数录入");
-          that.upload.open = false;
-        }else {
-          this.upload.title = "学生分数导入";
-          this.upload.open = true;
-        }
-      });
-    },
-    /** 下载模板操作 */
-    importTemplate() {
-      this.download('scores/scores/importTemplate', {
-      }, `scores_template_${new Date().getTime()}.xlsx`)
-    },
-// 文件上传中处理
-    handleFileUploadProgress(event, file, fileList) {
-      this.upload.isUploading = true;
-    },
-// 文件上传成功处理
-    handleFileSuccess(response, file, fileList) {
-      this.upload.open = false;
-      this.upload.isUploading = false;
-      this.$refs.upload.clearFiles();
-      this.$alert(response.msg, "导入结果", { dangerouslyUseHTMLString: true });
-      this.getList();
-    },
-// 提交上传文件
-    submitFileForm() {
-      this.$refs.upload.submit();
     }
   }
 };

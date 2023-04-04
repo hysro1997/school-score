@@ -252,10 +252,19 @@
 </template>
 
 <script>
-import { listRole, getRole, delRole, addRole, updateRole, dataScope, changeRoleStatus, deptTreeSelect } from "@/api/system/role";
-import { treeselect as menuTreeselect, roleMenuTreeselect } from "@/api/system/menu";
+  import {
+    addRole,
+    changeRoleStatus,
+    dataScope,
+    delRole,
+    deptTreeSelect,
+    getRole,
+    listRole,
+    updateRole
+  } from '@/api/system/role'
+  import { roleMenuTreeselect, treeselect as menuTreeselect } from '@/api/system/menu'
 
-export default {
+  export default {
   name: "Role",
   dicts: ['sys_normal_disable'],
   data() {

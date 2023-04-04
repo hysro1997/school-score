@@ -11,13 +11,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="grade"    column="grade"    />
     </resultMap>
 
-    <resultMap type="ExamStatisticScoreLineHelper" id="ExamStatisticScoreLineHelperResult">
-        <result property="grade"    column="grade"    />
-        <result property="chineseLine" column="chinese_line" />
-        <result property="mathsLine" column="maths_line" />
-        <result property="englishLine" column="english_line" />
-    </resultMap>
-
     <sql id="selectExamExcellentScoreLineVo">
         select excellent_id, subject, excellent_score, grade from exam_excellent_score_line
     </sql>
@@ -28,15 +21,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
         </where>
-    </select>
-
-    <select id="selectAllSubjectScoreLinesByGrade" resultMap="ExamStatisticScoreLineHelperResult">
-        SELECT grade,
-            SUM(IF(`subject` = '语文',excellent_score,NULL)) AS chinese_line,
-            SUM(IF(`subject` = '英语',excellent_score,NULL)) AS maths_line,
-            SUM(IF(`subject` = '数学',excellent_score,NULL)) AS english_line
-        FROM exam_excellent_score_line
-        GROUP BY grade
     </select>
 
     <select id="selectExamExcellentScoreLineByExcellentId" parameterType="Long" resultMap="ExamExcellentScoreLineResult">

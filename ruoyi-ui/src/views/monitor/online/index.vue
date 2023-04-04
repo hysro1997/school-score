@@ -63,9 +63,9 @@
 </template>
 
 <script>
-import { list, forceLogout } from "@/api/monitor/online";
+  import { forceLogout, list } from '@/api/monitor/online'
 
-export default {
+  export default {
   name: "Online",
   data() {
     return {

@@ -3,11 +3,12 @@
 </template>
 
 <script>
-import * as echarts from 'echarts';
-require('echarts/theme/macarons') // echarts theme
-import resize from './mixins/resize'
+  import * as echarts from 'echarts'
+  import resize from './mixins/resize'
 
-const animationDuration = 6000
+  require('echarts/theme/macarons') // echarts theme
+
+  const animationDuration = 6000
 
 export default {
   mixins: [resize],

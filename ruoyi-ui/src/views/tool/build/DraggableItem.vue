@@ -1,8 +1,8 @@
 <script>
-import draggable from 'vuedraggable'
-import render from '@/utils/generator/render'
+  import draggable from 'vuedraggable'
+  import render from '@/utils/generator/render'
 
-const components = {
+  const components = {
   itemBtns(h, element, index, parent) {
     const { copyItem, deleteItem } = this.$listeners
     return [

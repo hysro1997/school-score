@@ -77,7 +77,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button 
+          <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
@@ -275,12 +275,12 @@
 </template>
 
 <script>
-import { listMenu, getMenu, delMenu, addMenu, updateMenu } from "@/api/system/menu";
-import Treeselect from "@riophae/vue-treeselect";
-import "@riophae/vue-treeselect/dist/vue-treeselect.css";
-import IconSelect from "@/components/IconSelect";
+  import { addMenu, delMenu, getMenu, listMenu, updateMenu } from '@/api/system/menu'
+  import Treeselect from '@riophae/vue-treeselect'
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import IconSelect from '@/components/IconSelect'
 
-export default {
+  export default {
   name: "Menu",
   dicts: ['sys_show_hide', 'sys_normal_disable'],
   components: { Treeselect, IconSelect },

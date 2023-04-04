@@ -1,8 +1,8 @@
 package com.hysro.scores.mapper;
 
-import java.util.List;
 import com.hysro.scores.domain.ExamExcellentScoreLine;
-import com.hysro.scores.domain.ExamStatisticScoreLineHelper;
+
+import java.util.List;
 
 /**
  * 优秀分数线Mapper接口
@@ -60,9 +60,4 @@ public interface ExamExcellentScoreLineMapper
      */
     public int deleteExamExcellentScoreLineByExcellentIds(Long[] excellentIds);
 
-    /**
-     * 根据年级 列转行 选出所有年级的分数线
-     * @return 结果
-     */
-    public List<ExamStatisticScoreLineHelper> selectAllSubjectScoreLinesByGrade();
 }

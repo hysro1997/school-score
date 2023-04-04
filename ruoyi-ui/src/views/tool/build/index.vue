@@ -136,22 +136,22 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
-import beautifier from 'js-beautify'
-import ClipboardJS from 'clipboard'
-import render from '@/utils/generator/render'
-import RightPanel from './RightPanel'
-import { inputComponents, selectComponents, layoutComponents, formConf } from '@/utils/generator/config'
-import { beautifierConf, titleCase } from '@/utils/index'
-import { makeUpHtml, vueTemplate, vueScript, cssStyle } from '@/utils/generator/html'
-import { makeUpJs } from '@/utils/generator/js'
-import { makeUpCss } from '@/utils/generator/css'
-import drawingDefault from '@/utils/generator/drawingDefault'
-import logo from '@/assets/logo/logo.png'
-import CodeTypeDialog from './CodeTypeDialog'
-import DraggableItem from './DraggableItem'
+  import draggable from 'vuedraggable'
+  import beautifier from 'js-beautify'
+  import ClipboardJS from 'clipboard'
+  import render from '@/utils/generator/render'
+  import RightPanel from './RightPanel'
+  import { formConf, inputComponents, layoutComponents, selectComponents } from '@/utils/generator/config'
+  import { beautifierConf, titleCase } from '@/utils/index'
+  import { cssStyle, makeUpHtml, vueScript, vueTemplate } from '@/utils/generator/html'
+  import { makeUpJs } from '@/utils/generator/js'
+  import { makeUpCss } from '@/utils/generator/css'
+  import drawingDefault from '@/utils/generator/drawingDefault'
+  import logo from '@/assets/logo/logo.png'
+  import CodeTypeDialog from './CodeTypeDialog'
+  import DraggableItem from './DraggableItem'
 
-let oldActiveId
+  let oldActiveId
 let tempActiveData
 
 export default {

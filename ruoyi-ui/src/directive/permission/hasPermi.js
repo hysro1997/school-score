@@ -2,10 +2,10 @@
  * v-hasPermi 操作权限处理
  * Copyright (c) 2019 ruoyi
  */
- 
-import store from '@/store'
 
-export default {
+ import store from '@/store'
+
+ export default {
   inserted(el, binding, vnode) {
     const { value } = binding
     const all_permission = "*:*:*";

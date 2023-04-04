@@ -291,10 +291,10 @@
 </template>
 
 <script>
-import { listJob, getJob, delJob, addJob, updateJob, runJob, changeJobStatus } from "@/api/monitor/job";
-import Crontab from '@/components/Crontab'
+  import { addJob, changeJobStatus, delJob, getJob, listJob, runJob, updateJob } from '@/api/monitor/job'
+  import Crontab from '@/components/Crontab'
 
-export default {
+  export default {
   components: { Crontab },
   name: "Job",
   dicts: ['sys_job_group', 'sys_job_status'],

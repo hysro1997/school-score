@@ -1,9 +1,8 @@
 package com.hysro.scores.mapper;
 
-import java.util.List;
-import java.util.Map;
-
 import com.hysro.scores.domain.Exams;
+
+import java.util.List;
 
 /**
  * 各种考试Mapper接口

@@ -47,8 +47,9 @@
 </template>
 
 <script>
-import { listDbTable, importTable } from "@/api/tool/gen";
-export default {
+  import { importTable, listDbTable } from '@/api/tool/gen'
+
+  export default {
   data() {
     return {
       // 遮罩层

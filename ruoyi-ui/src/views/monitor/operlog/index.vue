@@ -198,9 +198,9 @@
 </template>
 
 <script>
-import { list, delOperlog, cleanOperlog } from "@/api/monitor/operlog";
+  import { cleanOperlog, delOperlog, list } from '@/api/monitor/operlog'
 
-export default {
+  export default {
   name: "Operlog",
   dicts: ['sys_oper_type', 'sys_common_status'],
   data() {

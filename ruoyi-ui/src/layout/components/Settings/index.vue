@@ -38,7 +38,7 @@
         <el-divider/>
 
         <h3 class="drawer-title">系统布局配置</h3>
-      
+
         <div class="drawer-item">
           <span>开启 TopNav</span>
           <el-switch v-model="topNav" class="drawer-switch" />
@@ -74,9 +74,9 @@
 </template>
 
 <script>
-import ThemePicker from '@/components/ThemePicker'
+  import ThemePicker from '@/components/ThemePicker'
 
-export default {
+  export default {
   components: { ThemePicker },
   data() {
     return {

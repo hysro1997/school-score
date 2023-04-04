@@ -181,9 +181,9 @@
 </template>
 
 <script>
-import { listConfig, getConfig, delConfig, addConfig, updateConfig, refreshCache } from "@/api/system/config";
+  import { addConfig, delConfig, getConfig, listConfig, refreshCache, updateConfig } from '@/api/system/config'
 
-export default {
+  export default {
   name: "Config",
   dicts: ['sys_yes_no'],
   data() {

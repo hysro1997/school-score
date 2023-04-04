@@ -36,10 +36,10 @@
 </template>
 
 <script>
-import svgIcons from './svg-icons'
-import elementIcons from './element-icons'
+  import svgIcons from './svg-icons'
+  import elementIcons from './element-icons'
 
-export default {
+  export default {
   name: 'Icons',
   data() {
     return {

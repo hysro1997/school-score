@@ -100,10 +100,10 @@
 </template>
 
 <script>
-import { allocatedUserList, authUserCancel, authUserCancelAll } from "@/api/system/role";
-import selectUser from "./selectUser";
+  import { allocatedUserList, authUserCancel, authUserCancelAll } from '@/api/system/role'
+  import selectUser from './selectUser'
 
-export default {
+  export default {
   name: "AuthUser",
   dicts: ['sys_normal_disable'],
   components: { selectUser },

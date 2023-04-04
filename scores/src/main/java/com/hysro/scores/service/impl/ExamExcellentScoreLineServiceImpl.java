@@ -1,11 +1,12 @@
 package com.hysro.scores.service.impl;
 
-import java.util.List;
+import com.hysro.scores.domain.ExamExcellentScoreLine;
+import com.hysro.scores.mapper.ExamExcellentScoreLineMapper;
+import com.hysro.scores.service.IExamExcellentScoreLineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.hysro.scores.mapper.ExamExcellentScoreLineMapper;
-import com.hysro.scores.domain.ExamExcellentScoreLine;
-import com.hysro.scores.service.IExamExcellentScoreLineService;
+
+import java.util.List;
 
 /**
  * 优秀分数线Service业务层处理

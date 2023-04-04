@@ -18,13 +18,13 @@
 </template>
 
 <script>
-import Quill from "quill";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
-import { getToken } from "@/utils/auth";
+  import Quill from 'quill'
+  import 'quill/dist/quill.core.css'
+  import 'quill/dist/quill.snow.css'
+  import 'quill/dist/quill.bubble.css'
+  import { getToken } from '@/utils/auth'
 
-export default {
+  export default {
   name: "Editor",
   props: {
     /* 编辑器的内容 */

@@ -170,9 +170,9 @@
 </template>
 
 <script>
-import { listNotice, getNotice, delNotice, addNotice, updateNotice } from "@/api/system/notice";
+  import { addNotice, delNotice, getNotice, listNotice, updateNotice } from '@/api/system/notice'
 
-export default {
+  export default {
   name: "Notice",
   dicts: ['sys_notice_status', 'sys_notice_type'],
   data() {
