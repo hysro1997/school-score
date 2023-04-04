@@ -19,43 +19,43 @@ public class ExamGradeStatistic extends BaseEntity
     private Long examGradeStatisticsId;
 
     /** 考试人数 */
-    @Excel(name = "考试人数")
+    @Excel(name = "考试人数", type = Excel.Type.EXPORT)
     private Long examNumbers;
 
     /** 三及格人数 */
-    @Excel(name = "三及格人数")
+    @Excel(name = "三及格人数", type = Excel.Type.EXPORT)
     private Long tripleQualifiedNumbers;
 
     /** 三优秀人数 */
-    @Excel(name = "三优秀人数")
+    @Excel(name = "三优秀人数", type = Excel.Type.EXPORT)
     private Long tripleExcellentNumbers;
 
     /** 三及格率 */
-    @Excel(name = "三及格率")
+    @Excel(name = "三及格率", type = Excel.Type.EXPORT)
     private String tripleQualifiedPercentage;
 
     /** 三优秀率 */
-    @Excel(name = "三优秀率")
+    @Excel(name = "三优秀率", type = Excel.Type.EXPORT)
     private String tripleExcellentPercentage;
 
     /** 综合分 */
-    @Excel(name = "综合分")
+    @Excel(name = "综合分", type = Excel.Type.EXPORT)
     private String muitipleScore;
 
     /** 年级 */
-    @Excel(name = "年级")
+    @Excel(name = "年级", type = Excel.Type.EXPORT)
     private String grade;
 
     /** 班级 */
-    @Excel(name = "班级")
+    @Excel(name = "班级", type = Excel.Type.EXPORT)
     private String classes;
 
     /** 综合分排名 */
-    @Excel(name = "综合分排名")
+    @Excel(name = "综合分排名", type = Excel.Type.EXPORT)
     private Integer muitipleRank;
 
     /** 平均分排名 */
-    @Excel(name = "平均分排名")
+    @Excel(name = "平均分排名", type = Excel.Type.EXPORT)
     private Integer averageRank;
 
     /** 考试ID */
@@ -63,11 +63,11 @@ public class ExamGradeStatistic extends BaseEntity
     private Long examId;
 
     /** 总得分 */
-    @Excel(name = "总得分")
+    @Excel(name = "总得分", type = Excel.Type.EXPORT)
     private String allScore;
 
     /** 得分率 */
-    @Excel(name = "得分率")
+    @Excel(name = "得分率", type = Excel.Type.EXPORT)
     private String allScorePercentage;
 
 

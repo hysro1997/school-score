@@ -221,7 +221,7 @@ export default {
         getExamsEnables().then(response => {
           let enableNumbers = response.data;
           if (1 <= enableNumbers){
-            this.$modal.alertWarning("最多同时启用10场考试，请先停用已完成成绩录入的考试");
+            this.$modal.alertWarning("最多同时启用1场考试，请先停用已完成成绩录入的考试");
             row.enableFlag = 1;
             return false;
           }else {

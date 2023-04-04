@@ -20,11 +20,11 @@ public class ExamStudentScores extends BaseEntity
     private Long scoreId;
 
     /** 年级 */
-    @Excel(name = "年级")
+    @Excel(name = "年级", type = Excel.Type.EXPORT)
     private String grade;
 
     /** 班级 */
-    @Excel(name = "班级")
+    @Excel(name = "班级", type = Excel.Type.EXPORT)
     private String classes;
 
     /** 考试号 */

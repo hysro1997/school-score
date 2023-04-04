@@ -19,35 +19,35 @@ public class ExamGradeSummary extends BaseEntity
     private Long examGradeSummaryId;
 
     /** 年级 */
-    @Excel(name = "年级")
+    @Excel(name = "年级", type = Excel.Type.EXPORT)
     private String grade;
 
     /** 学科 */
-    @Excel(name = "学科")
+    @Excel(name = "学科", type = Excel.Type.EXPORT)
     private String subject;
 
     /** 考试总人数 */
-    @Excel(name = "考试总人数")
+    @Excel(name = "考试总人数", type = Excel.Type.EXPORT)
     private Long examTotalNumbers;
 
     /** 年级总分 */
-    @Excel(name = "年级总分")
+    @Excel(name = "年级总分", type = Excel.Type.EXPORT)
     private String gradeTotalScores;
 
     /** 年级均分 */
-    @Excel(name = "年级均分")
+    @Excel(name = "年级均分", type = Excel.Type.EXPORT)
     private String gradeAverageScore;
 
     /** 年级及格率 */
-    @Excel(name = "年级及格率")
+    @Excel(name = "年级及格率", type = Excel.Type.EXPORT)
     private String gradeQualifiedPercentage;
 
     /** 年级优秀率 */
-    @Excel(name = "年级优秀率")
+    @Excel(name = "年级优秀率", type = Excel.Type.EXPORT)
     private String gradeExcellentPercentage;
 
     /** 不及格人数 */
-    @Excel(name = "不及格人数")
+    @Excel(name = "不及格人数", type = Excel.Type.EXPORT)
     private Long gradeUnqualifiedNumbers;
 
     /** 考试ID */

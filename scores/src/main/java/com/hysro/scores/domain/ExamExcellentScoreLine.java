@@ -19,15 +19,15 @@ public class ExamExcellentScoreLine extends BaseEntity
     private Long excellentId;
 
     /** 学科 */
-    @Excel(name = "学科")
+    @Excel(name = "学科", type = Excel.Type.EXPORT)
     private String subject;
 
     /** 优秀分数 */
-    @Excel(name = "优秀分数")
+    @Excel(name = "优秀分数", type = Excel.Type.EXPORT)
     private Long excellentScore;
 
     /** 年级 */
-    @Excel(name = "年级")
+    @Excel(name = "年级", type = Excel.Type.EXPORT)
     private String grade;
 
     public void setExcellentId(Long excellentId)

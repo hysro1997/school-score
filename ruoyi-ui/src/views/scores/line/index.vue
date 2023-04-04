@@ -340,7 +340,7 @@
     handleExport() {
       this.download('scores/line/export', {
         ...this.queryParams
-      }, `line_${new Date().getTime()}.xlsx`)
+      }, `优秀分数线_${new Date().getTime()}.xlsx`)
     }
   }
 };

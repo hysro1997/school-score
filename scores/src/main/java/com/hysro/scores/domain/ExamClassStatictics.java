@@ -19,71 +19,71 @@ public class ExamClassStatictics extends BaseEntity
     private Long examStatisticsId;
 
     /** 年级 */
-    @Excel(name = "年级")
+    @Excel(name = "年级", type = Excel.Type.EXPORT)
     private String grade;
 
     /** 班级 */
-    @Excel(name = "班级")
+    @Excel(name = "班级", type = Excel.Type.EXPORT)
     private String classes;
 
     /** 学科 */
-    @Excel(name = "学科")
+    @Excel(name = "学科", type = Excel.Type.EXPORT)
     private String subject;
 
     /** 参加考试的人数 */
-    @Excel(name = "参加考试的人数")
+    @Excel(name = "参加考试的人数", type = Excel.Type.EXPORT)
     private Long examNumbers;
 
     /** 满分人数 */
-    @Excel(name = "满分人数")
+    @Excel(name = "满分人数", type = Excel.Type.EXPORT)
     private Long fullSocreNumbers;
 
     /** 优秀人数(优秀-99) */
-    @Excel(name = "优秀人数(优秀-99)")
+    @Excel(name = "优秀人数(优秀-99)", type = Excel.Type.EXPORT)
     private Long excellentNumbers;
 
     /** 良好人数(75-优秀) */
-    @Excel(name = "良好人数(75-优秀)")
+    @Excel(name = "良好人数(75-优秀)", type = Excel.Type.EXPORT)
     private Long goodNumbers;
 
     /** 及格人数(60-75) */
-    @Excel(name = "及格人数(60-75)")
+    @Excel(name = "及格人数(60-75)", type = Excel.Type.EXPORT)
     private Long qualifiedNumbers;
 
     /** 不及格人数(55-59) */
-    @Excel(name = "不及格人数(55-59)")
+    @Excel(name = "不及格人数(55-59)", type = Excel.Type.EXPORT)
     private Long unqualifiedOneNumbers;
 
     /** 不及格人数(50-54) */
-    @Excel(name = "不及格人数(50-54)")
+    @Excel(name = "不及格人数(50-54)", type = Excel.Type.EXPORT)
     private Long unqualifiedTwoNumbers;
 
     /** 不及格人数(40-49) */
-    @Excel(name = "不及格人数(40-49)")
+    @Excel(name = "不及格人数(40-49)", type = Excel.Type.EXPORT)
     private Long unqualifiedThreeNumbers;
 
     /** 不及格人数(40分以下) */
-    @Excel(name = "不及格人数(40分以下)")
+    @Excel(name = "不及格人数(40分以下)", type = Excel.Type.EXPORT)
     private Long unqualifiedFourNumbers;
 
     /** 全班总分 */
-    @Excel(name = "全班总分")
+    @Excel(name = "全班总分", type = Excel.Type.EXPORT)
     private String totalScore;
 
     /** 平均分 */
-    @Excel(name = "平均分")
+    @Excel(name = "平均分", type = Excel.Type.EXPORT)
     private String averageScore;
 
     /** 及格率 */
-    @Excel(name = "及格率")
+    @Excel(name = "及格率", type = Excel.Type.EXPORT)
     private String qualifiedPercentage;
 
     /** 优秀率 */
-    @Excel(name = "优秀率")
+    @Excel(name = "优秀率", type = Excel.Type.EXPORT)
     private String excellentPercentage;
 
     /** 综合分（平均分*40%，及格率*30%，优秀率*30%） */
-    @Excel(name = "综合分", readConverterExp = "平=均分*40%，及格率*30%，优秀率*30%")
+    @Excel(name = "综合分", type = Excel.Type.EXPORT)
     private String muitipleScore;
 
     /** 考试ID */
@@ -91,11 +91,11 @@ public class ExamClassStatictics extends BaseEntity
     private Long examId;
 
     /** 综合分排名 */
-    @Excel(name = "综合分排名")
+    @Excel(name = "综合分排名", type = Excel.Type.EXPORT)
     private Integer muitipleRank;
 
     /** 平均分排名 */
-    @Excel(name = "平均分排名")
+    @Excel(name = "平均分排名", type = Excel.Type.EXPORT)
     private Integer averageRank;
 
     /** 各种考试信息 */
