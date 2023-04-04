@@ -48,6 +48,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
 
+    <select id="selectExamStudentScoresByExamNumberAndExamId" parameterType="ExamStudentScores" resultMap="ExamStudentScoresExamsResult">
+        <include refid="selectExamStudentScoresVo"/>
+        where a.exam_number = #{examNumber}  and a.exam_id = #{examId}
+    </select>
+
     <select id="selectExamStudentScoresByScoreId" parameterType="Long" resultMap="ExamStudentScoresResult">
         <include refid="selectExamStudentScoresVo"/>
         where score_id = #{scoreId}

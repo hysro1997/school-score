@@ -23,6 +23,7 @@ public class Exams extends BaseEntity
     @Excel(name = "考试名称")
     private String examName;
 
+    @Excel(name = "启用状态", readConverterExp = "0=正常,1=停用")
     private String enableFlag;
 
     public String getEnableFlag() {

@@ -2,6 +2,10 @@ package com.hysro.scores.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.core.domain.model.LoginUser;
+import com.ruoyi.common.utils.SecurityUtils;
+import com.ruoyi.common.utils.ServletUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +24,11 @@ import com.hysro.scores.domain.ExamStudentScores;
 import com.hysro.scores.service.IExamStudentScoresService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 学生分数情况Controller
- * 
+ *
  * @author hysro
  * @date 2023-04-04
  */
@@ -100,5 +105,24 @@ public class ExamStudentScoresController extends BaseController
     public AjaxResult remove(@PathVariable Long[] scoreIds)
     {
         return toAjax(examStudentScoresService.deleteExamStudentScoresByScoreIds(scoreIds));
+    }
+
+    @PreAuthorize("@ss.hasPermi('scores:scores:import')")
+    @Log(title = "学生分数管理", businessType = BusinessType.IMPORT)
+    @PostMapping("/importData")
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
+    {
+        ExcelUtil<ExamStudentScores> util = new ExcelUtil<ExamStudentScores>(ExamStudentScores.class);
+        List<ExamStudentScores> scoresList = util.importExcel(file.getInputStream());
+        String operName = SecurityUtils.getUsername();
+        String message = examStudentScoresService.importStudentScore(scoresList,updateSupport,operName);
+        return AjaxResult.success(message);
+    }
+
+    @PostMapping("/importTemplate")
+    public void importTemplate(HttpServletResponse response)
+    {
+        ExcelUtil<ExamStudentScores> util = new ExcelUtil<ExamStudentScores>(ExamStudentScores.class);
+        util.importTemplateExcel(response,"学生分数数据");
     }
 }

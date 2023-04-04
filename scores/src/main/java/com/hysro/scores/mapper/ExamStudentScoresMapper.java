@@ -5,15 +5,15 @@ import com.hysro.scores.domain.ExamStudentScores;
 
 /**
  * 学生分数情况Mapper接口
- * 
+ *
  * @author hysro
  * @date 2023-04-04
  */
-public interface ExamStudentScoresMapper 
+public interface ExamStudentScoresMapper
 {
     /**
      * 查询学生分数情况
-     * 
+     *
      * @param scoreId 学生分数情况主键
      * @return 学生分数情况
      */
@@ -21,15 +21,23 @@ public interface ExamStudentScoresMapper
 
     /**
      * 查询学生分数情况列表
-     * 
+     *
      * @param examStudentScores 学生分数情况
      * @return 学生分数情况集合
      */
     public List<ExamStudentScores> selectExamStudentScoresList(ExamStudentScores examStudentScores);
 
     /**
+     * 根据考试号和考试ID查询考试记录
+     *
+     * @param examStudentScores 学生分数情况
+     * @return 学生分数情况
+     */
+    public ExamStudentScores selectExamStudentScoresByExamNumberAndExamId(ExamStudentScores examStudentScores);
+
+    /**
      * 新增学生分数情况
-     * 
+     *
      * @param examStudentScores 学生分数情况
      * @return 结果
      */
@@ -37,7 +45,7 @@ public interface ExamStudentScoresMapper
 
     /**
      * 修改学生分数情况
-     * 
+     *
      * @param examStudentScores 学生分数情况
      * @return 结果
      */
@@ -45,7 +53,7 @@ public interface ExamStudentScoresMapper
 
     /**
      * 删除学生分数情况
-     * 
+     *
      * @param scoreId 学生分数情况主键
      * @return 结果
      */
@@ -53,7 +61,7 @@ public interface ExamStudentScoresMapper
 
     /**
      * 批量删除学生分数情况
-     * 
+     *
      * @param scoreIds 需要删除的数据主键集合
      * @return 结果
      */
