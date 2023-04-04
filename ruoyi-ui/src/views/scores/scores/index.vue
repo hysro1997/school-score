@@ -25,10 +25,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="考试ID" prop="examId">
+      <el-form-item label="考试名称" prop="examName">
         <el-input
-          v-model="queryParams.examId"
-          placeholder="请输入考试ID"
+          v-model="queryParams.examName"
+          placeholder="请输入考试名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -180,7 +180,8 @@
         grade: null,
         classes: null,
         examNumber: null,
-        examId: null
+        examId: null,
+        examName:null
       },
       // 表单参数
       form: {},

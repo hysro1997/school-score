@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hysro.scores.mapper.ExamGradeStatisticMapper">
-    
+
     <resultMap type="ExamGradeStatistic" id="ExamGradeStatisticResult">
         <result property="examGradeStatisticsId"    column="exam_grade_statistics_id"    />
         <result property="examNumbers"    column="exam_numbers"    />
@@ -21,24 +21,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="allScorePercentage"    column="all_score_percentage"    />
     </resultMap>
 
+    <resultMap id="ExamExamGradeStatisticResult" type="ExamGradeStatistic" extends="ExamGradeStatisticResult">
+        <collection property="exams" notNullColumn="sub_exam_id" javaType="Exams" resultMap="ExamsResult" />
+    </resultMap>
+
+    <resultMap type="Exams" id="ExamsResult">
+        <result property="examId"    column="sub_exam_id"    />
+        <result property="examName"    column="sub_exam_name"    />
+        <result property="createTime"    column="sub_create_time"    />
+        <result property="createBy"    column="sub_create_by"    />
+    </resultMap>
+
     <sql id="selectExamGradeStatisticVo">
-        select exam_grade_statistics_id, exam_numbers, triple_qualified_numbers, triple_excellent_numbers, triple_qualified_percentage, triple_excellent_percentage, muitiple_score, grade, classes, muitiple_rank, average_rank, exam_id, all_score, all_score_percentage from exam_grade_statistic
+        select a.exam_grade_statistics_id, a.exam_numbers, a.triple_qualified_numbers, a.triple_excellent_numbers, a.triple_qualified_percentage, a.triple_excellent_percentage, a.muitiple_score, a.grade, a.classes, a.muitiple_rank, a.average_rank, a.exam_id, a.all_score, a.all_score_percentage, b.exam_id as sub_exam_id, b.exam_name as sub_exam_name, b.create_time as sub_create_time, b.create_by as sub_create_by  from exam_grade_statistic a
+         left join exams b on b.exam_id = a.exam_id
     </sql>
 
-    <select id="selectExamGradeStatisticList" parameterType="ExamGradeStatistic" resultMap="ExamGradeStatisticResult">
+    <select id="selectExamGradeStatisticList" parameterType="ExamGradeStatistic" resultMap="ExamExamGradeStatisticResult">
         <include refid="selectExamGradeStatisticVo"/>
-        <where>  
+        <where>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
             <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="exams != null and exams.examName != null  and exams.examName != ''"> and exam_name like concat('%', #{exams.examName}, '%')</if>
         </where>
     </select>
-    
+
     <select id="selectExamGradeStatisticByExamGradeStatisticsId" parameterType="Long" resultMap="ExamGradeStatisticResult">
         <include refid="selectExamGradeStatisticVo"/>
         where exam_grade_statistics_id = #{examGradeStatisticsId}
     </select>
-        
+
     <insert id="insertExamGradeStatistic" parameterType="ExamGradeStatistic" useGeneratedKeys="true" keyProperty="examGradeStatisticsId">
         insert into exam_grade_statistic
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -98,7 +111,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteExamGradeStatisticByExamGradeStatisticsIds" parameterType="String">
-        delete from exam_grade_statistic where exam_grade_statistics_id in 
+        delete from exam_grade_statistic where exam_grade_statistics_id in
         <foreach item="examGradeStatisticsId" collection="array" open="(" separator="," close=")">
             #{examGradeStatisticsId}
         </foreach>

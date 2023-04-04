@@ -7,7 +7,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 年级总体情况对象 exam_grade_summary
- * 
+ *
  * @author hysro
  * @date 2023-04-04
  */
@@ -51,98 +51,110 @@ public class ExamGradeSummary extends BaseEntity
     private Long gradeUnqualifiedNumbers;
 
     /** 考试ID */
-    @Excel(name = "考试ID")
+    //@Excel(name = "考试ID")
     private Long examId;
 
-    public void setExamGradeSummaryId(Long examGradeSummaryId) 
+    /** 考试信息 */
+    @Excel(name = "考试名称", targetAttr = "examName", type = Excel.Type.EXPORT)
+    private Exams exams;
+
+    public void setExamGradeSummaryId(Long examGradeSummaryId)
     {
         this.examGradeSummaryId = examGradeSummaryId;
     }
 
-    public Long getExamGradeSummaryId() 
+    public Long getExamGradeSummaryId()
     {
         return examGradeSummaryId;
     }
-    public void setGrade(String grade) 
+    public void setGrade(String grade)
     {
         this.grade = grade;
     }
 
-    public String getGrade() 
+    public String getGrade()
     {
         return grade;
     }
-    public void setSubject(String subject) 
+    public void setSubject(String subject)
     {
         this.subject = subject;
     }
 
-    public String getSubject() 
+    public String getSubject()
     {
         return subject;
     }
-    public void setExamTotalNumbers(Long examTotalNumbers) 
+    public void setExamTotalNumbers(Long examTotalNumbers)
     {
         this.examTotalNumbers = examTotalNumbers;
     }
 
-    public Long getExamTotalNumbers() 
+    public Long getExamTotalNumbers()
     {
         return examTotalNumbers;
     }
-    public void setGradeTotalScores(String gradeTotalScores) 
+    public void setGradeTotalScores(String gradeTotalScores)
     {
         this.gradeTotalScores = gradeTotalScores;
     }
 
-    public String getGradeTotalScores() 
+    public String getGradeTotalScores()
     {
         return gradeTotalScores;
     }
-    public void setGradeAverageScore(String gradeAverageScore) 
+    public void setGradeAverageScore(String gradeAverageScore)
     {
         this.gradeAverageScore = gradeAverageScore;
     }
 
-    public String getGradeAverageScore() 
+    public String getGradeAverageScore()
     {
         return gradeAverageScore;
     }
-    public void setGradeQualifiedPercentage(String gradeQualifiedPercentage) 
+    public void setGradeQualifiedPercentage(String gradeQualifiedPercentage)
     {
         this.gradeQualifiedPercentage = gradeQualifiedPercentage;
     }
 
-    public String getGradeQualifiedPercentage() 
+    public String getGradeQualifiedPercentage()
     {
         return gradeQualifiedPercentage;
     }
-    public void setGradeExcellentPercentage(String gradeExcellentPercentage) 
+    public void setGradeExcellentPercentage(String gradeExcellentPercentage)
     {
         this.gradeExcellentPercentage = gradeExcellentPercentage;
     }
 
-    public String getGradeExcellentPercentage() 
+    public String getGradeExcellentPercentage()
     {
         return gradeExcellentPercentage;
     }
-    public void setGradeUnqualifiedNumbers(Long gradeUnqualifiedNumbers) 
+    public void setGradeUnqualifiedNumbers(Long gradeUnqualifiedNumbers)
     {
         this.gradeUnqualifiedNumbers = gradeUnqualifiedNumbers;
     }
 
-    public Long getGradeUnqualifiedNumbers() 
+    public Long getGradeUnqualifiedNumbers()
     {
         return gradeUnqualifiedNumbers;
     }
-    public void setExamId(Long examId) 
+    public void setExamId(Long examId)
     {
         this.examId = examId;
     }
 
-    public Long getExamId() 
+    public Long getExamId()
     {
         return examId;
+    }
+
+    public Exams getExams() {
+        return exams;
+    }
+
+    public void setExams(Exams exams) {
+        this.exams = exams;
     }
 
     @Override
@@ -158,6 +170,7 @@ public class ExamGradeSummary extends BaseEntity
             .append("gradeExcellentPercentage", getGradeExcellentPercentage())
             .append("gradeUnqualifiedNumbers", getGradeUnqualifiedNumbers())
             .append("examId", getExamId())
+            .append("exams", getExams())
             .toString();
     }
 }

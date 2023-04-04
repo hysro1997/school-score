@@ -7,7 +7,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 年级数据统计情况对象 exam_grade_statistic
- * 
+ *
  * @author hysro
  * @date 2023-04-04
  */
@@ -59,7 +59,7 @@ public class ExamGradeStatistic extends BaseEntity
     private Integer averageRank;
 
     /** 考试ID */
-    @Excel(name = "考试ID")
+    //@Excel(name = "考试ID")
     private Long examId;
 
     /** 总得分 */
@@ -70,131 +70,143 @@ public class ExamGradeStatistic extends BaseEntity
     @Excel(name = "得分率")
     private String allScorePercentage;
 
-    public void setExamGradeStatisticsId(Long examGradeStatisticsId) 
+
+    /** 各种考试信息 */
+    @Excel(name = "考试名称", targetAttr = "examName", type = Excel.Type.EXPORT)
+    private Exams exams;
+    public void setExamGradeStatisticsId(Long examGradeStatisticsId)
     {
         this.examGradeStatisticsId = examGradeStatisticsId;
     }
 
-    public Long getExamGradeStatisticsId() 
+    public Long getExamGradeStatisticsId()
     {
         return examGradeStatisticsId;
     }
-    public void setExamNumbers(Long examNumbers) 
+    public void setExamNumbers(Long examNumbers)
     {
         this.examNumbers = examNumbers;
     }
 
-    public Long getExamNumbers() 
+    public Long getExamNumbers()
     {
         return examNumbers;
     }
-    public void setTripleQualifiedNumbers(Long tripleQualifiedNumbers) 
+    public void setTripleQualifiedNumbers(Long tripleQualifiedNumbers)
     {
         this.tripleQualifiedNumbers = tripleQualifiedNumbers;
     }
 
-    public Long getTripleQualifiedNumbers() 
+    public Long getTripleQualifiedNumbers()
     {
         return tripleQualifiedNumbers;
     }
-    public void setTripleExcellentNumbers(Long tripleExcellentNumbers) 
+    public void setTripleExcellentNumbers(Long tripleExcellentNumbers)
     {
         this.tripleExcellentNumbers = tripleExcellentNumbers;
     }
 
-    public Long getTripleExcellentNumbers() 
+    public Long getTripleExcellentNumbers()
     {
         return tripleExcellentNumbers;
     }
-    public void setTripleQualifiedPercentage(String tripleQualifiedPercentage) 
+    public void setTripleQualifiedPercentage(String tripleQualifiedPercentage)
     {
         this.tripleQualifiedPercentage = tripleQualifiedPercentage;
     }
 
-    public String getTripleQualifiedPercentage() 
+    public String getTripleQualifiedPercentage()
     {
         return tripleQualifiedPercentage;
     }
-    public void setTripleExcellentPercentage(String tripleExcellentPercentage) 
+    public void setTripleExcellentPercentage(String tripleExcellentPercentage)
     {
         this.tripleExcellentPercentage = tripleExcellentPercentage;
     }
 
-    public String getTripleExcellentPercentage() 
+    public String getTripleExcellentPercentage()
     {
         return tripleExcellentPercentage;
     }
-    public void setMuitipleScore(String muitipleScore) 
+    public void setMuitipleScore(String muitipleScore)
     {
         this.muitipleScore = muitipleScore;
     }
 
-    public String getMuitipleScore() 
+    public String getMuitipleScore()
     {
         return muitipleScore;
     }
-    public void setGrade(String grade) 
+    public void setGrade(String grade)
     {
         this.grade = grade;
     }
 
-    public String getGrade() 
+    public String getGrade()
     {
         return grade;
     }
-    public void setClasses(String classes) 
+    public void setClasses(String classes)
     {
         this.classes = classes;
     }
 
-    public String getClasses() 
+    public String getClasses()
     {
         return classes;
     }
-    public void setMuitipleRank(Integer muitipleRank) 
+    public void setMuitipleRank(Integer muitipleRank)
     {
         this.muitipleRank = muitipleRank;
     }
 
-    public Integer getMuitipleRank() 
+    public Integer getMuitipleRank()
     {
         return muitipleRank;
     }
-    public void setAverageRank(Integer averageRank) 
+    public void setAverageRank(Integer averageRank)
     {
         this.averageRank = averageRank;
     }
 
-    public Integer getAverageRank() 
+    public Integer getAverageRank()
     {
         return averageRank;
     }
-    public void setExamId(Long examId) 
+    public void setExamId(Long examId)
     {
         this.examId = examId;
     }
 
-    public Long getExamId() 
+    public Long getExamId()
     {
         return examId;
     }
-    public void setAllScore(String allScore) 
+    public void setAllScore(String allScore)
     {
         this.allScore = allScore;
     }
 
-    public String getAllScore() 
+    public String getAllScore()
     {
         return allScore;
     }
-    public void setAllScorePercentage(String allScorePercentage) 
+    public void setAllScorePercentage(String allScorePercentage)
     {
         this.allScorePercentage = allScorePercentage;
     }
 
-    public String getAllScorePercentage() 
+    public String getAllScorePercentage()
     {
         return allScorePercentage;
+    }
+
+    public Exams getExams() {
+        return exams;
+    }
+
+    public void setExams(Exams exams) {
+        this.exams = exams;
     }
 
     @Override
@@ -214,6 +226,7 @@ public class ExamGradeStatistic extends BaseEntity
             .append("examId", getExamId())
             .append("allScore", getAllScore())
             .append("allScorePercentage", getAllScorePercentage())
+            .append("exams", getExams())
             .toString();
     }
 }
