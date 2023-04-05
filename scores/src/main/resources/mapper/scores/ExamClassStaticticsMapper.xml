@@ -43,6 +43,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select a.exam_statistics_id, a.grade, a.classes, a.subject, a.exam_numbers, a.full_socre_numbers, a.excellent_numbers, a.good_numbers, a.qualified_numbers, a.unqualified_one_numbers, a.unqualified_two_numbers, a.unqualified_three_numbers, a.unqualified_four_numbers, a.total_score, a.average_score, a.qualified_percentage, a.excellent_percentage, a.muitiple_score, a.exam_id, a.muitiple_rank, a.average_rank, b.exam_id as sub_exam_id, b.exam_name as sub_exam_name, b.create_time as sub_create_time, b.create_by as sub_create_by  from exam_class_statictics a
          left join exams b on b.exam_id = a.exam_id
     </sql>
+    <sql id="calculateClassStatisticsVo">
+        SELECT COUNT( * ) FROM `exam_student_scores`
+        <where>
+            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
+        </where>
+    </sql>
 
     <select id="selectExamClassStaticticsList" parameterType="ExamClassStatictics" resultMap="ExamExamClassStaticticsResult">
         <include refid="selectExamClassStaticticsVo"/>
@@ -50,9 +58,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
-            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="examId != null "> and a.exam_id = #{examId}</if>
             <if test="exams != null and exams.examName != null  and exams.examName != ''"> and exam_name like concat('%', #{exams.examName}, '%')</if>
         </where>
+    </select>
+    <select id="selectExamClassStatictics" parameterType="ExamClassStatictics" resultMap="ExamExamClassStaticticsResult">
+        <include refid="selectExamClassStaticticsVo"/>
+        <where>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
+            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
+            <if test="examId != null "> and a.exam_id = #{examId}</if>
+        </where>
+    </select>
+
+    <select id="calculateClassStatistics" parameterType="ExamClassStatictics" resultMap="ExamClassStaticticsResult">
+        SELECT *, ROUND(b.average_score * 0.4 + b.excellent_percentage*0.3 + b.qualified_percentage*0.3,2) AS muitiple_score from
+        (SELECT
+        *, CONCAT(ROUND((a.full_socre_numbers + a.excellent_numbers) / a.exam_numbers * 100,2),"%") AS excellent_percentage,
+        CONCAT(ROUND((a.full_socre_numbers + a.excellent_numbers + a.good_numbers + a.qualified_numbers) / a.exam_numbers * 100,2),"%") AS qualified_percentage
+        FROM
+        (
+        SELECT
+        grade,
+        classes,
+        exam_id,
+        COUNT( ${subjectName} ) AS exam_numbers,
+        SUM( ${subjectName} ) AS total_score,
+        ROUND( AVG( ${subjectName} ), 2 ) AS average_score,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} = 100 ) AS full_socre_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN #{excellentLine} AND 99 ) AS excellent_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 75 AND (#{excellentLine}-1) ) AS good_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 60 AND 74 ) AS qualified_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 55 AND 59 ) AS unqualified_one_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 50 AND 54 ) AS unqualified_two_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 40 AND 49 ) AS unqualified_three_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} &lt; 40 ) AS unqualified_four_numbers
+        FROM
+        `exam_student_scores`
+        WHERE
+        exam_id = #{examId}
+        AND grade = #{grade}
+        AND classes = #{classes}
+        ) a) b
     </select>
 
     <select id="selectExamClassStaticticsByExamStatisticsId" parameterType="Long" resultMap="ExamClassStaticticsResult">

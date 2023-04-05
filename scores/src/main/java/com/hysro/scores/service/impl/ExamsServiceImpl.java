@@ -1,15 +1,22 @@
 package com.hysro.scores.service.impl;
 
+import com.hysro.scores.domain.ExamClassStatictics;
+import com.hysro.scores.domain.ExamExcellentScoreLine;
 import com.hysro.scores.domain.Exams;
+import com.hysro.scores.mapper.ExamClassStaticticsMapper;
 import com.hysro.scores.mapper.ExamExcellentScoreLineMapper;
+import com.hysro.scores.mapper.ExamStudentScoresMapper;
 import com.hysro.scores.mapper.ExamsMapper;
 import com.hysro.scores.service.IExamsService;
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 各种考试Service业务层处理
@@ -24,6 +31,10 @@ public class ExamsServiceImpl implements IExamsService
     private ExamsMapper examsMapper;
     @Autowired
     private ExamExcellentScoreLineMapper scoreLineMapper;
+    @Autowired
+    private ExamStudentScoresMapper studentScoresMapper;
+    @Autowired
+    private ExamClassStaticticsMapper classStaticticsMapper;
 
     /**
      * 查询各种考试
@@ -113,6 +124,74 @@ public class ExamsServiceImpl implements IExamsService
     public int deleteExamsByExamId(Long examId)
     {
         return examsMapper.deleteExamsByExamId(examId);
+    }
+
+    /**
+     * 根据考试ID统计年级情况、班级情况、年级情况概要
+     *
+     * @param examId 考试ID
+     * @return 结果
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public  List<Map<String,String>> calculateStatisticExams(Long examId) {
+        ExamExcellentScoreLine examExcellentScoreLine;
+        ExamClassStatictics examClassStatictics;
+        //获取有成绩的年级班级
+        List<Map<String,String>> gradeClasses = studentScoresMapper.selectDistinctGradeClassesByExamId(examId);
+        if (0 == gradeClasses.size()){
+            throw new ServiceException("还没有录入成绩");
+        }
+        //循环年级班级，开始统计
+        for (Map<String,String> gradeClass : gradeClasses){
+            this.saveClassesStatistics(gradeClass.get("grade"),gradeClass.get("classes"),"语文","chinese_score",examId);
+            this.saveClassesStatistics(gradeClass.get("grade"),gradeClass.get("classes"),"数学","maths_score",examId);
+            if (!"一年级".equals(gradeClass.get("grade")) && !"二年级".equals(gradeClass.get("grade"))){
+                this.saveClassesStatistics(gradeClass.get("grade"),gradeClass.get("classes"),"英语","english_score",examId);
+            }
+        }
+
+        return gradeClasses;
+    }
+
+    /**
+     *  根据年级、班级、学科、考试ID来统计成绩
+     *
+     * @param grade 年级
+     * @param classes 班级
+     * @param subject 学科
+     * @param examId 考试ID
+     */
+    private void saveClassesStatistics(String grade,String classes,String subject,String subjectName, Long examId){
+        ExamClassStatictics examClassStatictics = new ExamClassStatictics();
+        //设置年级 班级和 考试ID 方便下面的查询插入
+        examClassStatictics.setGrade(grade);
+        examClassStatictics.setClasses(classes);
+        examClassStatictics.setExamId(examId);
+
+        //开始分步获取优秀分数
+        ExamExcellentScoreLine examExcellentScoreLine = new ExamExcellentScoreLine();
+        examExcellentScoreLine.setGrade(grade);
+        examExcellentScoreLine.setSubject(subject);
+        examExcellentScoreLine = scoreLineMapper.selectExamExcellentScoreLine(examExcellentScoreLine);
+        if (null == examExcellentScoreLine){
+            throw new ServiceException(grade + "没有设置" + subject + "优秀分数线");
+        }
+        //下面给考试成绩班级统计设置学科和对应的优秀分数线
+        examClassStatictics.setExcellentLine(examExcellentScoreLine.getExcellentScore());
+        examClassStatictics.setSubjectName(subjectName);
+        examClassStatictics.setSubject(subject);
+        //获取对应的记录
+        examClassStatictics = classStaticticsMapper.calculateClassStatistics(examClassStatictics);
+        examClassStatictics.setSubject(subject);
+        //如果结果是null就是新增，如果不是，就是更新
+        ExamClassStatictics ecs = classStaticticsMapper.selectExamClassStatictics(examClassStatictics);
+        if (null == ecs){
+            classStaticticsMapper.insertExamClassStatictics(examClassStatictics);
+        }else {
+            examClassStatictics.setExamStatisticsId(ecs.getExamStatisticsId());
+            classStaticticsMapper.updateExamClassStatictics(examClassStatictics);
+        }
     }
 
 

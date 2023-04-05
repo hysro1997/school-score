@@ -175,6 +175,12 @@
       </div>
     </el-dialog>
 
+    <!-- 导入后显示导入结果 -->
+    <el-dialog :title="uploadResult.title" width="400px" :visible.sync="uploadResult.open">
+      <el-input type="textarea" v-model="textarea" :rows="10" disabled></el-input>
+      <el-button type="primary" @click="uploadResult.open = false">好的</el-button>
+    </el-dialog>
+
     <!-- 学生分数导入对话框 -->
     <el-dialog :title="upload.title" :visible.sync="upload.open" width="400px">
       <el-upload
@@ -279,6 +285,7 @@
         value: '12班',
         label: '12班'
       }],
+      textarea: '',
       // 遮罩层
       loading: true,
       // 选中数组
@@ -306,6 +313,10 @@
         examNumber: null,
         examId: null,
         examName:null
+      },
+      uploadResult:{
+        open: false,
+        title: "学生分数导入结果"
       },
       upload: {
         // 是否显示弹出层（用户导入）
@@ -386,9 +397,17 @@
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加学生分数情况";
+      getExamsEnables().then(response => {
+        let enableNumbers = response.data;
+        if (1!==enableNumbers){
+          this.$modal.alertWarning("考试尚未开启分数录入");
+          return false;
+        }
+        this.reset();
+        this.open = true;
+        this.title = "添加学生分数情况";
+      });
+
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -463,8 +482,11 @@
     handleFileSuccess(response, file, fileList) {
       this.upload.open = false;
       this.upload.isUploading = false;
+      this.uploadResult.open = true;
+      this.textarea = '';
+      this.textarea = response.msg;
       this.$refs.upload.clearFiles();
-      this.$alert(response.msg, "导入结果", { dangerouslyUseHTMLString: true });
+      //this.$alert(response.msg, "导入结果", { dangerouslyUseHTMLString: true });
       this.getList();
     },
 // 提交上传文件

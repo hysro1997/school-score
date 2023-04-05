@@ -43,9 +43,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
             <if test="examNumber != null  and examNumber != ''"> and exam_number = #{examNumber}</if>
-            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="examId != null "> and a.exam_id = #{examId}</if>
             <if test="exams != null and exams.examName != null  and exams.examName != ''"> and exam_name like concat('%', #{exams.examName}, '%')</if>
         </where>
+        order by a.score_id desc
+    </select>
+
+    <select id="selectDistinctGradeClassesByExamId" parameterType="Long" resultType="Map">
+        SELECT DISTINCT grade, classes FROM `exam_student_scores`
+        WHERE exam_id = #{examId}
     </select>
 
     <select id="selectExamStudentScoresByExamNumberAndExamId" parameterType="ExamStudentScores" resultMap="ExamStudentScoresExamsResult">

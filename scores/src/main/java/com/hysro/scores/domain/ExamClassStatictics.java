@@ -102,6 +102,19 @@ public class ExamClassStatictics extends BaseEntity
     @Excel(name = "考试名称", targetAttr = "examName", type = Excel.Type.EXPORT)
     private Exams exams;
 
+    private Long excellentLine;
+
+    /** 动态给sql传参，表明查询的是哪个学科的分数 */
+    private String subjectName;
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
     public void setExamStatisticsId(Long examStatisticsId)
     {
         this.examStatisticsId = examStatisticsId;
@@ -300,6 +313,14 @@ public class ExamClassStatictics extends BaseEntity
         this.exams = exams;
     }
 
+    public Long getExcellentLine() {
+        return excellentLine;
+    }
+
+    public void setExcellentLine(Long excellentLine) {
+        this.excellentLine = excellentLine;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -325,6 +346,8 @@ public class ExamClassStatictics extends BaseEntity
             .append("muitipleRank", getMuitipleRank())
             .append("averageRank", getAverageRank())
             .append("exams", getExams())
+            .append("excellentLine", getExcellentLine())
+            .append("subjectName", getSubjectName())
             .toString();
     }
 }

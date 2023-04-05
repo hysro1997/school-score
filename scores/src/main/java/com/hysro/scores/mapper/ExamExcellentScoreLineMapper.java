@@ -29,6 +29,14 @@ public interface ExamExcellentScoreLineMapper
     public List<ExamExcellentScoreLine> selectExamExcellentScoreLineList(ExamExcellentScoreLine examExcellentScoreLine);
 
     /**
+     * 查询优秀分数线
+     *
+     * @param examExcellentScoreLine 优秀分数线
+     * @return 优秀分数线
+     */
+    public ExamExcellentScoreLine selectExamExcellentScoreLine(ExamExcellentScoreLine examExcellentScoreLine);
+
+    /**
      * 新增优秀分数线
      *
      * @param examExcellentScoreLine 优秀分数线

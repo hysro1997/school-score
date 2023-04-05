@@ -133,7 +133,7 @@
     <!-- 统计进度显示对话框 -->
     <el-dialog :title="title" :visible.sync="processOpen" width="500px" append-to-body :show-close="false">
       <el-input
-        style="font-size: 16px"
+        style="font-size: 20px"
         type="textarea"
         :rows="20"
         placeholder="处理进度"
@@ -298,13 +298,14 @@ export default {
     },
     /** 统计考试的结果数据 */
     handleStatistics(row) {
+      if ("0"===row.enableFlag){
+        this.$modal.alertWarning("本场考试尚未停止，还不能统计数据");
+        return false;
+      }
       this.processOpen = true;
       this.finishDisable = true;
       this.processingTextarea = "";
       this.title = "统计进度";
-      if ("0"===row.enableFlag){
-        this.$modal.alertWarning("本场考试尚未停止，还不能统计数据");
-      }else {
         statisticExams(row.examId).then(response => {
           let data = response.data;
           if (undefined === data || null === data || ''=== data || 0 >= data.length){
@@ -336,7 +337,6 @@ export default {
           });
         });
 
-      }
     },
     /** 提交按钮 */
     submitForm() {

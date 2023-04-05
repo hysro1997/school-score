@@ -1,6 +1,8 @@
 package com.hysro.scores.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import com.hysro.scores.domain.ExamStudentScores;
 
 /**
@@ -26,6 +28,14 @@ public interface ExamStudentScoresMapper
      * @return 学生分数情况集合
      */
     public List<ExamStudentScores> selectExamStudentScoresList(ExamStudentScores examStudentScores);
+
+    /**
+     * 根据考试ID获取有学生分数的年级班级
+     *
+     * @param examId 考试ID
+     * @return 结果
+     */
+    public List<Map<String,String>> selectDistinctGradeClassesByExamId(Long examId);
 
     /**
      * 根据考试号和考试ID查询考试记录

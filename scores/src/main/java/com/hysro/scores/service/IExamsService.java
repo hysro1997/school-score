@@ -3,6 +3,7 @@ package com.hysro.scores.service;
 import com.hysro.scores.domain.Exams;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 各种考试Service接口
@@ -65,5 +66,13 @@ public interface IExamsService
      * @return 结果
      */
     public int deleteExamsByExamId(Long examId);
+
+    /**
+     * 根据考试ID统计年级情况、班级情况、年级情况概要
+     *
+     * @param examId 考试ID
+     * @return 结果
+     */
+    public  List<Map<String,String>> calculateStatisticExams(Long examId);
 
 }

@@ -23,6 +23,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
 
+    <select id="selectExamExcellentScoreLine" parameterType="ExamExcellentScoreLine" resultMap="ExamExcellentScoreLineResult">
+        <include refid="selectExamExcellentScoreLineVo"/>
+        <where>
+            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+        </where>
+    </select>
+
     <select id="selectExamExcellentScoreLineByExcellentId" parameterType="Long" resultMap="ExamExcellentScoreLineResult">
         <include refid="selectExamExcellentScoreLineVo"/>
         where excellent_id = #{excellentId}

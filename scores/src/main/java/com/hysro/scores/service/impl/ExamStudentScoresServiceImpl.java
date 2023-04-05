@@ -151,7 +151,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
                     score.setCreateBy(operName);
                     this.insertExamStudentScores(score);
                     successNum++;
-                    successMsg.append("<br/>" + successNum + "、考号 " + score.getExamNumber() + " 的分数导入成功");
+                    successMsg.append("\r\n" + successNum + "、考号 " + score.getExamNumber() + " 的分数导入成功");
                 }
                 else if (updateSupport)
                 {
@@ -160,18 +160,18 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
                     score.setScoreId(ess.getScoreId());
                     this.updateExamStudentScores(score);
                     successNum++;
-                    successMsg.append("<br/>" + successNum + "、考号 " + score.getExamNumber() + " 的分数更新成功");
+                    successMsg.append("\r\n" + successNum + "、考号 " + score.getExamNumber() + " 的分数更新成功");
                 }
                 else
                 {
                     failureNum++;
-                    failureMsg.append("<br/>" + failureNum + "、考号 " + score.getExamNumber() + " 的分数已存在");
+                    failureMsg.append("\r\n" + failureNum + "、考号 " + score.getExamNumber() + " 的分数已存在");
                 }
             }
             catch (Exception e)
             {
                 failureNum++;
-                String msg = "<br/>" + failureNum + "、考号 " + score.getExamNumber() + " 导入失败：";
+                String msg = "\r\n" + failureNum + "、考号 " + score.getExamNumber() + " 导入失败：";
                 failureMsg.append(msg + e.getMessage());
                 log.error(msg, e);
             }
