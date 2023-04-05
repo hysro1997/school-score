@@ -1,6 +1,8 @@
 package com.hysro.scores.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import com.hysro.scores.domain.ExamClassStatictics;
 
 /**
@@ -71,7 +73,31 @@ public interface ExamClassStaticticsMapper
      * 根据考试ID，年级，班级统计班级学科成绩
      *
      * @param examClassStatictics 考试ID，年级，班级，优秀分数线，对应学科(subjectName chinese_score,maths_score,english_score)
-     * @return
+     * @return 结果
      */
     public ExamClassStatictics calculateClassStatistics(ExamClassStatictics examClassStatictics);
+
+    /**
+     * 根据考试ID，年级、学科 获取综合分排名
+     *
+     * @param examClassStatictics 考试ID，年级、学科
+     * @return 结果
+     */
+    public List<ExamClassStatictics> selectMuitipleRank(ExamClassStatictics examClassStatictics);
+
+    /**
+     * 根据考试ID，年级、学科 获取平均分排名
+     *
+     * @param examClassStatictics 考试ID，年级、学科
+     * @return 结果
+     */
+    public List<ExamClassStatictics> selectAverageRank(ExamClassStatictics examClassStatictics);
+
+    /**
+     * 根据考试ID获取独一的年级、学科
+     *
+     * @param examId 考试ID
+     * @return 结果
+     */
+    public List<Map<String,String>> selectDistinceGradeSubject(Long examId);
 }

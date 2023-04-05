@@ -42,8 +42,167 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
-            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="examId != null "> and a.exam_id = #{examId}</if>
             <if test="exams != null and exams.examName != null  and exams.examName != ''"> and exam_name like concat('%', #{exams.examName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectDistinctGrade" parameterType="Long" resultType="map">
+        SELECT DISTINCT grade FROM exam_grade_statistic WHERE exam_id = #{examId}
+    </select>
+
+    <select id="selectGradeMuitipleRank" parameterType="ExamGradeStatistic" resultMap="ExamGradeStatisticResult">
+        SELECT
+            a.*,(
+            @i := @i + 1
+            ) AS muitiple_rank
+        FROM
+            ( SELECT exam_grade_statistics_id FROM `exam_grade_statistic` WHERE exam_id = #{examId} AND grade = #{grade} ORDER BY muitiple_score DESC ) a,(
+            SELECT
+                @i := 0
+        ) b
+    </select>
+
+    <select id="calculateExamGradeStatisticTwoGrade" parameterType="ExamGradeStatistic" resultMap="ExamGradeStatisticResult">
+        SELECT
+            *,
+            ROUND( b.all_score_percentage * 0.4 + b.triple_qualified_percentage * 0.3 + b.triple_excellent_percentage * 0.3, 2 ) AS muitiple_score
+        FROM
+            (
+                SELECT
+                    *,
+                    CONCAT( ROUND( a.all_score / ( a.exam_numbers * 200 ) * 100, 2 ), "%" ) AS all_score_percentage,
+                    CONCAT( ROUND( a.triple_qualified_numbers / a.exam_numbers * 100, 2 ), "%" ) AS triple_qualified_percentage,
+                    CONCAT( ROUND( a.triple_excellent_numbers / a.exam_numbers * 100, 2 ), "%" ) AS triple_excellent_percentage
+                FROM
+                    (
+                        SELECT
+                            (
+                                SELECT
+                                    COUNT(*)
+                                FROM
+                                    `exam_student_scores`
+                                WHERE
+                                    exam_id = #{examId}
+                                  AND grade = #{grade}
+                                  AND classes = #{classes}
+                                  AND maths_score IS NOT NULL
+                                  AND chinese_score IS NOT NULL
+                                  AND english_score IS NOT NULL
+                            ) AS exam_numbers,
+                            grade,
+                            exam_id,
+                            classes,
+                            (
+                                    SUM( maths_score ) + SUM( chinese_score )) AS all_score,
+                            (
+                                SELECT
+                                    COUNT(*)
+                                FROM
+                                    `exam_student_scores`
+                                WHERE
+                                    exam_id = #{examId}
+                                  AND grade = #{grade}
+                                  AND classes = #{classes}
+                                  AND chinese_score &gt;= 60
+                                  AND maths_score  &gt;= 60
+                            ) AS triple_qualified_numbers,
+                            (
+                                SELECT
+                                    COUNT(*)
+                                FROM
+                                    `exam_student_scores`
+                                WHERE
+                                    exam_id = #{examId}
+                                  AND grade = #{grade}
+                                  AND classes = #{classes}
+                                  AND chinese_score  &gt;= #{excellentLineChinese}
+                                  AND maths_score  &gt;= #{excellentLineMath}
+                            ) AS triple_excellent_numbers
+                        FROM
+                            `exam_student_scores`
+                        WHERE
+                            exam_id = #{examId}
+                          AND grade = #{grade}
+                          AND classes = #{classes}
+                    ) a
+            ) b
+    </select>
+
+    <select id="calculateExamGradeStatisticFourGrade" parameterType="ExamGradeStatistic" resultMap="ExamGradeStatisticResult">
+        SELECT
+            *,
+            ROUND( b.all_score_percentage * 0.4 + b.triple_qualified_percentage * 0.3 + b.triple_excellent_percentage * 0.3, 2 ) AS muitiple_score
+        FROM
+            (
+                SELECT
+                    *,
+                    CONCAT( ROUND( a.all_score / ( a.exam_numbers * 300 ) * 100, 2 ), "%" ) AS all_score_percentage,
+                    CONCAT( ROUND( a.triple_qualified_numbers / a.exam_numbers * 100, 2 ), "%" ) AS triple_qualified_percentage,
+                    CONCAT( ROUND( a.triple_excellent_numbers / a.exam_numbers * 100, 2 ), "%" ) AS triple_excellent_percentage
+                FROM
+                    (
+                        SELECT
+                            (
+                                SELECT
+                                    COUNT(*)
+                                FROM
+                                    `exam_student_scores`
+                                WHERE
+                                    exam_id = #{examId}
+                                  AND grade = #{grade}
+                                  AND classes = #{classes}
+                                  AND maths_score IS NOT NULL
+                                  AND chinese_score IS NOT NULL
+                                  AND english_score IS NOT NULL
+                            ) AS exam_numbers,
+                            grade,
+                            exam_id,
+                            classes,
+                            (
+                                    SUM( maths_score ) + SUM( chinese_score ) + IFNULL( SUM( english_score ), 0 )) AS all_score,
+                            (
+                                SELECT
+                                    COUNT(*)
+                                FROM
+                                    `exam_student_scores`
+                                WHERE
+                                    exam_id = #{examId}
+                                  AND grade = #{grade}
+                                  AND classes = #{classes}
+                                  AND chinese_score &gt;= 60
+                                  AND maths_score  &gt;= 60
+                                  AND english_score  &gt;= 60
+                            ) AS triple_qualified_numbers,
+                            (
+                                SELECT
+                                    COUNT(*)
+                                FROM
+                                    `exam_student_scores`
+                                WHERE
+                                    exam_id = #{examId}
+                                  AND grade = #{grade}
+                                  AND classes = #{classes}
+                                  AND chinese_score  &gt;= #{excellentLineChinese}
+                                  AND maths_score  &gt;= #{excellentLineMath}
+                                  AND english_score  &gt;= #{excellentLineEnglish}
+                            ) AS triple_excellent_numbers
+                        FROM
+                            `exam_student_scores`
+                        WHERE
+                            exam_id = #{examId}
+                          AND grade = #{grade}
+                          AND classes = #{classes}
+                    ) a
+            ) b
+    </select>
+
+    <select id="selectExamGradeStatistic" parameterType="ExamGradeStatistic" resultMap="ExamExamGradeStatisticResult">
+        <include refid="selectExamGradeStatisticVo"/>
+        <where>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
+            <if test="examId != null "> and a.exam_id = #{examId}</if>
         </where>
     </select>
 

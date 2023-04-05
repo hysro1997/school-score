@@ -70,6 +70,9 @@ public class ExamGradeStatistic extends BaseEntity
     @Excel(name = "得分率", type = Excel.Type.EXPORT)
     private String allScorePercentage;
 
+    private Long excellentLineChinese;
+    private Long excellentLineMath;
+    private Long excellentLineEnglish;
 
     /** 各种考试信息 */
     @Excel(name = "考试名称", targetAttr = "examName", type = Excel.Type.EXPORT)
@@ -77,6 +80,30 @@ public class ExamGradeStatistic extends BaseEntity
     public void setExamGradeStatisticsId(Long examGradeStatisticsId)
     {
         this.examGradeStatisticsId = examGradeStatisticsId;
+    }
+
+    public Long getExcellentLineChinese() {
+        return excellentLineChinese;
+    }
+
+    public void setExcellentLineChinese(Long excellentLineChinese) {
+        this.excellentLineChinese = excellentLineChinese;
+    }
+
+    public Long getExcellentLineMath() {
+        return excellentLineMath;
+    }
+
+    public void setExcellentLineMath(Long excellentLineMath) {
+        this.excellentLineMath = excellentLineMath;
+    }
+
+    public Long getExcellentLineEnglish() {
+        return excellentLineEnglish;
+    }
+
+    public void setExcellentLineEnglish(Long excellentLineEnglish) {
+        this.excellentLineEnglish = excellentLineEnglish;
     }
 
     public Long getExamGradeStatisticsId()
@@ -227,6 +254,9 @@ public class ExamGradeStatistic extends BaseEntity
             .append("allScore", getAllScore())
             .append("allScorePercentage", getAllScorePercentage())
             .append("exams", getExams())
+            .append("excellentLineChinese", getExcellentLineChinese())
+            .append("excellentLineMath", getExcellentLineMath())
+            .append("excellentLineEnglish", getExcellentLineEnglish())
             .toString();
     }
 }

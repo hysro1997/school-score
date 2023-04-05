@@ -2,11 +2,13 @@ package com.hysro.scores.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.hysro.scores.domain.Exams;
 import com.hysro.scores.mapper.ExamsMapper;
+import com.hysro.scores.service.IExamsService;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.DateUtils;
@@ -40,6 +42,8 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     private ExamsMapper examsMapper;
     @Autowired
     protected Validator validator;
+    @Autowired
+    private IExamsService examsService;
 
     /**
      * 查询学生分数情况
@@ -185,6 +189,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         {
             successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
         }
+        List<Map<String,String>> reuslt = examsService.calculateStatisticExams(examId);
         return successMsg.toString();
     }
 

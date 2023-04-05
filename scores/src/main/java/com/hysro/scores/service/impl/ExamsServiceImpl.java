@@ -2,11 +2,9 @@ package com.hysro.scores.service.impl;
 
 import com.hysro.scores.domain.ExamClassStatictics;
 import com.hysro.scores.domain.ExamExcellentScoreLine;
+import com.hysro.scores.domain.ExamGradeStatistic;
 import com.hysro.scores.domain.Exams;
-import com.hysro.scores.mapper.ExamClassStaticticsMapper;
-import com.hysro.scores.mapper.ExamExcellentScoreLineMapper;
-import com.hysro.scores.mapper.ExamStudentScoresMapper;
-import com.hysro.scores.mapper.ExamsMapper;
+import com.hysro.scores.mapper.*;
 import com.hysro.scores.service.IExamsService;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.DateUtils;
@@ -35,6 +33,8 @@ public class ExamsServiceImpl implements IExamsService
     private ExamStudentScoresMapper studentScoresMapper;
     @Autowired
     private ExamClassStaticticsMapper classStaticticsMapper;
+    @Autowired
+    private ExamGradeStatisticMapper gradeStatisticMapper;
 
     /**
      * 查询各种考试
@@ -135,7 +135,6 @@ public class ExamsServiceImpl implements IExamsService
     @Transactional(rollbackFor = Exception.class)
     @Override
     public  List<Map<String,String>> calculateStatisticExams(Long examId) {
-        ExamExcellentScoreLine examExcellentScoreLine;
         ExamClassStatictics examClassStatictics;
         //获取有成绩的年级班级
         List<Map<String,String>> gradeClasses = studentScoresMapper.selectDistinctGradeClassesByExamId(examId);
@@ -148,6 +147,37 @@ public class ExamsServiceImpl implements IExamsService
             this.saveClassesStatistics(gradeClass.get("grade"),gradeClass.get("classes"),"数学","maths_score",examId);
             if (!"一年级".equals(gradeClass.get("grade")) && !"二年级".equals(gradeClass.get("grade"))){
                 this.saveClassesStatistics(gradeClass.get("grade"),gradeClass.get("classes"),"英语","english_score",examId);
+            }
+            this.saveGradeStatistics(gradeClass.get("grade"),gradeClass.get("classes"),examId);
+        }
+        //统计考试排名信息
+        //班级数据排名
+        List<Map<String,String>> gradeSubjects = classStaticticsMapper.selectDistinceGradeSubject(examId);
+        for (Map<String,String> gradeSubject: gradeSubjects){
+            examClassStatictics = new ExamClassStatictics();
+            examClassStatictics.setExamId(examId);
+            examClassStatictics.setGrade(gradeSubject.get("grade"));
+            examClassStatictics.setSubject(gradeSubject.get("subject"));
+            List<ExamClassStatictics> classStaticticsList = classStaticticsMapper.selectMuitipleRank(examClassStatictics);
+            for (ExamClassStatictics classStatictics:classStaticticsList){
+                classStaticticsMapper.updateExamClassStatictics(classStatictics);
+            }
+            classStaticticsList = classStaticticsMapper.selectAverageRank(examClassStatictics);
+            for (ExamClassStatictics classStatictics:classStaticticsList){
+                classStaticticsMapper.updateExamClassStatictics(classStatictics);
+            }
+        }
+
+        //年级数据排名
+        ExamGradeStatistic examGradeStatistic;
+        List<Map<String,String>> grades = gradeStatisticMapper.selectDistinctGrade(examId);
+        for (Map<String,String> grade: grades){
+            examGradeStatistic = new ExamGradeStatistic();
+            examGradeStatistic.setExamId(examId);
+            examGradeStatistic.setGrade(grade.get("grade"));
+            List<ExamGradeStatistic> gradeStatisticList = gradeStatisticMapper.selectGradeMuitipleRank(examGradeStatistic);
+            for (ExamGradeStatistic gradeStatistic: gradeStatisticList){
+                gradeStatisticMapper.updateExamGradeStatistic(gradeStatistic);
             }
         }
 
@@ -192,6 +222,48 @@ public class ExamsServiceImpl implements IExamsService
             examClassStatictics.setExamStatisticsId(ecs.getExamStatisticsId());
             classStaticticsMapper.updateExamClassStatictics(examClassStatictics);
         }
+
+    }
+
+    /**
+     * 根据年级、班级、考试ID来统计年级数据
+     *
+     * @param grade 年级
+     * @param classes 班级
+     * @param examId 考试ID
+     */
+    private void saveGradeStatistics(String grade,String classes,Long examId){
+        ExamGradeStatistic examGradeStatistic = new ExamGradeStatistic();
+        //设置年级 班级和 考试ID 方便下面的查询插入
+        examGradeStatistic.setGrade(grade);
+        examGradeStatistic.setClasses(classes);
+        examGradeStatistic.setExamId(examId);
+        //开始分步获取优秀分数
+        ExamExcellentScoreLine examExcellentScoreLine = new ExamExcellentScoreLine();
+        examExcellentScoreLine.setGrade(grade);
+        examExcellentScoreLine.setSubject("语文");
+        Long chineseScore = scoreLineMapper.selectExamExcellentScoreLine(examExcellentScoreLine).getExcellentScore();
+        examGradeStatistic.setExcellentLineChinese(chineseScore);
+        examExcellentScoreLine.setSubject("数学");
+        Long mathScore = scoreLineMapper.selectExamExcellentScoreLine(examExcellentScoreLine).getExcellentScore();
+        examGradeStatistic.setExcellentLineMath(mathScore);
+        if (!"一年级".equals(grade) && !"二年级".equals(grade)){
+            examExcellentScoreLine.setSubject("英语");
+            Long englishScore = scoreLineMapper.selectExamExcellentScoreLine(examExcellentScoreLine).getExcellentScore();
+            examGradeStatistic.setExcellentLineEnglish(englishScore);
+            examGradeStatistic = gradeStatisticMapper.calculateExamGradeStatisticFourGrade(examGradeStatistic);
+        } else {
+            examGradeStatistic = gradeStatisticMapper.calculateExamGradeStatisticTwoGrade(examGradeStatistic);
+        }
+        ExamGradeStatistic egs = gradeStatisticMapper.selectExamGradeStatistic(examGradeStatistic);
+
+        if (null == egs){
+            gradeStatisticMapper.insertExamGradeStatistic(examGradeStatistic);
+        }else {
+            examGradeStatistic.setExamGradeStatisticsId(egs.getExamGradeStatisticsId());
+            gradeStatisticMapper.updateExamGradeStatistic(examGradeStatistic);
+        }
+
     }
 
 

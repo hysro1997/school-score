@@ -107,7 +107,6 @@
       <el-table-column label="年级" align="center" prop="grade" />
       <el-table-column label="班级" align="center" prop="classes" />
       <el-table-column label="综合分排名" sortable align="center" prop="muitipleRank" />
-      <el-table-column label="平均分排名" sortable align="center" prop="averageRank" />
       <el-table-column label="考试名称" align="center" prop="exams.examName" />
       <el-table-column label="总得分" align="center" prop="allScore" />
       <el-table-column label="得分率" sortable align="center" prop="allScorePercentage" />

@@ -51,6 +51,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
         </where>
     </sql>
+    <select id="selectMuitipleRank"  parameterType="ExamClassStatictics" resultMap="ExamClassStaticticsResult">
+        SELECT
+            a.*,(
+            @i := @i + 1
+            ) AS muitiple_rank
+        FROM
+            ( SELECT exam_statistics_id FROM exam_class_statictics WHERE exam_id = #{examId} AND grade = #{grade} AND `subject` = #{subject} ORDER BY muitiple_score DESC ) a,(
+            SELECT
+                @i := 0
+        ) b
+    </select>
+
+    <select id="selectAverageRank"  parameterType="ExamClassStatictics" resultMap="ExamClassStaticticsResult">
+        SELECT
+            a.*,(
+            @i := @i + 1
+            ) AS average_rank
+        FROM
+            ( SELECT exam_statistics_id FROM exam_class_statictics WHERE exam_id = #{examId} AND grade = #{grade} AND `subject` = #{subject} ORDER BY average_score DESC ) a,(
+            SELECT
+                @i := 0
+        ) b
+    </select>
 
     <select id="selectExamClassStaticticsList" parameterType="ExamClassStatictics" resultMap="ExamExamClassStaticticsResult">
         <include refid="selectExamClassStaticticsVo"/>
@@ -106,6 +129,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectExamClassStaticticsByExamStatisticsId" parameterType="Long" resultMap="ExamClassStaticticsResult">
         <include refid="selectExamClassStaticticsVo"/>
         where exam_statistics_id = #{examStatisticsId}
+    </select>
+
+    <select id="selectDistinceGradeSubject" parameterType="Long" resultType="map">
+        SELECT DISTINCT grade, `subject` FROM `exam_class_statictics` WHERE exam_id = #{examId}
     </select>
 
     <insert id="insertExamClassStatictics" parameterType="ExamClassStatictics" useGeneratedKeys="true" keyProperty="examStatisticsId">
