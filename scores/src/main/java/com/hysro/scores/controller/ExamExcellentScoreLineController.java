@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -69,7 +70,7 @@ public class ExamExcellentScoreLineController extends BaseController
     @PreAuthorize("@ss.hasPermi('scores:line:add')")
     @Log(title = "优秀分数线", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody ExamExcellentScoreLine examExcellentScoreLine)
+    public AjaxResult add(@Valid @RequestBody ExamExcellentScoreLine examExcellentScoreLine)
     {
         return toAjax(examExcellentScoreLineService.insertExamExcellentScoreLine(examExcellentScoreLine));
     }
@@ -80,7 +81,7 @@ public class ExamExcellentScoreLineController extends BaseController
     @PreAuthorize("@ss.hasPermi('scores:line:edit')")
     @Log(title = "优秀分数线", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody ExamExcellentScoreLine examExcellentScoreLine)
+    public AjaxResult edit(@Valid@RequestBody ExamExcellentScoreLine examExcellentScoreLine)
     {
         return toAjax(examExcellentScoreLineService.updateExamExcellentScoreLine(examExcellentScoreLine));
     }

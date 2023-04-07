@@ -139,7 +139,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="优秀分数" prop="excellentScore">
-          <el-input v-model="form.excellentScore" placeholder="请输入优秀分数" />
+          <el-input maxlength="6" show-word-limit v-model.number="form.excellentScore" placeholder="请输入优秀分数" />
         </el-form-item>
         <el-form-item label="年级" prop="grade">
           <!--el-input v-model="form.grade" placeholder="请输入年级" /-->
@@ -235,7 +235,8 @@
           { required: true, message: '请选择年级', trigger: 'change' }
         ],
         excellentScore: [
-          { required: true, message: '请填写优秀分数线', trigger: 'blur' }
+          { required: true, message: '请填写优秀分数线', trigger: 'blur' },
+          { type: 'number', message: '只能是数字', trigger: 'blur' }
         ]
       }
     };

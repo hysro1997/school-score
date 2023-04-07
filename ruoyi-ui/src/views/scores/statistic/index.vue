@@ -95,7 +95,7 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="statisticList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="statisticList" @selection-change="handleSelectionChange" :row-class-name="tableRowClassName">
       <el-table-column type="selection" width="55" align="center" />
       <!-- el-table-column label="年级数据ID" align="center" prop="examGradeStatisticsId" / -->
       <el-table-column label="考试人数" align="center" prop="examNumbers" />
@@ -108,7 +108,7 @@
       <el-table-column label="班级" align="center" prop="classes" />
       <el-table-column label="综合分排名" sortable align="center" prop="muitipleRank" />
       <el-table-column label="考试名称" align="center" prop="exams.examName" />
-      <el-table-column label="总得分" align="center" prop="allScore" />
+      <el-table-column label="总得分" sortable align="center" prop="allScore" />
       <el-table-column label="得分率" sortable align="center" prop="allScorePercentage" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -253,6 +253,12 @@
     this.getList();
   },
   methods: {
+    tableRowClassName({row, rowIndex}) {
+      if (1 === rowIndex % 2) {
+        return 'success-row';
+      }
+      return '';
+    },
     /** 查询年级数据统计情况列表 */
     getList() {
       this.loading = true;

@@ -45,6 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="examId != null "> and a.exam_id = #{examId}</if>
             <if test="exams != null and exams.examName != null  and exams.examName != ''"> and exam_name like concat('%', #{exams.examName}, '%')</if>
         </where>
+        order by a.exam_grade_statistics_id desc
     </select>
 
     <select id="selectDistinctGrade" parameterType="Long" resultType="map">
@@ -88,7 +89,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                                   AND classes = #{classes}
                                   AND maths_score IS NOT NULL
                                   AND chinese_score IS NOT NULL
-                                  AND english_score IS NOT NULL
                             ) AS exam_numbers,
                             grade,
                             exam_id,

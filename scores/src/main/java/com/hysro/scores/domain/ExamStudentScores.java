@@ -6,6 +6,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 /**
  * 学生分数情况对象 exam_student_scores
  *
@@ -29,6 +33,9 @@ public class ExamStudentScores extends BaseEntity
 
     /** 考试号 */
     @Excel(name = "考试号")
+    @NotNull
+    @NotBlank
+    @Pattern(regexp = "/[1-6][0-1]\\d\\d\\d/",message = "必须是5位数10101，一年级01班01号")
     private String examNumber;
 
     /** 语文分数 */

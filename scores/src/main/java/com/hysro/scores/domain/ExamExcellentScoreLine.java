@@ -5,6 +5,9 @@ import com.ruoyi.common.core.domain.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 /**
  * 优秀分数线对象 exam_excellent_score_line
  *
@@ -20,14 +23,20 @@ public class ExamExcellentScoreLine extends BaseEntity
 
     /** 学科 */
     @Excel(name = "学科", type = Excel.Type.EXPORT)
+    @NotNull
+    @NotBlank
     private String subject;
 
     /** 优秀分数 */
     @Excel(name = "优秀分数", type = Excel.Type.EXPORT)
+    @NotNull
+    @NotBlank
     private Long excellentScore;
 
     /** 年级 */
     @Excel(name = "年级", type = Excel.Type.EXPORT)
+    @NotNull
+    @NotBlank
     private String grade;
 
     public void setExcellentId(Long excellentId)

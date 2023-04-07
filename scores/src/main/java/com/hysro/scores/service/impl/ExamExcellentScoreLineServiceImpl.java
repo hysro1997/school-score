@@ -53,16 +53,11 @@ public class ExamExcellentScoreLineServiceImpl implements IExamExcellentScoreLin
     @Override
     public int insertExamExcellentScoreLine(ExamExcellentScoreLine examExcellentScoreLine)
     {
-        if (null == examExcellentScoreLine.getGrade() || "".equals(examExcellentScoreLine.getGrade())){
-            return 0;
+        if (null == examExcellentScoreLineMapper.selectExamExcellentScoreLine(examExcellentScoreLine)){
+            return examExcellentScoreLineMapper.insertExamExcellentScoreLine(examExcellentScoreLine);
         }
-        if (null == examExcellentScoreLine.getSubject() || "".equals(examExcellentScoreLine.getSubject())){
-            return 0;
-        }
-        if (null == examExcellentScoreLine.getExcellentScore()){
-            return 0;
-        }
-        return examExcellentScoreLineMapper.insertExamExcellentScoreLine(examExcellentScoreLine);
+        return -1;
+
     }
 
     /**
@@ -74,15 +69,6 @@ public class ExamExcellentScoreLineServiceImpl implements IExamExcellentScoreLin
     @Override
     public int updateExamExcellentScoreLine(ExamExcellentScoreLine examExcellentScoreLine)
     {
-        if (null == examExcellentScoreLine.getGrade() || "".equals(examExcellentScoreLine.getGrade())){
-            return 0;
-        }
-        if (null == examExcellentScoreLine.getSubject() || "".equals(examExcellentScoreLine.getSubject())){
-            return 0;
-        }
-        if (null == examExcellentScoreLine.getExcellentScore()){
-            return 0;
-        }
         return examExcellentScoreLineMapper.updateExamExcellentScoreLine(examExcellentScoreLine);
     }
 

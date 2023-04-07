@@ -21,6 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
         </where>
+        order by excellent_id desc
     </select>
 
     <select id="selectExamExcellentScoreLine" parameterType="ExamExcellentScoreLine" resultMap="ExamExcellentScoreLineResult">

@@ -1,9 +1,6 @@
 package com.hysro.scores.service.impl;
 
-import com.hysro.scores.domain.ExamClassStatictics;
-import com.hysro.scores.domain.ExamExcellentScoreLine;
-import com.hysro.scores.domain.ExamGradeStatistic;
-import com.hysro.scores.domain.Exams;
+import com.hysro.scores.domain.*;
 import com.hysro.scores.mapper.*;
 import com.hysro.scores.service.IExamsService;
 import com.ruoyi.common.exception.ServiceException;
@@ -35,6 +32,8 @@ public class ExamsServiceImpl implements IExamsService
     private ExamClassStaticticsMapper classStaticticsMapper;
     @Autowired
     private ExamGradeStatisticMapper gradeStatisticMapper;
+    @Autowired
+    private ExamGradeSummaryMapper gradeSummaryMapper;
 
     /**
      * 查询各种考试
@@ -96,7 +95,7 @@ public class ExamsServiceImpl implements IExamsService
     @Override
     public int updateExams(Exams exams)
     {
-        if (null != exams.getEnableFlag() && "0"==exams.getEnableFlag()){
+        if (null != exams.getEnableFlag() && "0".equals(exams.getEnableFlag())){
             return 1 <= countExamsEnables() ? 0 : examsMapper.updateExams(exams);
         }
         return examsMapper.updateExams(exams);
@@ -139,7 +138,7 @@ public class ExamsServiceImpl implements IExamsService
         //获取有成绩的年级班级
         List<Map<String,String>> gradeClasses = studentScoresMapper.selectDistinctGradeClassesByExamId(examId);
         if (0 == gradeClasses.size()){
-            throw new ServiceException("还没有录入成绩");
+            return null;
         }
         //循环年级班级，开始统计
         for (Map<String,String> gradeClass : gradeClasses){
@@ -170,6 +169,7 @@ public class ExamsServiceImpl implements IExamsService
 
         //年级数据排名
         ExamGradeStatistic examGradeStatistic;
+        ExamGradeSummary gradeSummary;
         List<Map<String,String>> grades = gradeStatisticMapper.selectDistinctGrade(examId);
         for (Map<String,String> grade: grades){
             examGradeStatistic = new ExamGradeStatistic();
@@ -179,6 +179,13 @@ public class ExamsServiceImpl implements IExamsService
             for (ExamGradeStatistic gradeStatistic: gradeStatisticList){
                 gradeStatisticMapper.updateExamGradeStatistic(gradeStatistic);
             }
+            //统计不同年级 年级成绩概要
+            this.saveGradeSummaryByGradeSubjectExamId(grade.get("grade"), "语文","chinese_score",examId);
+            this.saveGradeSummaryByGradeSubjectExamId(grade.get("grade"), "数学","maths_score",examId);
+            if (!"一年级".equals(grade.get("grade")) && !"二年级".equals(grade.get("grade"))){
+                this.saveGradeSummaryByGradeSubjectExamId(grade.get("grade"), "英语","english_score",examId);
+            }
+
         }
 
         return gradeClasses;
@@ -239,22 +246,20 @@ public class ExamsServiceImpl implements IExamsService
         examGradeStatistic.setClasses(classes);
         examGradeStatistic.setExamId(examId);
         //开始分步获取优秀分数
-        ExamExcellentScoreLine examExcellentScoreLine = new ExamExcellentScoreLine();
-        examExcellentScoreLine.setGrade(grade);
-        examExcellentScoreLine.setSubject("语文");
-        Long chineseScore = scoreLineMapper.selectExamExcellentScoreLine(examExcellentScoreLine).getExcellentScore();
+        Long chineseScore = this.getExcellentScoreLineByGradeSubject(grade,"语文");
         examGradeStatistic.setExcellentLineChinese(chineseScore);
-        examExcellentScoreLine.setSubject("数学");
-        Long mathScore = scoreLineMapper.selectExamExcellentScoreLine(examExcellentScoreLine).getExcellentScore();
+        Long mathScore = this.getExcellentScoreLineByGradeSubject(grade,"数学");
         examGradeStatistic.setExcellentLineMath(mathScore);
         if (!"一年级".equals(grade) && !"二年级".equals(grade)){
-            examExcellentScoreLine.setSubject("英语");
-            Long englishScore = scoreLineMapper.selectExamExcellentScoreLine(examExcellentScoreLine).getExcellentScore();
+            Long englishScore = this.getExcellentScoreLineByGradeSubject(grade,"英语");
             examGradeStatistic.setExcellentLineEnglish(englishScore);
+            //得出三优
             examGradeStatistic = gradeStatisticMapper.calculateExamGradeStatisticFourGrade(examGradeStatistic);
         } else {
+            //得出双优
             examGradeStatistic = gradeStatisticMapper.calculateExamGradeStatisticTwoGrade(examGradeStatistic);
         }
+
         ExamGradeStatistic egs = gradeStatisticMapper.selectExamGradeStatistic(examGradeStatistic);
 
         if (null == egs){
@@ -264,6 +269,47 @@ public class ExamsServiceImpl implements IExamsService
             gradeStatisticMapper.updateExamGradeStatistic(examGradeStatistic);
         }
 
+    }
+
+    /**
+     * 获取优秀分数线
+     *
+     * @param grade 年级
+     * @param subject 学科
+     * @return 优秀分数线 Long
+     */
+    public Long getExcellentScoreLineByGradeSubject(String grade, String subject){
+        ExamExcellentScoreLine examExcellentScoreLine = new ExamExcellentScoreLine();
+        examExcellentScoreLine.setGrade(grade);
+        examExcellentScoreLine.setSubject(subject);
+        return scoreLineMapper.selectExamExcellentScoreLine(examExcellentScoreLine).getExcellentScore();
+    }
+
+    /**
+     * 通过考试ID，年级，学科，优秀分数线计算年级成绩概要
+     *
+     * @param grade 年级
+     * @param subject 学科
+     * @param subjectName 优秀分数线
+     * @param examId 考试ID
+     */
+    public void saveGradeSummaryByGradeSubjectExamId(String grade,String subject,String subjectName, Long examId){
+        ExamGradeSummary gradeSummary = new ExamGradeSummary();
+        gradeSummary.setExamId(examId);
+        gradeSummary.setGrade(grade);
+        gradeSummary.setSubject(subject);
+        gradeSummary.setSubjectName(subjectName);
+        gradeSummary.setExcellentLine(this.getExcellentScoreLineByGradeSubject(grade,subject));
+        gradeSummary = gradeSummaryMapper.calculateGradeSummaryByGradeSubjectExamId(gradeSummary);
+        //数据库查找没有学科，所以再次设置学科
+        gradeSummary.setSubject(subject);
+        ExamGradeSummary egs = gradeSummaryMapper.selectExamGradeSummary(gradeSummary);
+        if (null == egs){
+            gradeSummaryMapper.insertExamGradeSummary(gradeSummary);
+        }else {
+            gradeSummary.setExamGradeSummaryId(egs.getExamGradeSummaryId());
+            gradeSummaryMapper.updateExamGradeSummary(gradeSummary);
+        }
     }
 
 

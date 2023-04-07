@@ -84,6 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="examId != null "> and a.exam_id = #{examId}</if>
             <if test="exams != null and exams.examName != null  and exams.examName != ''"> and exam_name like concat('%', #{exams.examName}, '%')</if>
         </where>
+        order by a.exam_statistics_id desc
     </select>
     <select id="selectExamClassStatictics" parameterType="ExamClassStatictics" resultMap="ExamExamClassStaticticsResult">
         <include refid="selectExamClassStaticticsVo"/>

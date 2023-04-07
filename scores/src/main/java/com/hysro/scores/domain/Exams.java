@@ -5,6 +5,9 @@ import com.ruoyi.common.core.domain.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 /**
  * 各种考试对象 exams
  *
@@ -20,6 +23,8 @@ public class Exams extends BaseEntity
     private Long examId;
 
     /** 考试名称 */
+    @NotNull
+    @NotBlank
     @Excel(name = "考试名称")
     private String examName;
 

@@ -2,6 +2,7 @@ package com.hysro.scores.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.utils.SecurityUtils;
@@ -80,7 +81,7 @@ public class ExamStudentScoresController extends BaseController
     @PreAuthorize("@ss.hasPermi('scores:scores:add')")
     @Log(title = "学生分数情况", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody ExamStudentScores examStudentScores)
+    public AjaxResult add(@Valid @RequestBody ExamStudentScores examStudentScores)
     {
         return toAjax(examStudentScoresService.insertExamStudentScores(examStudentScores));
     }
@@ -91,7 +92,7 @@ public class ExamStudentScoresController extends BaseController
     @PreAuthorize("@ss.hasPermi('scores:scores:edit')")
     @Log(title = "学生分数情况", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody ExamStudentScores examStudentScores)
+    public AjaxResult edit(@Valid@RequestBody ExamStudentScores examStudentScores)
     {
         return toAjax(examStudentScoresService.updateExamStudentScores(examStudentScores));
     }

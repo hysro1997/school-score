@@ -38,9 +38,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
-            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="examId != null "> and a.exam_id = #{examId}</if>
             <if test="exams != null and exams.examName != null  and exams.examName != ''"> and exam_name like concat('%', #{exams.examName}, '%')</if>
         </where>
+        order by a.exam_grade_summary_id desc
+    </select>
+
+    <select id="selectExamGradeSummary" parameterType="ExamGradeSummary" resultMap="ExamExamGradeSummaryResult">
+        <include refid="selectExamGradeSummaryVo"/>
+        <where>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
+            <if test="examId != null "> and a.exam_id = #{examId}</if>
+        </where>
+    </select>
+
+    <select id="calculateGradeSummaryByGradeSubjectExamId" parameterType="ExamGradeSummary" resultMap="ExamGradeSummaryResult">
+        SELECT
+        a.grade,
+        a.exam_id,
+        a.exam_total_numbers,
+        a.grade_total_scores,
+        a.grade_average_score,
+        a.grade_unqualified_numbers,
+        CONCAT( ROUND( a.grade_qualified_numbers / a.exam_total_numbers * 100, 2 ), "%" ) AS grade_qualified_percentage,
+        CONCAT( ROUND( a.grade_excellent_numbers / a.exam_total_numbers * 100, 2 ), "%" ) AS grade_excellent_percentage
+        FROM
+        (
+        SELECT
+        grade,
+        exam_id,
+        COUNT( ${subjectName} ) AS exam_total_numbers,
+        SUM( ${subjectName} ) AS grade_total_scores,
+        ROUND( AVG( ${subjectName} ), 2 ) AS grade_average_score,
+        ( SELECT COUNT(*) FROM exam_student_scores WHERE exam_id = #{examId} AND grade = #{grade} AND ${subjectName} &lt; 60 ) AS grade_unqualified_numbers,
+        ( SELECT COUNT(*) FROM exam_student_scores WHERE exam_id = #{examId} AND grade = #{grade} AND ${subjectName} &gt;= 60 ) AS grade_qualified_numbers,
+        ( SELECT COUNT(*) FROM exam_student_scores WHERE exam_id = #{examId} AND grade = #{grade} AND ${subjectName} &gt;= #{excellentLine} ) AS grade_excellent_numbers
+        FROM
+        `exam_student_scores`
+        WHERE
+        exam_id = #{examId}
+        AND grade = #{grade}
+        ) a
     </select>
 
     <select id="selectExamGradeSummaryByExamGradeSummaryId" parameterType="Long" resultMap="ExamGradeSummaryResult">

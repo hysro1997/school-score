@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -89,7 +90,7 @@ public class ExamsController extends BaseController
     @PreAuthorize("@ss.hasPermi('examination:exams:add')")
     @Log(title = "各种考试", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody Exams exams)
+    public AjaxResult add(@Valid @RequestBody Exams exams)
     {
         return toAjax(examsService.insertExams(exams));
     }
@@ -119,7 +120,7 @@ public class ExamsController extends BaseController
     @PreAuthorize("@ss.hasPermi('examination:exams:edit')")
     @Log(title = "各种考试", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody Exams exams)
+    public AjaxResult edit(@Valid@RequestBody Exams exams)
     {
         return toAjax(examsService.updateExams(exams));
     }
