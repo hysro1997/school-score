@@ -98,18 +98,18 @@
     <el-table v-loading="loading" :data="statisticList" @selection-change="handleSelectionChange" :row-class-name="tableRowClassName">
       <el-table-column type="selection" width="55" align="center" />
       <!-- el-table-column label="年级数据ID" align="center" prop="examGradeStatisticsId" / -->
+      <el-table-column label="年级" align="center" prop="grade" />
+      <el-table-column label="班级" align="center" prop="classes" />
       <el-table-column label="考试人数" align="center" prop="examNumbers" />
       <el-table-column label="三及格人数" sortable align="center" prop="tripleQualifiedNumbers" />
       <el-table-column label="三优秀人数" sortable align="center" prop="tripleExcellentNumbers" />
       <el-table-column label="三及格率" sortable align="center" prop="tripleQualifiedPercentage" />
       <el-table-column label="三优秀率" sortable align="center" prop="tripleExcellentPercentage" />
-      <el-table-column label="综合分" sortable align="center" prop="muitipleScore" />
-      <el-table-column label="年级" align="center" prop="grade" />
-      <el-table-column label="班级" align="center" prop="classes" />
-      <el-table-column label="综合分排名" sortable align="center" prop="muitipleRank" />
-      <el-table-column label="考试名称" align="center" prop="exams.examName" />
       <el-table-column label="总得分" sortable align="center" prop="allScore" />
       <el-table-column label="得分率" sortable align="center" prop="allScorePercentage" />
+      <el-table-column label="综合分" sortable align="center" prop="muitipleScore" />
+      <el-table-column label="综合分排名" sortable align="center" prop="muitipleRank" />
+      <el-table-column label="考试名称" align="center" prop="exams.examName" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <!-- el-button

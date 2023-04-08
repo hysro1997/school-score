@@ -100,4 +100,36 @@ public interface ExamClassStaticticsMapper
      * @return 结果
      */
     public List<Map<String,String>> selectDistinceGradeSubject(Long examId);
+
+    /**
+     * 根据年级和examId查询年级的班级排名
+     *
+     * @param statictics 年级和examId
+     * @return 结果列表
+     */
+    public String[] selectClassesRateByExamIdAndGrade(ExamClassStatictics statictics);
+
+    /**
+     * 根据年级和examId查询年级的班级学科综合分排名
+     *
+     * @param statictics 年级和examId
+     * @return 结果列表
+     */
+    public int[] selectClassesSubjectRateMuitipleRankByExamIdAndGrade(ExamClassStatictics statictics);
+
+    /**
+     * 根据年级和examId查询年级的班级学科平均分排名
+     *
+     * @param statictics 年级和examId
+     * @return 结果列表
+     */
+    public int[] selectClassesSubjectRateAvgRankByExamIdAndGrade(ExamClassStatictics statictics);
+
+    /**
+     * 根据年级和examId查询年级的班级学科
+     *
+     * @param statictics 年级和examId
+     * @return 结果列表
+     */
+    public String[] selectSubjectsByExamIdAndGrade(ExamClassStatictics statictics);
 }

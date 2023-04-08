@@ -31,7 +31,13 @@
             :value="item.examId">
           </el-option>
         </el-select>
-      的综合分排名数据
+      的 综合分 <el-switch
+      v-model="queryParams.rankType"
+      active-value="1"
+      inactive-value="0"
+      inactive-color="rgb(145, 204, 117)"
+      @change="drawAllEcharts(examId)"
+    ></el-switch> 平均分 排名数据
     </div>
 
     <el-row :gutter="20">
@@ -64,10 +70,10 @@
 
 <script>
 
-//  import { getUserProfile } from "@/api/system/user";
-//  import { getStaticticsclass } from "@/api/scores/infoForEcharts"
-//  import * as echarts from 'echarts';
- // import { allExams } from '../api/examination/exams'
+  import { getUserProfile } from "@/api/system/user";
+  import { getStaticticsclass } from "@/api/scores/infoForEcharts"
+  import * as echarts from 'echarts';
+  import { allExams } from '@/api/examination/exams'
 
 export default {
   name: "Index",
@@ -84,6 +90,7 @@ export default {
       queryParams: {
         grade: null,
         examId: null,
+        rankType: 0,
       },
       examQueryParams:{
         pageNum: 1,
@@ -101,25 +108,28 @@ export default {
     };
   },
   created() {
-    //this.getUser();
-    //this.initExams();
+    this.getUser();
+    this.initExams();
   },
   mounted() {
-    //this.initEchartsInfo();
+    this.initEchartsInfo();
   },
   methods: {
     initExams(){
       allExams(this.examQueryParams).then(response => {
         this.options = response.data;
+        setTimeout(() =>{
+          if (this.options.length>0){
+            this.examId = this.options[0].examId;
+          }
+        },50);
+
       });
     },
     initEchartsInfo(){
       setTimeout(() =>{
-        if (this.options.length>0){
-          this.drawAllEcharts(this.options[0].examId);
-          this.examId = this.options[0].examId;
-        }
-      },2500);
+          this.drawAllEcharts(this.examId);
+      },2000);
 
     },
     drawAllEcharts(examId){

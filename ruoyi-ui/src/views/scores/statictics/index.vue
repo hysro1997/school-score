@@ -118,7 +118,12 @@
       <el-table-column label="年级" align="center" prop="grade" />
       <el-table-column label="班级" align="center" prop="classes" />
       <el-table-column label="学科" align="center" prop="subject" />
-      <el-table-column label="参加考试的人数" sortable align="center" prop="examNumbers" />
+      <el-table-column label="考试人数" sortable align="center" prop="examNumbers" />
+      <el-table-column label="全班总分" sortable align="center" prop="totalScore" />
+      <el-table-column label="平均分" sortable align="center" prop="averageScore" />
+      <el-table-column label="及格率" sortable align="center" prop="qualifiedPercentage" />
+      <el-table-column label="优秀率" sortable align="center" prop="excellentPercentage" />
+      <el-table-column label="综合分" sortable align="center" prop="muitipleScore" />
       <el-table-column label="满分人数" sortable align="center" prop="fullSocreNumbers" />
       <el-table-column label="优秀人数(优秀-99)" sortable align="center" prop="excellentNumbers" />
       <el-table-column label="良好人数(75-优秀)" sortable align="center" prop="goodNumbers" />
@@ -127,14 +132,9 @@
       <el-table-column label="不及格人数(50-54)" sortable align="center" prop="unqualifiedTwoNumbers" />
       <el-table-column label="不及格人数(40-49)" sortable align="center" prop="unqualifiedThreeNumbers" />
       <el-table-column label="不及格人数(40分以下)" sortable align="center" prop="unqualifiedFourNumbers" />
-      <el-table-column label="全班总分" sortable align="center" prop="totalScore" />
-      <el-table-column label="平均分" sortable align="center" prop="averageScore" />
-      <el-table-column label="及格率" sortable align="center" prop="qualifiedPercentage" />
-      <el-table-column label="优秀率" sortable align="center" prop="excellentPercentage" />
-      <el-table-column label="综合分" sortable align="center" prop="muitipleScore" />
-      <el-table-column label="考试名称" align="center" prop="exams.examName" />
       <el-table-column label="综合分排名" sortable align="center" prop="muitipleRank" />
       <el-table-column label="平均分排名" sortable align="center" prop="averageRank" />
+      <el-table-column label="考试名称" align="center" prop="exams.examName" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <!-- el-button

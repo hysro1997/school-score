@@ -50,6 +50,10 @@ public class ExamStudentScores extends BaseEntity
     @Excel(name = "英语分数")
     private BigDecimal englishScore;
 
+    /** 科学分数 */
+    //@Excel(name = "科学分数")
+    //private BigDecimal scienceScore;
+
     /** 考试ID */
     //@Excel(name = "考试ID")
     private Long examId;

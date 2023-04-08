@@ -51,6 +51,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
         </where>
     </sql>
+
+    <select id="selectSubjectsByExamIdAndGrade" parameterType="ExamClassStatictics" resultType="String">
+        SELECT DISTINCT `subject` FROM `exam_class_statictics`
+        <where>
+            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="subject != null  and subject != ''"> and `subject` = #{subject}</if>
+        </where>
+    </select>
+    <select id="selectClassesRateByExamIdAndGrade" parameterType="ExamClassStatictics" resultType="String">
+        SELECT DISTINCT classes FROM `exam_class_statictics`
+        <where>
+            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="subject != null  and subject != ''"> and `subject` = #{subject}</if>
+        </where>
+        ORDER BY classes
+    </select>
+    <select id="selectClassesSubjectRateMuitipleRankByExamIdAndGrade" parameterType="ExamClassStatictics" resultType="int">
+        SELECT muitiple_rank FROM `exam_class_statictics`
+        <where>
+            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="subject != null  and subject != ''"> and `subject` = #{subject}</if>
+        </where>
+        ORDER BY classes
+    </select>
+
+    <select id="selectClassesSubjectRateAvgRankByExamIdAndGrade" parameterType="ExamClassStatictics" resultType="int">
+        SELECT average_rank FROM `exam_class_statictics`
+        <where>
+            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="subject != null  and subject != ''"> and `subject` = #{subject}</if>
+        </where>
+        ORDER BY classes
+    </select>
+
     <select id="selectMuitipleRank"  parameterType="ExamClassStatictics" resultMap="ExamClassStaticticsResult">
         SELECT
             a.*,(
