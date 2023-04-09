@@ -332,7 +332,7 @@ export default {
           }).then(function() {
             that.processingTextarea = that.processingTextarea.concat("\n班级成绩统计完成！");
             that.finishDisable = false;
-            this.$modal.msgSuccess("班级成绩统计完成！");
+            that.$modal.msgSuccess("班级成绩统计完成！");
             return delay(1000);
           });
         });

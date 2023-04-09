@@ -120,7 +120,7 @@ public class ExamsController extends BaseController
     @PreAuthorize("@ss.hasPermi('examination:exams:edit')")
     @Log(title = "各种考试", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@Valid@RequestBody Exams exams)
+    public AjaxResult edit(@RequestBody Exams exams)
     {
         return toAjax(examsService.updateExams(exams));
     }

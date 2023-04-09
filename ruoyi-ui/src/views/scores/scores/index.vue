@@ -150,6 +150,7 @@
       :total="total"
       :page.sync="queryParams.pageNum"
       :limit.sync="queryParams.pageSize"
+      :page-sizes="[10,20,30,50,100,200,500]"
       @pagination="getList"
     />
 
