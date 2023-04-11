@@ -191,6 +191,11 @@ public class ExamsServiceImpl implements IExamsService
         return gradeClasses;
     }
 
+    @Override
+    public Exams selectExamsEnabled() {
+        return examsMapper.selectExamsEnabled();
+    }
+
     /**
      *  根据年级、班级、学科、考试ID来统计成绩
      *

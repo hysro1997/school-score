@@ -35,7 +35,7 @@ public class ExamStudentScores extends BaseEntity
     @Excel(name = "考试号")
     @NotNull
     @NotBlank
-    @Pattern(regexp = "/[1-6][0-1]\\d\\d\\d/",message = "必须是5位数10101，一年级01班01号")
+    @Pattern(regexp = "[1-6][0-1]\\d\\d\\d",message = "必须是5位数10101，一年级01班01号")
     private String examNumber;
 
     /** 语文分数 */

@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.hysro.scores.service.IExamsService;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.ServletUtils;
@@ -39,6 +40,8 @@ public class ExamStudentScoresController extends BaseController
 {
     @Autowired
     private IExamStudentScoresService examStudentScoresService;
+    @Autowired
+    private IExamsService examsService;
 
     /**
      * 查询学生分数情况列表
@@ -83,6 +86,10 @@ public class ExamStudentScoresController extends BaseController
     @PostMapping
     public AjaxResult add(@Valid @RequestBody ExamStudentScores examStudentScores)
     {
+        String operName = SecurityUtils.getUsername();
+        examStudentScores.setCreateBy(operName);
+        Long examId = examsService.selectExamsEnabled().getExamId();
+        examStudentScores.setExamId(examId);
         return toAjax(examStudentScoresService.insertExamStudentScores(examStudentScores));
     }
 

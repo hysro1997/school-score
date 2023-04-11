@@ -37,7 +37,7 @@ public interface ExamsMapper
     /**
      * 查询已启用的考试
      *
-     * @return 各种考试集合
+     * @return 各种考试
      */
     public Exams selectExamsEnabled();
 

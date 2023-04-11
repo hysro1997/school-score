@@ -75,4 +75,11 @@ public interface IExamsService
      */
     public  List<Map<String,String>> calculateStatisticExams(Long examId);
 
+    /**
+     * 查询已启用的考试
+     *
+     * @return 各种考试
+     */
+    public Exams selectExamsEnabled();
+
 }
