@@ -7,7 +7,7 @@
           {{ user.nickName }}
         </el-tag> 使用
         <el-tag effect="light" style="text-align: center;font-size: 28px">
-          安家中心小学成绩管理系统
+          小学成绩管理系统
         </el-tag>
       </p>
       <p></p>

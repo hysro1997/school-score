@@ -35,7 +35,7 @@
   },
   data() {
     return {
-      title: '安家小学成绩系统',
+      title: '小学成绩系统',
       logo: logoImg
     }
   }
