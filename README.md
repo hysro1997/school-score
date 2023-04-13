@@ -46,10 +46,10 @@
     4、修改ruoyi-ui包下的vue.config.js的target，修改为刚刚 1 中配置的端口号
     5、运行打包命令 mvn clean package打包jar包；
         运行build:prod 打包前端页面
-#我想直接用现成的怎么办
+##我想直接用现成的怎么办
     下载VMware 虚拟机，下载
     
-<p> https://cowtransfer.com/s/e1d2267b901f40 点击链接查看 [ Ubuntu cjgl ] ，或访问奶牛快传 cowtransfer.com 输入传输口令 w82cbo 查看；</p>
+<p>  https://cowtransfer.com/s/25a44e6f71384b 点击链接查看 [ Ubuntu cjgl ] ，或访问奶牛快传 cowtransfer.com 输入传输口令 zmw15z 查看；</p>
     
     在vmware中选择打开虚拟机，打开选择刚刚下载文件中的.vmx文件，即可
 

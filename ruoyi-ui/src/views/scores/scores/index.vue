@@ -489,9 +489,13 @@
     handleFileSuccess(response, file, fileList) {
       this.upload.open = false;
       this.upload.isUploading = false;
-      this.uploadResult.open = true;
       this.textarea = '';
-      this.textarea = response.msg;
+      if (undefined === response.msg || null === response.msg || ''=== response.msg){
+        this.$alert("导入失败，请检查文件内容格式是否符合要求，或联系管理员处理");
+      }else {
+        this.uploadResult.open = true;
+        this.textarea = response.msg;
+      }
       this.$refs.upload.clearFiles();
       //this.$alert(response.msg, "导入结果", { dangerouslyUseHTMLString: true });
       this.getList();
