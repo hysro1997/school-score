@@ -52,6 +52,8 @@
 <p>  https://cowtransfer.com/s/25a44e6f71384b 点击链接查看 [ Ubuntu cjgl ] ，或访问奶牛快传 cowtransfer.com 输入传输口令 zmw15z 查看；</p>
     
     在vmware中选择打开虚拟机，打开选择刚刚下载文件中的.vmx文件，即可
+    用户名：admin
+    密码：admin123
 
 
 ## 平台简介
