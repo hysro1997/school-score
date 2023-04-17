@@ -306,6 +306,9 @@ public class ExamsServiceImpl implements IExamsService
         gradeSummary.setSubjectName(subjectName);
         gradeSummary.setExcellentLine(this.getExcellentScoreLineByGradeSubject(grade,subject));
         gradeSummary = gradeSummaryMapper.calculateGradeSummaryByGradeSubjectExamId(gradeSummary);
+        if (null == gradeSummary.getExamTotalNumbers()){
+            return;
+        }
         //数据库查找没有学科，以及可能查找为空的情况，所以再次设置学科、年级、考试ID
         gradeSummary.setSubject(subject);
         gradeSummary.setExamId(examId);

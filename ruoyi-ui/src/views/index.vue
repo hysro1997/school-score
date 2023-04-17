@@ -127,13 +127,13 @@ export default {
       });
     },
     initEchartsInfo(){
-      if (undefined === this.examId || null === this.examId || '' === this.examId){
-        return false;
-      }else {
         setTimeout(() =>{
-          this.drawAllEcharts(this.examId);
+          if (undefined === this.examId || null === this.examId || '' === this.examId){
+            return false;
+          }else {
+            this.drawAllEcharts(this.examId);
+          }
         },2000);
-      }
     },
     drawAllEcharts(examId){
       this.drawChart(this.rateChart1,"rateChart1",examId,"一年级");
