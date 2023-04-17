@@ -131,7 +131,7 @@
     </el-dialog>
 
     <!-- 统计进度显示对话框 -->
-    <el-dialog :title="title" :visible.sync="processOpen" width="500px" append-to-body :show-close="false">
+    <el-dialog :title="title" :visible.sync="processOpen" width="500px" append-to-body :show-close="false"  :close-on-click-modal="false">
       <el-input
         style="font-size: 20px"
         type="textarea"

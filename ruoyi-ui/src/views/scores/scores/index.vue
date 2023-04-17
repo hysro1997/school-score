@@ -119,10 +119,10 @@
       <!-- el-table-column label="分数ID" align="center" prop="scoreId" / -->
       <el-table-column label="年级" align="center" prop="grade" />
       <el-table-column label="班级" align="center" prop="classes" />
-      <el-table-column label="考试号" align="center" prop="examNumber" />
       <el-table-column label="语文分数" align="center" prop="chineseScore" />
       <el-table-column label="数学分数" align="center" prop="mathsScore" />
       <el-table-column label="英语分数" align="center" prop="englishScore" />
+      <el-table-column label="考试号" align="center" prop="examNumber" />
       <el-table-column label="录入者" align="center" prop="createBy" />
       <el-table-column label="考试名称" align="center" prop="exams.examName" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -183,7 +183,7 @@
     </el-dialog>
 
     <!-- 学生分数导入对话框 -->
-    <el-dialog :title="upload.title" :visible.sync="upload.open" width="400px">
+    <el-dialog :title="upload.title" :visible.sync="upload.open" width="400px" :close-on-click-modal="false">
       <el-upload
         ref="upload"
         :limit="1"
@@ -194,6 +194,7 @@
         :on-progress="handleFileUploadProgress"
         :on-success="handleFileSuccess"
         :auto-upload="false"
+        :show-close="false"
         drag
       >
         <i class="el-icon-upload"></i>
@@ -212,8 +213,8 @@
         <div class="el-upload__tip" style="color:red" slot="tip">&nbsp;&nbsp;&nbsp;&nbsp;导入的excel仅能有1张表单</div>
       </el-upload>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitFileForm">确 定</el-button>
-        <el-button @click="upload.open = false">取 消</el-button>
+        <el-button type="primary" @click="submitFileForm" :disabled="submitDisabled">确 定</el-button>
+        <el-button @click="upload.open = false" :disabled="submitDisabled">取 消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -228,6 +229,7 @@
   name: "Scores",
   data() {
     return {
+      submitDisabled: false,
       //年级选项
       gradeOptions:[{
         value: '一年级',
@@ -483,6 +485,7 @@
     },
 // 文件上传中处理
     handleFileUploadProgress(event, file, fileList) {
+      this.submitDisabled = true;
       this.upload.isUploading = true;
     },
 // 文件上传成功处理
@@ -496,6 +499,7 @@
         this.uploadResult.open = true;
         this.textarea = response.msg;
       }
+      this.submitDisabled = false;
       this.$refs.upload.clearFiles();
       //this.$alert(response.msg, "导入结果", { dangerouslyUseHTMLString: true });
       this.getList();
