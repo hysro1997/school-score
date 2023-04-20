@@ -23,19 +23,16 @@ public class ExamExcellentScoreLine extends BaseEntity
 
     /** 学科 */
     @Excel(name = "学科", type = Excel.Type.EXPORT)
-    @NotNull
     @NotBlank
     private String subject;
 
     /** 优秀分数 */
     @Excel(name = "优秀分数", type = Excel.Type.EXPORT)
     @NotNull
-    @NotBlank
     private Long excellentScore;
 
     /** 年级 */
     @Excel(name = "年级", type = Excel.Type.EXPORT)
-    @NotNull
     @NotBlank
     private String grade;
 

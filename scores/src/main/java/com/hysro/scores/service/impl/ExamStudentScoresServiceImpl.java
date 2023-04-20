@@ -15,6 +15,7 @@ import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.bean.BeanValidators;
+import org.apache.ibatis.transaction.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,6 +121,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         return examStudentScoresMapper.deleteExamStudentScoresByScoreId(scoreId);
     }
 
+    @Transactional(rollbackFor = ServiceException.class)
     @Override
     public String importStudentScore(List<ExamStudentScores> scoresList, boolean updateSupport, String operName) {
         if (StringUtils.isNull(scoresList) || scoresList.size() == 0)
@@ -140,18 +142,22 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
             try
             {
                 if (null == score.getExamNumber() || "".equals(score.getExamNumber())){
-                    throw new ServiceException("还没有设置考试号");
+                    throw new ServiceException("还没有设置考试号，已撤回本次添加的全部数据");
                 }
                 BeanValidators.validateWithException(validator, score);
                 // 验证是否存在这个分数记录 根据考试号和考试ID
                 score.setExamId(examId);
                 if (!this.regxCheckExamNumber(score.getExamNumber())){
-                    throw new ServiceException("考试号有误");
+                    throw new ServiceException("考试号有误，已撤回本次添加的全部数据");
                 }
                 ExamStudentScores ess = examStudentScoresMapper.selectExamStudentScoresByExamNumberAndExamId(score);
                 if (StringUtils.isNull(ess))
                 {
                     BeanValidators.validateWithException(validator, score);
+                    //如果这个学生三门全部缺考，不插入成绩
+                    if (null == score.getChineseScore() && null == score.getMathsScore() && null == score.getEnglishScore()){
+                        continue;
+                    }
                     score.setCreateBy(operName);
                     this.insertExamStudentScores(score);
                     successNum++;
@@ -160,6 +166,10 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
                 else if (updateSupport)
                 {
                     BeanValidators.validateWithException(validator, score);
+                    //如果这个学生三门全部缺考，不插入成绩
+                    if (null == score.getChineseScore() && null == score.getMathsScore() && null == score.getEnglishScore()){
+                        continue;
+                    }
                     score.setUpdateBy(operName);
                     score.setScoreId(ess.getScoreId());
                     this.updateExamStudentScores(score);
@@ -182,8 +192,9 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         }
         if (failureNum > 0)
         {
-            failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
+            failureMsg.insert(0, "很抱歉，导入失败！，已撤回本次添加的全部数据！\r\n共 " + failureNum + " 条数据格式不正确，错误如下：");
             throw new ServiceException(failureMsg.toString());
+
         }
         else
         {
@@ -191,6 +202,11 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         }
         List<Map<String,String>> reuslt = examsService.calculateStatisticExams(examId);
         return successMsg.toString();
+    }
+
+    @Override
+    public Long[] selectExamStudentScoresFifty(ExamStudentScores examStudentScores) {
+        return examStudentScoresMapper.selectExamStudentScoresFifty(examStudentScores);
     }
 
     private void getGradeAndClassesByExamNumber(ExamStudentScores scores){

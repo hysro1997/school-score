@@ -62,6 +62,14 @@ public interface ExamClassStaticticsMapper
     public int deleteExamClassStaticticsByExamStatisticsId(Long examStatisticsId);
 
     /**
+     * 删除班级成绩统计情况
+     *
+     * @param examId 考试主键
+     * @return 结果
+     */
+    public int deleteExamClassStaticticsByExamId(Long examId);
+
+    /**
      * 批量删除班级成绩统计情况
      *
      * @param examStatisticsIds 需要删除的数据主键集合

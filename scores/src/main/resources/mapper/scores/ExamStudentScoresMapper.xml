@@ -37,6 +37,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join exams b on b.exam_id = a.exam_id
     </sql>
 
+    <select id="selectExamStudentScoresFifty" parameterType="ExamStudentScores" resultType="Long">
+        SELECT exam_number FROM exam_student_scores
+        <where>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
+            <if test="examId != null "> and exam_id = #{examId}</if>
+        </where>
+        ORDER BY ISNULL(${subject}),${subject} ${orderType},exam_number LIMIT 50
+    </select>
+
     <select id="selectExamStudentScoresList" parameterType="ExamStudentScores" resultMap="ExamStudentScoresExamsResult">
         <include refid="selectExamStudentScoresVo"/>
         <where>

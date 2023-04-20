@@ -60,6 +60,14 @@ public interface ExamGradeSummaryMapper
     public int deleteExamGradeSummaryByExamGradeSummaryId(Long examGradeSummaryId);
 
     /**
+     * 删除年级总体情况
+     *
+     * @param examId 考试主键
+     * @return 结果
+     */
+    public int deleteExamGradeSummaryByExamId(Long examId);
+
+    /**
      * 批量删除年级总体情况
      *
      * @param examGradeSummaryIds 需要删除的数据主键集合

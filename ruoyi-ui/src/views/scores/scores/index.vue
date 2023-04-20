@@ -177,8 +177,9 @@
     </el-dialog>
 
     <!-- 导入后显示导入结果 -->
-    <el-dialog :title="uploadResult.title" width="400px" :visible.sync="uploadResult.open">
-      <el-input type="textarea" v-model="textarea" :rows="10" disabled></el-input>
+    <el-dialog :title="uploadResult.title" width="500px" :visible.sync="uploadResult.open">
+      <el-input type="textarea" v-model="textarea" :rows="20" disabled></el-input>
+      <br/><br/>
       <el-button type="primary" @click="uploadResult.open = false">好的</el-button>
     </el-dialog>
 

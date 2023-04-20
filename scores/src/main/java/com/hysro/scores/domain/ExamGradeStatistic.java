@@ -1,5 +1,6 @@
 package com.hysro.scores.domain;
 
+import com.alibaba.fastjson2.annotation.JSONField;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -69,9 +70,11 @@ public class ExamGradeStatistic extends BaseEntity
     /** 得分率 */
     @Excel(name = "得分率", type = Excel.Type.EXPORT)
     private String allScorePercentage;
-
+    @JSONField(serialize = false)
     private Long excellentLineChinese;
+    @JSONField(serialize = false)
     private Long excellentLineMath;
+    @JSONField(serialize = false)
     private Long excellentLineEnglish;
 
     /** 各种考试信息 */

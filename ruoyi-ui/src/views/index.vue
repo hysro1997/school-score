@@ -94,7 +94,7 @@ export default {
       },
       examQueryParams:{
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 100,
         examName: null,
       },
       roleGroup: {},

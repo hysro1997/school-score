@@ -133,4 +133,34 @@ public class ExamStudentScoresController extends BaseController
         ExcelUtil<ExamStudentScores> util = new ExcelUtil<ExamStudentScores>(ExamStudentScores.class);
         util.importTemplateExcel(response,"学生分数数据");
     }
+
+    @GetMapping("/fifty")
+    public AjaxResult getScoresFifty(ExamStudentScores examStudentScores){
+        if (null == examStudentScores.getExamId()){
+            return AjaxResult.error("没有选择查看哪一场考试的成绩");
+        }
+        //0升序排列，即倒数50名
+        if ("0".equals(examStudentScores.getOrderType())){
+            examStudentScores.setOrderType("ASC");
+            //1降序排列，即前50名
+        } else if ("1".equals(examStudentScores.getOrderType())){
+            examStudentScores.setOrderType("DESC");
+        } else {
+            return AjaxResult.error("参数错误");
+        }
+        switch (examStudentScores.getSubject()){
+            case "语文" :
+                examStudentScores.setSubject("chinese_score");
+                break;
+            case "数学":
+                examStudentScores.setSubject("maths_score");
+                break;
+            case "英语":
+                examStudentScores.setSubject("english_score");
+                break;
+            default:
+                return AjaxResult.error("参数错误");
+        }
+        return AjaxResult.success(examStudentScoresService.selectExamStudentScoresFifty(examStudentScores));
+    }
 }

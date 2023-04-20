@@ -140,10 +140,15 @@ public class ExamsServiceImpl implements IExamsService
         if (0 == gradeClasses.size()){
             return null;
         }
+        //统计个屁的统计，先把这次考试已有的统计数据删掉，反正数量不多
+        classStaticticsMapper.deleteExamClassStaticticsByExamId(examId);
+        gradeStatisticMapper.deleteExamGradeStatisticByExamId(examId);
+        gradeSummaryMapper.deleteExamGradeSummaryByExamId(examId);
         //循环年级班级，开始统计
         for (Map<String,String> gradeClass : gradeClasses){
             this.saveClassesStatistics(gradeClass.get("grade"),gradeClass.get("classes"),"语文","chinese_score",examId);
             this.saveClassesStatistics(gradeClass.get("grade"),gradeClass.get("classes"),"数学","maths_score",examId);
+            //根据年级确定是否要统计一年级的数据
             if (!"一年级".equals(gradeClass.get("grade")) && !"二年级".equals(gradeClass.get("grade"))){
                 this.saveClassesStatistics(gradeClass.get("grade"),gradeClass.get("classes"),"英语","english_score",examId);
             }
@@ -167,7 +172,7 @@ public class ExamsServiceImpl implements IExamsService
             }
         }
 
-        //年级数据排名
+        //年级数据排名和年级成绩概要
         ExamGradeStatistic examGradeStatistic;
         ExamGradeSummary gradeSummary;
         List<Map<String,String>> grades = gradeStatisticMapper.selectDistinctGrade(examId);

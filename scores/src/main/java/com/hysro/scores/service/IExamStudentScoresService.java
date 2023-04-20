@@ -67,4 +67,12 @@ public interface IExamStudentScoresService
      * @return 结果
      */
     public String importStudentScore(List<ExamStudentScores> scoresList, boolean updateSupport, String operName);
+
+    /**
+     * 获取当前筛选条件下的前后50名
+     *
+     * @param examStudentScores 年级、班级、考试ID，学科，排序方式
+     * @return 结果
+     */
+    public Long[] selectExamStudentScoresFifty(ExamStudentScores examStudentScores);
 }

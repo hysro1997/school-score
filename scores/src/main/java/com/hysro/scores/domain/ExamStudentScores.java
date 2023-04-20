@@ -1,6 +1,9 @@
 package com.hysro.scores.domain;
 
 import java.math.BigDecimal;
+
+import com.alibaba.fastjson2.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONType;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -33,7 +36,6 @@ public class ExamStudentScores extends BaseEntity
 
     /** 考试号 */
     @Excel(name = "考试号")
-    @NotNull
     @NotBlank
     @Pattern(regexp = "[1-6][0-1]\\d\\d\\d",message = "必须是5位数10101，一年级01班01号")
     private String examNumber;
@@ -61,6 +63,27 @@ public class ExamStudentScores extends BaseEntity
     /** 各种考试信息 */
     @Excel(name = "考试名称", targetAttr = "examName", type = Excel.Type.EXPORT)
     private Exams exams;
+
+    @JSONField(serialize = false)
+    private String subject;
+    @JSONField(serialize = false)
+    private String orderType;
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
+    }
 
     public void setScoreId(Long scoreId)
     {

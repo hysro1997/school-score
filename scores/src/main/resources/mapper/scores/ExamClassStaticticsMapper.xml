@@ -253,6 +253,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from exam_class_statictics where exam_statistics_id = #{examStatisticsId}
     </delete>
 
+    <delete id="deleteExamClassStaticticsByExamId" parameterType="Long">
+        delete from exam_class_statictics where exam_id = #{examId}
+    </delete>
+
     <delete id="deleteExamClassStaticticsByExamStatisticsIds" parameterType="String">
         delete from exam_class_statictics where exam_statistics_id in
         <foreach item="examStatisticsId" collection="array" open="(" separator="," close=")">

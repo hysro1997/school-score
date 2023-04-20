@@ -1,5 +1,6 @@
 package com.hysro.scores.domain;
 
+import com.alibaba.fastjson2.annotation.JSONField;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -57,10 +58,11 @@ public class ExamGradeSummary extends BaseEntity
     /** 考试信息 */
     @Excel(name = "考试名称", targetAttr = "examName", type = Excel.Type.EXPORT)
     private Exams exams;
-
+    @JSONField(serialize = false)
     private Long excellentLine;
 
     /** 动态给sql传参，表明查询的是哪个学科的分数 */
+    @JSONField(serialize = false)
     private String subjectName;
 
     public Long getExcellentLine() {
