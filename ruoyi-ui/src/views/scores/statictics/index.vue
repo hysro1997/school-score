@@ -8,13 +8,12 @@
           clearable
           @keyup.enter.native="handleQuery"
         /-->
-        <el-select v-model="queryParams.grade" placeholder="请选择年级">
+        <el-select v-model="queryParams.grade" @change="handleQuery" placeholder="请选择年级">
           <el-option
             v-for="item in gradeOptions"
             :key="item.value"
             :label="item.label"
-            :value="item.value"
-            @keyup.enter.native="handleQuery">
+            :value="item.value">
           </el-option>
         </el-select>
       </el-form-item>
@@ -25,13 +24,12 @@
           clearable
           @keyup.enter.native="handleQuery"
         /-->
-        <el-select v-model="queryParams.classes" placeholder="请选择班级">
+        <el-select v-model="queryParams.classes" @change="handleQuery" placeholder="请选择班级">
           <el-option
             v-for="item in classesOptions"
             :key="item.value"
             :label="item.label"
-            :value="item.value"
-            @keyup.enter.native="handleQuery">
+            :value="item.value">
           </el-option>
         </el-select>
       </el-form-item>
@@ -42,13 +40,13 @@
           clearable
           @keyup.enter.native="handleQuery"
         /-->
-        <el-select v-model="queryParams.subject" placeholder="请选择学科">
+        <el-select v-model="queryParams.subject" @change="handleQuery" placeholder="请选择学科">
           <el-option
             v-for="item in subjectOptions"
             :key="item.value"
             :label="item.label"
             :value="item.value"
-            @keyup.enter.native="handleQuery">
+            >
           </el-option>
         </el-select>
       </el-form-item>
@@ -116,9 +114,30 @@
     <el-table v-loading="loading" :data="staticticsList" @selection-change="handleSelectionChange" :row-class-name="tableRowClassName">
       <el-table-column type="selection" width="55" align="center" />
       <!-- el-table-column label="统计记录ID" align="center" prop="examStatisticsId" / -->
-      <el-table-column label="年级" align="center" prop="grade" />
-      <el-table-column label="班级" align="center" prop="classes" />
-      <el-table-column label="学科" align="center" prop="subject" />
+      <el-table-column label="年级" align="center" prop="grade">
+        <template slot-scope="scope">
+        <el-button
+          size="mini"
+          type="text"
+          @click="handGetListByGrade(scope.row,scope.row.grade)">{{scope.row.grade}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="班级" align="center" prop="classes">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            @click="handGetListByClasses(scope.row,scope.row.classes)">{{scope.row.classes}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="学科" align="center" prop="subject">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            @click="handGetListBySubject(scope.row,scope.row.subject)">{{scope.row.subject}}</el-button>
+        </template>
+      </el-table-column>
       <el-table-column label="考试人数" sortable align="center" prop="examNumbers" />
       <el-table-column label="全班总分" sortable align="center" prop="totalScore" />
       <el-table-column label="平均分" sortable align="center" prop="averageScore" />
@@ -298,6 +317,59 @@
     this.getList();
   },
   methods: {
+    clearQueryParams(){
+      this.queryParams.grade = null;
+      this.queryParams.classes = null;
+      this.queryParams.subject = null;
+      this.queryParams.examId = null;
+    },
+    handGetListByGrade(row,grade){
+      let params ={
+        grade: null,
+        classes: null,
+        subject: null,
+        examId: null,
+      };
+      this.clearQueryParams();
+      params.examId = row.examId;
+      params.grade = grade;
+      this.queryParams.grade = grade;
+      this.handGetList(params);
+    },
+    handGetListBySubject(row,subject){
+      let params ={
+        grade: null,
+        classes: null,
+        subject: null,
+        examId: null,
+      };
+      this.clearQueryParams();
+      params.examId = row.examId;
+      params.subject = subject;
+      this.queryParams.subject = subject;
+      this.handGetList(params);
+    },
+    handGetListByClasses(row,classes){
+      let params ={
+        grade: null,
+        classes: null,
+        subject: null,
+        examId: null,
+      };
+      this.clearQueryParams();
+      params.examId = row.examId;
+      params.classes = classes;
+      this.queryParams.classes = classes;
+      this.handGetList(params);
+    },
+    handGetList(param){
+      this.loading = true;
+      listStatictics(param).then(response => {
+        this.staticticsList = response.rows;
+        this.total = response.total;
+        this.loading = false;
+      });
+    },
     tableRowClassName({row, rowIndex}) {
       if (1 === rowIndex % 2) {
         return 'success-row';

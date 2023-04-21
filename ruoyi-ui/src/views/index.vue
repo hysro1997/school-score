@@ -76,7 +76,7 @@
     </el-row>
     <!-- 查看名单 -->
     <el-dialog :title="studentList.title" width="600px" :visible.sync="studentList.open">
-      <el-row :gutter="20" style="font-size: 24px;"><el-col style="margin:5px" :span="4" v-for="item in students">{{item}}</el-col></el-row>
+      <el-row :gutter="20" style="font-size: 24px;"><el-col style="margin:5px" :span="4" v-for="(item, index) in students" :key="index">{{item}}</el-col></el-row>
     </el-dialog>
   </div>
 </template>
