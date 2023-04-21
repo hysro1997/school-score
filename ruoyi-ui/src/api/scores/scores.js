@@ -9,7 +9,7 @@ export function listScores(query) {
   })
 }
 
-// 查询学生分数情况列表
+// 查询学生前后50名情况列表
 export function getScoresFifty(query) {
   return request({
     url: '/scores/scores/fifty',

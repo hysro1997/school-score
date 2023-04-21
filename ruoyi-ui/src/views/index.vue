@@ -39,32 +39,45 @@
       @change="drawAllEcharts(examId)"
     ></el-switch> 平均分 排名数据
     </div>
-
+<br/><br/>
     <el-row :gutter="20">
-      <el-col :span="12"><div class="grid-content bg-purple" id="rateChart1" style="width: 700px;height: 400px">
+      <el-col :span="12">
+        <div><el-button type="success" @click="getFiftyByButton('一年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('一年级','0')" plain>后50名</el-button></div>
+        <div class="grid-content bg-purple" id="rateChart1" style="width: 700px;height: 400px">
         <el-empty description="一年级暂无数据"></el-empty>
       </div></el-col>
-      <el-col :span="12"><div class="grid-content bg-purple" id="rateChart2" style="width: 700px;height: 400px">
+      <el-col :span="12"><div><el-button type="success" @click="getFiftyByButton('二年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('二年级','0')" plain>后50名</el-button></div>
+        <div class="grid-content bg-purple" id="rateChart2" style="width: 700px;height: 400px">
         <el-empty description="二年级暂无数据"></el-empty>
       </div></el-col>
     </el-row>
+    <br/><br/>
     <el-row :gutter="20">
-      <el-col :span="12"><div class="grid-content bg-purple" id="rateChart3" style="width: 700px;height: 400px">
+      <el-col :span="12"><div><el-button type="success" @click="getFiftyByButton('三年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('三年级','0')" plain>后50名</el-button></div>
+        <div class="grid-content bg-purple" id="rateChart3" style="width: 700px;height: 400px">
         <el-empty description="三年级暂无数据"></el-empty>
       </div></el-col>
-      <el-col :span="12"><div class="grid-content bg-purple" id="rateChart4" style="width: 700px;height: 400px">
+      <el-col :span="12">
+        <div><el-button type="success" @click="getFiftyByButton('四年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('四年级','0')" plain>后50名</el-button></div>
+        <div class="grid-content bg-purple" id="rateChart4" style="width: 700px;height: 400px">
         <el-empty description="四年级暂无数据"></el-empty>
       </div></el-col>
     </el-row>
+    <br/><br/>
     <el-row :gutter="20">
-      <el-col :span="12"><div class="grid-content bg-purple" id="rateChart5" style="width: 700px;height: 400px">
+      <el-col :span="12"><div><el-button type="success" @click="getFiftyByButton('五年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('五年级','0')" plain>后50名</el-button></div>
+        <div class="grid-content bg-purple" id="rateChart5" style="width: 700px;height: 400px">
         <el-empty description="五年级暂无数据"></el-empty>
       </div></el-col>
-      <el-col :span="12"><div class="grid-content bg-purple" id="rateChart6" style="width: 700px;height: 400px">
+      <el-col :span="12"><div><el-button type="success" @click="getFiftyByButton('六年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('六年级','0')" plain>后50名</el-button></div>
+        <div class="grid-content bg-purple" id="rateChart6" style="width: 700px;height: 400px">
         <el-empty description="六年级暂无数据"></el-empty>
       </div></el-col>
     </el-row>
-
+    <!-- 查看名单 -->
+    <el-dialog :title="studentList.title" width="600px" :visible.sync="studentList.open">
+      <el-row :gutter="20" style="font-size: 24px;"><el-col style="margin:5px" :span="4" v-for="item in students">{{item}}</el-col></el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -74,11 +87,16 @@
   import { getStaticticsclass } from "@/api/scores/infoForEcharts"
   import * as echarts from 'echarts';
   import { allExams } from '@/api/examination/exams'
+  import { getScoresFifty } from '@/api/scores/scores'
 
 export default {
   name: "Index",
   data() {
     return {
+      studentList: {
+        title: null,
+        open: false
+      },
       options: [],
       examId: '',
       loading: false,
@@ -104,7 +122,8 @@ export default {
       rateChart3: null,
       rateChart4: null,
       rateChart5: null,
-      rateChart6: null
+      rateChart6: null,
+      students: []
     };
   },
   created() {
@@ -115,6 +134,24 @@ export default {
     this.initEchartsInfo();
   },
   methods: {
+    getFiftyByButton(grade,orderType){
+      this.students = [];
+      this.studentList.title = grade + (orderType === '1' ? "前" : "后") + "50名的名单";
+      let params = {
+        grade: null,
+        examId: null,
+        subject: null,
+        orderType: null
+      };
+      params.examId = this.examId;
+      params.orderType = orderType;
+      params.grade = grade;
+      params.subject = "语文";
+      getScoresFifty(params).then(response => {
+        this.students = response.data;
+        this.studentList.open = true;
+      })
+    },
     initExams(){
       allExams(this.examQueryParams).then(response => {
         this.options = response.data;
@@ -136,6 +173,7 @@ export default {
         },2000);
     },
     drawAllEcharts(examId){
+      this.examId = examId;
       this.drawChart(this.rateChart1,"rateChart1",examId,"一年级");
       this.drawChart(this.rateChart2,"rateChart2",examId,"二年级");
       this.drawChart(this.rateChart3,"rateChart3",examId,"三年级");

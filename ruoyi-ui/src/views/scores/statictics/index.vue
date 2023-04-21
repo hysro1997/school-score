@@ -56,7 +56,6 @@
         <el-input
           v-model="queryParams.examName"
           placeholder="请输入考试名称"
-          :fetch-suggestions="querySearchAsync"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -186,8 +185,6 @@
     listStatictics,
     updateStatictics
   } from '@/api/scores/statictics'
-  import {getScoresFifty} from '@/api/scores/scores'
-  import { allExams } from '@/api/examination/exams'
 
   export default {
   name: "Statictics",
@@ -301,11 +298,6 @@
     this.getList();
   },
   methods: {
-    querySearchAsync(queryString, cb){
-      allExams(queryString).then(response => {
-        cb(response.data);
-      });
-    },
     tableRowClassName({row, rowIndex}) {
       if (1 === rowIndex % 2) {
         return 'success-row';

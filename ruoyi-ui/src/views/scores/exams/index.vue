@@ -118,7 +118,7 @@
     />
 
     <!-- 添加或修改各种考试对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="500px"  :close-on-click-modal="false" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px" @submit.native.prevent>
         <el-form-item label="考试名称" prop="examName">
           <el-input v-model="form.examName" maxlength="50" placeholder="请输入考试名称" @keyup.enter.native="submitForm"/>

@@ -125,7 +125,7 @@
     />
 
     <!-- 添加或修改优秀分数线对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="500px"  :close-on-click-modal="false" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="学科" prop="subject">
           <!--el-input v-model="form.subject" placeholder="请输入学科" /-->
