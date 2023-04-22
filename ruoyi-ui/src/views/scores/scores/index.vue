@@ -155,7 +155,7 @@
     />
 
     <!-- 添加或修改学生分数情况对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="500px" :close-on-click-modal="false" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="考试号" prop="examNumber">
           <el-input v-model="form.examNumber" placeholder="请输入考试号" maxlength="5" />
@@ -177,7 +177,7 @@
     </el-dialog>
 
     <!-- 导入后显示导入结果 -->
-    <el-dialog :title="uploadResult.title" width="500px" :visible.sync="uploadResult.open">
+    <el-dialog :title="uploadResult.title" width="500px" :visible.sync="uploadResult.open" :close-on-click-modal="false">
       <el-input type="textarea" v-model="textarea" :rows="20" disabled></el-input>
       <br/><br/>
       <el-button type="primary" @click="uploadResult.open = false">好的</el-button>

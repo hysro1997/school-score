@@ -76,9 +76,14 @@
     </el-row>
     <!-- 查看名单 -->
     <el-dialog :title="studentList.title" width="600px" :visible.sync="studentList.open"  :close-on-click-modal="false">
-      <el-row :gutter="20" style="font-size: 24px;"><el-col style="margin:5px" :span="4" v-for="(item, index) in students" :key="index">{{item}}</el-col></el-row>
+      <div>语文：<el-button type="primary" @click="clipboardHandler(1)">复制语文名单</el-button></div>
+      <el-row :gutter="20" style="font-size: 24px;"><el-col style="margin:5px" :span="4" v-for="(item, index) in studentsChinese" :key="index">{{item}}</el-col></el-row>
       <br/><br/>
-      <el-button type="primary" @click="clipboardHandler">复制名单</el-button>
+      <div>数学：<el-button type="primary" @click="clipboardHandler(2)">复制数学名单</el-button></div>
+      <el-row :gutter="20" style="font-size: 24px;"><el-col style="margin:5px" :span="4" v-for="(item, index) in studentsMaths" :key="index">{{item}}</el-col></el-row>
+      <br/><br/>
+      <div>英语：<el-button type="primary" @click="clipboardHandler(3)">复制英语名单</el-button></div>
+      <el-row :gutter="20" style="font-size: 24px;"><el-col style="margin:5px" :span="4" v-for="(item, index) in studentsEnglish" :key="index">{{item}}</el-col></el-row>
     </el-dialog>
   </div>
 </template>
@@ -125,7 +130,9 @@ export default {
       rateChart4: null,
       rateChart5: null,
       rateChart6: null,
-      students: []
+      studentsChinese: [],
+      studentsMaths: [],
+      studentsEnglish: []
     };
   },
   created() {
@@ -136,24 +143,64 @@ export default {
     this.initEchartsInfo();
   },
   methods: {
-    clipboardHandler () {
+    clipboardHandler (subject) {
       let that = this;
       let message = (this.studentList.title + "\n") || "";
-      if (null === this.students || 0 === this.students.length){
-        this.$modal.msgWarning("没有可供复制的内容");
-        return;
+      switch (subject) {
+        case 1:
+          if (null === this.studentsChinese || 0 === this.studentsChinese.length){
+            this.$modal.msgWarning("没有可供复制的内容");
+            return;
+          }
+          message.replace("级","级 语文");
+          this.studentsChinese.forEach(function(element){
+            message += element + "\n";
+          });
+          this.$copyText(message).then(function (e) {
+            that.$modal.msgSuccess("复制成功");
+          }, function (e) {
+            that.$modal.msgError("复制出错了");
+          });
+          break;
+        case 2:
+          if (null === this.studentsMaths || 0 === this.studentsMaths.length){
+            this.$modal.msgWarning("没有可供复制的内容");
+            return;
+          }
+          message.replace("级","级 数学");
+          this.studentsMaths.forEach(function(element){
+            message += element + "\n";
+          });
+          this.$copyText(message).then(function (e) {
+            that.$modal.msgSuccess("复制成功");
+          }, function (e) {
+            that.$modal.msgError("复制出错了");
+          });
+          break;
+        case 3:
+          if (null === this.studentsEnglish || 0 === this.studentsEnglish.length){
+            this.$modal.msgWarning("没有可供复制的内容");
+            return;
+          }
+          message.replace("级","级 英语");
+          this.studentsEnglish.forEach(function(element){
+            message += element + "\n";
+          });
+          this.$copyText(message).then(function (e) {
+            that.$modal.msgSuccess("复制成功");
+          }, function (e) {
+            that.$modal.msgError("复制出错了");
+          });
+          break;
+        default:
+          break;
       }
-      this.students.forEach(function(element){
-        message += element + "\n";
-      });
-      this.$copyText(message).then(function (e) {
-        that.$modal.msgSuccess("复制成功");
-      }, function (e) {
-        that.$modal.msgError("复制出错了");
-      })
+
     },
     getFiftyByButton(grade,orderType){
-      this.students = [];
+      this.studentsChinese = [];
+      this.studentsMaths = [];
+      this.studentsEnglish = [];
       this.studentList.title = grade + (orderType === '1' ? " 前 " : " 后 ") + " 50名的名单";
       let params = {
         grade: null,
@@ -166,9 +213,19 @@ export default {
       params.grade = grade;
       params.subject = "语文";
       getScoresFifty(params).then(response => {
-        this.students = response.data;
+        this.studentsChinese = response.data;
         this.studentList.open = true;
-      })
+      });
+      params.subject = "数学";
+      getScoresFifty(params).then(response => {
+        this.studentsMaths = response.data;
+        this.studentList.open = true;
+      });
+      params.subject = "英语";
+      getScoresFifty(params).then(response => {
+        this.studentsEnglish = response.data;
+        this.studentList.open = true;
+      });
     },
     initExams(){
       allExams(this.examQueryParams).then(response => {
