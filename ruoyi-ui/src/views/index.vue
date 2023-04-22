@@ -75,8 +75,10 @@
       </div></el-col>
     </el-row>
     <!-- 查看名单 -->
-    <el-dialog :title="studentList.title" width="600px" :visible.sync="studentList.open">
+    <el-dialog :title="studentList.title" width="600px" :visible.sync="studentList.open"  :close-on-click-modal="false">
       <el-row :gutter="20" style="font-size: 24px;"><el-col style="margin:5px" :span="4" v-for="(item, index) in students" :key="index">{{item}}</el-col></el-row>
+      <br/><br/>
+      <el-button type="primary" @click="clipboardHandler">复制名单</el-button>
     </el-dialog>
   </div>
 </template>
@@ -134,9 +136,25 @@ export default {
     this.initEchartsInfo();
   },
   methods: {
+    clipboardHandler () {
+      let that = this;
+      let message = "";
+      if (null === this.students || 0 === this.students.length){
+        this.$modal.msgWarning("没有可供复制的内容");
+        return;
+      }
+      this.students.forEach(function(element){
+        message += element + "\n";
+      });
+      this.$copyText(message).then(function (e) {
+        that.$modal.msgSuccess("复制成功");
+      }, function (e) {
+        that.$modal.msgError("复制出错了");
+      })
+    },
     getFiftyByButton(grade,orderType){
       this.students = [];
-      this.studentList.title = grade + (orderType === '1' ? "前" : "后") + "50名的名单";
+      this.studentList.title = grade + (orderType === '1' ? " 前 " : " 后 ") + " 50名的名单";
       let params = {
         grade: null,
         examId: null,

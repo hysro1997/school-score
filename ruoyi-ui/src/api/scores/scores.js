@@ -18,6 +18,15 @@ export function getScoresFifty(query) {
   })
 }
 
+// 查询学生不及格情况列表
+export function getScoresUnqualified(query) {
+  return request({
+    url: '/scores/scores/scoresBoundry',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询学生分数情况详细
 export function getScores(scoreId) {
   return request({

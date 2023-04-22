@@ -84,4 +84,12 @@ public interface ExamStudentScoresMapper
      * @return 结果
      */
     public Long[] selectExamStudentScoresFifty(ExamStudentScores examStudentScores);
+
+    /**
+     * 获取当前筛选条件下的前后50名
+     *
+     * @param examStudentScores 年级、班级、考试ID，学科，分数
+     * @return 结果
+     */
+    public Long[] selectExamStudentScoresByScoresBoundry(ExamStudentScores examStudentScores);
 }

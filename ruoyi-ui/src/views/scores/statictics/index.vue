@@ -185,7 +185,7 @@
     />
 
     <!-- 添加或修改班级成绩统计情况对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="500px"  :close-on-click-modal="false" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
       </el-form>
       <div slot="footer" class="dialog-footer">

@@ -209,6 +209,11 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         return examStudentScoresMapper.selectExamStudentScoresFifty(examStudentScores);
     }
 
+    @Override
+    public Long[] selectExamStudentScoresByScoresBoundry(ExamStudentScores examStudentScores) {
+        return examStudentScoresMapper.selectExamStudentScoresByScoresBoundry(examStudentScores);
+    }
+
     private void getGradeAndClassesByExamNumber(ExamStudentScores scores){
         String examNumber = scores.getExamNumber();
         char grade = examNumber.charAt(0);

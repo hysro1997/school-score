@@ -14,6 +14,8 @@ import directive from './directive' // directive
 import plugins from './plugins' // plugins
 import { download } from '@/utils/request'
 
+import Clipboard from 'vue-clipboard2'
+
 import './assets/icons' // icon
 import './permission' // permission control
 import { getDicts } from '@/api/system/dict/data'
@@ -58,6 +60,7 @@ Vue.component('FileUpload', FileUpload)
 Vue.component('ImageUpload', ImageUpload)
 Vue.component('ImagePreview', ImagePreview)
 
+Vue.use(Clipboard)
 Vue.use(directive)
 Vue.use(plugins)
 Vue.use(VueMeta)

@@ -163,4 +163,25 @@ public class ExamStudentScoresController extends BaseController
         }
         return AjaxResult.success(examStudentScoresService.selectExamStudentScoresFifty(examStudentScores));
     }
+
+    @GetMapping("/scoresBoundry")
+    public AjaxResult getScoresBoundry(ExamStudentScores examStudentScores){
+        if (null == examStudentScores.getExamId()){
+            return AjaxResult.error("没有选择查看哪一场考试的成绩");
+        }
+        switch (examStudentScores.getSubject()){
+            case "语文" :
+                examStudentScores.setSubject("chinese_score");
+                break;
+            case "数学":
+                examStudentScores.setSubject("maths_score");
+                break;
+            case "英语":
+                examStudentScores.setSubject("english_score");
+                break;
+            default:
+                return AjaxResult.error("参数错误");
+        }
+        return AjaxResult.success(examStudentScoresService.selectExamStudentScoresByScoresBoundry(examStudentScores));
+    }
 }

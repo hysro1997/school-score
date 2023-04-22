@@ -117,7 +117,14 @@
       <el-table-column label="年级均分" sortable align="center" prop="gradeAverageScore" />
       <el-table-column label="年级及格率" sortable align="center" prop="gradeQualifiedPercentage" />
       <el-table-column label="年级优秀率" sortable align="center" prop="gradeExcellentPercentage" />
-      <el-table-column label="不及格人数" sortable align="center" prop="gradeUnqualifiedNumbers" />
+      <el-table-column label="不及格人数" sortable align="center" prop="gradeUnqualifiedNumbers">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            @click="getUnqualified(scope.row)">{{scope.row.gradeUnqualifiedNumbers}}</el-button>
+        </template>
+      </el-table-column>
       <el-table-column label="考试名称" align="center" prop="exams.examName" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -156,16 +163,28 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+    <!-- 查看名单 -->
+    <el-dialog :title="studentList.title" width="600px" :visible.sync="studentList.open" :close-on-click-modal="false">
+      <el-row :gutter="20" style="font-size: 24px;"><el-col style="margin:5px" :span="4" v-for="(item, index) in students" :key="index">{{item}}</el-col></el-row>
+      <br/><br/>
+      <el-button type="primary" @click="clipboardHandler">复制名单</el-button>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import { addSummary, delSummary, getSummary, listSummary, updateSummary } from '@/api/scores/summary'
+  import { getScoresUnqualified } from '../../../api/scores/scores'
 
   export default {
   name: "Summary",
   data() {
     return {
+      studentList: {
+        title: null,
+        open: false
+      },
+      students: [],
       //学科选项
       subjectOptions:[{
         value: '语文',
@@ -235,6 +254,38 @@
     this.getList();
   },
   methods: {
+    clipboardHandler () {
+      let that = this;
+      let message = "";
+      if (null === this.students || 0 === this.students.length){
+        this.$modal.msgWarning("没有可供复制的内容");
+        return;
+      }
+      this.students.forEach(function(element){
+        message += element + "\n";
+      });
+      this.$copyText(message).then(function (e) {
+        that.$modal.msgSuccess("复制成功");
+      }, function (e) {
+        that.$modal.msgError("复制出错了");
+      })
+    },
+    getUnqualified(row){
+      this.students = [];
+      this.studentList.title = row.grade + "  " + row.subject + "  " + "不及格名单";
+      let params ={
+        grade: null,
+        subject: null,
+        examId: null,
+      };
+      params.examId = row.examId;
+      params.grade = row.grade;
+      params.subject = row.subject;
+      getScoresUnqualified(params).then(response => {
+        this.students = response.data;
+        this.studentList.open = true;
+      });
+    },
     clearQueryParams(){
       this.queryParams.grade = null;
       this.queryParams.classes = null;
