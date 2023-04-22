@@ -42,40 +42,62 @@
 <br/><br/>
     <el-row :gutter="20">
       <el-col :span="12">
-        <div><el-button type="success" @click="getFiftyByButton('一年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('一年级','0')" plain>后50名</el-button></div>
+        <div>
+          <el-button type="success" @click="getFiftyByButton('一年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('一年级','0')" plain>后50名</el-button>
+          <el-button type="success" @click="getGradeStatics('一年级')">查看数据</el-button>
+        </div>
         <div class="grid-content bg-purple" id="rateChart1" style="width: 700px;height: 400px">
         <el-empty description="一年级暂无数据"></el-empty>
       </div></el-col>
-      <el-col :span="12"><div><el-button type="success" @click="getFiftyByButton('二年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('二年级','0')" plain>后50名</el-button></div>
+      <el-col :span="12">
+        <div>
+          <el-button type="success" @click="getFiftyByButton('二年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('二年级','0')" plain>后50名</el-button>
+          <el-button type="success" @click="getGradeStatics('二年级')">查看数据</el-button>
+        </div>
         <div class="grid-content bg-purple" id="rateChart2" style="width: 700px;height: 400px">
         <el-empty description="二年级暂无数据"></el-empty>
       </div></el-col>
     </el-row>
     <br/><br/>
     <el-row :gutter="20">
-      <el-col :span="12"><div><el-button type="success" @click="getFiftyByButton('三年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('三年级','0')" plain>后50名</el-button></div>
+      <el-col :span="12">
+        <div>
+          <el-button type="success" @click="getFiftyByButton('三年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('三年级','0')" plain>后50名</el-button>
+          <el-button type="success" @click="getGradeStatics('三年级')">查看数据</el-button>
+        </div>
         <div class="grid-content bg-purple" id="rateChart3" style="width: 700px;height: 400px">
         <el-empty description="三年级暂无数据"></el-empty>
       </div></el-col>
       <el-col :span="12">
-        <div><el-button type="success" @click="getFiftyByButton('四年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('四年级','0')" plain>后50名</el-button></div>
+        <div>
+          <el-button type="success" @click="getFiftyByButton('四年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('四年级','0')" plain>后50名</el-button>
+          <el-button type="success" @click="getGradeStatics('四年级')">查看数据</el-button>
+        </div>
         <div class="grid-content bg-purple" id="rateChart4" style="width: 700px;height: 400px">
         <el-empty description="四年级暂无数据"></el-empty>
       </div></el-col>
     </el-row>
     <br/><br/>
     <el-row :gutter="20">
-      <el-col :span="12"><div><el-button type="success" @click="getFiftyByButton('五年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('五年级','0')" plain>后50名</el-button></div>
+      <el-col :span="12">
+        <div>
+          <el-button type="success" @click="getFiftyByButton('五年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('五年级','0')" plain>后50名</el-button>
+          <el-button type="success" @click="getGradeStatics('五年级')">查看数据</el-button>
+        </div>
         <div class="grid-content bg-purple" id="rateChart5" style="width: 700px;height: 400px">
         <el-empty description="五年级暂无数据"></el-empty>
       </div></el-col>
-      <el-col :span="12"><div><el-button type="success" @click="getFiftyByButton('六年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('六年级','0')" plain>后50名</el-button></div>
+      <el-col :span="12">
+        <div>
+          <el-button type="success" @click="getFiftyByButton('六年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('六年级','0')" plain>后50名</el-button>
+          <el-button type="success" @click="getGradeStatics('六年级')">查看数据</el-button>
+        </div>
         <div class="grid-content bg-purple" id="rateChart6" style="width: 700px;height: 400px">
         <el-empty description="六年级暂无数据"></el-empty>
       </div></el-col>
     </el-row>
     <!-- 查看名单 -->
-    <el-dialog :title="studentList.title" width="600px" :visible.sync="studentList.open"  :close-on-click-modal="false">
+    <el-dialog :title="studentList.title" width="600px" :visible.sync="studentList.open" :close-on-click-modal="false" append-to-body>
       <div>语文：<el-button type="primary" @click="clipboardHandler(1)">复制语文名单</el-button></div>
       <el-row :gutter="20" style="font-size: 24px;"><el-col style="margin:5px" :span="4" v-for="(item, index) in studentsChinese" :key="index">{{item}}</el-col></el-row>
       <br/><br/>
@@ -85,6 +107,67 @@
       <div>英语：<el-button type="primary" @click="clipboardHandler(3)">复制英语名单</el-button></div>
       <el-row :gutter="20" style="font-size: 24px;"><el-col style="margin:5px" :span="4" v-for="(item, index) in studentsEnglish" :key="index">{{item}}</el-col></el-row>
     </el-dialog>
+    <el-drawer
+      title="我是标题"
+      :visible.sync="drawer"
+      :with-header="false"
+      size="80%"
+      append-to-body>
+      <br/>
+      <el-table v-loading="loading2" :data="summaryList" :row-class-name="tableRowClassName">
+        <!-- el-table-column label="ID" align="center" prop="examGradeSummaryId" / -->
+        <el-table-column label="年级" align="center" prop="grade" />
+        <el-table-column label="学科" align="center" prop="subject" />
+        <el-table-column label="考试总人数" sortable align="center" prop="examTotalNumbers" />
+        <el-table-column label="年级总分" sortable align="center" prop="gradeTotalScores" />
+        <el-table-column label="年级均分" sortable align="center" prop="gradeAverageScore" />
+        <el-table-column label="年级及格率" sortable align="center" prop="gradeQualifiedPercentage" />
+        <el-table-column label="年级优秀率" sortable align="center" prop="gradeExcellentPercentage" />
+        <el-table-column label="不及格人数" sortable align="center" prop="gradeUnqualifiedNumbers" />
+      </el-table>
+
+      <br/><br/>
+
+      <el-table v-loading="loading2" :data="statisticList" :row-class-name="tableRowClassName">
+        <!-- el-table-column label="年级数据ID" align="center" prop="examGradeStatisticsId" / -->
+        <el-table-column label="年级" align="center" prop="grade" />
+        <el-table-column label="班级" align="center" prop="classes" />
+        <el-table-column label="考试人数" align="center" prop="examNumbers" />
+        <el-table-column label="三及格人数" sortable align="center" prop="tripleQualifiedNumbers" />
+        <el-table-column label="三优秀人数" sortable align="center" prop="tripleExcellentNumbers" />
+        <el-table-column label="三及格率" sortable align="center" prop="tripleQualifiedPercentage" />
+        <el-table-column label="三优秀率" sortable align="center" prop="tripleExcellentPercentage" />
+        <el-table-column label="总得分" sortable align="center" prop="allScore" />
+        <el-table-column label="得分率" sortable align="center" prop="allScorePercentage" />
+        <el-table-column label="综合分" sortable align="center" prop="muitipleScore" />
+        <el-table-column label="综合分排名" sortable align="center" prop="muitipleRank" />
+      </el-table>
+
+      <br/><br/>
+
+      <el-table v-loading="loading2" :data="staticticsList" :row-class-name="tableRowClassName">
+        <!-- el-table-column label="统计记录ID" align="center" prop="examStatisticsId" / -->
+        <el-table-column label="年级" align="center" prop="grade" />
+        <el-table-column label="班级" align="center" prop="classes" />
+        <el-table-column label="学科" align="center" prop="subject" />
+        <el-table-column label="考试人数" sortable align="center" prop="examNumbers" />
+        <el-table-column label="全班总分" sortable align="center" prop="totalScore" />
+        <el-table-column label="平均分" sortable align="center" prop="averageScore" />
+        <el-table-column label="及格率" sortable align="center" prop="qualifiedPercentage" />
+        <el-table-column label="优秀率" sortable align="center" prop="excellentPercentage" />
+        <el-table-column label="综合分" sortable align="center" prop="muitipleScore" />
+        <el-table-column label="满分人数" sortable align="center" prop="fullSocreNumbers" />
+        <el-table-column label="优秀人数(优秀-99)" sortable align="center" prop="excellentNumbers" />
+        <el-table-column label="良好人数(75-优秀)" sortable align="center" prop="goodNumbers" />
+        <el-table-column label="及格人数(60-75)" sortable align="center" prop="qualifiedNumbers" />
+        <el-table-column label="不及格人数(55-59)" sortable align="center" prop="unqualifiedOneNumbers" />
+        <el-table-column label="不及格人数(50-54)" sortable align="center" prop="unqualifiedTwoNumbers" />
+        <el-table-column label="不及格人数(40-49)" sortable align="center" prop="unqualifiedThreeNumbers" />
+        <el-table-column label="不及格人数(40分以下)" sortable align="center" prop="unqualifiedFourNumbers" />
+        <el-table-column label="综合分排名" sortable align="center" prop="muitipleRank" />
+        <el-table-column label="平均分排名" sortable align="center" prop="averageRank" />
+      </el-table>
+    </el-drawer>
   </div>
 </template>
 
@@ -95,11 +178,18 @@
   import * as echarts from 'echarts';
   import { allExams } from '@/api/examination/exams'
   import { getScoresFifty } from '@/api/scores/scores'
+  import { listSummary } from '@/api/scores/summary'
+  import { listStatistic } from '@/api/scores/statistic'
+  import { listStatictics } from '@/api/scores/statictics'
 
 export default {
   name: "Index",
   data() {
     return {
+      staticticsList: [],
+      statisticList: [],
+      summaryList: [],
+      drawer: false,
       studentList: {
         title: null,
         open: false
@@ -107,6 +197,7 @@ export default {
       options: [],
       examId: '',
       loading: false,
+      loading2:false,
       user: {
         dept:{
           deptName: ''
@@ -143,6 +234,35 @@ export default {
     this.initEchartsInfo();
   },
   methods: {
+    tableRowClassName({row, rowIndex}) {
+      if (1 === rowIndex % 2) {
+        return 'success-row';
+      }
+      return '';
+    },
+    getGradeStatics(grade){
+      this.loading2 = true;
+      this.staticticsList = [];
+      this.statisticList = [];
+      this.summaryList = [];
+      this.drawer = true;
+      let param = {
+        examId: this.examId,
+        grade: grade
+      };
+      listSummary(param).then(response => {
+        this.summaryList = response.rows;
+        this.loading2 = false;
+      });
+      listStatistic(param).then(response => {
+        this.statisticList = response.rows;
+        this.loading2 = false;
+      });
+      listStatictics(param).then(response => {
+        this.staticticsList = response.rows;
+        this.loading2 = false;
+      });
+    },
     clipboardHandler (subject) {
       let that = this;
       let message = (this.studentList.title + "\n") || "";
