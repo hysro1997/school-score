@@ -108,6 +108,10 @@
           v-hasPermi="['scores:statictics:export']"
         >导出</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button plain size="mini" type="primary" @click="clipboardHandler(0)">复制表格数据</el-button>
+        <el-button plain size="mini" type="primary" @click="clipboardHandler(1)">复制表格（含表头）</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -317,6 +321,25 @@
     this.getList();
   },
   methods: {
+    clipboardHandler(title){
+      if (null === this.staticticsList || 0 === this.staticticsList.length){
+        this.$modal.msgWarning("没有可供复制的内容");
+        return;
+      }
+      let that = this;
+      let message = "";
+      if (title){
+        message = "年级\t班级\t学科\t考试人数\t全班总分\t平均分\t及格率\t优秀率\t综合分\t满分人数\t优秀人数\t良好人数\t及格人数\t不及格人数(55-59)\t不及格人数(50-54)\t不及格人数(40-49)\t不及格人数(40以下)\t综合分排名\t平均分排名\n";
+      }
+      this.staticticsList.forEach(function(element){
+        message += element.grade + "\t" + element.classes + "\t" + element.subject + "\t" + element.examNumbers + "\t" + element.totalScore + "\t" + element.averageScore + "\t" + element.qualifiedPercentage + "\t" + element.excellentPercentage + "\t" + element.muitipleScore + "\t" + element.fullSocreNumbers + "\t" + element.excellentNumbers + "\t" + element.goodNumbers + "\t" + element.qualifiedNumbers + "\t" + element.unqualifiedOneNumbers + "\t" + element.unqualifiedTwoNumbers + "\t" + element.unqualifiedThreeNumbers + "\t" + element.unqualifiedFourNumbers + "\t" + element.muitipleRank + "\t" + element.averageRank + "\n";
+      });
+      this.$copyText(message).then(function (e) {
+        that.$modal.msgSuccess("复制成功");
+      }, function (e) {
+        that.$modal.msgError("复制出错了");
+      })
+    },
     clearQueryParams(){
       this.queryParams.grade = null;
       this.queryParams.classes = null;

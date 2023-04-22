@@ -90,6 +90,10 @@
           v-hasPermi="['scores:statistic:export']"
         >导出</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button plain size="mini" type="primary" @click="clipboardHandler(0)">复制表格数据</el-button>
+        <el-button plain size="mini" type="primary" @click="clipboardHandler(1)">复制表格（含表头）</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -265,6 +269,25 @@
     this.getList();
   },
   methods: {
+    clipboardHandler(title){
+      if (null === this.statisticList || 0 === this.statisticList.length){
+        this.$modal.msgWarning("没有可供复制的内容");
+        return;
+      }
+      let that = this;
+      let message = "";
+      if (title){
+        message = "年级\t班级\t考试人数\t三及格人数\t三优秀人数\t三及格率\t三优秀率\t总得分\t得分率\t综合分\t综合分排名\n";
+      }
+      this.statisticList.forEach(function(element){
+        message += element.grade + "\t" + element.classes + "\t" + element.examNumbers + "\t" + element.tripleQualifiedNumbers + "\t" + element.tripleExcellentNumbers + "\t" + element.tripleQualifiedPercentage + "\t" + element.tripleExcellentPercentage + "\t" + element.allScore + "\t" + element.allScorePercentage + "\t" + element.muitipleScore + "\t" + element.muitipleRank + "\n";
+      });
+      this.$copyText(message).then(function (e) {
+        that.$modal.msgSuccess("复制成功");
+      }, function (e) {
+        that.$modal.msgError("复制出错了");
+      })
+    },
     clearQueryParams(){
       this.queryParams.grade = null;
       this.queryParams.classes = null;

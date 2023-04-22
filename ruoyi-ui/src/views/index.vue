@@ -138,7 +138,7 @@ export default {
   methods: {
     clipboardHandler () {
       let that = this;
-      let message = "";
+      let message = (this.studentList.title + "\n") || "";
       if (null === this.students || 0 === this.students.length){
         this.$modal.msgWarning("没有可供复制的内容");
         return;
