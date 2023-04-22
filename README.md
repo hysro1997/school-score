@@ -10,26 +10,17 @@
 <p>分数录入、统计成绩数据（计算平均分、综合分、及格率、优秀率、三项及格率，三项优秀率、各个分数的人数统计，排名）</p>
 
 # 页面展示
-* 首页，能显示考试的结果：包含平均分排名、综合分排名
-<img src="https://s1.ax1x.com/2023/04/11/ppOGJ5q.png" alt="ppOGJ5q.png" border="0" />
-* 其他页面
-<table>
-    <tr>
-        <td><img src="https://s1.ax1x.com/2023/04/11/ppOG8Vs.png" alt="ppOG8Vs.png" border="0" /></td>
-        <td><img src="https://s1.ax1x.com/2023/04/11/ppOGKxS.png" alt="ppOGKxS.png" border="0" /></td>
-    </tr>
-    <tr>
-        <td><img src="https://s1.ax1x.com/2023/04/11/ppOGlrQ.png" alt="ppOGlrQ.png" border="0" /></td>
-        <td><img src="https://s1.ax1x.com/2023/04/11/ppOGQKg.png" alt="ppOGQKg.png" border="0" /></td>
-    </tr>
-    <tr>
-        <td><img src="https://s1.ax1x.com/2023/04/11/ppOG1bj.png" alt="ppOG1bj.png" border="0" /></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-936ec82d1f4872e1bc980927654b6007307.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://s1.ax1x.com/2023/04/11/ppOGGan.png" alt="ppOGGan.png" border="0" /></td>
-    </tr>	 
-</table>
+* 首页，能显示考试的结果：包含平均分排名、综合分排名，前50名等数据
+* 其他页面可以点击数据进行筛选查询
+* 一键复制数据，方便粘贴到excel中
+<a href="https://imgse.com/i/p9Vuf3D"><img src="https://s1.ax1x.com/2023/04/22/p9Vuf3D.jpg" alt="p9Vuf3D.jpg" border="0"></a>
+<a href="https://imgse.com/i/p9Vuhge"><img src="https://s1.ax1x.com/2023/04/22/p9Vuhge.jpg" alt="p9Vuhge.jpg" border="0"></a>
+<a href="https://imgse.com/i/p9Vu4jH"><img src="https://s1.ax1x.com/2023/04/22/p9Vu4jH.jpg" alt="p9Vu4jH.jpg" border="0"></a>
+<a href="https://imgse.com/i/p9VuW9O"><img src="https://s1.ax1x.com/2023/04/22/p9VuW9O.jpg" alt="p9VuW9O.jpg" border="0"></a>
+<a href="https://imgse.com/i/p9Vu24K"><img src="https://s1.ax1x.com/2023/04/22/p9Vu24K.jpg" alt="p9Vu24K.jpg" border="0"></a>
+<a href="https://imgse.com/i/p9VuoDA"><img src="https://s1.ax1x.com/2023/04/22/p9VuoDA.jpg" alt="p9VuoDA.jpg" border="0"></a>
+<a href="https://imgse.com/i/p9VuIud"><img src="https://s1.ax1x.com/2023/04/22/p9VuIud.jpg" alt="p9VuIud.jpg" border="0"></a>
+<a href="https://imgse.com/i/p9VuTHI"><img src="https://s1.ax1x.com/2023/04/22/p9VuTHI.jpg" alt="p9VuTHI.jpg" border="0"></a>
 
 ## 二次开发流程
     1、建议一定要二次开发，页面的名称是写死在程序里的，git clone到本地后，全局搜索 小学 并修改名称
@@ -46,16 +37,6 @@
     4、修改ruoyi-ui包下的vue.config.js的target，修改为刚刚 1 中配置的端口号
     5、运行打包命令 mvn clean package打包jar包；
         运行build:prod 打包前端页面
-
-## 我想直接用现成的怎么办
-    下载VMware 虚拟机，下载
-    
-<p>  https://cowtransfer.com/s/25a44e6f71384b 点击链接查看 [ Ubuntu cjgl ] ，或访问奶牛快传 cowtransfer.com 输入传输口令 zmw15z 查看；</p>
-    
-    在vmware中选择打开虚拟机，打开选择刚刚下载文件中的.vmx文件，即可
-    用户名：admin
-    密码：admin123
-
 
 ## 平台简介
 
