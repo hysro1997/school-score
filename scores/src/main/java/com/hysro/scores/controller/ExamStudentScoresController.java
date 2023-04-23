@@ -165,7 +165,7 @@ public class ExamStudentScoresController extends BaseController
     }
 
     @GetMapping("/scoresBoundry")
-    public AjaxResult getScoresBoundry(ExamStudentScores examStudentScores){
+    public AjaxResult getScoresBoundry(ExamStudentScores examStudentScores, Integer boundryType){
         if (null == examStudentScores.getExamId()){
             return AjaxResult.error("没有选择查看哪一场考试的成绩");
         }
@@ -181,6 +181,30 @@ public class ExamStudentScoresController extends BaseController
                 break;
             default:
                 return AjaxResult.error("参数错误");
+        }
+        switch (boundryType){
+            case 0:
+                examStudentScores.setUnderLine(0);
+                examStudentScores.setUpLine(39);
+                break;
+            case 1:
+                examStudentScores.setUnderLine(40);
+                examStudentScores.setUpLine(49);
+                break;
+            case 2:
+                examStudentScores.setUnderLine(50);
+                examStudentScores.setUpLine(54);
+                break;
+            case 3:
+                examStudentScores.setUnderLine(55);
+                examStudentScores.setUpLine(59);
+                break;
+            case 4:
+                examStudentScores.setUnderLine(0);
+                examStudentScores.setUpLine(59);
+                break;
+            default:
+                break;
         }
         return AjaxResult.success(examStudentScoresService.selectExamStudentScoresByScoresBoundry(examStudentScores));
     }

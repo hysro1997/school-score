@@ -205,12 +205,12 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     }
 
     @Override
-    public Long[] selectExamStudentScoresFifty(ExamStudentScores examStudentScores) {
+    public List<Map<String,String>> selectExamStudentScoresFifty(ExamStudentScores examStudentScores) {
         return examStudentScoresMapper.selectExamStudentScoresFifty(examStudentScores);
     }
 
     @Override
-    public Long[] selectExamStudentScoresByScoresBoundry(ExamStudentScores examStudentScores) {
+    public List<Map<String,String>> selectExamStudentScoresByScoresBoundry(ExamStudentScores examStudentScores) {
         return examStudentScoresMapper.selectExamStudentScoresByScoresBoundry(examStudentScores);
     }
 

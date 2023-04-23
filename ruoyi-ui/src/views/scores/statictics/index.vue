@@ -152,10 +152,38 @@
       <el-table-column label="优秀人数(优秀-99)" sortable align="center" prop="excellentNumbers" />
       <el-table-column label="良好人数(75-优秀)" sortable align="center" prop="goodNumbers" />
       <el-table-column label="及格人数(60-75)" sortable align="center" prop="qualifiedNumbers" />
-      <el-table-column label="不及格人数(55-59)" sortable align="center" prop="unqualifiedOneNumbers" />
-      <el-table-column label="不及格人数(50-54)" sortable align="center" prop="unqualifiedTwoNumbers" />
-      <el-table-column label="不及格人数(40-49)" sortable align="center" prop="unqualifiedThreeNumbers" />
-      <el-table-column label="不及格人数(40分以下)" sortable align="center" prop="unqualifiedFourNumbers" />
+      <el-table-column label="不及格人数(55-59)" sortable align="center" prop="unqualifiedOneNumbers">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            @click="getUnqualified(scope.row,3)">{{scope.row.unqualifiedOneNumbers}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="不及格人数(50-54)" sortable align="center" prop="unqualifiedTwoNumbers">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            @click="getUnqualified(scope.row,2)">{{scope.row.unqualifiedTwoNumbers}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="不及格人数(40-49)" sortable align="center" prop="unqualifiedThreeNumbers">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            @click="getUnqualified(scope.row,1)">{{scope.row.unqualifiedThreeNumbers}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="不及格人数(40分以下)" sortable align="center" prop="unqualifiedFourNumbers">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            @click="getUnqualified(scope.row,0)">{{scope.row.unqualifiedFourNumbers}}</el-button>
+        </template>
+      </el-table-column>
       <el-table-column label="综合分排名" sortable align="center" prop="muitipleRank" />
       <el-table-column label="平均分排名" sortable align="center" prop="averageRank" />
       <el-table-column label="考试名称" align="center" prop="exams.examName" />
@@ -197,6 +225,21 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+    <!-- 查看名单 -->
+    <el-dialog :title="studentList.title" width="600px" :visible.sync="studentList.open" :close-on-click-modal="false" append-to-body>
+      <el-row :gutter="20" style="font-size: 24px;">
+        <el-col style="margin:5px" :span="4">考号</el-col>
+        <el-col style="margin:5px" :span="4">得分</el-col>
+      </el-row>
+      <el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in students" :key="index">
+        <el-col style="margin:5px;" :span="4">{{item.exam_number}}</el-col>
+        <el-col style="margin:5px" :span="4">{{item.score}}</el-col>
+      </el-row>
+      <br/><br/>
+      <el-button type="primary" @click="clipboardHandler2(1)">复制名单（含得分）</el-button>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <el-button type="success" @click="clipboardHandler2(0)">复制考号名单</el-button>
+    </el-dialog>
   </div>
 </template>
 
@@ -208,11 +251,17 @@
     listStatictics,
     updateStatictics
   } from '@/api/scores/statictics'
+  import { getScoresUnqualified } from '../../../api/scores/scores'
 
   export default {
   name: "Statictics",
   data() {
     return {
+      studentList: {
+        title: null,
+        open: false
+      },
+      students: [],
       //学科选项
       subjectOptions:[{
         value: '语文',
@@ -321,6 +370,66 @@
     this.getList();
   },
   methods: {
+    getUnqualified(row,bType){
+      this.students = [];
+      let msg;
+      switch (bType) {
+        case 0:
+          msg = "不及格名单(40分以下)";
+          break;
+        case 1:
+          msg = "不及格名单(40-49)";
+          break;
+        case 2:
+          msg = "不及格名单(50-54)";
+          break;
+        case 3:
+          msg = "不及格名单(55-59)";
+          break;
+        default:
+          break;
+      }
+      this.studentList.title = row.grade + "  " + row.classes + "  " + row.subject + "  " + msg;
+      let params ={
+        grade: null,
+        subject: null,
+        examId: null,
+        classes: null,
+        boundryType: bType
+      };
+      params.examId = row.examId;
+      params.grade = row.grade;
+      params.subject = row.subject;
+      params.classes = row.classes;
+      getScoresUnqualified(params).then(response => {
+        this.students = response.data;
+        this.studentList.open = true;
+      });
+    },
+    clipboardHandler2 (full) {
+      let that = this;
+      let message = (this.studentList.title + "\n") || "";
+      if (null === this.students || 0 === this.students.length){
+        this.$modal.msgWarning("没有可供复制的内容");
+        return;
+      }
+      if (full){
+        message += "考号\t分数\n";
+        this.students.forEach(function(element){
+          message += element.exam_number + "\t" + element.score + "\n";
+        });
+      }else {
+        message += "考号\n";
+        this.students.forEach(function(element){
+          message += element.exam_number + "\n";
+        });
+      }
+      this.$copyText(message).then(function (e) {
+        that.$modal.msgSuccess("复制成功");
+      }, function (e) {
+        that.$modal.msgError("复制出错了");
+      })
+    },
     clipboardHandler(title){
       if (null === this.staticticsList || 0 === this.staticticsList.length){
         this.$modal.msgWarning("没有可供复制的内容");

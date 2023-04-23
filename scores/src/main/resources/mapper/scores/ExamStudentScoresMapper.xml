@@ -37,8 +37,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join exams b on b.exam_id = a.exam_id
     </sql>
 
-    <select id="selectExamStudentScoresFifty" parameterType="ExamStudentScores" resultType="Long">
-        SELECT exam_number FROM exam_student_scores
+    <select id="selectExamStudentScoresFifty" parameterType="ExamStudentScores" resultType="Map">
+        SELECT exam_number,${subject} as score FROM exam_student_scores
         <where>
             <if test="examId != null "> and exam_id = #{examId}</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
@@ -46,13 +46,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ORDER BY ISNULL(${subject}),${subject} ${orderType} LIMIT 50
     </select>
 
-    <select id="selectExamStudentScoresByScoresBoundry" parameterType="ExamStudentScores" resultType="Long">
-        SELECT exam_number FROM exam_student_scores
+    <select id="selectExamStudentScoresByScoresBoundry" parameterType="ExamStudentScores" resultType="Map">
+        SELECT exam_number,${subject} as score FROM exam_student_scores
         <where>
             <if test="examId != null "> and exam_id = #{examId}</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
-            <if test="subject != null and subject != ''"> and ${subject} &lt; 60 </if>
+            <if test="subject != null and subject != ''"> and ${subject} between #{underLine} and #{upLine} </if>
         </where>
     </select>
 

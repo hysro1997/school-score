@@ -1,6 +1,8 @@
 package com.hysro.scores.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.hysro.scores.domain.ExamStudentScores;
 
 /**
@@ -74,7 +76,7 @@ public interface IExamStudentScoresService
      * @param examStudentScores 年级、班级、考试ID，学科，排序方式
      * @return 结果
      */
-    public Long[] selectExamStudentScoresFifty(ExamStudentScores examStudentScores);
+    public List<Map<String,String>> selectExamStudentScoresFifty(ExamStudentScores examStudentScores);
 
 
     /**
@@ -83,5 +85,5 @@ public interface IExamStudentScoresService
      * @param examStudentScores 年级、班级、考试ID，学科，分数
      * @return 结果
      */
-    public Long[] selectExamStudentScoresByScoresBoundry(ExamStudentScores examStudentScores);
+    public List<Map<String,String>> selectExamStudentScoresByScoresBoundry(ExamStudentScores examStudentScores);
 }

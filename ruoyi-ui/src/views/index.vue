@@ -40,6 +40,7 @@
     ></el-switch> 平均分 排名数据
     </div>
 <br/><br/>
+    <div style="width: 1500px">
     <el-row :gutter="20">
       <el-col :span="12">
         <div>
@@ -96,16 +97,45 @@
         <el-empty description="六年级暂无数据"></el-empty>
       </div></el-col>
     </el-row>
+    </div>
     <!-- 查看名单 -->
-    <el-dialog :title="studentList.title" width="600px" :visible.sync="studentList.open" :close-on-click-modal="false" append-to-body>
-      <div>语文：<el-button type="primary" @click="clipboardHandler(1)">复制语文名单</el-button></div>
-      <el-row :gutter="20" style="font-size: 24px;"><el-col style="margin:5px" :span="4" v-for="(item, index) in studentsChinese" :key="index">{{item}}</el-col></el-row>
-      <br/><br/>
-      <div>数学：<el-button type="primary" @click="clipboardHandler(2)">复制数学名单</el-button></div>
-      <el-row :gutter="20" style="font-size: 24px;"><el-col style="margin:5px" :span="4" v-for="(item, index) in studentsMaths" :key="index">{{item}}</el-col></el-row>
-      <br/><br/>
-      <div>英语：<el-button type="primary" @click="clipboardHandler(3)">复制英语名单</el-button></div>
-      <el-row :gutter="20" style="font-size: 24px;"><el-col style="margin:5px" :span="4" v-for="(item, index) in studentsEnglish" :key="index">{{item}}</el-col></el-row>
+    <el-dialog :title="studentList.title" width="800px" :visible.sync="studentList.open" :close-on-click-modal="false" append-to-body>
+      <el-row :gutter="2" style="font-size: 24px;">
+        <el-col style="margin:5px" :span="7">语文&nbsp;&nbsp;<el-button type="primary" @click="clipboardHandler(1)">复制语文名单</el-button></el-col>
+        <el-col style="margin:5px" :span="7">数学&nbsp;&nbsp;<el-button type="primary" @click="clipboardHandler(2)">复制数学名单</el-button></el-col>
+        <el-col style="margin:5px" :span="7">英语&nbsp;&nbsp;<el-button type="primary" @click="clipboardHandler(3)">复制英语名单</el-button></el-col>
+      </el-row>
+      <el-row :gutter="2" style="font-size: 18px;">
+        <el-col :span="8"><div><el-row :gutter="20" style="font-size: 24px;">
+          <el-col :span="12">考号</el-col>
+          <el-col :span="12">得分</el-col>
+        </el-row></div></el-col>
+        <el-col style="margin:5px" :span="7"><div><el-row :gutter="20" style="font-size: 24px;">
+          <el-col :span="12">考号</el-col>
+          <el-col :span="12">得分</el-col>
+        </el-row></div></el-col>
+        <el-col style="margin:5px" :span="7"><div><el-row :gutter="20" style="font-size: 24px;">
+          <el-col :span="12">考号</el-col>
+          <el-col :span="12">得分</el-col>
+        </el-row></div></el-col>
+      </el-row>
+      <el-row :gutter="2" style="font-size: 18px;">
+        <el-col :span="8"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsChinese" :key="index">
+          <el-col :span="12">{{item.exam_number}}</el-col>
+          <el-col :span="12">{{item.score}}</el-col>
+        </el-row></div></el-col>
+        <el-col style="margin:5px" :span="7"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsMaths" :key="index">
+          <el-col :span="12">{{item.exam_number}}</el-col>
+          <el-col :span="12">{{item.score}}</el-col>
+        </el-row></div></el-col>
+        <el-col style="margin:5px" :span="7"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsEnglish" :key="index">
+          <el-col :span="12">{{item.exam_number}}</el-col>
+          <el-col :span="12">{{item.score}}</el-col>
+        </el-row></div></el-col>
+      </el-row>
+
+
+
     </el-dialog>
     <el-drawer
       title="我是标题"
@@ -274,7 +304,7 @@ export default {
           }
           message.replace("级","级 语文");
           this.studentsChinese.forEach(function(element){
-            message += element + "\n";
+            message += element.exam_number + "\n";
           });
           this.$copyText(message).then(function (e) {
             that.$modal.msgSuccess("复制成功");
@@ -289,7 +319,7 @@ export default {
           }
           message.replace("级","级 数学");
           this.studentsMaths.forEach(function(element){
-            message += element + "\n";
+            message += element.exam_number + "\n";
           });
           this.$copyText(message).then(function (e) {
             that.$modal.msgSuccess("复制成功");
@@ -304,7 +334,7 @@ export default {
           }
           message.replace("级","级 英语");
           this.studentsEnglish.forEach(function(element){
-            message += element + "\n";
+            message += element.exam_number + "\n";
           });
           this.$copyText(message).then(function (e) {
             that.$modal.msgSuccess("复制成功");
@@ -341,11 +371,15 @@ export default {
         this.studentsMaths = response.data;
         this.studentList.open = true;
       });
-      params.subject = "英语";
-      getScoresFifty(params).then(response => {
-        this.studentsEnglish = response.data;
-        this.studentList.open = true;
-      });
+      if("一年级" === grade || "二年级" === grade){
+        return false;
+      } else {
+        params.subject = "英语";
+        getScoresFifty(params).then(response => {
+          this.studentsEnglish = response.data;
+          this.studentList.open = true;
+        });
+      }
     },
     initExams(){
       allExams(this.examQueryParams).then(response => {
@@ -486,7 +520,7 @@ export default {
   font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
   color: #676a6c;
-  overflow-x: hidden;
+  overflow-x: scroll;
 
   ul {
     list-style-type: none;

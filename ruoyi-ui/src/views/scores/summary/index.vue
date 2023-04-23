@@ -169,9 +169,18 @@
     </el-dialog>
     <!-- 查看名单 -->
     <el-dialog :title="studentList.title" width="600px" :visible.sync="studentList.open" :close-on-click-modal="false" append-to-body>
-      <el-row :gutter="20" style="font-size: 24px;"><el-col style="margin:5px" :span="4" v-for="(item, index) in students" :key="index">{{item}}</el-col></el-row>
+      <el-row :gutter="20" style="font-size: 24px;">
+        <el-col style="margin:5px" :span="4">考号</el-col>
+        <el-col style="margin:5px" :span="4">得分</el-col>
+      </el-row>
+      <el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in students" :key="index">
+        <el-col style="margin:5px;" :span="4">{{item.exam_number}}</el-col>
+        <el-col style="margin:5px" :span="4">{{item.score}}</el-col>
+      </el-row>
       <br/><br/>
-      <el-button type="primary" @click="clipboardHandler">复制名单</el-button>
+      <el-button type="primary" @click="clipboardHandler(1)">复制名单（含得分）</el-button>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <el-button type="success" @click="clipboardHandler(0)">复制考号名单</el-button>
     </el-dialog>
   </div>
 </template>
@@ -277,16 +286,24 @@
         that.$modal.msgError("复制出错了");
       })
     },
-    clipboardHandler () {
+    clipboardHandler (full) {
       let that = this;
       let message = (this.studentList.title + "\n") || "";
       if (null === this.students || 0 === this.students.length){
         this.$modal.msgWarning("没有可供复制的内容");
         return;
       }
-      this.students.forEach(function(element){
-        message += element + "\n";
-      });
+      if (full){
+        message += "考号\t分数\n";
+        this.students.forEach(function(element){
+          message += element.exam_number + "\t" + element.score + "\n";
+        });
+      }else {
+        message += "考号\n";
+        this.students.forEach(function(element){
+          message += element.exam_number + "\n";
+        });
+      }
       this.$copyText(message).then(function (e) {
         that.$modal.msgSuccess("复制成功");
       }, function (e) {
@@ -300,6 +317,7 @@
         grade: null,
         subject: null,
         examId: null,
+        boundryType: 4
       };
       params.examId = row.examId;
       params.grade = row.grade;

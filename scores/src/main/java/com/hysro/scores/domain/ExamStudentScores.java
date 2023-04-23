@@ -68,6 +68,26 @@ public class ExamStudentScores extends BaseEntity
     private String subject;
     @JSONField(serialize = false)
     private String orderType;
+    @JSONField(serialize = false)
+    private Integer underLine;
+    @JSONField(serialize = false)
+    private Integer upLine;
+
+    public Integer getUnderLine() {
+        return underLine;
+    }
+
+    public void setUnderLine(Integer underLine) {
+        this.underLine = underLine;
+    }
+
+    public Integer getUpLine() {
+        return upLine;
+    }
+
+    public void setUpLine(Integer upLine) {
+        this.upLine = upLine;
+    }
 
     public String getSubject() {
         return subject;
