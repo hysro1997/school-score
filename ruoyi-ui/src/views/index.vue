@@ -50,7 +50,7 @@
         <div class="grid-content bg-purple" id="rateChart1" style="width: 700px;height: 400px">
         <el-empty description="一年级暂无数据"></el-empty>
       </div>
-        <div>平均分情况：</div><br/>
+        <div><span v-if="queryParams.rankType === '1'">平均分</span><span v-else>综合分</span>情况：</div><br/>
         <el-row>
           <el-col :span="2">语文：</el-col><el-col :span="5">最高分：{{ grade1.chinese.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade1.chinese.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade1.chinese.gap >= 10" type="danger" size="mini">{{ grade1.chinese.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade1.chinese.gap }}</el-tag></el-col>
         </el-row>
@@ -66,7 +66,7 @@
         <div class="grid-content bg-purple" id="rateChart2" style="width: 700px;height: 400px">
         <el-empty description="二年级暂无数据"></el-empty>
       </div>
-        <div>平均分情况：</div><br/>
+        <div><span v-if="queryParams.rankType === '1'">平均分</span><span v-else>综合分</span>情况：</div><br/>
         <el-row>
           <el-col :span="2">语文：</el-col><el-col :span="5">最高分：{{ grade2.chinese.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade2.chinese.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade2.chinese.gap >= 10" type="danger" size="mini">{{ grade2.chinese.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade2.chinese.gap }}</el-tag></el-col>
         </el-row>
@@ -85,7 +85,7 @@
         <div class="grid-content bg-purple" id="rateChart3" style="width: 700px;height: 400px">
         <el-empty description="三年级暂无数据"></el-empty>
       </div>
-        <div>平均分情况：</div><br/>
+        <div><span v-if="queryParams.rankType === '1'">平均分</span><span v-else>综合分</span>情况：</div><br/>
         <el-row>
           <el-col :span="2">语文：</el-col><el-col :span="5">最高分：{{ grade3.chinese.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade3.chinese.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade3.chinese.gap >= 10" type="danger" size="mini">{{ grade3.chinese.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade3.chinese.gap }}</el-tag></el-col>
         </el-row>
@@ -104,7 +104,7 @@
         <div class="grid-content bg-purple" id="rateChart4" style="width: 700px;height: 400px">
         <el-empty description="四年级暂无数据"></el-empty>
       </div>
-        <div>平均分情况：</div><br/>
+        <div><span v-if="queryParams.rankType === '1'">平均分</span><span v-else>综合分</span>情况：</div><br/>
         <el-row>
           <el-col :span="2">语文：</el-col><el-col :span="5">最高分：{{ grade4.chinese.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade4.chinese.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade4.chinese.gap >= 10" type="danger" size="mini">{{ grade4.chinese.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade4.chinese.gap }}</el-tag></el-col>
         </el-row>
@@ -126,7 +126,7 @@
         <div class="grid-content bg-purple" id="rateChart5" style="width: 700px;height: 400px">
         <el-empty description="五年级暂无数据"></el-empty>
       </div>
-        <div>平均分情况：</div><br/>
+        <div><span v-if="queryParams.rankType === '1'">平均分</span><span v-else>综合分</span>情况：</div><br/>
         <el-row>
           <el-col :span="2">语文：</el-col><el-col :span="5">最高分：{{ grade5.chinese.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade5.chinese.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade5.chinese.gap >= 10" type="danger" size="mini">{{ grade5.chinese.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade5.chinese.gap }}</el-tag></el-col>
         </el-row>
@@ -145,7 +145,7 @@
         <div class="grid-content bg-purple" id="rateChart6" style="width: 700px;height: 400px">
         <el-empty description="六年级暂无数据"></el-empty>
       </div>
-        <div>平均分情况：</div><br/>
+        <div><span v-if="queryParams.rankType === '1'">平均分</span><span v-else>综合分</span>情况：</div><br/>
         <el-row>
           <el-col :span="2">语文：</el-col><el-col :span="5">最高分：{{ grade6.chinese.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade6.chinese.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade6.chinese.gap >= 10" type="danger" size="mini">{{ grade6.chinese.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade6.chinese.gap }}</el-tag></el-col>
         </el-row>
@@ -567,23 +567,24 @@ export default {
     drawAllEcharts(examId){
       this.examId = examId;
       this.drawChart(this.rateChart1,"rateChart1",examId,"一年级");
-      this.getInfoAverage(this.grade1,"一年级");
+      this.getInfoAverage(this.grade1,"一年级",examId);
       this.drawChart(this.rateChart2,"rateChart2",examId,"二年级");
-      this.getInfoAverage(this.grade2,"二年级");
+      this.getInfoAverage(this.grade2,"二年级",examId);
       this.drawChart(this.rateChart3,"rateChart3",examId,"三年级");
-      this.getInfoAverage(this.grade3,"三年级");
+      this.getInfoAverage(this.grade3,"三年级",examId);
       this.drawChart(this.rateChart4,"rateChart4",examId,"四年级");
-      this.getInfoAverage(this.grade4,"四年级");
+      this.getInfoAverage(this.grade4,"四年级",examId);
       this.drawChart(this.rateChart5,"rateChart5",examId,"五年级");
-      this.getInfoAverage(this.grade5,"五年级");
+      this.getInfoAverage(this.grade5,"五年级",examId);
       this.drawChart(this.rateChart6,"rateChart6",examId,"六年级");
-      this.getInfoAverage(this.grade6,"六年级");
+      this.getInfoAverage(this.grade6,"六年级",examId);
     },
-    getInfoAverage(infoParam,grade){
+    getInfoAverage(infoParam,grade,examId){
       let params = {
-        examId: this.examId,
+        examId: examId,
         grade: grade,
-        subject: null
+        subject: null,
+        subjectName: this.queryParams.rankType
       };
       params.subject = "语文";
       infoParam.chinese = "";

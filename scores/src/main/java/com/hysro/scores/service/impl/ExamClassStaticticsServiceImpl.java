@@ -96,6 +96,11 @@ public class ExamClassStaticticsServiceImpl implements IExamClassStaticticsServi
 
     @Override
     public Map<String,String> selectAverageScoreByExamIdAndGrade(ExamClassStatictics statictics) {
+        if ("1".equals(statictics.getSubjectName())){
+            statictics.setSubjectName("average_score");
+        } else {
+            statictics.setSubjectName("muitiple_score");
+        }
         String[] averageScores = examClassStaticticsMapper.selectAverageScoreByExamIdAndGrade(statictics);
         if (0 == averageScores.length){
             return null;

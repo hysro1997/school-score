@@ -62,13 +62,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectAverageScoreByExamIdAndGrade" parameterType="ExamClassStatictics" resultType="String">
-        SELECT average_score FROM `exam_class_statictics`
+        SELECT ${subjectName} FROM `exam_class_statictics`
         <where>
             <if test="examId != null "> and exam_id = #{examId}</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="subject != null  and subject != ''"> and `subject` = #{subject}</if>
         </where>
-        ORDER BY average_score DESC
+        ORDER BY ${subjectName} DESC
     </select>
 
     <select id="selectClassesRateByExamIdAndGrade" parameterType="ExamClassStatictics" resultType="String">

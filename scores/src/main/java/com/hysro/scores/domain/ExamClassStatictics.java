@@ -106,7 +106,7 @@ public class ExamClassStatictics extends BaseEntity
     @JSONField(serialize = false)
     private Long excellentLine;
 
-    /** 动态给sql传参，表明查询的是哪个学科的分数 */
+    /** 动态给sql传参，表明查询的是哪个学科的分数，另一情况用于表明查询的是平均分还是综合分 */
     @JSONField(serialize = false)
     private String subjectName;
 
