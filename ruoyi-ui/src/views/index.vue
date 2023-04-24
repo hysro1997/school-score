@@ -49,7 +49,15 @@
         </div>
         <div class="grid-content bg-purple" id="rateChart1" style="width: 700px;height: 400px">
         <el-empty description="一年级暂无数据"></el-empty>
-      </div></el-col>
+      </div>
+        <div>平均分情况：</div><br/>
+        <el-row>
+          <el-col :span="2">语文：</el-col><el-col :span="5">最高分：{{ grade1.chinese.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade1.chinese.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade1.chinese.gap >= 10" type="danger" size="mini">{{ grade1.chinese.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade1.chinese.gap }}</el-tag></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="2">数学：</el-col><el-col :span="5">最高分：{{ grade1.math.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade1.math.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade1.math.gap >= 10" type="danger" size="mini">{{ grade1.math.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade1.math.gap }}</el-tag></el-col>
+        </el-row>
+      </el-col>
       <el-col :span="12">
         <div>
           <el-button type="success" @click="getFiftyByButton('二年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('二年级','0')" plain>后50名</el-button>
@@ -57,7 +65,15 @@
         </div>
         <div class="grid-content bg-purple" id="rateChart2" style="width: 700px;height: 400px">
         <el-empty description="二年级暂无数据"></el-empty>
-      </div></el-col>
+      </div>
+        <div>平均分情况：</div><br/>
+        <el-row>
+          <el-col :span="2">语文：</el-col><el-col :span="5">最高分：{{ grade2.chinese.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade2.chinese.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade2.chinese.gap >= 10" type="danger" size="mini">{{ grade2.chinese.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade2.chinese.gap }}</el-tag></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="2">数学：</el-col><el-col :span="5">最高分：{{ grade2.math.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade2.math.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade2.math.gap >= 10" type="danger" size="mini">{{ grade2.math.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade2.math.gap }}</el-tag></el-col>
+        </el-row>
+      </el-col>
     </el-row>
     <br/><br/>
     <el-row :gutter="20">
@@ -68,7 +84,18 @@
         </div>
         <div class="grid-content bg-purple" id="rateChart3" style="width: 700px;height: 400px">
         <el-empty description="三年级暂无数据"></el-empty>
-      </div></el-col>
+      </div>
+        <div>平均分情况：</div><br/>
+        <el-row>
+          <el-col :span="2">语文：</el-col><el-col :span="5">最高分：{{ grade3.chinese.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade3.chinese.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade3.chinese.gap >= 10" type="danger" size="mini">{{ grade3.chinese.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade3.chinese.gap }}</el-tag></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="2">数学：</el-col><el-col :span="5">最高分：{{ grade3.math.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade3.math.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade3.math.gap >= 10" type="danger" size="mini">{{ grade3.math.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade3.math.gap }}</el-tag></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="2">英语：</el-col><el-col :span="5">最高分：{{ grade3.english.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade3.english.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade3.english.gap >= 10" type="danger" size="mini">{{ grade3.english.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade3.english.gap }}</el-tag></el-col>
+        </el-row>
+      </el-col>
       <el-col :span="12">
         <div>
           <el-button type="success" @click="getFiftyByButton('四年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('四年级','0')" plain>后50名</el-button>
@@ -76,7 +103,18 @@
         </div>
         <div class="grid-content bg-purple" id="rateChart4" style="width: 700px;height: 400px">
         <el-empty description="四年级暂无数据"></el-empty>
-      </div></el-col>
+      </div>
+        <div>平均分情况：</div><br/>
+        <el-row>
+          <el-col :span="2">语文：</el-col><el-col :span="5">最高分：{{ grade4.chinese.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade4.chinese.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade4.chinese.gap >= 10" type="danger" size="mini">{{ grade4.chinese.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade4.chinese.gap }}</el-tag></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="2">数学：</el-col><el-col :span="5">最高分：{{ grade4.math.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade4.math.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade4.math.gap >= 10" type="danger" size="mini">{{ grade4.math.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade4.math.gap }}</el-tag></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="2">英语：</el-col><el-col :span="5">最高分：{{ grade4.english.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade4.english.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade4.english.gap >= 10" type="danger" size="mini">{{ grade4.english.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade4.english.gap }}</el-tag></el-col>
+        </el-row>
+      </el-col>
     </el-row>
     <br/><br/>
     <el-row :gutter="20">
@@ -87,7 +125,18 @@
         </div>
         <div class="grid-content bg-purple" id="rateChart5" style="width: 700px;height: 400px">
         <el-empty description="五年级暂无数据"></el-empty>
-      </div></el-col>
+      </div>
+        <div>平均分情况：</div><br/>
+        <el-row>
+          <el-col :span="2">语文：</el-col><el-col :span="5">最高分：{{ grade5.chinese.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade5.chinese.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade5.chinese.gap >= 10" type="danger" size="mini">{{ grade5.chinese.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade5.chinese.gap }}</el-tag></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="2">数学：</el-col><el-col :span="5">最高分：{{ grade5.math.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade5.math.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade5.math.gap >= 10" type="danger" size="mini">{{ grade5.math.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade5.math.gap }}</el-tag></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="2">英语：</el-col><el-col :span="5">最高分：{{ grade5.english.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade5.english.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade5.english.gap >= 10" type="danger" size="mini">{{ grade5.english.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade5.english.gap }}</el-tag></el-col>
+        </el-row>
+      </el-col>
       <el-col :span="12">
         <div>
           <el-button type="success" @click="getFiftyByButton('六年级','1')" plain>前50名</el-button>&nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" @click="getFiftyByButton('六年级','0')" plain>后50名</el-button>
@@ -95,7 +144,17 @@
         </div>
         <div class="grid-content bg-purple" id="rateChart6" style="width: 700px;height: 400px">
         <el-empty description="六年级暂无数据"></el-empty>
-      </div></el-col>
+      </div>
+        <div>平均分情况：</div><br/>
+        <el-row>
+          <el-col :span="2">语文：</el-col><el-col :span="5">最高分：{{ grade6.chinese.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade6.chinese.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade6.chinese.gap >= 10" type="danger" size="mini">{{ grade6.chinese.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade6.chinese.gap }}</el-tag></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="2">数学：</el-col><el-col :span="5">最高分：{{ grade6.math.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade6.math.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade6.math.gap >= 10" type="danger" size="mini">{{ grade6.math.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade6.math.gap }}</el-tag></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="2">英语：</el-col><el-col :span="5">最高分：{{ grade6.english.firstAverage }}</el-col><el-col :span="5">最低分：{{ grade6.english.lastAverage }}</el-col><el-col :span="5">分差：<el-tag v-if="grade6.english.gap >= 10" type="danger" size="mini">{{ grade6.english.gap }}</el-tag><el-tag v-else type="success" size="mini">{{ grade6.english.gap }}</el-tag></el-col>
+        </el-row></el-col>
     </el-row>
     </div>
     <!-- 查看名单 -->
@@ -210,7 +269,7 @@
   import { getScoresFifty } from '@/api/scores/scores'
   import { listSummary } from '@/api/scores/summary'
   import { listStatistic } from '@/api/scores/statistic'
-  import { listStatictics } from '@/api/scores/statictics'
+  import { listStatictics, getAverage } from '@/api/scores/statictics'
 
 export default {
   name: "Index",
@@ -253,7 +312,99 @@ export default {
       rateChart6: null,
       studentsChinese: [],
       studentsMaths: [],
-      studentsEnglish: []
+      studentsEnglish: [],
+      grade1:{
+          chinese: {
+            firstAverage: '',
+            lastAverage: '',
+            gap: ''
+          },
+          math:  {
+            firstAverage: '',
+            lastAverage: '',
+            gap: ''
+          }
+        },
+      grade2:{
+          chinese:  {
+            firstAverage: '',
+            lastAverage: '',
+            gap: ''
+          },
+          math:  {
+            firstAverage: '',
+            lastAverage: '',
+            gap: ''
+          }
+        },
+      grade3:{
+          chinese:  {
+            firstAverage: '',
+            lastAverage: '',
+            gap: ''
+          },
+          math:  {
+            firstAverage: '',
+            lastAverage: '',
+            gap: ''
+          },
+          english:  {
+            firstAverage: '',
+            lastAverage: '',
+            gap: ''
+          }
+        },
+      grade4:{
+          chinese:  {
+            firstAverage: '',
+            lastAverage: '',
+            gap: ''
+          },
+          math:  {
+            firstAverage: '',
+            lastAverage: '',
+            gap: ''
+          },
+          english:  {
+            firstAverage: '',
+            lastAverage: '',
+            gap: ''
+          }
+        },
+      grade5:{
+          chinese:  {
+            firstAverage: '',
+            lastAverage: '',
+            gap: ''
+          },
+          math:  {
+            firstAverage: '',
+            lastAverage: '',
+            gap: ''
+          },
+          english:  {
+            firstAverage: '',
+            lastAverage: '',
+            gap: ''
+          }
+        },
+      grade6:{
+          chinese:  {
+            firstAverage: '',
+            lastAverage: '',
+            gap: ''
+          },
+          math:  {
+            firstAverage: '',
+            lastAverage: '',
+            gap: ''
+          },
+          english:  {
+            firstAverage: '',
+            lastAverage: '',
+            gap: ''
+        },
+      }
     };
   },
   created() {
@@ -416,11 +567,50 @@ export default {
     drawAllEcharts(examId){
       this.examId = examId;
       this.drawChart(this.rateChart1,"rateChart1",examId,"一年级");
+      this.getInfoAverage(this.grade1,"一年级");
       this.drawChart(this.rateChart2,"rateChart2",examId,"二年级");
+      this.getInfoAverage(this.grade2,"二年级");
       this.drawChart(this.rateChart3,"rateChart3",examId,"三年级");
+      this.getInfoAverage(this.grade3,"三年级");
       this.drawChart(this.rateChart4,"rateChart4",examId,"四年级");
+      this.getInfoAverage(this.grade4,"四年级");
       this.drawChart(this.rateChart5,"rateChart5",examId,"五年级");
+      this.getInfoAverage(this.grade5,"五年级");
       this.drawChart(this.rateChart6,"rateChart6",examId,"六年级");
+      this.getInfoAverage(this.grade6,"六年级");
+    },
+    getInfoAverage(infoParam,grade){
+      let params = {
+        examId: this.examId,
+        grade: grade,
+        subject: null
+      };
+      params.subject = "语文";
+      infoParam.chinese = "";
+      getAverage(params).then(response => {
+        if (undefined !== response.data && null !== response.data){
+          infoParam.chinese = response.data;
+          infoParam.chinese.gap = (infoParam.chinese.firstAverage - infoParam.chinese.lastAverage).toFixed(2);
+        }
+      });
+      params.subject = "数学";
+      infoParam.math = "";
+      getAverage(params).then(response => {
+        if (undefined !== response.data &&null !== response.data){
+          infoParam.math = response.data;
+          infoParam.math.gap = (infoParam.math.firstAverage - infoParam.math.lastAverage).toFixed(2);
+        }
+      });
+      if (grade !== "一年级" && grade !== "二年级"){
+        params.subject = "英语";
+        infoParam.english = "";
+        getAverage(params).then(response => {
+          if (undefined !== response.data &&null !== response.data){
+            infoParam.english = response.data;
+            infoParam.english.gap = (infoParam.english.firstAverage - infoParam.english.lastAverage).toFixed(2);
+          }
+        });
+      }
     },
     remoteMethod(query){
       if (query !== '') {

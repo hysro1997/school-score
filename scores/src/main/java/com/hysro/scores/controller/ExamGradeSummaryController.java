@@ -50,13 +50,13 @@ public class ExamGradeSummaryController extends BaseController
      * 导出年级总体情况列表
      */
     @PreAuthorize("@ss.hasPermi('scores:summary:export')")
-    @Log(title = "年级总体情况", businessType = BusinessType.EXPORT)
+    @Log(title = "年级学科数据", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, ExamGradeSummary examGradeSummary)
     {
         List<ExamGradeSummary> list = examGradeSummaryService.selectExamGradeSummaryList(examGradeSummary);
         ExcelUtil<ExamGradeSummary> util = new ExcelUtil<ExamGradeSummary>(ExamGradeSummary.class);
-        util.exportExcel(response, list, "年级总体情况数据");
+        util.exportExcel(response, list, "年级学科数据");
     }
 
     /**

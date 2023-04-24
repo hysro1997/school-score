@@ -9,6 +9,9 @@
 <p>给学校随便做着玩玩的，不一定适合其他学校用，基于若依框架做的，方便有需求进行二次开发</p>
 <p>分数录入、统计成绩数据（计算平均分、综合分、及格率、优秀率、三项及格率，三项优秀率、各个分数的人数统计，排名）</p>
 
+加群了解详情
+[![加入QQ群](https://img.shields.io/badge/未满-637914590-blue.svg)](https://jq.qq.com/?_wv=1027&k=3lofOeSF)
+
 # 页面展示
 * 首页，能显示考试的结果：包含平均分排名、综合分排名，前50名等数据
 * 其他页面可以点击数据进行筛选查询
@@ -27,7 +30,7 @@
     2、二次开发前的准备 mysql 5.7，redis，jdk 1.8，开发工具：eclipse或者IntelliJ IDEA，安装npm
     3、创建数据库，并导入sql文件夹下的ajxx-score.sql
     4、配置ruoyi-admin包下的application-druid.yml下数据库链接地址，修改数据库名称、数据库用户名、密码
-        修改application.yml下的port：为8080，方便二次开发
+        修改application.yml下的port：为8080，(默认是10828，如需修改，请一并修改ruoyi-ui包下的vue.config.js下的devServer.proxy.target修改端口号)方便二次开发
     5、进入ruoyi-yi包，命令行运行npm install安装前端依赖
     进行二次开发
 ## 打包部署

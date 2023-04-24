@@ -140,4 +140,12 @@ public interface ExamClassStaticticsMapper
      * @return 结果列表
      */
     public String[] selectSubjectsByExamIdAndGrade(ExamClassStatictics statictics);
+
+    /**
+     * 根据年级和examId查询年级的平均分数组
+     *
+     * @param statictics 年级和examId
+     * @return 结果列表
+     */
+    public String[] selectAverageScoreByExamIdAndGrade(ExamClassStatictics statictics);
 }

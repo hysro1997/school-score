@@ -251,7 +251,7 @@
     listStatictics,
     updateStatictics
   } from '@/api/scores/statictics'
-  import { getScoresUnqualified } from '../../../api/scores/scores'
+  import { getScoresUnqualified } from '@/api/scores/scores'
 
   export default {
   name: "Statictics",

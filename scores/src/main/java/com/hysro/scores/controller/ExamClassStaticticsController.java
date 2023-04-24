@@ -47,16 +47,25 @@ public class ExamClassStaticticsController extends BaseController
     }
 
     /**
+     * 查询平均分情况，最高最低，分差
+     */
+    @GetMapping("/average")
+    public AjaxResult getAverage(ExamClassStatictics examClassStatictics)
+    {
+        return AjaxResult.success(examClassStaticticsService.selectAverageScoreByExamIdAndGrade(examClassStatictics));
+    }
+
+    /**
      * 导出班级成绩统计情况列表
      */
     @PreAuthorize("@ss.hasPermi('scores:statictics:export')")
-    @Log(title = "班级成绩统计情况", businessType = BusinessType.EXPORT)
+    @Log(title = "班级年级学科统计情况", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, ExamClassStatictics examClassStatictics)
     {
         List<ExamClassStatictics> list = examClassStaticticsService.selectExamClassStaticticsList(examClassStatictics);
         ExcelUtil<ExamClassStatictics> util = new ExcelUtil<ExamClassStatictics>(ExamClassStatictics.class);
-        util.exportExcel(response, list, "班级成绩统计情况数据");
+        util.exportExcel(response, list, "班级年级学科数据");
     }
 
     /**

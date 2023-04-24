@@ -9,6 +9,15 @@ export function listStatictics(query) {
   })
 }
 
+// 查询班级平均分
+export function getAverage(query) {
+  return request({
+    url: '/scores/statictics/average',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询班级成绩统计情况详细
 export function getStatictics(examStatisticsId) {
   return request({

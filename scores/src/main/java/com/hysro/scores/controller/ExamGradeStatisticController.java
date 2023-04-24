@@ -50,13 +50,13 @@ public class ExamGradeStatisticController extends BaseController
      * 导出年级数据统计情况列表
      */
     @PreAuthorize("@ss.hasPermi('scores:statistic:export')")
-    @Log(title = "年级数据统计情况", businessType = BusinessType.EXPORT)
+    @Log(title = "年级班级数据", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, ExamGradeStatistic examGradeStatistic)
     {
         List<ExamGradeStatistic> list = examGradeStatisticService.selectExamGradeStatisticList(examGradeStatistic);
         ExcelUtil<ExamGradeStatistic> util = new ExcelUtil<ExamGradeStatistic>(ExamGradeStatistic.class);
-        util.exportExcel(response, list, "年级数据统计情况数据");
+        util.exportExcel(response, list, "年级班级数据");
     }
 
     /**
