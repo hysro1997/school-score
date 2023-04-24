@@ -54,6 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
             <if test="subject != null and subject != ''"> and ${subject} between #{underLine} and #{upLine} </if>
         </where>
+        ORDER BY ISNULL(${subject}),${subject}<if test="orderType != null and orderType != ''">${orderType}</if><if test="orderType == null or orderType == ''">DESC</if>
     </select>
 
     <select id="selectExamStudentScoresList" parameterType="ExamStudentScores" resultMap="ExamStudentScoresExamsResult">

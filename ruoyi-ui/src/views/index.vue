@@ -303,8 +303,9 @@ export default {
             return;
           }
           message.replace("级","级 语文");
+          message += "考号\t分数\n";
           this.studentsChinese.forEach(function(element){
-            message += element.exam_number + "\n";
+            message += element.exam_number + "\t" + element.score + "\n";
           });
           this.$copyText(message).then(function (e) {
             that.$modal.msgSuccess("复制成功");
@@ -318,8 +319,9 @@ export default {
             return;
           }
           message.replace("级","级 数学");
+          message += "考号\t分数\n";
           this.studentsMaths.forEach(function(element){
-            message += element.exam_number + "\n";
+            message += element.exam_number + "\t" + element.score + "\n";
           });
           this.$copyText(message).then(function (e) {
             that.$modal.msgSuccess("复制成功");
@@ -333,8 +335,9 @@ export default {
             return;
           }
           message.replace("级","级 英语");
+          message += "考号\t分数\n";
           this.studentsEnglish.forEach(function(element){
-            message += element.exam_number + "\n";
+            message += element.exam_number + "\t" + element.score + "\n";
           });
           this.$copyText(message).then(function (e) {
             that.$modal.msgSuccess("复制成功");
@@ -363,11 +366,17 @@ export default {
       params.grade = grade;
       params.subject = "语文";
       getScoresFifty(params).then(response => {
+        if (undefined === response.data || null === response.data || "" === response.data){
+          this.$modal.msgWarning("查询到没有此项 语文 成绩");
+        }
         this.studentsChinese = response.data;
         this.studentList.open = true;
       });
       params.subject = "数学";
       getScoresFifty(params).then(response => {
+        if (undefined === response.data || null === response.data || "" === response.data){
+          this.$modal.msgWarning("查询到没有此项 数学 成绩");
+        }
         this.studentsMaths = response.data;
         this.studentList.open = true;
       });
@@ -376,6 +385,9 @@ export default {
       } else {
         params.subject = "英语";
         getScoresFifty(params).then(response => {
+          if (undefined === response.data || null === response.data || "" === response.data){
+            this.$modal.msgWarning("查询到没有此项 英语 成绩");
+          }
           this.studentsEnglish = response.data;
           this.studentList.open = true;
         });

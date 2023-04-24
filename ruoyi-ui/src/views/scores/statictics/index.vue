@@ -238,7 +238,7 @@
       <br/><br/>
       <el-button type="primary" @click="clipboardHandler2(1)">复制名单（含得分）</el-button>
       &nbsp;&nbsp;&nbsp;&nbsp;
-      <el-button type="success" @click="clipboardHandler2(0)">复制考号名单</el-button>
+      <!-- el-button type="success" @click="clipboardHandler2(0)">复制考号名单</el-button -->
     </el-dialog>
   </div>
 </template>

@@ -206,7 +206,22 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
 
     @Override
     public List<Map<String,String>> selectExamStudentScoresFifty(ExamStudentScores examStudentScores) {
-        return examStudentScoresMapper.selectExamStudentScoresFifty(examStudentScores);
+        List<Map<String,String>> scoremap = examStudentScoresMapper.selectExamStudentScoresFifty(examStudentScores);
+        if (0==scoremap.size()){
+            return null;
+        }
+        Map<String,String> map = scoremap.get(scoremap.size()-1);
+        String score = String.valueOf(map.get("score"));
+        score = score.substring(0,score.indexOf("."));
+        if ("ASC".equals(examStudentScores.getOrderType())){
+            examStudentScores.setUnderLine(0);
+            examStudentScores.setUpLine(Integer.parseInt(score));
+        }else {
+            examStudentScores.setUnderLine(Integer.parseInt(score));
+            examStudentScores.setUpLine(100);
+        }
+
+        return examStudentScoresMapper.selectExamStudentScoresByScoresBoundry(examStudentScores);
     }
 
     @Override
