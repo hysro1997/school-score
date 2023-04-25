@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hysro.scores.mapper.ExamMuitipleCalculationMapper">
+
+    <resultMap type="ExamMuitipleCalculation" id="ExamMuitipleCalculationResult">
+        <result property="id"    column="id"    />
+        <result property="excellent"    column="excellent"    />
+        <result property="qualified"    column="qualified"    />
+        <result property="average"    column="average"    />
+    </resultMap>
+
+    <select id="getExamMuitipleCalculationById" parameterType="Integer" resultMap="ExamMuitipleCalculationResult">
+        SELECT * FROM `exam_muitiple_calculation`
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateExamMuitipleCalculationById" parameterType="ExamMuitipleCalculation">
+        update `exam_muitiple_calculation`
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="excellent != null">excellent = #{excellent},</if>
+            <if test="qualified != null">qualified = #{qualified},</if>
+            <if test="average != null">average = #{average},</if>
+        </trim>
+        where id = #{id}
+    </update>
+</mapper>
