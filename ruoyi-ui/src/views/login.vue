@@ -70,7 +70,7 @@
   name: "Login",
   data() {
     return {
-      titleName: localStorage.getItem("title") || "爱家小学管理系统",
+      titleName: localStorage.getItem("title") || "",
       codeUrl: "",
       loginForm: {
         username: "",
@@ -109,7 +109,7 @@
     this.getCookie();
   },
   mounted() {
-      setTimeout(() =>{this.getTitleName()},100);
+      setTimeout(() =>{this.getTitleName()},150);
   },
   methods: {
     getTitleName(){
