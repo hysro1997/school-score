@@ -110,6 +110,42 @@ public class ExamClassStatictics extends BaseEntity
     @JSONField(serialize = false)
     private String subjectName;
 
+    /** 动态给sql传参，表明查询的综合分计算时的优秀率系数 */
+    @JSONField(serialize = false)
+    private String excellentAgent;
+
+    /** 动态给sql传参，表明查询的综合分计算时的及格率系数 */
+    @JSONField(serialize = false)
+    private String qualifiedAgent;
+
+    /** 动态给sql传参，表明查询的综合分计算时的平均分系数 */
+    @JSONField(serialize = false)
+    private String averageAgent;
+
+    public String getExcellentAgent() {
+        return excellentAgent;
+    }
+
+    public void setExcellentAgent(String excellentAgent) {
+        this.excellentAgent = excellentAgent;
+    }
+
+    public String getQualifiedAgent() {
+        return qualifiedAgent;
+    }
+
+    public void setQualifiedAgent(String qualifiedAgent) {
+        this.qualifiedAgent = qualifiedAgent;
+    }
+
+    public String getAverageAgent() {
+        return averageAgent;
+    }
+
+    public void setAverageAgent(String averageAgent) {
+        this.averageAgent = averageAgent;
+    }
+
     public String getSubjectName() {
         return subjectName;
     }

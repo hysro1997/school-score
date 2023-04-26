@@ -7,7 +7,8 @@ const state = {
     hide: false
   },
   device: 'desktop',
-  size: Cookies.get('size') || 'medium'
+  size: Cookies.get('size') || 'medium',
+  title: Cookies.get('title') || '小学管理系统'
 }
 
 const mutations = {
@@ -35,6 +36,10 @@ const mutations = {
     state.size = size
     Cookies.set('size', size)
   },
+  SET_Title: (state, title) => {
+    state.title = title
+    Cookies.set('title', title)
+  },
   SET_SIDEBAR_HIDE: (state, status) => {
     state.sidebar.hide = status
   }
@@ -52,6 +57,9 @@ const actions = {
   },
   setSize({ commit }, size) {
     commit('SET_SIZE', size)
+  },
+  setTitle({ commit }, title) {
+    commit('SET_Title', title)
   },
   toggleSideBarHide({ commit }, status) {
     commit('SET_SIDEBAR_HIDE', status)

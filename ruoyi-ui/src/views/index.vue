@@ -7,7 +7,7 @@
           {{ user.nickName }}
         </el-tag> 使用
         <el-tag effect="light" style="text-align: center;font-size: 28px">
-          小学成绩管理系统
+          {{ titleName }}
         </el-tag>
       </p>
       <p></p>
@@ -270,6 +270,8 @@
   import { listSummary } from '@/api/scores/summary'
   import { listStatistic } from '@/api/scores/statistic'
   import { listStatictics, getAverage } from '@/api/scores/statictics'
+  import { listTitle } from '@/api/scores/titleName'
+  import Cookies from 'js-cookie'
 
 export default {
   name: "Index",
@@ -404,7 +406,8 @@ export default {
             lastAverage: '',
             gap: ''
         },
-      }
+      },
+      titleName: localStorage.getItem("title") || "爱家小学管理系统"
     };
   },
   created() {

@@ -7,6 +7,8 @@
 
 <script>
   import ThemePicker from '@/components/ThemePicker'
+  import { listTitle } from '@/api/scores/titleName'
+  import Cookies from 'js-cookie'
 
   export default {
   name: "App",
@@ -15,7 +17,15 @@
         return {
             title: this.$store.state.settings.dynamicTitle && this.$store.state.settings.title,
             titleTemplate: title => {
-                return title ? `${title} - ${process.env.VUE_APP_TITLE}` : process.env.VUE_APP_TITLE
+              listTitle().then(response => {
+                if (undefined !== response.data.titleName && null !== response.data.titleName && "" !== response.data.titleName){
+                  localStorage.setItem("title",response.data.titleName);
+                  document.title = response.data.titleName;
+                  return response.data.titleName;
+                } else {
+                  return title ? `${title} - ${process.env.VUE_APP_TITLE}` : process.env.VUE_APP_TITLE
+                }
+              });
             }
         }
     }

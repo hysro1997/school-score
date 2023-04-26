@@ -16,7 +16,7 @@
         <el-form-item size="large">
           <p>当前综合分算法为：优秀率 × {{ classesFormData.excellentPercentage }} % + 及格率 × {{ classesFormData.qualifiedPercentage }} % + 平均分 × {{ classesFormData.averageScore }} %</p>
           <p>算法总比例：<el-tag v-if="formOneSum !== 100" type="danger">{{ formOneSum }} %</el-tag><el-tag v-else type="success">{{ formOneSum }} %</el-tag></p>
-          <el-button :disabled="formOneEditEnable" type="primary" @click="submitForm('classesForm')">提交</el-button>
+          <el-button :disabled="formOneEditEnable" type="primary" @click="submitForm('classesForm')"  v-hasPermi="['scores:muitiple:edit']">提交</el-button>
           <el-button @click="editEnable(1,1)" v-hasPermi="['scores:muitiple:edit']">{{formOneEdition}}</el-button>
         </el-form-item>
       </el-form>
@@ -38,7 +38,7 @@
         <el-form-item size="large">
           <p>当前综合分算法为：优秀率 × {{ classesFormData2.excellentPercentage }} % + 及格率 × {{ classesFormData2.qualifiedPercentage }} % + 平均分 × {{ classesFormData2.averageScore }} %</p>
           <p>算法总比例：<el-tag v-if="formTwoSum !== 100" type="danger">{{ formTwoSum }} %</el-tag><el-tag v-else type="success">{{ formTwoSum }} %</el-tag></p>
-          <el-button :disabled="formTwoEditEnable" type="primary" @click="submitForm('classesForm2')">提交</el-button>
+          <el-button :disabled="formTwoEditEnable" type="primary" @click="submitForm('classesForm2')"  v-hasPermi="['scores:muitiple:edit']">提交</el-button>
           <el-button @click="editEnable(2,1)" v-hasPermi="['scores:muitiple:edit']">{{formTwoEdition}}</el-button>
         </el-form-item>
       </el-form>

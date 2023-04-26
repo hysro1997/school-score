@@ -146,7 +146,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="calculateClassStatistics" parameterType="ExamClassStatictics" resultMap="ExamClassStaticticsResult">
-        SELECT *, ROUND(b.average_score * 0.4 + b.excellent_percentage*0.3 + b.qualified_percentage*0.3,2) AS muitiple_score from
+        SELECT *, ROUND(b.average_score * #{averageAgent} + b.excellent_percentage*#{excellentAgent} + b.qualified_percentage*#{qualifiedAgent},2) AS muitiple_score from
         (SELECT
         *, CONCAT(ROUND((a.full_socre_numbers + a.excellent_numbers) / a.exam_numbers * 100,2),"%") AS excellent_percentage,
         CONCAT(ROUND((a.full_socre_numbers + a.excellent_numbers + a.good_numbers + a.qualified_numbers) / a.exam_numbers * 100,2),"%") AS qualified_percentage

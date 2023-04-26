@@ -16,6 +16,7 @@
 <script>
   import logoImg from '@/assets/logo/logo.png'
   import variables from '@/assets/styles/variables.scss'
+  import Cookies from 'js-cookie'
 
   export default {
   name: 'SidebarLogo',
@@ -35,10 +36,10 @@
   },
   data() {
     return {
-      title: '小学成绩系统',
+      title: localStorage.getItem("title") || "爱家小学管理系统",
       logo: logoImg
     }
-  }
+  },
 }
 </script>
 

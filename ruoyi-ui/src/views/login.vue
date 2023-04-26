@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">小学成绩管理系统</h3>
+      <h3 class="title">{{ titleName }}</h3>
       <el-form-item prop="username">
         <el-input
           v-model="loginForm.username"
@@ -70,6 +70,7 @@
   name: "Login",
   data() {
     return {
+      titleName: localStorage.getItem("title") || "爱家小学管理系统",
       codeUrl: "",
       loginForm: {
         username: "",
@@ -107,7 +108,13 @@
     this.getCode();
     this.getCookie();
   },
+  mounted() {
+      setTimeout(() =>{this.getTitleName()},100);
+  },
   methods: {
+    getTitleName(){
+      this.titleName = localStorage.getItem("title");
+    },
     getCode() {
       getCodeImg().then(res => {
         this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled;

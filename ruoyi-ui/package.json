@@ -1,7 +1,7 @@
 {
   "name": "ruoyi",
   "version": "3.8.5",
-  "description": "小学成绩系统",
+  "description": "爱家小学成绩系统",
   "author": "若依, hysro",
   "license": "MIT",
   "scripts": {

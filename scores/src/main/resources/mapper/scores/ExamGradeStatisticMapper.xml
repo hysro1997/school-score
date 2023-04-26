@@ -67,7 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="calculateExamGradeStatisticTwoGrade" parameterType="ExamGradeStatistic" resultMap="ExamGradeStatisticResult">
         SELECT
             *,
-            ROUND( b.all_score_percentage * 0.4 + b.triple_qualified_percentage * 0.3 + b.triple_excellent_percentage * 0.3, 2 ) AS muitiple_score
+            ROUND( b.all_score_percentage * #{averageAgent} + b.triple_qualified_percentage * #{qualifiedAgent} + b.triple_excellent_percentage * #{excellentAgent}, 2 ) AS muitiple_score
         FROM
             (
                 SELECT
@@ -132,7 +132,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="calculateExamGradeStatisticFourGrade" parameterType="ExamGradeStatistic" resultMap="ExamGradeStatisticResult">
         SELECT
             *,
-            ROUND( b.all_score_percentage * 0.4 + b.triple_qualified_percentage * 0.3 + b.triple_excellent_percentage * 0.3, 2 ) AS muitiple_score
+            ROUND( b.all_score_percentage * #{averageAgent} + b.triple_qualified_percentage * #{qualifiedAgent} + b.triple_excellent_percentage * #{excellentAgent}, 2 ) AS muitiple_score
         FROM
             (
                 SELECT

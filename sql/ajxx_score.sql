@@ -11,7 +11,7 @@
  Target Server Version : 50741
  File Encoding         : 65001
 
- Date: 25/04/2023 21:59:19
+ Date: 26/04/2023 21:55:53
 */
 
 SET NAMES utf8mb4;
@@ -44,56 +44,56 @@ CREATE TABLE `exam_class_statictics`  (
   `muitiple_rank` int(5) NULL DEFAULT NULL COMMENT '综合分排名',
   `average_rank` int(5) NULL DEFAULT NULL COMMENT '平均分排名',
   PRIMARY KEY (`exam_statistics_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 362 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '班级成绩统计情况' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 407 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '班级成绩统计情况' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam_class_statictics
 -- ----------------------------
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000317, '四年级', '1班', '语文', 50, 0, 38, 9, 2, 0, 0, 0, 1, '4291.0', '85.82', '98.00%', '76.00%', '86.53', 22, 1, 1);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000318, '四年级', '1班', '数学', 50, 0, 25, 17, 7, 0, 0, 0, 1, '4284.0', '85.68', '98.00%', '50.00%', '78.67', 22, 3, 3);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000319, '四年级', '1班', '英语', 50, 2, 42, 5, 0, 0, 0, 0, 1, '4654.0', '93.08', '98.00%', '88.00%', '93.03', 22, 1, 3);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000320, '四年级', '2班', '语文', 50, 0, 31, 13, 5, 0, 1, 0, 0, '4275.0', '85.50', '98.00%', '62.00%', '82.2', 22, 2, 2);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000321, '四年级', '2班', '数学', 49, 1, 24, 16, 5, 2, 0, 0, 1, '4170.0', '85.10', '93.88%', '51.02%', '77.51', 22, 4, 4);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000322, '四年级', '2班', '英语', 50, 1, 35, 11, 2, 0, 0, 0, 1, '4486.0', '89.72', '98.00%', '72.00%', '86.89', 22, 6, 6);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000323, '四年级', '3班', '语文', 49, 0, 24, 9, 12, 0, 0, 2, 2, '3819.0', '77.94', '91.84%', '48.98%', '73.42', 22, 6, 7);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000324, '四年级', '3班', '数学', 49, 2, 21, 14, 9, 0, 1, 2, 0, '4122.0', '84.12', '93.88%', '46.94%', '75.89', 22, 6, 6);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000325, '四年级', '3班', '英语', 49, 4, 34, 10, 1, 0, 0, 0, 0, '4533.0', '92.51', '100.00%', '77.55%', '90.27', 22, 4, 4);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000326, '四年级', '4班', '语文', 48, 0, 27, 10, 8, 1, 0, 0, 2, '3905.0', '81.35', '93.75%', '56.25%', '77.54', 22, 4, 4);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000327, '四年级', '4班', '数学', 48, 0, 20, 14, 9, 2, 0, 1, 2, '3858.0', '80.38', '89.58%', '41.67%', '71.53', 22, 7, 7);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000328, '四年级', '4班', '英语', 48, 1, 28, 14, 3, 0, 0, 0, 2, '4214.0', '87.79', '95.83%', '60.42%', '81.99', 22, 7, 7);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000329, '四年级', '5班', '语文', 49, 0, 27, 12, 7, 0, 0, 3, 0, '3983.0', '81.29', '93.88%', '55.10%', '77.21', 22, 5, 5);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000330, '四年级', '5班', '数学', 49, 2, 20, 25, 2, 0, 0, 0, 0, '4352.0', '88.82', '100.00%', '44.90%', '79.0', 22, 2, 1);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000331, '四年级', '5班', '英语', 49, 5, 35, 8, 1, 0, 0, 0, 0, '4612.0', '94.12', '100.00%', '81.63%', '92.14', 22, 2, 1);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000332, '四年级', '6班', '语文', 50, 0, 31, 12, 3, 2, 1, 0, 1, '4190.0', '83.80', '92.00%', '62.00%', '79.72', 22, 3, 3);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000333, '四年级', '6班', '数学', 50, 1, 31, 12, 4, 0, 1, 0, 1, '4404.0', '88.08', '96.00%', '64.00%', '83.23', 22, 1, 2);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000334, '四年级', '6班', '英语', 50, 1, 39, 7, 1, 1, 1, 0, 0, '4570.0', '91.40', '96.00%', '80.00%', '89.36', 22, 5, 5);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000335, '四年级', '7班', '语文', 49, 0, 21, 18, 5, 1, 1, 2, 1, '3924.0', '80.08', '89.80%', '42.86%', '71.83', 22, 7, 6);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000336, '四年级', '7班', '数学', 49, 0, 25, 15, 5, 0, 2, 1, 1, '4163.0', '84.96', '91.84%', '51.02%', '76.84', 22, 5, 5);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000337, '四年级', '7班', '英语', 48, 8, 30, 8, 1, 1, 0, 0, 0, '4475.0', '93.23', '97.92%', '79.17%', '90.42', 22, 3, 2);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000338, '五年级', '9班', '语文', 1, 0, 1, 0, 0, 0, 0, 0, 0, '85.0', '85.00', '100.00%', '100.00%', '94.0', 22, 1, 3);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000339, '五年级', '9班', '数学', 1, 0, 1, 0, 0, 0, 0, 0, 0, '90.0', '90.00', '100.00%', '100.00%', '96.0', 22, 1, 1);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000340, '五年级', '9班', '英语', 1, 0, 1, 0, 0, 0, 0, 0, 0, '98.0', '98.00', '100.00%', '100.00%', '99.2', 22, 1, 1);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000341, '五年级', '1班', '语文', 50, 0, 38, 9, 2, 0, 0, 0, 1, '4291.0', '85.82', '98.00%', '76.00%', '86.53', 22, 2, 1);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000342, '五年级', '1班', '数学', 50, 0, 25, 17, 7, 0, 0, 0, 1, '4284.0', '85.68', '98.00%', '50.00%', '78.67', 22, 4, 4);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000343, '五年级', '1班', '英语', 50, 2, 42, 5, 0, 0, 0, 0, 1, '4654.0', '93.08', '98.00%', '88.00%', '93.03', 22, 2, 4);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000344, '五年级', '2班', '语文', 50, 0, 31, 13, 5, 0, 1, 0, 0, '4275.0', '85.50', '98.00%', '62.00%', '82.2', 22, 3, 2);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000345, '五年级', '2班', '数学', 49, 1, 24, 16, 5, 2, 0, 0, 1, '4170.0', '85.10', '93.88%', '51.02%', '77.51', 22, 5, 5);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000346, '五年级', '2班', '英语', 50, 1, 35, 11, 2, 0, 0, 0, 1, '4486.0', '89.72', '98.00%', '72.00%', '86.89', 22, 7, 7);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000347, '五年级', '3班', '语文', 49, 0, 24, 9, 12, 0, 0, 2, 2, '3819.0', '77.94', '91.84%', '48.98%', '73.42', 22, 7, 8);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000348, '五年级', '3班', '数学', 49, 2, 21, 14, 9, 0, 1, 2, 0, '4122.0', '84.12', '93.88%', '46.94%', '75.89', 22, 7, 7);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000349, '五年级', '3班', '英语', 49, 4, 34, 10, 1, 0, 0, 0, 0, '4533.0', '92.51', '100.00%', '77.55%', '90.27', 22, 5, 5);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000350, '五年级', '4班', '语文', 48, 0, 27, 10, 8, 1, 0, 0, 2, '3905.0', '81.35', '93.75%', '56.25%', '77.54', 22, 5, 5);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000351, '五年级', '4班', '数学', 48, 0, 20, 14, 9, 2, 0, 1, 2, '3858.0', '80.38', '89.58%', '41.67%', '71.53', 22, 8, 8);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000352, '五年级', '4班', '英语', 48, 1, 28, 14, 3, 0, 0, 0, 2, '4214.0', '87.79', '95.83%', '60.42%', '81.99', 22, 8, 8);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000353, '五年级', '5班', '语文', 49, 0, 27, 12, 7, 0, 0, 3, 0, '3983.0', '81.29', '93.88%', '55.10%', '77.21', 22, 6, 6);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000354, '五年级', '5班', '数学', 49, 2, 20, 25, 2, 0, 0, 0, 0, '4352.0', '88.82', '100.00%', '44.90%', '79.0', 22, 3, 2);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000355, '五年级', '5班', '英语', 49, 5, 35, 8, 1, 0, 0, 0, 0, '4612.0', '94.12', '100.00%', '81.63%', '92.14', 22, 3, 2);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000356, '五年级', '6班', '语文', 50, 0, 31, 12, 3, 2, 1, 0, 1, '4190.0', '83.80', '92.00%', '62.00%', '79.72', 22, 4, 4);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000357, '五年级', '6班', '数学', 50, 1, 31, 12, 4, 0, 1, 0, 1, '4404.0', '88.08', '96.00%', '64.00%', '83.23', 22, 2, 3);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000358, '五年级', '6班', '英语', 50, 1, 39, 7, 1, 1, 1, 0, 0, '4570.0', '91.40', '96.00%', '80.00%', '89.36', 22, 6, 6);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000359, '五年级', '7班', '语文', 49, 0, 21, 18, 5, 1, 1, 2, 1, '3924.0', '80.08', '89.80%', '42.86%', '71.83', 22, 8, 7);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000360, '五年级', '7班', '数学', 49, 0, 25, 15, 5, 0, 2, 1, 1, '4163.0', '84.96', '91.84%', '51.02%', '76.84', 22, 6, 6);
-INSERT INTO `exam_class_statictics` VALUES (00000000000000000361, '五年级', '7班', '英语', 48, 8, 30, 8, 1, 1, 0, 0, 0, '4475.0', '93.23', '97.92%', '79.17%', '90.42', 22, 4, 3);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000362, '四年级', '1班', '语文', 50, 0, 38, 9, 2, 0, 0, 0, 1, '4291.0', '85.82', '98.00%', '76.00%', '76.0', 22, 1, 1);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000363, '四年级', '1班', '数学', 50, 0, 25, 17, 7, 0, 0, 0, 1, '4284.0', '85.68', '98.00%', '50.00%', '50.0', 22, 4, 3);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000364, '四年级', '1班', '英语', 50, 2, 42, 5, 0, 0, 0, 0, 1, '4654.0', '93.08', '98.00%', '88.00%', '88.0', 22, 1, 3);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000365, '四年级', '2班', '语文', 50, 0, 31, 13, 5, 0, 1, 0, 0, '4275.0', '85.50', '98.00%', '62.00%', '62.0', 22, 2, 2);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000366, '四年级', '2班', '数学', 49, 1, 24, 16, 5, 2, 0, 0, 1, '4170.0', '85.10', '93.88%', '51.02%', '51.02', 22, 2, 4);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000367, '四年级', '2班', '英语', 50, 1, 35, 11, 2, 0, 0, 0, 1, '4486.0', '89.72', '98.00%', '72.00%', '72.0', 22, 6, 6);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000368, '四年级', '3班', '语文', 49, 0, 24, 9, 12, 0, 0, 2, 2, '3819.0', '77.94', '91.84%', '48.98%', '48.98', 22, 6, 7);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000369, '四年级', '3班', '数学', 49, 2, 21, 14, 9, 0, 1, 2, 0, '4122.0', '84.12', '93.88%', '46.94%', '46.94', 22, 5, 6);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000370, '四年级', '3班', '英语', 49, 4, 34, 10, 1, 0, 0, 0, 0, '4533.0', '92.51', '100.00%', '77.55%', '77.55', 22, 5, 4);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000371, '四年级', '4班', '语文', 48, 0, 27, 10, 8, 1, 0, 0, 2, '3905.0', '81.35', '93.75%', '56.25%', '56.25', 22, 4, 4);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000372, '四年级', '4班', '数学', 48, 0, 20, 14, 9, 2, 0, 1, 2, '3858.0', '80.38', '89.58%', '41.67%', '41.67', 22, 7, 7);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000373, '四年级', '4班', '英语', 48, 1, 28, 14, 3, 0, 0, 0, 2, '4214.0', '87.79', '95.83%', '60.42%', '60.42', 22, 7, 7);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000374, '四年级', '5班', '语文', 49, 0, 27, 12, 7, 0, 0, 3, 0, '3983.0', '81.29', '93.88%', '55.10%', '55.1', 22, 5, 5);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000375, '四年级', '5班', '数学', 49, 2, 20, 25, 2, 0, 0, 0, 0, '4352.0', '88.82', '100.00%', '44.90%', '44.9', 22, 6, 1);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000376, '四年级', '5班', '英语', 49, 5, 35, 8, 1, 0, 0, 0, 0, '4612.0', '94.12', '100.00%', '81.63%', '81.63', 22, 2, 1);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000377, '四年级', '6班', '语文', 50, 0, 31, 12, 3, 2, 1, 0, 1, '4190.0', '83.80', '92.00%', '62.00%', '62.0', 22, 3, 3);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000378, '四年级', '6班', '数学', 50, 1, 31, 12, 4, 0, 1, 0, 1, '4404.0', '88.08', '96.00%', '64.00%', '64.0', 22, 1, 2);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000379, '四年级', '6班', '英语', 50, 1, 39, 7, 1, 1, 1, 0, 0, '4570.0', '91.40', '96.00%', '80.00%', '80.0', 22, 3, 5);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000380, '四年级', '7班', '语文', 49, 0, 21, 18, 5, 1, 1, 2, 1, '3924.0', '80.08', '89.80%', '42.86%', '42.86', 22, 7, 6);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000381, '四年级', '7班', '数学', 49, 0, 25, 15, 5, 0, 2, 1, 1, '4163.0', '84.96', '91.84%', '51.02%', '51.02', 22, 3, 5);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000382, '四年级', '7班', '英语', 48, 8, 30, 8, 1, 1, 0, 0, 0, '4475.0', '93.23', '97.92%', '79.17%', '79.17', 22, 4, 2);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000383, '五年级', '9班', '语文', 1, 0, 1, 0, 0, 0, 0, 0, 0, '85.0', '85.00', '100.00%', '100.00%', '100.0', 22, 8, 3);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000384, '五年级', '9班', '数学', 1, 0, 1, 0, 0, 0, 0, 0, 0, '90.0', '90.00', '100.00%', '100.00%', '100.0', 22, 8, 1);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000385, '五年级', '9班', '英语', 1, 0, 1, 0, 0, 0, 0, 0, 0, '98.0', '98.00', '100.00%', '100.00%', '100.0', 22, 8, 1);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000386, '五年级', '1班', '语文', 50, 0, 38, 9, 2, 0, 0, 0, 1, '4291.0', '85.82', '98.00%', '76.00%', '76.0', 22, 1, 1);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000387, '五年级', '1班', '数学', 50, 0, 25, 17, 7, 0, 0, 0, 1, '4284.0', '85.68', '98.00%', '50.00%', '50.0', 22, 4, 4);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000388, '五年级', '1班', '英语', 50, 2, 42, 5, 0, 0, 0, 0, 1, '4654.0', '93.08', '98.00%', '88.00%', '88.0', 22, 1, 4);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000389, '五年级', '2班', '语文', 50, 0, 31, 13, 5, 0, 1, 0, 0, '4275.0', '85.50', '98.00%', '62.00%', '62.0', 22, 2, 2);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000390, '五年级', '2班', '数学', 49, 1, 24, 16, 5, 2, 0, 0, 1, '4170.0', '85.10', '93.88%', '51.02%', '51.02', 22, 2, 5);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000391, '五年级', '2班', '英语', 50, 1, 35, 11, 2, 0, 0, 0, 1, '4486.0', '89.72', '98.00%', '72.00%', '72.0', 22, 6, 7);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000392, '五年级', '3班', '语文', 49, 0, 24, 9, 12, 0, 0, 2, 2, '3819.0', '77.94', '91.84%', '48.98%', '48.98', 22, 6, 8);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000393, '五年级', '3班', '数学', 49, 2, 21, 14, 9, 0, 1, 2, 0, '4122.0', '84.12', '93.88%', '46.94%', '46.94', 22, 5, 7);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000394, '五年级', '3班', '英语', 49, 4, 34, 10, 1, 0, 0, 0, 0, '4533.0', '92.51', '100.00%', '77.55%', '77.55', 22, 5, 5);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000395, '五年级', '4班', '语文', 48, 0, 27, 10, 8, 1, 0, 0, 2, '3905.0', '81.35', '93.75%', '56.25%', '56.25', 22, 4, 5);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000396, '五年级', '4班', '数学', 48, 0, 20, 14, 9, 2, 0, 1, 2, '3858.0', '80.38', '89.58%', '41.67%', '41.67', 22, 7, 8);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000397, '五年级', '4班', '英语', 48, 1, 28, 14, 3, 0, 0, 0, 2, '4214.0', '87.79', '95.83%', '60.42%', '60.42', 22, 7, 8);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000398, '五年级', '5班', '语文', 49, 0, 27, 12, 7, 0, 0, 3, 0, '3983.0', '81.29', '93.88%', '55.10%', '55.1', 22, 5, 6);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000399, '五年级', '5班', '数学', 49, 2, 20, 25, 2, 0, 0, 0, 0, '4352.0', '88.82', '100.00%', '44.90%', '44.9', 22, 6, 2);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000400, '五年级', '5班', '英语', 49, 5, 35, 8, 1, 0, 0, 0, 0, '4612.0', '94.12', '100.00%', '81.63%', '81.63', 22, 2, 2);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000401, '五年级', '6班', '语文', 50, 0, 31, 12, 3, 2, 1, 0, 1, '4190.0', '83.80', '92.00%', '62.00%', '62.0', 22, 3, 4);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000402, '五年级', '6班', '数学', 50, 1, 31, 12, 4, 0, 1, 0, 1, '4404.0', '88.08', '96.00%', '64.00%', '64.0', 22, 1, 3);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000403, '五年级', '6班', '英语', 50, 1, 39, 7, 1, 1, 1, 0, 0, '4570.0', '91.40', '96.00%', '80.00%', '80.0', 22, 3, 6);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000404, '五年级', '7班', '语文', 49, 0, 21, 18, 5, 1, 1, 2, 1, '3924.0', '80.08', '89.80%', '42.86%', '42.86', 22, 7, 7);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000405, '五年级', '7班', '数学', 49, 0, 25, 15, 5, 0, 2, 1, 1, '4163.0', '84.96', '91.84%', '51.02%', '51.02', 22, 3, 6);
+INSERT INTO `exam_class_statictics` VALUES (00000000000000000406, '五年级', '7班', '英语', 48, 8, 30, 8, 1, 1, 0, 0, 0, '4475.0', '93.23', '97.92%', '79.17%', '79.17', 22, 4, 3);
 
 -- ----------------------------
 -- Table structure for exam_excellent_score_line
@@ -147,26 +147,26 @@ CREATE TABLE `exam_grade_statistic`  (
   `all_score` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '总得分',
   `all_score_percentage` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '得分率',
   PRIMARY KEY (`exam_grade_statistics_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 116 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '年级数据统计情况' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 131 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '年级数据统计情况' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam_grade_statistic
 -- ----------------------------
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000101, 50, 49, 23, '98.00%', '46.00%', '78.48', '四年级', '1班', 1, NULL, 22, '13229.0', '88.19%');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000102, 49, 46, 22, '93.88%', '44.90%', '76.82', '四年级', '2班', 3, NULL, 22, '12931.0', '87.97%');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000103, 49, 45, 20, '91.84%', '40.82%', '73.74', '四年级', '3班', 4, NULL, 22, '12474.0', '84.86%');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000104, 48, 43, 16, '89.58%', '33.33%', '70.14', '四年级', '4班', 6, NULL, 22, '11977.0', '83.17%');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000105, 49, 46, 16, '93.88%', '32.65%', '73.19', '四年级', '5班', 5, NULL, 22, '12947.0', '88.07%');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000106, 50, 46, 24, '92.00%', '48.00%', '77.1', '四年级', '6班', 2, NULL, 22, '13164.0', '87.76%');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000107, 48, 42, 13, '87.50%', '27.08%', '69.27', '四年级', '7班', 7, NULL, 22, '12562.0', '87.24%');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000108, 1, 1, 1, '100.00%', '100.00%', '96.4', '五年级', '9班', 1, NULL, 22, '273.0', '91.00%');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000109, 50, 49, 23, '98.00%', '46.00%', '78.48', '五年级', '1班', 2, NULL, 22, '13229.0', '88.19%');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000110, 49, 46, 22, '93.88%', '44.90%', '76.82', '五年级', '2班', 4, NULL, 22, '12931.0', '87.97%');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000111, 49, 45, 20, '91.84%', '40.82%', '73.74', '五年级', '3班', 5, NULL, 22, '12474.0', '84.86%');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000112, 48, 43, 16, '89.58%', '33.33%', '70.14', '五年级', '4班', 7, NULL, 22, '11977.0', '83.17%');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000113, 49, 46, 16, '93.88%', '32.65%', '73.19', '五年级', '5班', 6, NULL, 22, '12947.0', '88.07%');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000114, 50, 46, 24, '92.00%', '48.00%', '77.1', '五年级', '6班', 3, NULL, 22, '13164.0', '87.76%');
-INSERT INTO `exam_grade_statistic` VALUES (00000000000000000115, 48, 42, 13, '87.50%', '27.08%', '69.27', '五年级', '7班', 8, NULL, 22, '12562.0', '87.24%');
+INSERT INTO `exam_grade_statistic` VALUES (00000000000000000116, 50, 49, 23, '98.00%', '46.00%', '88.19', '四年级', '1班', 1, NULL, 22, '13229.0', '88.19%');
+INSERT INTO `exam_grade_statistic` VALUES (00000000000000000117, 49, 46, 22, '93.88%', '44.90%', '87.97', '四年级', '2班', 3, NULL, 22, '12931.0', '87.97%');
+INSERT INTO `exam_grade_statistic` VALUES (00000000000000000118, 49, 45, 20, '91.84%', '40.82%', '84.86', '四年级', '3班', 6, NULL, 22, '12474.0', '84.86%');
+INSERT INTO `exam_grade_statistic` VALUES (00000000000000000119, 48, 43, 16, '89.58%', '33.33%', '83.17', '四年级', '4班', 7, NULL, 22, '11977.0', '83.17%');
+INSERT INTO `exam_grade_statistic` VALUES (00000000000000000120, 49, 46, 16, '93.88%', '32.65%', '88.07', '四年级', '5班', 2, NULL, 22, '12947.0', '88.07%');
+INSERT INTO `exam_grade_statistic` VALUES (00000000000000000121, 50, 46, 24, '92.00%', '48.00%', '87.76', '四年级', '6班', 4, NULL, 22, '13164.0', '87.76%');
+INSERT INTO `exam_grade_statistic` VALUES (00000000000000000122, 48, 42, 13, '87.50%', '27.08%', '87.24', '四年级', '7班', 5, NULL, 22, '12562.0', '87.24%');
+INSERT INTO `exam_grade_statistic` VALUES (00000000000000000123, 1, 1, 1, '100.00%', '100.00%', '91.0', '五年级', '9班', 1, NULL, 22, '273.0', '91.00%');
+INSERT INTO `exam_grade_statistic` VALUES (00000000000000000124, 50, 49, 23, '98.00%', '46.00%', '88.19', '五年级', '1班', 2, NULL, 22, '13229.0', '88.19%');
+INSERT INTO `exam_grade_statistic` VALUES (00000000000000000125, 49, 46, 22, '93.88%', '44.90%', '87.97', '五年级', '2班', 4, NULL, 22, '12931.0', '87.97%');
+INSERT INTO `exam_grade_statistic` VALUES (00000000000000000126, 49, 45, 20, '91.84%', '40.82%', '84.86', '五年级', '3班', 7, NULL, 22, '12474.0', '84.86%');
+INSERT INTO `exam_grade_statistic` VALUES (00000000000000000127, 48, 43, 16, '89.58%', '33.33%', '83.17', '五年级', '4班', 8, NULL, 22, '11977.0', '83.17%');
+INSERT INTO `exam_grade_statistic` VALUES (00000000000000000128, 49, 46, 16, '93.88%', '32.65%', '88.07', '五年级', '5班', 3, NULL, 22, '12947.0', '88.07%');
+INSERT INTO `exam_grade_statistic` VALUES (00000000000000000129, 50, 46, 24, '92.00%', '48.00%', '87.76', '五年级', '6班', 5, NULL, 22, '13164.0', '87.76%');
+INSERT INTO `exam_grade_statistic` VALUES (00000000000000000130, 48, 42, 13, '87.50%', '27.08%', '87.24', '五年级', '7班', 6, NULL, 22, '12562.0', '87.24%');
 
 -- ----------------------------
 -- Table structure for exam_grade_summary
@@ -184,17 +184,17 @@ CREATE TABLE `exam_grade_summary`  (
   `grade_unqualified_numbers` int(11) NULL DEFAULT NULL COMMENT '不及格人数',
   `exam_id` bigint(20) NULL DEFAULT NULL COMMENT '考试ID',
   PRIMARY KEY (`exam_grade_summary_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '年级总体情况' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '年级总体情况' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam_grade_summary
 -- ----------------------------
-INSERT INTO `exam_grade_summary` VALUES (00000000000000000021, '四年级', '语文', 345, '28387.0', '82.28', '93.91%', '57.68%', 21, 22);
-INSERT INTO `exam_grade_summary` VALUES (00000000000000000022, '四年级', '数学', 344, '29353.0', '85.33', '94.77%', '50.00%', 18, 22);
-INSERT INTO `exam_grade_summary` VALUES (00000000000000000023, '四年级', '英语', 344, '31544.0', '91.70', '97.97%', '77.03%', 7, 22);
-INSERT INTO `exam_grade_summary` VALUES (00000000000000000024, '五年级', '语文', 346, '28472.0', '82.29', '93.93%', '57.80%', 21, 22);
-INSERT INTO `exam_grade_summary` VALUES (00000000000000000025, '五年级', '数学', 345, '29443.0', '85.34', '94.78%', '50.14%', 18, 22);
-INSERT INTO `exam_grade_summary` VALUES (00000000000000000026, '五年级', '英语', 345, '31642.0', '91.72', '97.97%', '77.10%', 7, 22);
+INSERT INTO `exam_grade_summary` VALUES (00000000000000000027, '四年级', '语文', 345, '28387.0', '82.28', '93.91%', '57.68%', 21, 22);
+INSERT INTO `exam_grade_summary` VALUES (00000000000000000028, '四年级', '数学', 344, '29353.0', '85.33', '94.77%', '50.00%', 18, 22);
+INSERT INTO `exam_grade_summary` VALUES (00000000000000000029, '四年级', '英语', 344, '31544.0', '91.70', '97.97%', '77.03%', 7, 22);
+INSERT INTO `exam_grade_summary` VALUES (00000000000000000030, '五年级', '语文', 346, '28472.0', '82.29', '93.93%', '57.80%', 21, 22);
+INSERT INTO `exam_grade_summary` VALUES (00000000000000000031, '五年级', '数学', 345, '29443.0', '85.34', '94.78%', '50.14%', 18, 22);
+INSERT INTO `exam_grade_summary` VALUES (00000000000000000032, '五年级', '英语', 345, '31642.0', '91.72', '97.97%', '77.10%', 7, 22);
 
 -- ----------------------------
 -- Table structure for exam_muitiple_calculation
@@ -212,7 +212,7 @@ CREATE TABLE `exam_muitiple_calculation`  (
 -- Records of exam_muitiple_calculation
 -- ----------------------------
 INSERT INTO `exam_muitiple_calculation` VALUES (1, 40, 30, 30);
-INSERT INTO `exam_muitiple_calculation` VALUES (2, 30, 40, 30);
+INSERT INTO `exam_muitiple_calculation` VALUES (2, 40, 30, 30);
 
 -- ----------------------------
 -- Table structure for exam_student_scores
@@ -933,6 +933,21 @@ INSERT INTO `exam_student_scores` VALUES (00000000000000001036, '五年级', '7�
 INSERT INTO `exam_student_scores` VALUES (00000000000000001043, '五年级', '1班', '50101', 85.0, 90.0, 98.0, NULL, '2023-04-20 19:31:38', 'admin', '2023-04-22 09:31:30', 'admin', 22);
 
 -- ----------------------------
+-- Table structure for exam_sys_title_name
+-- ----------------------------
+DROP TABLE IF EXISTS `exam_sys_title_name`;
+CREATE TABLE `exam_sys_title_name`  (
+  `id` tinyint(1) NOT NULL,
+  `title_name` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '网站标题' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of exam_sys_title_name
+-- ----------------------------
+INSERT INTO `exam_sys_title_name` VALUES (1, '爱家小学成绩管理系统');
+
+-- ----------------------------
 -- Table structure for exams
 -- ----------------------------
 DROP TABLE IF EXISTS `exams`;
@@ -948,7 +963,7 @@ CREATE TABLE `exams`  (
 -- ----------------------------
 -- Records of exams
 -- ----------------------------
-INSERT INTO `exams` VALUES (00000000000000000022, '202303', '2023-04-04 19:18:59', 'admin', '0');
+INSERT INTO `exams` VALUES (00000000000000000022, '202303', '2023-04-04 19:18:59', 'admin', '1');
 
 -- ----------------------------
 -- Table structure for gen_table
@@ -1512,22 +1527,11 @@ CREATE TABLE `sys_logininfor`  (
   PRIMARY KEY (`info_id`) USING BTREE,
   INDEX `idx_sys_logininfor_s`(`status`) USING BTREE,
   INDEX `idx_sys_logininfor_lt`(`login_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_logininfor
 -- ----------------------------
-INSERT INTO `sys_logininfor` VALUES (1, 'admin', '127.0.0.1', '内网IP', 'Chrome 11', 'Windows 10', '0', '登录成功', '2023-04-24 18:21:29');
-INSERT INTO `sys_logininfor` VALUES (2, 'admin', '127.0.0.1', '内网IP', 'Chrome 11', 'Windows 10', '1', '验证码已失效', '2023-04-24 19:08:49');
-INSERT INTO `sys_logininfor` VALUES (3, 'admin', '127.0.0.1', '内网IP', 'Chrome 11', 'Windows 10', '0', '登录成功', '2023-04-24 19:08:52');
-INSERT INTO `sys_logininfor` VALUES (4, 'admin', '127.0.0.1', '内网IP', 'Chrome 11', 'Windows 10', '0', '登录成功', '2023-04-24 19:34:02');
-INSERT INTO `sys_logininfor` VALUES (5, 'admin', '127.0.0.1', '内网IP', 'Chrome 11', 'Windows 10', '1', '验证码错误', '2023-04-24 20:12:03');
-INSERT INTO `sys_logininfor` VALUES (6, 'admin', '127.0.0.1', '内网IP', 'Chrome 11', 'Windows 10', '0', '登录成功', '2023-04-24 20:12:06');
-INSERT INTO `sys_logininfor` VALUES (7, 'admin', '127.0.0.1', '内网IP', 'Chrome 11', 'Windows 10', '0', '登录成功', '2023-04-25 17:59:33');
-INSERT INTO `sys_logininfor` VALUES (8, 'admin', '127.0.0.1', '内网IP', 'Chrome 11', 'Windows 10', '0', '登录成功', '2023-04-25 18:42:40');
-INSERT INTO `sys_logininfor` VALUES (9, 'hhb', '127.0.0.1', '内网IP', 'Chrome 11', 'Windows 10', '1', '登录用户：hhb 不存在', '2023-04-25 18:44:22');
-INSERT INTO `sys_logininfor` VALUES (10, 'hhb', '127.0.0.1', '内网IP', 'Chrome 11', 'Windows 10', '0', '登录成功', '2023-04-25 18:44:54');
-INSERT INTO `sys_logininfor` VALUES (11, 'admin', '127.0.0.1', '内网IP', 'Chrome 11', 'Windows 10', '0', '登录成功', '2023-04-25 20:03:07');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -1554,7 +1558,7 @@ CREATE TABLE `sys_menu`  (
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1202 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1203 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -1684,6 +1688,7 @@ INSERT INTO `sys_menu` VALUES (1198, '班级成绩统计情况导出', 1193, 5, 
 INSERT INTO `sys_menu` VALUES (1199, '学生分数导入', 1175, 6, '', NULL, NULL, 1, 0, 'F', '0', '0', 'scores:scores:import', '#', 'admin', '2023-04-04 19:26:37', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (1200, '综合分算法', 1062, 6, 'muitiple', 'scores/muitiple/index', NULL, 1, 0, 'C', '0', '0', 'scores:muitiple:list', '#', 'admin', '2023-04-25 18:48:02', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (1201, '修改综合分算法', 1200, 1, '', NULL, NULL, 1, 0, 'F', '0', '0', 'scores:muitiple:edit', '#', 'admin', '2023-04-25 20:12:36', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (1202, '网站名称', 1, 10, 'title', 'scores/title/index', NULL, 1, 0, 'C', '0', '0', 'scores:title:index', 'validCode', 'admin', '2023-04-26 20:01:54', 'admin', '2023-04-26 20:03:31', '');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -1734,41 +1739,11 @@ CREATE TABLE `sys_oper_log`  (
   INDEX `idx_sys_oper_log_bt`(`business_type`) USING BTREE,
   INDEX `idx_sys_oper_log_s`(`status`) USING BTREE,
   INDEX `idx_sys_oper_log_ot`(`oper_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_oper_log
 -- ----------------------------
-INSERT INTO `sys_oper_log` VALUES (1, '操作日志', 9, 'com.ruoyi.web.controller.monitor.SysOperlogController.clean()', 'DELETE', 1, 'admin', NULL, '/monitor/operlog/clean', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-04-24 17:58:01', 1311);
-INSERT INTO `sys_oper_log` VALUES (2, '登录日志', 9, 'com.ruoyi.web.controller.monitor.SysLogininforController.clean()', 'DELETE', 1, 'admin', NULL, '/monitor/logininfor/clean', '127.0.0.1', '内网IP', '{}', NULL, 1, '\r\n### Error updating database.  Cause: java.sql.SQLSyntaxErrorException: DROP command denied to user \'hysro\'@\'localhost\' for table \'sys_logininfor\'\r\n### The error may exist in file [D:\\busines\\ajxx-score\\ruoyi-system\\target\\classes\\mapper\\system\\SysLogininforMapper.xml]\r\n### The error may involve defaultParameterMap\r\n### The error occurred while setting parameters\r\n### SQL: truncate table sys_logininfor\r\n### Cause: java.sql.SQLSyntaxErrorException: DROP command denied to user \'hysro\'@\'localhost\' for table \'sys_logininfor\'\n; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: DROP command denied to user \'hysro\'@\'localhost\' for table \'sys_logininfor\'', '2023-04-24 17:58:05', 4);
-INSERT INTO `sys_oper_log` VALUES (3, '登录日志', 9, 'com.ruoyi.web.controller.monitor.SysLogininforController.clean()', 'DELETE', 1, 'admin', NULL, '/monitor/logininfor/clean', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-04-24 17:58:13', 1092);
-INSERT INTO `sys_oper_log` VALUES (4, '用户管理', 1, 'com.ruoyi.web.controller.system.SysUserController.add()', 'POST', 1, 'admin', NULL, '/system/user', '127.0.0.1', '内网IP', '{\"admin\":false,\"createBy\":\"admin\",\"nickName\":\"hhb\",\"params\":{},\"postIds\":[],\"roleIds\":[],\"status\":\"0\",\"userId\":2,\"userName\":\"hhb\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-04-25 18:44:38', 158);
-INSERT INTO `sys_oper_log` VALUES (5, '用户管理', 2, 'com.ruoyi.web.controller.system.SysUserController.edit()', 'PUT', 1, 'admin', NULL, '/system/user', '127.0.0.1', '内网IP', '{\"admin\":false,\"avatar\":\"\",\"createBy\":\"admin\",\"createTime\":\"2023-04-25 18:44:38\",\"delFlag\":\"0\",\"email\":\"\",\"loginIp\":\"\",\"nickName\":\"hhb\",\"params\":{},\"phonenumber\":\"\",\"postIds\":[],\"roleIds\":[3],\"roles\":[],\"sex\":\"0\",\"status\":\"0\",\"updateBy\":\"admin\",\"userId\":2,\"userName\":\"hhb\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-04-25 18:44:48', 409);
-INSERT INTO `sys_oper_log` VALUES (6, '角色管理', 2, 'com.ruoyi.web.controller.system.SysRoleController.edit()', 'PUT', 1, 'admin', NULL, '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2023-03-28 20:25:20\",\"dataScope\":\"1\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[1061,1163,1164,1165,1166,1167,1168,1062,1169,1170,1171,1172,1173,1174,1175,1176,1177,1178,1179,1180,1199,1181,1182,1183,1184,1185,1186,1187,1188,1189,1190,1191,1192,1193,1194,1195,1196,1197,1198,1,100,1000,1001,1002,1003,1004,1005,1006,101,1007,1008,1009,1010,1011,102,1012,1013,1014,1015,103,1016,1017,1018,1019,104,1020,1021,1022,1023,1024,105,1025,1026,1027,1028,1029,106,1030,1031,1032,1033,1034,107,1035,1036,1037,1038,108,500,1039,1040,1041,501,1042,1043,1044,1045,2,109,1046,1047,1048,110,1049,1050,1051,1052,1053,1054,111,112,113,114],\"params\":{},\"roleId\":3,\"roleKey\":\"premier\",\"roleName\":\"管理员\",\"roleSort\":2,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-04-25 18:45:47', 51);
-INSERT INTO `sys_oper_log` VALUES (7, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'hhb', NULL, '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"scores/scores/index\",\"createTime\":\"2023-04-04 18:21:00\",\"icon\":\"#\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":1175,\"menuName\":\"学生分数情况\",\"menuType\":\"C\",\"orderNum\":2,\"params\":{},\"parentId\":1062,\"path\":\"scores\",\"perms\":\"scores:scores:list\",\"status\":\"0\",\"updateBy\":\"hhb\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-04-25 18:46:26', 38);
-INSERT INTO `sys_oper_log` VALUES (8, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'hhb', NULL, '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"scores/summary/index\",\"createTime\":\"2023-04-04 18:22:45\",\"icon\":\"#\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":1181,\"menuName\":\"年级总体情况\",\"menuType\":\"C\",\"orderNum\":3,\"params\":{},\"parentId\":1062,\"path\":\"summary\",\"perms\":\"scores:summary:list\",\"status\":\"0\",\"updateBy\":\"hhb\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-04-25 18:46:35', 14);
-INSERT INTO `sys_oper_log` VALUES (9, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'hhb', NULL, '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"scores/statistic/index\",\"createTime\":\"2023-04-04 18:24:37\",\"icon\":\"#\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":1187,\"menuName\":\"年级数据统计情况\",\"menuType\":\"C\",\"orderNum\":4,\"params\":{},\"parentId\":1062,\"path\":\"statistic\",\"perms\":\"scores:statistic:list\",\"status\":\"0\",\"updateBy\":\"hhb\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-04-25 18:46:43', 196);
-INSERT INTO `sys_oper_log` VALUES (10, '菜单管理', 2, 'com.ruoyi.web.controller.system.SysMenuController.edit()', 'PUT', 1, 'hhb', NULL, '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"scores/statictics/index\",\"createTime\":\"2023-04-04 18:26:28\",\"icon\":\"#\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":1193,\"menuName\":\"班级成绩统计情况\",\"menuType\":\"C\",\"orderNum\":5,\"params\":{},\"parentId\":1062,\"path\":\"statictics\",\"perms\":\"scores:statictics:list\",\"status\":\"0\",\"updateBy\":\"hhb\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-04-25 18:46:48', 20);
-INSERT INTO `sys_oper_log` VALUES (11, '菜单管理', 1, 'com.ruoyi.web.controller.system.SysMenuController.add()', 'POST', 1, 'admin', NULL, '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"component\":\"scores/muitiple/index\",\"createBy\":\"admin\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuName\":\"综合分算法\",\"menuType\":\"C\",\"orderNum\":6,\"params\":{},\"parentId\":1062,\"path\":\"muitiple\",\"perms\":\"scores:muitiple:list\",\"status\":\"0\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-04-25 18:48:03', 301);
-INSERT INTO `sys_oper_log` VALUES (12, '菜单管理', 1, 'com.ruoyi.web.controller.system.SysMenuController.add()', 'POST', 1, 'admin', NULL, '/system/menu', '127.0.0.1', '内网IP', '{\"children\":[],\"createBy\":\"admin\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuName\":\"修改综合分算法\",\"menuType\":\"F\",\"orderNum\":1,\"params\":{},\"parentId\":1200,\"perms\":\"scores:muitiple:edit\",\"status\":\"0\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2023-04-25 20:12:36', 15);
-INSERT INTO `sys_oper_log` VALUES (13, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":20,\"excellent\":50,\"id\":1,\"params\":{},\"qualified\":30}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:02:08', 1148);
-INSERT INTO `sys_oper_log` VALUES (14, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":20,\"excellent\":60,\"id\":1,\"params\":{},\"qualified\":20}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:09:22', 38);
-INSERT INTO `sys_oper_log` VALUES (15, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":20,\"excellent\":60,\"id\":1,\"params\":{},\"qualified\":20}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:28:59', 18);
-INSERT INTO `sys_oper_log` VALUES (16, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":20,\"excellent\":60,\"id\":1,\"params\":{},\"qualified\":20}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:32:23', 18);
-INSERT INTO `sys_oper_log` VALUES (17, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":20,\"excellent\":60,\"id\":1,\"params\":{},\"qualified\":20}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:40:12', 40);
-INSERT INTO `sys_oper_log` VALUES (18, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":20,\"excellent\":60,\"id\":1,\"params\":{},\"qualified\":20}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:40:15', 10);
-INSERT INTO `sys_oper_log` VALUES (19, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":20,\"excellent\":60,\"id\":1,\"params\":{},\"qualified\":20}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:44:34', 33);
-INSERT INTO `sys_oper_log` VALUES (20, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":20,\"excellent\":60,\"id\":1,\"params\":{},\"qualified\":20}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:45:30', 536);
-INSERT INTO `sys_oper_log` VALUES (21, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":20,\"excellent\":60,\"id\":1,\"params\":{},\"qualified\":20}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:45:32', 178);
-INSERT INTO `sys_oper_log` VALUES (22, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":20,\"excellent\":60,\"id\":1,\"params\":{},\"qualified\":20}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:45:49', 283);
-INSERT INTO `sys_oper_log` VALUES (23, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":20,\"excellent\":60,\"id\":1,\"params\":{},\"qualified\":20}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:45:53', 12);
-INSERT INTO `sys_oper_log` VALUES (24, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":40,\"excellent\":30,\"id\":1,\"params\":{},\"qualified\":30}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:49:46', 505);
-INSERT INTO `sys_oper_log` VALUES (25, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":30,\"excellent\":40,\"id\":1,\"params\":{},\"qualified\":30}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:50:50', 302);
-INSERT INTO `sys_oper_log` VALUES (26, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":30,\"excellent\":40,\"id\":1,\"params\":{},\"qualified\":30}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:50:59', 13);
-INSERT INTO `sys_oper_log` VALUES (27, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":40,\"excellent\":30,\"id\":1,\"params\":{},\"qualified\":30}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:53:46', 29);
-INSERT INTO `sys_oper_log` VALUES (28, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":30,\"excellent\":40,\"id\":1,\"params\":{},\"qualified\":30}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:54:40', 1847);
-INSERT INTO `sys_oper_log` VALUES (29, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":30,\"excellent\":40,\"id\":1,\"params\":{},\"qualified\":30}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:54:48', 500);
-INSERT INTO `sys_oper_log` VALUES (30, '综合分算法', 2, 'com.hysro.scores.controller.ExamMuitipleCalculationController.edit()', 'PUT', 1, 'admin', NULL, '/scores/muitiple', '127.0.0.1', '内网IP', '{\"average\":30,\"excellent\":30,\"id\":2,\"params\":{},\"qualified\":40}', '{\"msg\":\"操作成功\",\"code\":200,\"data\":1}', 0, NULL, '2023-04-25 21:56:06', 52);
 
 -- ----------------------------
 -- Table structure for sys_post
@@ -2006,7 +1981,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 100, 'admin', '若依', '00', 'ry@163.com', '15888888888', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2023-04-25 20:03:08', 'admin', '2023-03-18 18:56:46', '', '2023-04-25 20:03:07', '管理员');
+INSERT INTO `sys_user` VALUES (1, 100, 'admin', '若依', '00', 'ry@163.com', '15888888888', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2023-04-26 21:53:26', 'admin', '2023-03-18 18:56:46', '', '2023-04-26 21:53:25', '管理员');
 INSERT INTO `sys_user` VALUES (2, NULL, 'hhb', 'hhb', '00', '', '', '0', '', '$2a$10$esIn8AM8ANmEw6f7Ipo7d.w1B7ObEJqvaHrHT3mmKX7C9sIcCRpJi', '0', '0', '127.0.0.1', '2023-04-25 18:44:55', 'admin', '2023-04-25 18:44:38', 'admin', '2023-04-25 18:44:54', NULL);
 
 -- ----------------------------

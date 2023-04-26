@@ -34,6 +34,8 @@ public class ExamsServiceImpl implements IExamsService
     private ExamGradeStatisticMapper gradeStatisticMapper;
     @Autowired
     private ExamGradeSummaryMapper gradeSummaryMapper;
+    @Autowired
+    private ExamMuitipleCalculationMapper muitipleCalculationMapper;
 
     /**
      * 查询各种考试
@@ -228,6 +230,10 @@ public class ExamsServiceImpl implements IExamsService
         examClassStatictics.setExcellentLine(examExcellentScoreLine.getExcellentScore());
         examClassStatictics.setSubjectName(subjectName);
         examClassStatictics.setSubject(subject);
+        ExamMuitipleCalculation examMuitipleCalculation = muitipleCalculationMapper.getExamMuitipleCalculationById(1);
+        examClassStatictics.setExcellentAgent(String.valueOf(examMuitipleCalculation.getExcellent() * 0.01));
+        examClassStatictics.setQualifiedAgent(String.valueOf(examMuitipleCalculation.getQualified() * 0.01));
+        examClassStatictics.setAverageAgent(String.valueOf(examMuitipleCalculation.getAverage() * 0.01));
         //获取对应的记录
         examClassStatictics = classStaticticsMapper.calculateClassStatistics(examClassStatictics);
         examClassStatictics.setSubject(subject);
@@ -260,6 +266,10 @@ public class ExamsServiceImpl implements IExamsService
         examGradeStatistic.setExcellentLineChinese(chineseScore);
         Long mathScore = this.getExcellentScoreLineByGradeSubject(grade,"数学");
         examGradeStatistic.setExcellentLineMath(mathScore);
+        ExamMuitipleCalculation examMuitipleCalculation = muitipleCalculationMapper.getExamMuitipleCalculationById(2);
+        examGradeStatistic.setExcellentAgent(String.valueOf(examMuitipleCalculation.getExcellent() * 0.01));
+        examGradeStatistic.setQualifiedAgent(String.valueOf(examMuitipleCalculation.getQualified() * 0.01));
+        examGradeStatistic.setAverageAgent(String.valueOf(examMuitipleCalculation.getAverage() * 0.01));
         if (!"一年级".equals(grade) && !"二年级".equals(grade)){
             Long englishScore = this.getExcellentScoreLineByGradeSubject(grade,"英语");
             examGradeStatistic.setExcellentLineEnglish(englishScore);
@@ -269,9 +279,7 @@ public class ExamsServiceImpl implements IExamsService
             //得出双优
             examGradeStatistic = gradeStatisticMapper.calculateExamGradeStatisticTwoGrade(examGradeStatistic);
         }
-
         ExamGradeStatistic egs = gradeStatisticMapper.selectExamGradeStatistic(examGradeStatistic);
-
         if (null == egs){
             gradeStatisticMapper.insertExamGradeStatistic(examGradeStatistic);
         }else {
