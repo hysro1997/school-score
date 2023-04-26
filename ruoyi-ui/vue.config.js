@@ -1,5 +1,4 @@
 'use strict'
-import Cookies from 'js-cookie'
 
 const path = require('path')
 
@@ -9,7 +8,7 @@ function resolve(dir) {
 
 const CompressionPlugin = require('compression-webpack-plugin')
 
-const name = localStorage.getItem("title")||process.env.VUE_APP_TITLE || '爱家小学成绩系统' // 网页标题
+const name = process.env.VUE_APP_TITLE || '爱家小学成绩系统' // 网页标题
 
 const port = process.env.port || process.env.npm_config_port || 80 // 端口
 
