@@ -1,5 +1,5 @@
 
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">RuoYi v3.8.5</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">爱家成绩管理系统 v1.1</h1>
 <h4 align="center">基于若依前后端分离的小学成绩管理系统</h4>
 <p align="center">
 	<a href="https://gitee.com/y_project/RuoYi-Vue/blob/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
@@ -7,26 +7,39 @@
 
 <p>常州地区最受欢迎的成绩管理系统，吹牛不打草稿</p>
 <p>给学校随便做着玩玩的，不一定适合其他学校用，基于若依框架做的，方便有需求进行二次开发</p>
-<p>分数录入、统计成绩数据（计算平均分、综合分、及格率、优秀率、三项及格率，三项优秀率、各个分数的人数统计，排名）</p>
+<p>分数录入、根据综合分算法比例来统计成绩数据（计算平均分、综合分、及格率、优秀率、三项及格率，三项优秀率、各个分数的人数统计，排名）</p>
 
 加群了解详情
 [![加入QQ群](https://img.shields.io/badge/未满-637914590-blue.svg)](https://jq.qq.com/?_wv=1027&k=3lofOeSF)
 
 # 页面展示
-* 首页，能显示考试的结果：包含平均分排名、综合分排名，前50名等数据
+* 首页，能显示考试的结果：包含平均分排名、综合分排名，年级中各学科前50名，总分前50名等数据
 * 其他页面可以点击数据进行筛选查询
 * 一键复制数据，方便粘贴到excel中
-<a href="https://imgse.com/i/p9Vuf3D"><img src="https://s1.ax1x.com/2023/04/22/p9Vuf3D.jpg" alt="p9Vuf3D.jpg" border="0"></a>
-<a href="https://imgse.com/i/p9Vuhge"><img src="https://s1.ax1x.com/2023/04/22/p9Vuhge.jpg" alt="p9Vuhge.jpg" border="0"></a>
-<a href="https://imgse.com/i/p9Vu4jH"><img src="https://s1.ax1x.com/2023/04/22/p9Vu4jH.jpg" alt="p9Vu4jH.jpg" border="0"></a>
-<a href="https://imgse.com/i/p9VuW9O"><img src="https://s1.ax1x.com/2023/04/22/p9VuW9O.jpg" alt="p9VuW9O.jpg" border="0"></a>
-<a href="https://imgse.com/i/p9Vu24K"><img src="https://s1.ax1x.com/2023/04/22/p9Vu24K.jpg" alt="p9Vu24K.jpg" border="0"></a>
-<a href="https://imgse.com/i/p9VuoDA"><img src="https://s1.ax1x.com/2023/04/22/p9VuoDA.jpg" alt="p9VuoDA.jpg" border="0"></a>
-<a href="https://imgse.com/i/p9VuIud"><img src="https://s1.ax1x.com/2023/04/22/p9VuIud.jpg" alt="p9VuIud.jpg" border="0"></a>
-<a href="https://imgse.com/i/p9VuTHI"><img src="https://s1.ax1x.com/2023/04/22/p9VuTHI.jpg" alt="p9VuTHI.jpg" border="0"></a>
+![p9QfvGT.jpg](https://s1.ax1x.com/2023/04/27/p9QfvGT.jpg)
+
+![p9QhCL9.jpg](https://s1.ax1x.com/2023/04/27/p9QhCL9.jpg)
+
+![p9Qh9sJ.jpg](https://s1.ax1x.com/2023/04/27/p9Qh9sJ.jpg)
+
+![p9QhkIx.jpg](https://s1.ax1x.com/2023/04/27/p9QhkIx.jpg)
+
+![p9QhEi6.jpg](https://s1.ax1x.com/2023/04/27/p9QhEi6.jpg)
+
+![p9QfzzF.jpg](https://s1.ax1x.com/2023/04/27/p9QfzzF.jpg)
+
+![p9QfjiV.jpg](https://s1.ax1x.com/2023/04/27/p9QfjiV.jpg)
+
+![p9QhpM4.jpg](https://s1.ax1x.com/2023/04/27/p9QhpM4.jpg)
+
+![p9QfxRU.jpg](https://s1.ax1x.com/2023/04/27/p9QfxRU.jpg)
+
+![p9QhiZR.jpg](https://s1.ax1x.com/2023/04/27/p9QhiZR.jpg)
+
+![p9QhFd1.jpg](https://s1.ax1x.com/2023/04/27/p9QhFd1.jpg)
 
 ## 二次开发流程
-    1、建议一定要二次开发，页面的名称是写死在程序里的，git clone到本地后，全局搜索 小学 并修改名称
+    1、建议一定要二次开发，git clone到本地后，网页title可以在系统管理中重新设置
     2、二次开发前的准备 mysql 5.7，redis，jdk 1.8，开发工具：eclipse或者IntelliJ IDEA，安装npm
     3、创建数据库，并导入sql文件夹下的ajxx-score.sql
     4、配置ruoyi-admin包下的application-druid.yml下数据库链接地址，修改数据库名称、数据库用户名、密码
@@ -42,6 +55,7 @@
         运行build:prod 打包前端页面
 
 ## 平台简介
+爱家成绩管理系统毫无保留给个人及企业免费使用。
 
 若依是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
 

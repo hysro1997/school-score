@@ -160,43 +160,43 @@
     <!-- 查看名单 -->
     <el-dialog :title="studentList.title" width="1000px" :visible.sync="studentList.open" :close-on-click-modal="false" append-to-body>
       <el-row :gutter="2" style="font-size: 24px;">
-        <el-col :span="6">语文&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(1)">复制语文名单</el-button></el-col>
-        <el-col :span="6">数学&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(2)">复制数学名单</el-button></el-col>
-        <el-col :span="6">英语&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(3)">复制英语名单</el-button></el-col>
-        <el-col :span="6">总分&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(4)">复制总分名单</el-button></el-col>
+        <el-col v-show="0 < Object.keys(studentsChinese).length" :span="6">语文&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(1)">复制语文名单</el-button></el-col>
+        <el-col v-show="0 < Object.keys(studentsMaths).length" :span="6">数学&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(2)">复制数学名单</el-button></el-col>
+        <el-col v-show="0 < Object.keys(studentsEnglish).length" :span="6">英语&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(3)">复制英语名单</el-button></el-col>
+        <el-col v-show="0 < Object.keys(studentsTotalPoints).length" :span="6">总分&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(4)">复制总分名单</el-button></el-col>
       </el-row>
       <el-row :gutter="2" style="font-size: 18px;">
-        <el-col :span="6"><div><el-row :gutter="20" style="font-size: 24px;">
+        <el-col v-show="0 < Object.keys(studentsChinese).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;">
           <el-col :span="12">考号</el-col>
           <el-col :span="12">得分</el-col>
         </el-row></div></el-col>
-        <el-col :span="6"><div><el-row :gutter="20" style="font-size: 24px;">
+        <el-col v-show="0 < Object.keys(studentsMaths).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;">
           <el-col :span="12">考号</el-col>
           <el-col :span="12">得分</el-col>
         </el-row></div></el-col>
-        <el-col :span="6"><div><el-row :gutter="20" style="font-size: 24px;">
+        <el-col v-show="0 < Object.keys(studentsEnglish).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;">
           <el-col :span="12">考号</el-col>
           <el-col :span="12">得分</el-col>
         </el-row></div></el-col>
-        <el-col :span="6"><div><el-row :gutter="20" style="font-size: 24px;">
+        <el-col v-show="0 < Object.keys(studentsTotalPoints).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;">
           <el-col :span="12">考号</el-col>
           <el-col :span="12">得分</el-col>
         </el-row></div></el-col>
       </el-row>
       <el-row :gutter="2" style="font-size: 18px;">
-        <el-col :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsChinese" :key="index">
+        <el-col v-if="0 < Object.keys(studentsChinese).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsChinese" :key="index">
           <el-col :span="12">{{item.exam_number}}</el-col>
           <el-col :span="12">{{item.score}}</el-col>
         </el-row></div></el-col>
-        <el-col :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsMaths" :key="index">
+        <el-col v-if="0 < Object.keys(studentsMaths).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsMaths" :key="index">
           <el-col :span="12">{{item.exam_number}}</el-col>
           <el-col :span="12">{{item.score}}</el-col>
         </el-row></div></el-col>
-        <el-col :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsEnglish" :key="index">
+        <el-col v-if="0 < Object.keys(studentsEnglish).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsEnglish" :key="index">
           <el-col :span="12">{{item.exam_number}}</el-col>
           <el-col :span="12">{{item.score}}</el-col>
         </el-row></div></el-col>
-        <el-col :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsTotalPoints" :key="index">
+        <el-col v-if="0 < Object.keys(studentsTotalPoints).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsTotalPoints" :key="index">
           <el-col :span="12">
             <el-popover
               placement="left"

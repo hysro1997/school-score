@@ -26,17 +26,17 @@
       <p>年级学科数据中的综合分算法：</p>
       <el-form ref="classesForm2" :model="classesFormData2" :rules="classesFormRules2" size="medium"
                label-width="100px" label-position="left">
-        <el-form-item label-width="80px" label="优秀率" prop="excellentPercentage" required>
+        <el-form-item label-width="80px" label="三优秀率" prop="excellentPercentage" required>
           <el-input :disabled="formTwoEditEnable" v-model="classesFormData2.excellentPercentage" @input="classesFormData2.excellentPercentage = classesFormData2.excellentPercentage.replace(/[^\d]/g,'')" @change="classesFormDataChange($event,'classesForm2',1)"></el-input>当前优秀率计算比例：{{ classesFormData2.excellentPercentage }} %
         </el-form-item>
-        <el-form-item label-width="80px" label="及格率" prop="qualifiedPercentage" required>
+        <el-form-item label-width="80px" label="三及格率" prop="qualifiedPercentage" required>
           <el-input :disabled="formTwoEditEnable" v-model="classesFormData2.qualifiedPercentage" @input="classesFormData2.qualifiedPercentage = classesFormData2.qualifiedPercentage.replace(/[^\d]/g,'')" @change="classesFormDataChange($event,'classesForm2',2)"></el-input>当前及格率计算比例：{{ classesFormData2.qualifiedPercentage }} %
         </el-form-item>
-        <el-form-item label-width="80px" label="平均分" prop="averageScore" required>
+        <el-form-item label-width="80px" label="得分率" prop="averageScore" required>
           <el-input :disabled="formTwoEditEnable" v-model="classesFormData2.averageScore" @input="classesFormData2.averageScore = classesFormData2.averageScore.replace(/[^\d]/g,'')" @change="classesFormDataChange($event,'classesForm2',3)"></el-input>当前平均分计算比例：{{ classesFormData2.averageScore }} %
         </el-form-item>
         <el-form-item size="large">
-          <p>当前综合分算法为：优秀率 × {{ classesFormData2.excellentPercentage }} % + 及格率 × {{ classesFormData2.qualifiedPercentage }} % + 平均分 × {{ classesFormData2.averageScore }} %</p>
+          <p>当前综合分算法为：三优秀率 × {{ classesFormData2.excellentPercentage }} % + 三及格率 × {{ classesFormData2.qualifiedPercentage }} % + 得分率 × {{ classesFormData2.averageScore }} %</p>
           <p>算法总比例：<el-tag v-if="formTwoSum !== 100" type="danger">{{ formTwoSum }} %</el-tag><el-tag v-else type="success">{{ formTwoSum }} %</el-tag></p>
           <el-button :disabled="formTwoEditEnable" type="primary" @click="submitForm('classesForm2')"  v-hasPermi="['scores:muitiple:edit']">提交</el-button>
           <el-button @click="editEnable(2,1)" v-hasPermi="['scores:muitiple:edit']">{{formTwoEdition}}</el-button>
