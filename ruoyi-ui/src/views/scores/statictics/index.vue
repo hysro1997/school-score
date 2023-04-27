@@ -227,6 +227,8 @@
     </el-dialog>
     <!-- 查看名单 -->
     <el-dialog :title="studentList.title" width="600px" :visible.sync="studentList.open" :close-on-click-modal="false" append-to-body>
+      <el-button type="primary" @click="clipboardHandler2(1)">复制名单（含得分）</el-button>
+      <br/><br/>
       <el-row :gutter="20" style="font-size: 24px;">
         <el-col style="margin:5px" :span="4">考号</el-col>
         <el-col style="margin:5px" :span="4">得分</el-col>
@@ -235,9 +237,6 @@
         <el-col style="margin:5px;" :span="4">{{item.exam_number}}</el-col>
         <el-col style="margin:5px" :span="4">{{item.score}}</el-col>
       </el-row>
-      <br/><br/>
-      <el-button type="primary" @click="clipboardHandler2(1)">复制名单（含得分）</el-button>
-      &nbsp;&nbsp;&nbsp;&nbsp;
       <!-- el-button type="success" @click="clipboardHandler2(0)">复制考号名单</el-button -->
     </el-dialog>
   </div>

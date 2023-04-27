@@ -52,6 +52,10 @@ public class ExamStudentScores extends BaseEntity
     @Excel(name = "英语分数")
     private BigDecimal englishScore;
 
+    /** 英语分数 */
+    @Excel(name = "总分", type = Excel.Type.EXPORT)
+    private BigDecimal totalPoints;
+
     /** 科学分数 */
     //@Excel(name = "科学分数")
     //private BigDecimal scienceScore;
@@ -72,6 +76,14 @@ public class ExamStudentScores extends BaseEntity
     private Integer underLine;
     @JSONField(serialize = false)
     private Integer upLine;
+
+    public BigDecimal getTotalPoints() {
+        return totalPoints;
+    }
+
+    public void setTotalPoints(BigDecimal totalPoints) {
+        this.totalPoints = totalPoints;
+    }
 
     public Integer getUnderLine() {
         return underLine;

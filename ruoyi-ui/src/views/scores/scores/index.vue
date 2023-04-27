@@ -123,6 +123,7 @@
       <el-table-column label="数学分数" align="center" prop="mathsScore" />
       <el-table-column label="英语分数" align="center" prop="englishScore" />
       <el-table-column label="考试号" align="center" prop="examNumber" />
+      <el-table-column label="总分" align="center" prop="totalPoints" />
       <el-table-column label="录入者" align="center" prop="createBy" />
       <el-table-column label="考试名称" align="center" prop="exams.examName" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -150,7 +151,7 @@
       :total="total"
       :page.sync="queryParams.pageNum"
       :limit.sync="queryParams.pageSize"
-      :page-sizes="[10,20,30,50,100,200,500]"
+      :page-sizes="[10,20,30,50,100,200,500,1000]"
       @pagination="getList"
     />
 
@@ -385,7 +386,8 @@
         createBy: null,
         updateTime: null,
         updateBy: null,
-        examId: null
+        examId: null,
+        totalPoints: null
       };
       this.resetForm("form");
     },

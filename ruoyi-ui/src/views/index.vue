@@ -158,43 +158,61 @@
     </el-row>
     </div>
     <!-- 查看名单 -->
-    <el-dialog :title="studentList.title" width="800px" :visible.sync="studentList.open" :close-on-click-modal="false" append-to-body>
+    <el-dialog :title="studentList.title" width="1000px" :visible.sync="studentList.open" :close-on-click-modal="false" append-to-body>
       <el-row :gutter="2" style="font-size: 24px;">
-        <el-col style="margin:5px" :span="7">语文&nbsp;&nbsp;<el-button type="primary" @click="clipboardHandler(1)">复制语文名单</el-button></el-col>
-        <el-col style="margin:5px" :span="7">数学&nbsp;&nbsp;<el-button type="primary" @click="clipboardHandler(2)">复制数学名单</el-button></el-col>
-        <el-col style="margin:5px" :span="7">英语&nbsp;&nbsp;<el-button type="primary" @click="clipboardHandler(3)">复制英语名单</el-button></el-col>
+        <el-col :span="6">语文&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(1)">复制语文名单</el-button></el-col>
+        <el-col :span="6">数学&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(2)">复制数学名单</el-button></el-col>
+        <el-col :span="6">英语&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(3)">复制英语名单</el-button></el-col>
+        <el-col :span="6">总分&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(4)">复制总分名单</el-button></el-col>
       </el-row>
       <el-row :gutter="2" style="font-size: 18px;">
-        <el-col :span="8"><div><el-row :gutter="20" style="font-size: 24px;">
+        <el-col :span="6"><div><el-row :gutter="20" style="font-size: 24px;">
           <el-col :span="12">考号</el-col>
           <el-col :span="12">得分</el-col>
         </el-row></div></el-col>
-        <el-col style="margin:5px" :span="7"><div><el-row :gutter="20" style="font-size: 24px;">
+        <el-col :span="6"><div><el-row :gutter="20" style="font-size: 24px;">
           <el-col :span="12">考号</el-col>
           <el-col :span="12">得分</el-col>
         </el-row></div></el-col>
-        <el-col style="margin:5px" :span="7"><div><el-row :gutter="20" style="font-size: 24px;">
+        <el-col :span="6"><div><el-row :gutter="20" style="font-size: 24px;">
+          <el-col :span="12">考号</el-col>
+          <el-col :span="12">得分</el-col>
+        </el-row></div></el-col>
+        <el-col :span="6"><div><el-row :gutter="20" style="font-size: 24px;">
           <el-col :span="12">考号</el-col>
           <el-col :span="12">得分</el-col>
         </el-row></div></el-col>
       </el-row>
       <el-row :gutter="2" style="font-size: 18px;">
-        <el-col :span="8"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsChinese" :key="index">
+        <el-col :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsChinese" :key="index">
           <el-col :span="12">{{item.exam_number}}</el-col>
           <el-col :span="12">{{item.score}}</el-col>
         </el-row></div></el-col>
-        <el-col style="margin:5px" :span="7"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsMaths" :key="index">
+        <el-col :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsMaths" :key="index">
           <el-col :span="12">{{item.exam_number}}</el-col>
           <el-col :span="12">{{item.score}}</el-col>
         </el-row></div></el-col>
-        <el-col style="margin:5px" :span="7"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsEnglish" :key="index">
+        <el-col :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsEnglish" :key="index">
           <el-col :span="12">{{item.exam_number}}</el-col>
+          <el-col :span="12">{{item.score}}</el-col>
+        </el-row></div></el-col>
+        <el-col :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsTotalPoints" :key="index">
+          <el-col :span="12">
+            <el-popover
+              placement="left"
+              :title="item.exam_number + '的详细信息'"
+              width="200"
+              trigger="click">
+              <p class="tipck">语文成绩：{{studentScore.chineseScore}}</p>
+              <p class="tipck">数学成绩：{{studentScore.mathsScore}}</p>
+              <p class="tipck">英语成绩：{{studentScore.englishScore}}</p>
+              <p class="tipck">总分成绩：{{studentScore.totalPoints}}</p>
+              <el-button slot="reference" style="font-size: 24px;" type="text" v-on:click="getStudentScoreDetail(item.exam_number)">{{item.exam_number}}</el-button>
+            </el-popover>
+            </el-col>
           <el-col :span="12">{{item.score}}</el-col>
         </el-row></div></el-col>
       </el-row>
-
-
-
     </el-dialog>
     <el-drawer
       title="我是标题"
@@ -266,12 +284,10 @@
   import { getStaticticsclass } from "@/api/scores/infoForEcharts"
   import * as echarts from 'echarts';
   import { allExams } from '@/api/examination/exams'
-  import { getScoresFifty } from '@/api/scores/scores'
+  import { getScoresFifty,getTotalPointsFifty,listScores } from '@/api/scores/scores'
   import { listSummary } from '@/api/scores/summary'
   import { listStatistic } from '@/api/scores/statistic'
   import { listStatictics, getAverage } from '@/api/scores/statictics'
-  import { listTitle } from '@/api/scores/titleName'
-  import Cookies from 'js-cookie'
 
 export default {
   name: "Index",
@@ -315,6 +331,7 @@ export default {
       studentsChinese: [],
       studentsMaths: [],
       studentsEnglish: [],
+      studentsTotalPoints: [],
       grade1:{
           chinese: {
             firstAverage: '',
@@ -407,6 +424,7 @@ export default {
             gap: ''
         },
       },
+      studentScore: '',
       titleName: localStorage.getItem("title") || "爱家小学管理系统"
     };
   },
@@ -418,6 +436,16 @@ export default {
     this.initEchartsInfo();
   },
   methods: {
+    getStudentScoreDetail(examNumber){
+      this.studentScore = {};
+      let param = {
+        examId: this.examId,
+        examNumber: examNumber
+      };
+      listScores(param).then(response => {
+        this.studentScore = response.rows[0];
+      });
+    },
     tableRowClassName({row, rowIndex}) {
       if (1 === rowIndex % 2) {
         return 'success-row';
@@ -456,7 +484,7 @@ export default {
             this.$modal.msgWarning("没有可供复制的内容");
             return;
           }
-          message.replace("级","级 语文");
+          message = message.replace("级","级 语文");
           message += "考号\t分数\n";
           this.studentsChinese.forEach(function(element){
             message += element.exam_number + "\t" + element.score + "\n";
@@ -472,7 +500,7 @@ export default {
             this.$modal.msgWarning("没有可供复制的内容");
             return;
           }
-          message.replace("级","级 数学");
+          message = message.replace("级","级 数学");
           message += "考号\t分数\n";
           this.studentsMaths.forEach(function(element){
             message += element.exam_number + "\t" + element.score + "\n";
@@ -488,9 +516,25 @@ export default {
             this.$modal.msgWarning("没有可供复制的内容");
             return;
           }
-          message.replace("级","级 英语");
+          message = message.replace("级","级 英语");
           message += "考号\t分数\n";
           this.studentsEnglish.forEach(function(element){
+            message += element.exam_number + "\t" + element.score + "\n";
+          });
+          this.$copyText(message).then(function (e) {
+            that.$modal.msgSuccess("复制成功");
+          }, function (e) {
+            that.$modal.msgError("复制出错了");
+          });
+          break;
+        case 4:
+          if (null === this.studentsTotalPoints || 0 === this.studentsTotalPoints.length){
+            this.$modal.msgWarning("没有可供复制的内容");
+            return;
+          }
+          message = message.replace("级","级 总分");
+          message += "考号\t分数\n";
+          this.studentsTotalPoints.forEach(function(element){
             message += element.exam_number + "\t" + element.score + "\n";
           });
           this.$copyText(message).then(function (e) {
@@ -508,7 +552,7 @@ export default {
       this.studentsChinese = [];
       this.studentsMaths = [];
       this.studentsEnglish = [];
-      this.studentList.title = grade + (orderType === '1' ? " 前 " : " 后 ") + " 50名的名单";
+      this.studentList.title = grade + (orderType === '1' ? " 前 " : " 后 ") + "50名的名单";
       let params = {
         grade: null,
         examId: null,
@@ -522,30 +566,48 @@ export default {
       getScoresFifty(params).then(response => {
         if (undefined === response.data || null === response.data || "" === response.data){
           this.$modal.msgWarning("查询到没有此项 语文 成绩");
+          this.studentsChinese = [];
+        } else {
+          this.studentsChinese = response.data;
+          this.studentList.open = true;
         }
-        this.studentsChinese = response.data;
-        this.studentList.open = true;
       });
       params.subject = "数学";
       getScoresFifty(params).then(response => {
         if (undefined === response.data || null === response.data || "" === response.data){
           this.$modal.msgWarning("查询到没有此项 数学 成绩");
+          this.studentsMaths = [];
+        } else {
+          this.studentsMaths = response.data;
+          this.studentList.open = true;
         }
-        this.studentsMaths = response.data;
-        this.studentList.open = true;
       });
-      if("一年级" === grade || "二年级" === grade){
-        return false;
-      } else {
+      if("一年级" !== grade && "二年级" !== grade){
         params.subject = "英语";
         getScoresFifty(params).then(response => {
           if (undefined === response.data || null === response.data || "" === response.data){
             this.$modal.msgWarning("查询到没有此项 英语 成绩");
+            this.studentsEnglish = [];
+          } else {
+            this.studentsEnglish = response.data;
+            this.studentList.open = true;
           }
-          this.studentsEnglish = response.data;
-          this.studentList.open = true;
         });
       }
+      let param = {
+        grade: grade,
+        examId: this.examId,
+        orderType: orderType
+      };
+      getTotalPointsFifty(param).then(response => {
+        if (undefined === response.data || null === response.data || "" === response.data){
+          this.$modal.msgWarning("查询到没有此项 学生总分 成绩");
+          this.studentsTotalPoints = [];
+        } else {
+          this.studentsTotalPoints = response.data;
+          this.studentList.open = true;
+        }
+      });
     },
     initExams(){
       allExams(this.examQueryParams).then(response => {

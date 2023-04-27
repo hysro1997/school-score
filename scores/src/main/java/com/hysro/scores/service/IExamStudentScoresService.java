@@ -78,9 +78,16 @@ public interface IExamStudentScoresService
      */
     public List<Map<String,String>> selectExamStudentScoresFifty(ExamStudentScores examStudentScores);
 
+    /**
+     * 获取总分的前后50名
+     *
+     * @param examStudentScores 年级、考试ID，排序方式
+     * @return 结果
+     */
+    public List<Map<String,String>> selectExamStudentScoresTotalPointsFifty(ExamStudentScores examStudentScores);
 
     /**
-     * 获取当前筛选条件下的前后50名
+     * 获取当前筛选条件下的人数
      *
      * @param examStudentScores 年级、班级、考试ID，学科，分数
      * @return 结果

@@ -1,5 +1,6 @@
 package com.hysro.scores.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -81,6 +82,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     {
         examStudentScores.setCreateTime(DateUtils.getNowDate());
         this.getGradeAndClassesByExamNumber(examStudentScores);
+        this.calculateTotalPoints(examStudentScores);
         return examStudentScoresMapper.insertExamStudentScores(examStudentScores);
     }
 
@@ -94,6 +96,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     public int updateExamStudentScores(ExamStudentScores examStudentScores)
     {
         examStudentScores.setUpdateTime(DateUtils.getNowDate());
+        this.calculateTotalPoints(examStudentScores);
         return examStudentScoresMapper.updateExamStudentScores(examStudentScores);
     }
 
@@ -225,10 +228,37 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     }
 
     @Override
+    public List<Map<String, String>> selectExamStudentScoresTotalPointsFifty(ExamStudentScores examStudentScores) {
+        List<Map<String,String>> scoremap = examStudentScoresMapper.selectExamStudentScoresFifty(examStudentScores);
+        if (0==scoremap.size() || null == scoremap.get(0).get("score")){
+            return null;
+        }
+        examStudentScores.setClasses(null);
+        Map<String,String> map = scoremap.get(scoremap.size()-1);
+        String score = String.valueOf(map.get("score"));
+        if (0 < score.indexOf(".")){
+            score = score.substring(0,score.indexOf("."));
+        }
+        if ("ASC".equals(examStudentScores.getOrderType())){
+            examStudentScores.setUnderLine(0);
+            examStudentScores.setUpLine(Integer.parseInt(score));
+        }else {
+            examStudentScores.setUnderLine(Integer.parseInt(score));
+            examStudentScores.setUpLine(300);
+        }
+        return examStudentScoresMapper.selectExamStudentScoresByScoresBoundry(examStudentScores);
+    }
+
+    @Override
     public List<Map<String,String>> selectExamStudentScoresByScoresBoundry(ExamStudentScores examStudentScores) {
         return examStudentScoresMapper.selectExamStudentScoresByScoresBoundry(examStudentScores);
     }
 
+    /**
+     * 根据考号设置年级，班级
+     *
+     * @param scores 学生分数情况
+     */
     private void getGradeAndClassesByExamNumber(ExamStudentScores scores){
         String examNumber = scores.getExamNumber();
         char grade = examNumber.charAt(0);
@@ -257,11 +287,39 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         scores.setClasses(Integer.parseInt(classes) + "班");
     }
 
+    /**
+     * 正则表达，验证考号格式
+     *
+     * @param examNumber 考号
+     * @return 结果
+     */
     private boolean regxCheckExamNumber(String examNumber) {
         String pattern = "[1-6][0-1]\\d\\d\\d";
 
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(examNumber);
         return m.matches();
+    }
+
+    /**
+     * 求出总分，如果都缺考是null
+     *
+     * @param scores 分数
+     */
+    private void calculateTotalPoints(ExamStudentScores scores){
+        BigDecimal sum = new BigDecimal(0);
+        scores.setTotalPoints(null);
+        if (null != scores.getChineseScore()){
+            sum = sum.add(scores.getChineseScore());
+        }
+        if (null != scores.getMathsScore()){
+            sum = sum.add(scores.getMathsScore());
+        }
+        if (null != scores.getEnglishScore()){
+            sum = sum.add(scores.getEnglishScore());
+        }
+        if (null != scores.getChineseScore() || null != scores.getMathsScore() || null != scores.getEnglishScore()){
+            scores.setTotalPoints(sum);
+        }
     }
 }

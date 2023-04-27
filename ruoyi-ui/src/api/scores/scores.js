@@ -18,6 +18,15 @@ export function getScoresFifty(query) {
   })
 }
 
+// 查询学生总分前后50名情况列表
+export function getTotalPointsFifty(query) {
+  return request({
+    url: '/scores/scores/totalPointsFifty',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询学生不及格情况列表
 export function getScoresUnqualified(query) {
   return request({

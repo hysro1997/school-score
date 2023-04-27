@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="examId"    column="exam_id"    />
+        <result property="totalPoints"    column="total_points"    />
     </resultMap>
 
     <resultMap id="ExamStudentScoresExamsResult" type="ExamStudentScores" extends="ExamStudentScoresResult">
@@ -32,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
     <sql id="selectExamStudentScoresVo">
-        select a.score_id, a.grade, a.classes, a.exam_number, a.chinese_score, a.maths_score, a.english_score, a.create_time, a.create_by, a.update_time, a.update_by, a.exam_id, b.exam_id as sub_exam_id, b.exam_name as sub_exam_name, b.create_time as sub_create_time, b.create_by as sub_create_by
+        select a.score_id, a.grade, a.classes, a.exam_number, a.chinese_score, a.maths_score, a.english_score, a.create_time, a.create_by, a.update_time, a.update_by, a.exam_id,a.total_points, b.exam_id as sub_exam_id, b.exam_name as sub_exam_name, b.create_time as sub_create_time, b.create_by as sub_create_by
  from exam_student_scores a
         left join exams b on b.exam_id = a.exam_id
     </sql>
@@ -98,6 +99,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="examId != null">exam_id,</if>
+            <if test="totalPoints != null">total_points,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="grade != null">#{grade},</if>
@@ -111,6 +113,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">#{updateTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="examId != null">#{examId},</if>
+            <if test="totalPoints != null">#{totalPoints},</if>
          </trim>
     </insert>
 
@@ -128,6 +131,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="examId != null">exam_id = #{examId},</if>
+            <if test="totalPoints != null">total_points = #{totalPoints},</if>
         </trim>
         where score_id = #{scoreId}
     </update>
