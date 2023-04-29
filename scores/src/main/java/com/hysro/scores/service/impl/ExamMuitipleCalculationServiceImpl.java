@@ -3,6 +3,7 @@ package com.hysro.scores.service.impl;
 import com.hysro.scores.domain.ExamMuitipleCalculation;
 import com.hysro.scores.mapper.ExamMuitipleCalculationMapper;
 import com.hysro.scores.service.IExamMuitipleCalculationService;
+import com.ruoyi.common.core.redis.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +17,24 @@ import org.springframework.stereotype.Service;
 public class ExamMuitipleCalculationServiceImpl implements IExamMuitipleCalculationService {
     @Autowired
     private ExamMuitipleCalculationMapper mapper;
+    @Autowired
+    private RedisCache redisCache;
     @Override
     public int updateExamMuitipleCalculationById(ExamMuitipleCalculation examMuitipleCalculation) {
-        return mapper.updateExamMuitipleCalculationById(examMuitipleCalculation);
+        int i = mapper.updateExamMuitipleCalculationById(examMuitipleCalculation);
+        if (i > 0){
+            redisCache.setCacheObject("multipleCalculation" + examMuitipleCalculation.getId(),examMuitipleCalculation);
+        }
+        return i;
     }
 
     @Override
     public ExamMuitipleCalculation getExamMuitipleCalculationById(Integer id) {
-        return mapper.getExamMuitipleCalculationById(id);
+        if (redisCache.hasKey("multipleCalculation" + id)){
+            return redisCache.getCacheObject("multipleCalculation" + id);
+        }
+        ExamMuitipleCalculation examMuitipleCalculation = mapper.getExamMuitipleCalculationById(id);
+        redisCache.setCacheObject("multipleCalculation" + id,examMuitipleCalculation);
+        return examMuitipleCalculation;
     }
 }

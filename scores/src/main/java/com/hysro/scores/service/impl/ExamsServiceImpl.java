@@ -3,6 +3,7 @@ package com.hysro.scores.service.impl;
 import com.hysro.scores.domain.*;
 import com.hysro.scores.mapper.*;
 import com.hysro.scores.service.IExamsService;
+import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
@@ -36,6 +37,8 @@ public class ExamsServiceImpl implements IExamsService
     private ExamGradeSummaryMapper gradeSummaryMapper;
     @Autowired
     private ExamMuitipleCalculationMapper muitipleCalculationMapper;
+    @Autowired
+    private RedisCache redisCache;
 
     /**
      * 查询各种考试
@@ -229,8 +232,13 @@ public class ExamsServiceImpl implements IExamsService
         //下面给考试成绩班级统计设置学科和对应的优秀分数线
         examClassStatictics.setExcellentLine(examExcellentScoreLine.getExcellentScore());
         examClassStatictics.setSubjectName(subjectName);
-        examClassStatictics.setSubject(subject);
-        ExamMuitipleCalculation examMuitipleCalculation = muitipleCalculationMapper.getExamMuitipleCalculationById(1);
+        examClassStatictics.setSubject(subject);ExamMuitipleCalculation examMuitipleCalculation;
+        if (redisCache.hasKey("multipleCalculation1")){
+            examMuitipleCalculation = redisCache.getCacheObject("multipleCalculation1");
+        } else {
+            examMuitipleCalculation = muitipleCalculationMapper.getExamMuitipleCalculationById(1);
+            redisCache.setCacheObject("multipleCalculation1",examMuitipleCalculation);
+        }
         examClassStatictics.setExcellentAgent(String.valueOf(examMuitipleCalculation.getExcellent() * 0.01));
         examClassStatictics.setQualifiedAgent(String.valueOf(examMuitipleCalculation.getQualified() * 0.01));
         examClassStatictics.setAverageAgent(String.valueOf(examMuitipleCalculation.getAverage() * 0.01));
@@ -266,7 +274,13 @@ public class ExamsServiceImpl implements IExamsService
         examGradeStatistic.setExcellentLineChinese(chineseScore);
         Long mathScore = this.getExcellentScoreLineByGradeSubject(grade,"数学");
         examGradeStatistic.setExcellentLineMath(mathScore);
-        ExamMuitipleCalculation examMuitipleCalculation = muitipleCalculationMapper.getExamMuitipleCalculationById(2);
+        ExamMuitipleCalculation examMuitipleCalculation;
+        if (redisCache.hasKey("multipleCalculation2")){
+            examMuitipleCalculation = redisCache.getCacheObject("multipleCalculation2");
+        } else {
+            examMuitipleCalculation = muitipleCalculationMapper.getExamMuitipleCalculationById(2);
+            redisCache.setCacheObject("multipleCalculation2",examMuitipleCalculation);
+        }
         examGradeStatistic.setExcellentAgent(String.valueOf(examMuitipleCalculation.getExcellent() * 0.01));
         examGradeStatistic.setQualifiedAgent(String.valueOf(examMuitipleCalculation.getQualified() * 0.01));
         examGradeStatistic.setAverageAgent(String.valueOf(examMuitipleCalculation.getAverage() * 0.01));
