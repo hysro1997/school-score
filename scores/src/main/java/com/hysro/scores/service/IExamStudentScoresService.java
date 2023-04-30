@@ -93,4 +93,12 @@ public interface IExamStudentScoresService
      * @return 结果
      */
     public List<Map<String,String>> selectExamStudentScoresByScoresBoundry(ExamStudentScores examStudentScores);
+
+    /**
+     * 根据考试号和考试ID查询考试记录
+     *
+     * @param examStudentScores 学生分数情况
+     * @return 学生分数情况
+     */
+    public ExamStudentScores selectExamStudentScoresByExamNumberAndExamId(ExamStudentScores examStudentScores);
 }

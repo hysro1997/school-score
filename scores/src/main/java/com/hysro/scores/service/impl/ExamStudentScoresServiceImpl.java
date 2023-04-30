@@ -96,6 +96,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     public int updateExamStudentScores(ExamStudentScores examStudentScores)
     {
         examStudentScores.setUpdateTime(DateUtils.getNowDate());
+        this.getGradeAndClassesByExamNumber(examStudentScores);
         this.calculateTotalPoints(examStudentScores);
         return examStudentScoresMapper.updateExamStudentScores(examStudentScores);
     }
@@ -254,6 +255,11 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         return examStudentScoresMapper.selectExamStudentScoresByScoresBoundry(examStudentScores);
     }
 
+    @Override
+    public ExamStudentScores selectExamStudentScoresByExamNumberAndExamId(ExamStudentScores examStudentScores) {
+        return examStudentScoresMapper.selectExamStudentScoresByExamNumberAndExamId(examStudentScores);
+    }
+
     /**
      * 根据考号设置年级，班级
      *
@@ -302,7 +308,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     }
 
     /**
-     * 求出总分，如果都缺考是null
+     * 求出总分，如果都缺考是null，如果是一二年级，总分不算英语，且设置英语成绩为null，避免出错
      *
      * @param scores 分数
      */
@@ -315,8 +321,12 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         if (null != scores.getMathsScore()){
             sum = sum.add(scores.getMathsScore());
         }
-        if (null != scores.getEnglishScore()){
-            sum = sum.add(scores.getEnglishScore());
+        if (!"一年级".equals(scores.getGrade()) && !"二年级".equals(scores.getGrade())){
+            if (null != scores.getEnglishScore()){
+                sum = sum.add(scores.getEnglishScore());
+            }
+        } else {
+            scores.setEnglishScore(null);
         }
         if (null != scores.getChineseScore() || null != scores.getMathsScore() || null != scores.getEnglishScore()){
             scores.setTotalPoints(sum);

@@ -90,7 +90,12 @@ public class ExamStudentScoresController extends BaseController
         examStudentScores.setCreateBy(operName);
         Long examId = examsService.selectExamsEnabled().getExamId();
         examStudentScores.setExamId(examId);
-        return toAjax(examStudentScoresService.insertExamStudentScores(examStudentScores));
+        if (null == examStudentScoresService.selectExamStudentScoresByExamNumberAndExamId(examStudentScores)){
+            return toAjax(examStudentScoresService.insertExamStudentScores(examStudentScores));
+        }
+        else {
+            return AjaxResult.error("考号已存在");
+        }
     }
 
     /**

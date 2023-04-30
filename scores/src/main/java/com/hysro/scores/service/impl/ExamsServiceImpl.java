@@ -232,7 +232,8 @@ public class ExamsServiceImpl implements IExamsService
         //下面给考试成绩班级统计设置学科和对应的优秀分数线
         examClassStatictics.setExcellentLine(examExcellentScoreLine.getExcellentScore());
         examClassStatictics.setSubjectName(subjectName);
-        examClassStatictics.setSubject(subject);ExamMuitipleCalculation examMuitipleCalculation;
+        examClassStatictics.setSubject(subject);
+        ExamMuitipleCalculation examMuitipleCalculation;
         if (redisCache.hasKey("multipleCalculation1")){
             examMuitipleCalculation = redisCache.getCacheObject("multipleCalculation1");
         } else {
