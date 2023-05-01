@@ -179,60 +179,53 @@
       </el-row>
       <br/><br/>
       <el-row :gutter="2" style="font-size: 24px;">
-        <el-col v-show="0 < Object.keys(studentsChinese).length" :span="6">语文&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(1)">复制语文名单</el-button></el-col>
-        <el-col v-show="0 < Object.keys(studentsMaths).length" :span="6">数学&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(2)">复制数学名单</el-button></el-col>
-        <el-col v-show="0 < Object.keys(studentsEnglish).length" :span="6">英语&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(3)">复制英语名单</el-button></el-col>
+        <el-col v-show="0 < Object.keys(studentsChinese).length" :span="5">语文&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(1)">复制语文名单</el-button></el-col>
+        <el-col v-show="0 < Object.keys(studentsMaths).length" :span="5">数学&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(2)">复制数学名单</el-button></el-col>
+        <el-col v-show="0 < Object.keys(studentsEnglish).length" :span="5">英语&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(3)">复制英语名单</el-button></el-col>
         <el-col v-show="0 < Object.keys(studentsTotalPoints).length" :span="6">总分&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(4)">复制总分名单</el-button></el-col>
       </el-row>
       <el-row :gutter="2" style="font-size: 18px;">
-        <el-col v-show="0 < Object.keys(studentsChinese).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;">
-          <el-col :span="12">考号</el-col>
-          <el-col :span="12">得分</el-col>
+        <el-col v-show="0 < Object.keys(studentsChinese).length" :span="5"><div><el-row :gutter="20" style="font-size: 24px;">
+          <el-table style="width: 80%" :data="studentsChinese" :row-class-name="tableRowClassName">
+            <el-table-column label="考号" sortable align="center" prop="exam_number" />
+            <el-table-column label="语文" sortable align="center" prop="score" />
+          </el-table>
         </el-row></div></el-col>
-        <el-col v-show="0 < Object.keys(studentsMaths).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;">
-          <el-col :span="12">考号</el-col>
-          <el-col :span="12">得分</el-col>
+        <el-col v-show="0 < Object.keys(studentsMaths).length" :span="5"><div><el-row :gutter="20" style="font-size: 24px;">
+          <el-table style="width: 80%" :data="studentsMaths" :row-class-name="tableRowClassName">
+            <el-table-column label="考号" sortable align="center" prop="exam_number" />
+            <el-table-column label="数学" sortable align="center" prop="score" />
+          </el-table>
         </el-row></div></el-col>
-        <el-col v-show="0 < Object.keys(studentsEnglish).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;">
-          <el-col :span="12">考号</el-col>
-          <el-col :span="12">得分</el-col>
+        <el-col v-show="0 < Object.keys(studentsEnglish).length" :span="5"><div><el-row :gutter="20" style="font-size: 24px;">
+          <el-table style="width: 80%" :data="studentsEnglish" :row-class-name="tableRowClassName">
+            <el-table-column label="考号" sortable align="center" prop="exam_number" />
+            <el-table-column label="英语" sortable align="center" prop="score" />
+          </el-table>
         </el-row></div></el-col>
-        <el-col v-show="0 < Object.keys(studentsTotalPoints).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;">
-          <el-col :span="12">考号</el-col>
-          <el-col :span="12">得分</el-col>
-        </el-row></div></el-col>
-      </el-row>
-      <el-row :gutter="2" style="font-size: 18px;">
-        <el-col v-if="0 < Object.keys(studentsChinese).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsChinese" :key="index">
-          <el-col :span="12">{{item.exam_number}}</el-col>
-          <el-col :span="12">{{item.score}}</el-col>
-        </el-row></div></el-col>
-        <el-col v-if="0 < Object.keys(studentsMaths).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsMaths" :key="index">
-          <el-col :span="12">{{item.exam_number}}</el-col>
-          <el-col :span="12">{{item.score}}</el-col>
-        </el-row></div></el-col>
-        <el-col v-if="0 < Object.keys(studentsEnglish).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsEnglish" :key="index">
-          <el-col :span="12">{{item.exam_number}}</el-col>
-          <el-col :span="12">{{item.score}}</el-col>
-        </el-row></div></el-col>
-        <el-col v-show="0 < Object.keys(studentsTotalPoints).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsTotalPoints" :key="index">
-          <el-col :span="12">
-            <el-popover
-              placement="left"
-              :title="item.exam_number + '的详细信息'"
-              width="200"
-              trigger="click">
-              <p class="tipck">语文成绩：{{studentScore.chineseScore}}</p>
-              <p class="tipck">数学成绩：{{studentScore.mathsScore}}</p>
-              <p class="tipck">英语成绩：{{studentScore.englishScore}}</p>
-              <p class="tipck">总分成绩：{{studentScore.totalPoints}}</p>
-              <el-button slot="reference" style="font-size: 24px;" type="text" v-on:click="getStudentScoreDetail(item.exam_number)">{{item.exam_number}}</el-button>
-            </el-popover>
-          </el-col>
-          <el-col :span="12">{{item.score}}</el-col>
+        <el-col v-show="0 < Object.keys(studentsTotalPoints).length" :span="5"><div><el-row :gutter="20" style="font-size: 24px;">
+          <el-table style="width: 80%" :data="studentsTotalPoints" :row-class-name="tableRowClassName">
+            <el-table-column label="考号" sortable align="center" prop="exam_number">
+              <template  slot-scope="item">
+                <el-popover
+                  placement="left"
+                  :title="item.row.exam_number + '的详细信息'"
+                  width="200"
+                  trigger="click">
+                  <p class="tipck">语文成绩：{{studentScore.chineseScore}}</p>
+                  <p class="tipck">数学成绩：{{studentScore.mathsScore}}</p>
+                  <p class="tipck">英语成绩：{{studentScore.englishScore}}</p>
+                  <p class="tipck">总分成绩：{{studentScore.totalPoints}}</p>
+                  <el-button size="small" slot="reference" style="font-size: 14px;" type="text" v-on:click="getStudentScoreDetail(item.row.exam_number)">{{item.row.exam_number}}</el-button>
+                </el-popover>
+              </template>
+            </el-table-column>
+            <el-table-column label="总分" sortable align="center" prop="score" />
+          </el-table>
         </el-row></div></el-col>
       </el-row>
     </el-dialog>
+
     <el-drawer
       title="我是标题"
       :visible.sync="drawer"
