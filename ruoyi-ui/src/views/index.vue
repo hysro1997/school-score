@@ -159,6 +159,25 @@
     </div>
     <!-- 查看名单 -->
     <el-dialog :title="studentList.title" width="1000px" :visible.sync="studentList.open" :close-on-click-modal="false" append-to-body>
+      <el-dialog
+        width="30%"
+        :title="studentList.title + '中各学科均上榜的学生'"
+        :visible.sync="innerVisible"
+        :close-on-click-modal="false"
+        append-to-body>
+        <el-button type="primary" size="small" @click="clipboardHandler(5)">复制各学科均上榜的名单</el-button>
+        <br/><br/>
+        <el-table :data="innerStudents" :row-class-name="tableRowClassName">
+          <el-table-column label="考号" sortable align="center" prop="exam_number" />
+          <el-table-column label="语文" sortable align="center" prop="studentsChinese" />
+          <el-table-column label="数学" sortable align="center" prop="studentsMaths" />
+          <el-table-column label="英语" sortable align="center" prop="studentsEnglish" />
+        </el-table>
+      </el-dialog>
+      <el-row>
+        <el-col><el-button type="primary" @click="viewSame">查看各项名单中都有同样的人</el-button></el-col>
+      </el-row>
+      <br/><br/>
       <el-row :gutter="2" style="font-size: 24px;">
         <el-col v-show="0 < Object.keys(studentsChinese).length" :span="6">语文&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(1)">复制语文名单</el-button></el-col>
         <el-col v-show="0 < Object.keys(studentsMaths).length" :span="6">数学&nbsp;&nbsp;<el-button type="primary" size="small" @click="clipboardHandler(2)">复制数学名单</el-button></el-col>
@@ -196,7 +215,7 @@
           <el-col :span="12">{{item.exam_number}}</el-col>
           <el-col :span="12">{{item.score}}</el-col>
         </el-row></div></el-col>
-        <el-col v-if="0 < Object.keys(studentsTotalPoints).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsTotalPoints" :key="index">
+        <el-col v-show="0 < Object.keys(studentsTotalPoints).length" :span="6"><div><el-row :gutter="20" style="font-size: 24px;" v-for="(item, index) in studentsTotalPoints" :key="index">
           <el-col :span="12">
             <el-popover
               placement="left"
@@ -209,7 +228,7 @@
               <p class="tipck">总分成绩：{{studentScore.totalPoints}}</p>
               <el-button slot="reference" style="font-size: 24px;" type="text" v-on:click="getStudentScoreDetail(item.exam_number)">{{item.exam_number}}</el-button>
             </el-popover>
-            </el-col>
+          </el-col>
           <el-col :span="12">{{item.score}}</el-col>
         </el-row></div></el-col>
       </el-row>
@@ -293,6 +312,12 @@ export default {
   name: "Index",
   data() {
     return {
+      innerVisible: false,
+      innerStudents: [
+        {studentsEnglish: null,
+          studentsMaths:null,
+          studentsChinese:null
+        }],
       staticticsList: [],
       statisticList: [],
       summaryList: [],
@@ -436,6 +461,51 @@ export default {
     this.initEchartsInfo();
   },
   methods: {
+    viewSame(){
+      let temp = [];
+      let temp2 = [];
+      let score = {};
+      this.studentsChinese.forEach((value, index) => {
+        try {
+          score = {};
+          this.studentsMaths.forEach((v,i) => {
+            if (value.exam_number === v.exam_number){
+              score.exam_number = value.exam_number;
+              score.studentsChinese = value.score;
+              score.studentsMaths = v.score;
+              temp.push(score);
+              throw new Error("跳出循环");
+            }
+          });
+        } catch (e) {
+        }
+      });
+      score = {};
+      if (0 > this.studentList.title.indexOf("一年级") && 0 > this.studentList.title.indexOf("二年级")){
+        temp.forEach((value, index) => {
+          try {
+            score = {};
+            this.studentsEnglish.forEach((v,i) => {
+              if (value.exam_number === v.exam_number){
+                score.exam_number = value.exam_number;
+                score.studentsChinese = value.studentsChinese;
+                score.studentsMaths = value.studentsMaths;
+                score.studentsEnglish = v.score;
+                temp2.push(score);
+                throw new Error("跳出循环");
+              }
+            });
+          }catch (e) {
+
+          }
+        });
+        this.innerStudents = temp2;
+        this.innerVisible = true;
+        return true;
+      }
+      this.innerStudents = temp;
+      this.innerVisible = true;
+    },
     getStudentScoreDetail(examNumber){
       this.studentScore = {};
       let param = {
@@ -536,6 +606,22 @@ export default {
           message += "考号\t分数\n";
           this.studentsTotalPoints.forEach(function(element){
             message += element.exam_number + "\t" + element.score + "\n";
+          });
+          this.$copyText(message).then(function (e) {
+            that.$modal.msgSuccess("复制成功");
+          }, function (e) {
+            that.$modal.msgError("复制出错了");
+          });
+          break;
+        case 5:
+          if (null === this.innerStudents || 0 === this.innerStudents.length){
+            this.$modal.msgWarning("没有可供复制的内容");
+            return;
+          }
+          message = message.replace("名单", "名单中各学科均上榜的学生");
+          message += "考号\t语文分数\t数学分数\t英语分数\n";
+          this.innerStudents.forEach(function(element){
+            message += element.exam_number + "\t" + element.studentsChinese + "\t" + element.studentsMaths + "\t" + (element.studentsEnglish || "") + "\n";
           });
           this.$copyText(message).then(function (e) {
             that.$modal.msgSuccess("复制成功");
