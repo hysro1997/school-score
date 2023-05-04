@@ -211,8 +211,12 @@
         </div>
         <div class="el-upload__tip" style="color:red" slot="tip">提示：仅允许导入“xls”或“xlsx”格式文件！</div>
         <div class="el-upload__tip" style="color:red" slot="tip">提示：考试号是5位数，每条成绩数据都要填考试号</div>
-        <div class="el-upload__tip" style="color:red" slot="tip">&nbsp;&nbsp;&nbsp;&nbsp;举例 2年级4班03号学生的考试号为：20403</div>
-        <div class="el-upload__tip" style="color:red" slot="tip">&nbsp;&nbsp;&nbsp;&nbsp;导入的excel仅能有1张表单</div>
+        <div class="el-upload__tip" style="color:red" slot="tip">&nbsp;&nbsp;&nbsp;&nbsp;举例20403 表示2022年入学的4班03号学生</div>
+        <div class="el-upload__tip" style="color:red" slot="tip">&nbsp;&nbsp;&nbsp;&nbsp;再举例30403 表示2023年入学4班03号学生</div>
+        <div class="el-upload__tip" style="color:red" slot="tip">&nbsp;&nbsp;&nbsp;&nbsp;再举例A0403 表示2020年入学4班03号学生</div>
+        <div class="el-upload__tip" style="color:red" slot="tip">&nbsp;&nbsp;&nbsp;&nbsp;即：开头第一个数字表示入学年份个位上的数字，第2-3位表示所在班级，第4-5位表示考号</div>
+        <div class="el-upload__tip" style="color:red" slot="tip">&nbsp;&nbsp;&nbsp;&nbsp;提示如果入学年份的个位数是0（2030年）则用“A”代替，即：A0403</div>
+        <div class="el-upload__tip" style="color:red" slot="tip">&nbsp;&nbsp;&nbsp;&nbsp;导入的excel仅能读取1张表单</div>
       </el-upload>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitFileForm" :disabled="submitDisabled">确 定</el-button>
@@ -343,7 +347,7 @@
       rules: {
         examNumber: [
           { required: true, message: "考试号不能为空", trigger: "blur" },
-          { pattern: /[1-6][0-1]\d\d\d/, message: "考试号有5位，举例考试号（10101）表示1年级01班01号"}
+          { pattern: /([1-9]|[A])[0-1]\d\d\d/, message: "考试号有5位，首位为年份的最后一个数字，举例2024年入学的03班05号学生考试号为考试号（40305），2020年入学的则是(A0305)"}
         ],
       }
     };

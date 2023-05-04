@@ -47,6 +47,11 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     @Autowired
     private IExamsService examsService;
 
+    private static final char YEAR_GRADE_ZERO = 'A';
+    private static final String GRADE_TWO = "二年级";
+    private static final String GRADE_ONE = "一年级";
+    private static final String ORDER_TYPE_ASC = "ASC";
+
     /**
      * 查询学生分数情况
      *
@@ -81,7 +86,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     public int insertExamStudentScores(ExamStudentScores examStudentScores)
     {
         examStudentScores.setCreateTime(DateUtils.getNowDate());
-        this.getGradeAndClassesByExamNumber(examStudentScores);
+        this.getGradeAndClassesByExamNumber(examStudentScores,DateUtils.getDate());
         this.calculateTotalPoints(examStudentScores);
         return examStudentScoresMapper.insertExamStudentScores(examStudentScores);
     }
@@ -96,7 +101,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     public int updateExamStudentScores(ExamStudentScores examStudentScores)
     {
         examStudentScores.setUpdateTime(DateUtils.getNowDate());
-        this.getGradeAndClassesByExamNumber(examStudentScores);
+        this.getGradeAndClassesByExamNumber(examStudentScores,DateUtils.getDate());
         this.calculateTotalPoints(examStudentScores);
         return examStudentScoresMapper.updateExamStudentScores(examStudentScores);
     }
@@ -217,7 +222,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         Map<String,String> map = scoremap.get(scoremap.size()-1);
         String score = String.valueOf(map.get("score"));
         score = score.substring(0,score.indexOf("."));
-        if ("ASC".equals(examStudentScores.getOrderType())){
+        if (ORDER_TYPE_ASC.equals(examStudentScores.getOrderType())){
             examStudentScores.setUnderLine(0);
             examStudentScores.setUpLine(Integer.parseInt(score));
         }else {
@@ -240,7 +245,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         if (0 < score.indexOf(".")){
             score = score.substring(0,score.indexOf("."));
         }
-        if ("ASC".equals(examStudentScores.getOrderType())){
+        if (ORDER_TYPE_ASC.equals(examStudentScores.getOrderType())){
             examStudentScores.setUnderLine(0);
             examStudentScores.setUpLine(Integer.parseInt(score));
         }else {
@@ -263,32 +268,51 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     /**
      * 根据考号设置年级，班级
      *
+     * 考号第一位表示入学年份，当前年份 - 入学年份 = 所在年级，当前年份 < 入学年份，则当前年份 +10；如果当前月份 >= 9月，年级继续+1
+     *
      * @param scores 学生分数情况
      */
-    private void getGradeAndClassesByExamNumber(ExamStudentScores scores){
+    private void getGradeAndClassesByExamNumber(ExamStudentScores scores, String date){
         String examNumber = scores.getExamNumber();
-        char grade = examNumber.charAt(0);
+        //入学年份
+        char gradeYear = examNumber.charAt(0);
+        if (YEAR_GRADE_ZERO == gradeYear){
+            gradeYear  = '0';
+        }
+        int gradeyYear = (int)gradeYear - (int)('0');
+        //当前年份
+        int year = (int) date.charAt(3) - (int)('0');
+        //当前月份
+        int month = (int)date.charAt(6) - (int)('0');
         String classes  =examNumber.substring(1,3);
-        switch (grade){
-            case '1':
+        if (year < gradeyYear){
+            year += 10;
+        }
+        int nowGrade = year - gradeyYear;
+        if (9 <= month){
+            nowGrade += 1;
+        }
+        switch (nowGrade){
+            case 1:
                 scores.setGrade("一年级");
                 break;
-            case '2':
+            case 2:
                 scores.setGrade("二年级");
                 break;
-            case '3':
+            case 3:
                 scores.setGrade("三年级");
                 break;
-            case '4':
+            case 4:
                 scores.setGrade("四年级");
                 break;
-            case '5':
+            case 5:
                 scores.setGrade("五年级");
                 break;
-            case '6':
+            case 6:
                 scores.setGrade("六年级");
                 break;
             default:
+                throw new ServiceException("考试号超出小学六年教育范围");
         }
         scores.setClasses(Integer.parseInt(classes) + "班");
     }
@@ -300,7 +324,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
      * @return 结果
      */
     private boolean regxCheckExamNumber(String examNumber) {
-        String pattern = "[1-6][0-1]\\d\\d\\d";
+        String pattern = "([1-9]|[A])[0-1]\\d\\d\\d";
 
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(examNumber);
@@ -321,7 +345,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         if (null != scores.getMathsScore()){
             sum = sum.add(scores.getMathsScore());
         }
-        if (!"一年级".equals(scores.getGrade()) && !"二年级".equals(scores.getGrade())){
+        if (!GRADE_ONE.equals(scores.getGrade()) && !GRADE_TWO.equals(scores.getGrade())){
             if (null != scores.getEnglishScore()){
                 sum = sum.add(scores.getEnglishScore());
             }
