@@ -2,7 +2,7 @@
   <div class="app-container home">
     <div style="text-align: center;font-size: 30px">
       <p>欢迎
-        {{ user.dept.deptName }} {{postGroup}}
+        {{ user.dept.deptName }} {{ postGroup }}
         <el-tag effect="plain" style="text-align: center;font-size: 28px">
           {{ user.nickName }}
         </el-tag> 使用
@@ -23,6 +23,7 @@
           placeholder="请输入考试名称"
           :remote-method="remoteMethod"
           :loading="loading"
+          v-loadmore="loadMoreExams"
           @change="drawAllEcharts">
           <el-option
             v-for="item in options"
@@ -324,6 +325,7 @@ export default {
       loading: false,
       loading2:false,
       user: {
+        nickName: '',
         dept:{
           deptName: ''
         }
@@ -331,11 +333,11 @@ export default {
       queryParams: {
         grade: null,
         examId: null,
-        rankType: 0,
+        rankType: "1",
       },
       examQueryParams:{
         pageNum: 1,
-        pageSize: 100,
+        pageSize: 10,
         examName: null,
       },
       roleGroup: {},
@@ -757,6 +759,23 @@ export default {
         });
       }
     },
+    loadMoreExams(){
+      this.examQueryParams.pageNum += 1;
+      let that = this;
+      allExams(this.examQueryParams).then(response => {
+        if (null !== response.data){
+          if (response.data[0].examId !== that.options[that.options.length - response.data.length].examId) {
+            response.data.forEach(function(element) {
+              if (element.examId !== that.options[that.options.length-1].examId){
+                that.options.push(element);
+              }
+            });
+          } else {
+            that.examQueryParams.pageNum -= 1;
+          }
+        }
+      });
+    },
     remoteMethod(query){
       if (query !== '') {
         this.loading = true;
@@ -769,12 +788,14 @@ export default {
         this.options = [];
       }
     },
-    goTarget(href) {
-      window.open(href, "_blank");
-    },
     getUser() {
       getUserProfile().then(response => {
-        this.user = response.data;
+        this.user.nickName = response.data.nickName;
+        if (response.data.dept){
+          this.user.dept.deptName = response.data.dept.deptName;
+        } else {
+          this.user.dept.deptName = "";
+        }
         this.roleGroup = response.roleGroup;
         this.postGroup = response.postGroup;
       });

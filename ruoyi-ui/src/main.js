@@ -15,6 +15,8 @@ import plugins from './plugins' // plugins
 import { download } from '@/utils/request'
 
 import Clipboard from 'vue-clipboard2'
+import loadMore from '@/directive/loadMore/loadMore' // 下拉加载更多
+
 
 import './assets/icons' // icon
 import './permission' // permission control
@@ -60,6 +62,7 @@ Vue.component('FileUpload', FileUpload)
 Vue.component('ImageUpload', ImageUpload)
 Vue.component('ImagePreview', ImagePreview)
 
+Vue.use(loadMore);
 Vue.use(Clipboard)
 Vue.use(directive)
 Vue.use(plugins)

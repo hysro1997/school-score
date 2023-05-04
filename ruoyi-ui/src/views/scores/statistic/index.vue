@@ -34,12 +34,17 @@
         </el-select>
       </el-form-item>
       <el-form-item label="考试名称" prop="examName">
-        <el-input
-          v-model="queryParams.examName"
-          placeholder="请输入考试名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+        <el-select
+          v-model="queryParams.examId"
+          placeholder="请选择考试名称"
+          @change="handleQuery">
+          <el-option
+            v-for="item in examOptions"
+            :key="item.examId"
+            :label="item.examName"
+            :value="item.examId">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -168,6 +173,7 @@
 
 <script>
   import { addStatistic, delStatistic, getStatistic, listStatistic, updateStatistic } from '@/api/scores/statistic'
+  import { allExams } from '@/api/examination/exams'
 
   export default {
   name: "Statistic",
@@ -262,13 +268,25 @@
       form: {},
       // 表单校验
       rules: {
+      },
+      examOptions: [],
+      examQueryParams:{
+        pageNum: 1,
+        pageSize: 12,
+        examName: null,
       }
     };
   },
   created() {
     this.getList();
+    this.getTenExams();
   },
   methods: {
+    getTenExams(){
+      allExams(this.examQueryParams).then(response => {
+        this.examOptions = response.data;
+      });
+    },
     clipboardHandler(title){
       if (null === this.statisticList || 0 === this.statisticList.length){
         this.$modal.msgWarning("没有可供复制的内容");
