@@ -74,4 +74,11 @@ public class ExamTempScoresServiceImpl implements IExamTempScoresService {
                 throw new ServiceException("没有学科");
         }
     }
+
+    @Override
+    public int cleanExamTempTables() {
+        mapper.cleanExamChineseTempTables();
+        mapper.cleanExamMathsTempTables();
+        return mapper.cleanExamEnglishTempTables();
+    }
 }

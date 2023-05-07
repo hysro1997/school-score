@@ -1,13 +1,16 @@
 package com.hysro.scores.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.hysro.scores.domain.ExamTempScores;
 import com.hysro.scores.domain.Exams;
+import com.hysro.scores.mapper.ExamTempScoresMapper;
 import com.hysro.scores.mapper.ExamsMapper;
 import com.hysro.scores.service.IExamsService;
 import com.ruoyi.common.core.domain.entity.SysUser;
@@ -46,6 +49,8 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     protected Validator validator;
     @Autowired
     private IExamsService examsService;
+    @Autowired
+    private ExamTempScoresMapper tempScoresMapper;
 
     private static final char YEAR_GRADE_ZERO = 'A';
     private static final String GRADE_TWO = "二年级";
@@ -263,6 +268,84 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     @Override
     public ExamStudentScores selectExamStudentScoresByExamNumberAndExamId(ExamStudentScores examStudentScores) {
         return examStudentScoresMapper.selectExamStudentScoresByExamNumberAndExamId(examStudentScores);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int mixScores(Long examId) {
+        ExamStudentScores studentScore = new ExamStudentScores();
+        List<ExamTempScores> chineseScores = tempScoresMapper.selectExamChineseTempScores(examId);
+        List<ExamTempScores> mathsScore = tempScoresMapper.selectExamMathsTempScores(examId);
+        List<ExamTempScores> englishScore = tempScoresMapper.selectExamEnglishTempScores(examId);
+        //语文整合
+        for (ExamTempScores chinese : chineseScores){
+            studentScore = new ExamStudentScores();
+            studentScore.setExamId(chinese.getExamId());
+            studentScore.setExamNumber(chinese.getExamNumber());
+            ExamStudentScores ess = examStudentScoresMapper.selectExamStudentScoresByExamNumberAndExamId(studentScore);
+            studentScore.setChineseScore(chinese.getChineseScore());
+            if (StringUtils.isNull(ess)){
+                studentScore.setCreateBy(chinese.getCreateBy());
+                this.insertExamStudentScores(studentScore);
+            } else {
+                if (!ess.getCreateBy().contains(chinese.getCreateBy())){
+                    studentScore.setCreateBy(ess.getCreateBy() + "、" + chinese.getCreateBy());
+                } else {
+                    studentScore.setCreateBy(ess.getCreateBy());
+                }
+                studentScore.setMathsScore(ess.getMathsScore());
+                studentScore.setEnglishScore(ess.getEnglishScore());
+                studentScore.setScoreId(ess.getScoreId());
+                this.updateExamStudentScores(studentScore);
+            }
+        }
+        //数学整合
+        for (ExamTempScores maths : mathsScore){
+            studentScore = new ExamStudentScores();
+            studentScore.setExamId(maths.getExamId());
+            studentScore.setExamNumber(maths.getExamNumber());
+            ExamStudentScores ess = examStudentScoresMapper.selectExamStudentScoresByExamNumberAndExamId(studentScore);
+            studentScore.setMathsScore(maths.getMathsScore());
+            if (StringUtils.isNull(ess)){
+                studentScore.setCreateBy(maths.getCreateBy());
+                this.insertExamStudentScores(studentScore);
+            } else {
+                if (!ess.getCreateBy().contains(maths.getCreateBy())){
+                    studentScore.setCreateBy(ess.getCreateBy() + "、" + maths.getCreateBy());
+                } else {
+                    studentScore.setCreateBy(ess.getCreateBy());
+                }
+                studentScore.setChineseScore(ess.getChineseScore());
+                studentScore.setEnglishScore(ess.getEnglishScore());
+                studentScore.setScoreId(ess.getScoreId());
+                this.updateExamStudentScores(studentScore);
+            }
+        }
+        //英语整合
+        for (ExamTempScores english : englishScore){
+            studentScore = new ExamStudentScores();
+            studentScore.setExamId(english.getExamId());
+            studentScore.setExamNumber(english.getExamNumber());
+            ExamStudentScores ess = examStudentScoresMapper.selectExamStudentScoresByExamNumberAndExamId(studentScore);
+            studentScore.setEnglishScore(english.getEnglishScore());
+            if (StringUtils.isNull(ess)){
+                studentScore.setCreateBy(english.getCreateBy());
+                this.insertExamStudentScores(studentScore);
+            } else {
+                if (!ess.getCreateBy().contains(english.getCreateBy())){
+                    studentScore.setCreateBy(ess.getCreateBy() + "、" + english.getCreateBy());
+                } else {
+                    studentScore.setCreateBy(ess.getCreateBy());
+                }
+                studentScore.setChineseScore(ess.getChineseScore());
+                studentScore.setMathsScore(ess.getMathsScore());
+                studentScore.setScoreId(ess.getScoreId());
+                this.updateExamStudentScores(studentScore);
+            }
+        }
+        //删除总分是null的学生
+        examStudentScoresMapper.deleteTotalScoreIsNull(examId);
+        return 0;
     }
 
     /**

@@ -69,4 +69,13 @@ public class ExamTempScoresController extends BaseController {
         scores.setExamId(examId);
         return success(scoresService.deleteTempScores(scores));
     }
+
+    @Log(title = "临时表", businessType = BusinessType.CLEAN)
+    @PreAuthorize("@ss.hasPermi('scores:inpution:delete')")
+    @DeleteMapping("/clean")
+    public AjaxResult clean()
+    {
+        scoresService.cleanExamTempTables();
+        return success();
+    }
 }

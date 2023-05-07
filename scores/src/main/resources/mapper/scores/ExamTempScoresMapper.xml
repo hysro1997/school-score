@@ -6,7 +6,7 @@
 
     <resultMap type="ExamTempScores" id="ExamTempScoresResult">
         <result property="id"    column="id"    />
-        <result property="examNumber"    column="exam_umber"    />
+        <result property="examNumber"    column="exam_number"    />
         <result property="chineseScore"    column="chinese_score"    />
         <result property="mathsScore"    column="maths_score"    />
         <result property="englishScore"    column="english_score"    />
@@ -14,6 +14,19 @@
         <result property="createTime"    column="create_time"    />
         <result property="createBy"    column="create_by"    />
     </resultMap>
+
+    <select id="selectExamChineseTempScores" parameterType="Long" resultMap="ExamTempScoresResult">
+        SELECT chinese_score,exam_number,create_by,exam_id FROM exam_temp_chinese_score
+        WHERE exam_id = #{examId}
+    </select>
+    <select id="selectExamMathsTempScores" parameterType="Long" resultMap="ExamTempScoresResult">
+        SELECT maths_score,exam_number,create_by,exam_id FROM exam_temp_maths_score
+        WHERE exam_id = #{examId}
+    </select>
+    <select id="selectExamEnglishTempScores" parameterType="Long" resultMap="ExamTempScoresResult">
+        SELECT english_score,exam_number,create_by,exam_id FROM exam_temp_english_score
+        WHERE exam_id = #{examId}
+    </select>
 
     <delete id="deleteChineseTempScores">
         DELETE FROM exam_temp_chinese_score
@@ -79,4 +92,13 @@
             )
         </foreach>
     </insert>
+    <update id="cleanExamEnglishTempTables">
+        truncate table exam_temp_english_score
+    </update>
+    <update id="cleanExamChineseTempTables">
+        truncate table exam_temp_chinese_score
+    </update>
+    <update id="cleanExamMathsTempTables">
+        truncate table exam_temp_maths_score
+    </update>
 </mapper>

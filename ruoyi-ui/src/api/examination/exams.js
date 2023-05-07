@@ -53,6 +53,15 @@ export function statisticExams(data) {
   })
 }
 
+// 整合分数
+export function mixScores(data) {
+  return request({
+    url: '/examination/exams/mixScores',
+    method: 'post',
+    data: data
+  })
+}
+
 // 修改各种考试
 export function updateExams(data) {
   return request({

@@ -1,6 +1,7 @@
 package com.hysro.scores.controller;
 
 import com.hysro.scores.domain.Exams;
+import com.hysro.scores.service.IExamStudentScoresService;
 import com.hysro.scores.service.IExamsService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -28,6 +29,9 @@ public class ExamsController extends BaseController
 {
     @Autowired
     private IExamsService examsService;
+    @Autowired
+    private IExamStudentScoresService studentService;
+    private static String EXAM_ENABLED = "0";
 
     /**
      * 查询各种考试列表
@@ -107,10 +111,29 @@ public class ExamsController extends BaseController
             return warn("没有考试ID");
         }
         Exams exams = examsService.selectExamsByExamId(examId);
-        if ("0".equals(exams.getEnableFlag())){
+        if (EXAM_ENABLED.equals(exams.getEnableFlag())){
             return warn("考试尚未结束");
         }else {
             return success(examsService.calculateStatisticExams(examId));
+        }
+    }
+
+    /**
+     * 统计考试数据
+     */
+    @PreAuthorize("@ss.hasPermi('examination:exams:edit')")
+    @Log(title = "统计考试数据", businessType = BusinessType.OTHER)
+    @PostMapping("/mixScores")
+    public AjaxResult mixScores(@RequestBody Long examId)
+    {
+        if (null == examId ||  0 == examId){
+            return warn("没有考试ID");
+        }
+        Exams exams = examsService.selectExamsByExamId(examId);
+        if (EXAM_ENABLED.equals(exams.getEnableFlag())){
+            return warn("考试尚未结束");
+        }else {
+            return success(studentService.mixScores(examId));
         }
     }
 

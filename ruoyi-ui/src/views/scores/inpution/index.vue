@@ -10,6 +10,7 @@
                             :disabled="item.disabled" border>{{item.label}}</el-radio>
                 </el-radio-group>
               </el-form-item>
+              <el-divider></el-divider>
             </el-col>
             <el-col :span="24">
               <el-form-item label="班级" prop="classes">
@@ -18,6 +19,7 @@
                             :disabled="item.disabled" border>{{item.label}}</el-radio>
                 </el-radio-group>
               </el-form-item>
+              <el-divider></el-divider>
             </el-col>
             <el-col :span="24">
               <el-form-item label="学科" prop="subject">
@@ -29,7 +31,8 @@
             </el-col>
           </el-row>
         <br/>
-        <el-button type="danger" @click="clearScore" v-hasPermi="['scores:inpution:delete']"> 清空当前选项下的分数记录 </el-button>
+        <el-button type="warning" @click="clearScore" v-hasPermi="['scores:inpution:delete']"> 删除{{ submitButtonInfo }}的分数记录 </el-button>
+        <el-button type="danger" @click="cleanTemp" v-hasPermi="['scores:inpution:delete']"> 清空数据 </el-button>
         <br/><br/>
         <el-row>
           <el-col :span="8">
@@ -70,7 +73,7 @@
 </template>
 <script>
 
-  import { getTodayDate, addExamTempScores, checkAlreadyScores, delTempScores } from '@/api/scores/inpution'
+  import { getTodayDate, addExamTempScores, checkAlreadyScores, delTempScores, cleanTempScores } from '@/api/scores/inpution'
   import Cookies from 'js-cookie'
   import { getExamsEnables } from '@/api/examination/exams'
   export default {
@@ -180,6 +183,21 @@
       this.checkExamEnabled();
     },
     methods: {
+      async cleanTemp(){
+        const confirmRes = await this.$confirm('确定清空全部分数数据吗？一旦清空，所有数据全部丢失，无法补救', '危险', {
+          confirmButtonText: '确定清空',
+          cancelButtonText: '取消清空',
+          type: 'warning'
+        }).catch(err => err) //用catch来捕获错误消息
+        if ('confirm' === confirmRes) {//用户点击了确定
+          cleanTempScores().then(response => {
+            this.$modal.alertSuccess("已清空全部数据");
+          });
+        } else {
+          this.$modal.notify("操作取消");
+        }
+
+      },
       clearScore(){
         this.$refs['elForm'].validate(valid => {
           if (!valid) {
@@ -286,7 +304,7 @@
           checkAlreadyScores(param).then(response => {
             if (1 === response.data){
               this.inputionDisabled = true;
-              this.$modal.alertWarning("这个班级此学科已有分数，如需重新录分，请联系课程处");
+              this.$modal.alertWarning(this.submitButtonInfo + "已录入分数，如需重新录分，请联系课程处");
             } else {
               this.inputionDisabled = false;
             }
@@ -407,13 +425,21 @@
         this.$refs['elForm'].validate(valid => {
           if (!valid) return false;
           let that = this;
+          const loading = this.$loading({
+            lock: true,
+            text: '上报分数中',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)'
+          });
           addExamTempScores(this.scoresList).then(response => {
             if(0 < response.data){
               this.$modal.msgSuccess("分数上报成功");
               this.scoresList = [];
+              this.inputionDisabled = true;
             } else {
               this.$modal.alertWarning("分数上报失败");
             }
+            loading.close();
           });
         })
       },

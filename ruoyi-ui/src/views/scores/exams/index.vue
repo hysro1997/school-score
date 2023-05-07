@@ -75,6 +75,16 @@
           ></el-switch>
         </template>
       </el-table-column>
+      <el-table-column label="整合分数" align="center" class-name="small-padding fixed-width">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            @click="handleMixScore(scope.row)"
+            v-hasPermi="['examination:exams:edit']"
+          >整合临时分数</el-button>
+        </template>
+      </el-table-column>
       <el-table-column label="统计数据" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -149,7 +159,7 @@
 </template>
 
 <script>
-import { listExams, getExams, delExams, addExams, updateExams, getExamsEnables, statisticExams } from "@/api/examination/exams";
+import { listExams, getExams, delExams, addExams, updateExams, getExamsEnables, statisticExams, mixScores } from "@/api/examination/exams";
 
 export default {
   name: "Exams",
@@ -294,6 +304,25 @@ export default {
         this.form = response.data;
         this.open = true;
         this.title = "修改考试";
+      });
+    },
+    handleMixScore(row){
+      let that = this;
+      if ("0"===row.enableFlag){
+        this.$modal.alertWarning("本场考试尚未停止，还不能整合分数");
+        return false;
+      }
+      const loading = this.$loading({
+        lock: true,
+        text: '整合分数中',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+      mixScores(row.examId).then(response => {
+        setTimeout(() => {
+          that.$modal.msgSuccess("分数整合完成！");
+          loading.close();
+        }, 1000);
       });
     },
     /** 统计考试的结果数据 */

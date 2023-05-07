@@ -35,4 +35,10 @@ public interface IExamTempScoresService {
      * @return 结果
      */
     public int deleteTempScores(ExamTempScores examTempScores);
+
+    /**
+     * 清空三张表
+     * @return 结果
+     */
+    public int cleanExamTempTables();
 }

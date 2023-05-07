@@ -3,6 +3,7 @@ package com.hysro.scores.mapper;
 import com.hysro.scores.domain.ExamTempScores;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 临时分数表mapper
@@ -11,6 +12,27 @@ import java.util.ArrayList;
  * @date 2023-05-05
  */
 public interface ExamTempScoresMapper {
+    /**
+     * 查询语文成绩
+     *
+     * @param examId 考试ID
+     * @return 语文成绩
+     */
+    public List<ExamTempScores> selectExamChineseTempScores(Long examId);
+    /**
+     * 查询数学成绩
+     *
+     * @param examId 考试ID
+     * @return 数学成绩
+     */
+    public List<ExamTempScores> selectExamMathsTempScores(Long examId);
+    /**
+     * 查询英语成绩
+     *
+     * @param examId 考试ID
+     * @return 英语成绩
+     */
+    public List<ExamTempScores> selectExamEnglishTempScores(Long examId);
     /**
      * 插入语文分数数组
      *
@@ -78,4 +100,22 @@ public interface ExamTempScoresMapper {
      * @return 结果
      */
     public int deleteEnglishTempScores(ExamTempScores examTempScores);
+
+    /**
+     * 清空三张表
+     * @return 结果
+     */
+    public int cleanExamEnglishTempTables();
+
+    /**
+     * 清空三张表
+     * @return 结果
+     */
+    public int cleanExamChineseTempTables();
+
+    /**
+     * 清空三张表
+     * @return 结果
+     */
+    public int cleanExamMathsTempTables();
 }

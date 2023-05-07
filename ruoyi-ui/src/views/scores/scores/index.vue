@@ -36,15 +36,25 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="考试名称" prop="examName">
-        <el-input
-          v-model="queryParams.examName"
-          placeholder="请输入考试名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="考试名称">
+        <el-select
+          v-model="queryParams.examId"
+          placeholder="请选择考试名称"
+          filterable
+          remote
+          reserve-keyword
+          :remote-method="getTenExams"
+          v-loadmore="loadMoreExams"
+          @change="handleQuery">
+          <el-option
+            v-for="item in examOptions"
+            :key="item.examId"
+            :label="item.examName"
+            :value="item.examId">
+          </el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="考试号" prop="examNumber">
+      <el-form-item label="考试号">
         <el-input
           v-model="queryParams.examNumber"
           placeholder="请输入考试号"
@@ -228,7 +238,7 @@
 
 <script>
   import { addScores, delScores, getScores, listScores, updateScores } from '@/api/scores/scores'
-  import { getExamsEnables } from '@/api/examination/exams'
+  import { getExamsEnables,allExams } from '@/api/examination/exams'
   import { getToken } from '@/utils/auth'
 
   export default {
@@ -323,6 +333,8 @@
         examId: null,
         examName:null
       },
+      examOptions: [],
+      options: [],
       uploadResult:{
         open: false,
         title: "学生分数导入结果"
@@ -343,6 +355,11 @@
       },
       // 表单参数
       form: {},
+      examQueryParams:{
+        pageNum: 1,
+        pageSize: 10,
+        examName: null,
+      },
       // 表单校验
       rules: {
         examNumber: [
@@ -357,8 +374,21 @@
   },
   created() {
     this.getList();
+    this.getTenExams();
   },
   methods: {
+    getTenExams(){
+      allExams(this.examQueryParams).then(response => {
+        this.examOptions = response.data;
+      });
+    },
+    loadMoreExams(){
+      this.examQueryParams.pageSize += 10;
+      let that = this;
+      allExams(this.examQueryParams).then(response => {
+        this.examOptions = response.data;
+      });
+    },
     tableRowClassName({row, rowIndex}) {
       if (1 === rowIndex % 2) {
         return 'success-row';
@@ -406,6 +436,8 @@
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
+      this.queryParams.examNumber = null;
+      this.examName = null;
       this.handleQuery();
     },
     // 多选框选中数据

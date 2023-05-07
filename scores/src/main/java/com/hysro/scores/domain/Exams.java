@@ -23,7 +23,6 @@ public class Exams extends BaseEntity
     private Long examId;
 
     /** 考试名称 */
-    @NotNull
     @NotBlank
     @Excel(name = "考试名称")
     private String examName;

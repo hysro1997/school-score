@@ -28,3 +28,10 @@ export function delTempScores(data) {
     data: data
   })
 }
+export function cleanTempScores(data) {
+  return request({
+    url: '/scores/inpution/clean',
+    method: 'delete',
+    data: data
+  })
+}

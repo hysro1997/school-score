@@ -101,4 +101,13 @@ public interface IExamStudentScoresService
      * @return 学生分数情况
      */
     public ExamStudentScores selectExamStudentScoresByExamNumberAndExamId(ExamStudentScores examStudentScores);
+
+    /**
+     * 从临时分数表中整合分数
+     * @param examId 考试ID
+     * @return 结果
+     */
+    public int mixScores(Long examId);
+
+
 }

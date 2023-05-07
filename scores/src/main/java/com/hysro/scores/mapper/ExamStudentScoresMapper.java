@@ -92,4 +92,12 @@ public interface ExamStudentScoresMapper
      * @return 结果
      */
     public List<Map<String,String>> selectExamStudentScoresByScoresBoundry(ExamStudentScores examStudentScores);
+
+    /**
+     * 删除总分为null的记录，即全部缺考的学生
+     *
+     * @param examId 考试ID
+     * @return 结果
+     */
+    public int deleteTotalScoreIsNull(Long examId);
 }
