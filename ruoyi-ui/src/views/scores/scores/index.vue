@@ -162,13 +162,13 @@
           <el-input v-model="form.examNumber" placeholder="请输入考试号" maxlength="5" />
         </el-form-item>
         <el-form-item label="语文分数" prop="chineseScore">
-          <el-input v-model="form.chineseScore" placeholder="请输入语文分数" />
+          <el-input v-model="form.chineseScore" @input="form.chineseScore = form.chineseScore.replace(/[^\d.]/g,'')" placeholder="请输入语文分数" />
         </el-form-item>
         <el-form-item label="数学分数" prop="mathsScore">
-          <el-input v-model="form.mathsScore" placeholder="请输入数学分数" />
+          <el-input v-model="form.mathsScore" @input="form.mathsScore = form.mathsScore.replace(/[^\d.]/g,'')" placeholder="请输入数学分数" />
         </el-form-item>
         <el-form-item label="英语分数" prop="englishScore">
-          <el-input v-model="form.englishScore" placeholder="请输入英语分数" />
+          <el-input v-model="form.englishScore" @input="form.englishScore = form.englishScore.replace(/[^\d.]/g,'')" placeholder="请输入英语分数" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -349,6 +349,9 @@
           { required: true, message: "考试号不能为空", trigger: "blur" },
           { pattern: /([1-9]|[A])[0-1]\d\d\d/, message: "考试号有5位，首位为年份的最后一个数字，举例2024年入学的03班05号学生考试号为考试号（40305），2020年入学的则是(A0305)"}
         ],
+        chineseScore:[{pattern: /([1-9]\d*\.?\d*)|(0\.\d*[1-9])/, message: "只能输入纯数字"}],
+        mathsScore:[{pattern: /([1-9]\d*\.?\d*)|(0\.\d*[1-9])/, message: "只能输入纯数字"}],
+        englishScore:[{pattern: /([1-9]\d*\.?\d*)|(0\.\d*[1-9])/, message: "只能输入纯数字"}]
       }
     };
   },

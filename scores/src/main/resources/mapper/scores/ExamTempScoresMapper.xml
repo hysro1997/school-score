@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hysro.scores.mapper.ExamTempScoresMapper">
+
+    <resultMap type="ExamTempScores" id="ExamTempScoresResult">
+        <result property="id"    column="id"    />
+        <result property="examNumber"    column="exam_umber"    />
+        <result property="chineseScore"    column="chinese_score"    />
+        <result property="mathsScore"    column="maths_score"    />
+        <result property="englishScore"    column="english_score"    />
+        <result property="examId"    column="exam_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+    </resultMap>
+
+    <delete id="deleteChineseTempScores">
+        DELETE FROM exam_temp_chinese_score
+        WHERE exam_id = #{examId} AND exam_number like concat(#{examNumber}, '%')
+    </delete>
+    <delete id="deleteMathsTempScores">
+        DELETE FROM exam_temp_maths_score
+        WHERE exam_id = #{examId} AND exam_number like concat(#{examNumber}, '%')
+    </delete>
+    <delete id="deleteEnglishTempScores">
+        DELETE FROM exam_temp_english_score
+        WHERE exam_id = #{examId} AND exam_number like concat(#{examNumber}, '%')
+    </delete>
+
+    <select id="countChineseNumbersByExamId" parameterType="ExamTempScores" resultType="int">
+        SELECT COUNT(*) from exam_temp_chinese_score
+        WHERE exam_number = #{examNumber} AND exam_id = #{examId}
+    </select>
+    <select id="countMathsNumbersByExamId" parameterType="ExamTempScores" resultType="int">
+        SELECT COUNT(*) from exam_temp_maths_score
+        WHERE exam_number = #{examNumber} AND exam_id = #{examId}
+    </select>
+    <select id="countEnglishNumbersByExamId" parameterType="ExamTempScores" resultType="int">
+        SELECT COUNT(*) from exam_temp_english_score
+        WHERE exam_number = #{examNumber} AND exam_id = #{examId}
+    </select>
+    <insert id="insertExamTempChineseScores" parameterType="java.util.ArrayList">
+        INSERT INTO exam_temp_chinese_score (chinese_score,exam_number,exam_id,create_by,create_time)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator="," >
+            (
+            #{item.score},
+            #{item.examNumber},
+            #{item.examId},
+            #{item.createBy},
+            #{item.createTime}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertExamTempMathsScores" parameterType="java.util.ArrayList">
+        INSERT INTO exam_temp_maths_score (maths_score,exam_number,exam_id,create_by,create_time)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator="," >
+            (
+            #{item.score},
+            #{item.examNumber},
+            #{item.examId},
+            #{item.createBy},
+            #{item.createTime}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertExamTempEnglishScores" parameterType="java.util.ArrayList">
+        INSERT INTO exam_temp_english_score (english_score,exam_number,exam_id,create_by,create_time)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator="," >
+            (
+            #{item.score},
+            #{item.examNumber},
+            #{item.examId},
+            #{item.createBy},
+            #{item.createTime}
+            )
+        </foreach>
+    </insert>
+</mapper>

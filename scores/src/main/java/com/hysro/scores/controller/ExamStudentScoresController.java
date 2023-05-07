@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import com.hysro.scores.service.IExamsService;
 import com.ruoyi.common.core.domain.model.LoginUser;
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.ServletUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -88,6 +89,9 @@ public class ExamStudentScoresController extends BaseController
     {
         String operName = SecurityUtils.getUsername();
         examStudentScores.setCreateBy(operName);
+        if (1 != examsService.countExamsEnables()){
+            return AjaxResult.error("当前考试尚未启用");
+        }
         Long examId = examsService.selectExamsEnabled().getExamId();
         examStudentScores.setExamId(examId);
         if (null == examStudentScoresService.selectExamStudentScoresByExamNumberAndExamId(examStudentScores)){

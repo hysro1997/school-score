@@ -301,6 +301,7 @@
   import { listSummary } from '@/api/scores/summary'
   import { listStatistic } from '@/api/scores/statistic'
   import { listStatictics, getAverage } from '@/api/scores/statictics'
+  import Cookies from 'js-cookie'
 
 export default {
   name: "Index",
@@ -792,6 +793,7 @@ export default {
       getUserProfile().then(response => {
         this.user.nickName = response.data.nickName;
         if (response.data.dept){
+          Cookies.set("deptName",response.data.dept.deptName);
           this.user.dept.deptName = response.data.dept.deptName;
         } else {
           this.user.dept.deptName = "";
