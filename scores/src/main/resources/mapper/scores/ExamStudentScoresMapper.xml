@@ -43,8 +43,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="examId != null "> and exam_id = #{examId}</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            and ${subject} IS NOT NULL
         </where>
-        ORDER BY ISNULL(${subject}),${subject} ${orderType} LIMIT 50
+        ORDER BY ${subject} ${orderType} LIMIT 50
     </select>
 
     <select id="selectExamStudentScoresByScoresBoundry" parameterType="ExamStudentScores" resultType="Map">

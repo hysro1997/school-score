@@ -44,6 +44,8 @@ public class ExamStudentScoresController extends BaseController
     private IExamStudentScoresService examStudentScoresService;
     @Autowired
     private IExamsService examsService;
+    private static final String ASC = "0";
+    private static final String DESC = "1";
 
     /**
      * 查询学生分数情况列表
@@ -146,49 +148,15 @@ public class ExamStudentScoresController extends BaseController
 
     @GetMapping("/totalPointsFifty")
     public AjaxResult getTotalPointsFifty(ExamStudentScores examStudentScores){
-        if (null == examStudentScores.getExamId()){
-            return AjaxResult.error("没有选择查看哪一场考试的成绩");
-        }
-        //0升序排列，即倒数50名
-        if ("0".equals(examStudentScores.getOrderType())){
-            examStudentScores.setOrderType("ASC");
-            //1降序排列，即前50名
-        } else if ("1".equals(examStudentScores.getOrderType())){
-            examStudentScores.setOrderType("DESC");
-        } else {
-            return AjaxResult.error("参数错误");
-        }
+        this.setOrderType(examStudentScores);
         examStudentScores.setSubject("total_points");
         return success(examStudentScoresService.selectExamStudentScoresTotalPointsFifty(examStudentScores));
     }
 
     @GetMapping("/fifty")
     public AjaxResult getScoresFifty(ExamStudentScores examStudentScores){
-        if (null == examStudentScores.getExamId()){
-            return AjaxResult.error("没有选择查看哪一场考试的成绩");
-        }
-        //0升序排列，即倒数50名
-        if ("0".equals(examStudentScores.getOrderType())){
-            examStudentScores.setOrderType("ASC");
-            //1降序排列，即前50名
-        } else if ("1".equals(examStudentScores.getOrderType())){
-            examStudentScores.setOrderType("DESC");
-        } else {
-            return AjaxResult.error("参数错误");
-        }
-        switch (examStudentScores.getSubject()){
-            case "语文" :
-                examStudentScores.setSubject("chinese_score");
-                break;
-            case "数学":
-                examStudentScores.setSubject("maths_score");
-                break;
-            case "英语":
-                examStudentScores.setSubject("english_score");
-                break;
-            default:
-                return AjaxResult.error("参数错误");
-        }
+        this.setOrderType(examStudentScores);
+        this.switchSubject(examStudentScores);
         return AjaxResult.success(examStudentScoresService.selectExamStudentScoresFifty(examStudentScores));
     }
 
@@ -197,19 +165,7 @@ public class ExamStudentScoresController extends BaseController
         if (null == examStudentScores.getExamId()){
             return AjaxResult.error("没有选择查看哪一场考试的成绩");
         }
-        switch (examStudentScores.getSubject()){
-            case "语文" :
-                examStudentScores.setSubject("chinese_score");
-                break;
-            case "数学":
-                examStudentScores.setSubject("maths_score");
-                break;
-            case "英语":
-                examStudentScores.setSubject("english_score");
-                break;
-            default:
-                return AjaxResult.error("参数错误");
-        }
+        this.switchSubject(examStudentScores);
         switch (boundryType){
             case 0:
                 examStudentScores.setUnderLine(0);
@@ -235,5 +191,35 @@ public class ExamStudentScoresController extends BaseController
                 break;
         }
         return AjaxResult.success(examStudentScoresService.selectExamStudentScoresByScoresBoundry(examStudentScores));
+    }
+
+    private void setOrderType(ExamStudentScores examStudentScores){
+        if (null == examStudentScores.getExamId()){
+            throw new ServiceException("没有选择查看哪一场考试的成绩");
+        }
+        //0升序排列，即倒数50名
+        if (ASC.equals(examStudentScores.getOrderType())){
+            examStudentScores.setOrderType("ASC");
+            //1降序排列，即前50名
+        } else if (DESC.equals(examStudentScores.getOrderType())){
+            examStudentScores.setOrderType("DESC");
+        } else {
+            throw new ServiceException("参数错误");
+        }
+    }
+    private void switchSubject(ExamStudentScores examStudentScores){
+        switch (examStudentScores.getSubject()){
+            case "语文" :
+                examStudentScores.setSubject("chinese_score");
+                break;
+            case "数学":
+                examStudentScores.setSubject("maths_score");
+                break;
+            case "英语":
+                examStudentScores.setSubject("english_score");
+                break;
+            default:
+                throw new ServiceException("参数错误");
+        }
     }
 }

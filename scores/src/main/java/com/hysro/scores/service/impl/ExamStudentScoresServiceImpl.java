@@ -56,6 +56,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     private static final String GRADE_TWO = "二年级";
     private static final String GRADE_ONE = "一年级";
     private static final String ORDER_TYPE_ASC = "ASC";
+    private static final int STUDENT_SIZE_FIFTY = 50;
 
     /**
      * 查询学生分数情况
@@ -220,11 +221,11 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
 
     @Override
     public List<Map<String,String>> selectExamStudentScoresFifty(ExamStudentScores examStudentScores) {
-        List<Map<String,String>> scoremap = examStudentScoresMapper.selectExamStudentScoresFifty(examStudentScores);
-        if (0==scoremap.size()){
-            return null;
+        List<Map<String,String>> scoreMap = examStudentScoresMapper.selectExamStudentScoresFifty(examStudentScores);
+        if (STUDENT_SIZE_FIFTY > scoreMap.size()){
+            return scoreMap;
         }
-        Map<String,String> map = scoremap.get(scoremap.size()-1);
+        Map<String,String> map = scoreMap.get(scoreMap.size()-1);
         String score = String.valueOf(map.get("score"));
         score = score.substring(0,score.indexOf("."));
         if (ORDER_TYPE_ASC.equals(examStudentScores.getOrderType())){
@@ -240,12 +241,12 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
 
     @Override
     public List<Map<String, String>> selectExamStudentScoresTotalPointsFifty(ExamStudentScores examStudentScores) {
-        List<Map<String,String>> scoremap = examStudentScoresMapper.selectExamStudentScoresFifty(examStudentScores);
-        if (0==scoremap.size() || null == scoremap.get(0).get("score")){
-            return null;
+        List<Map<String,String>> scoreMap = examStudentScoresMapper.selectExamStudentScoresFifty(examStudentScores);
+        if (STUDENT_SIZE_FIFTY > scoreMap.size()){
+            return scoreMap;
         }
         examStudentScores.setClasses(null);
-        Map<String,String> map = scoremap.get(scoremap.size()-1);
+        Map<String,String> map = scoreMap.get(scoreMap.size()-1);
         String score = String.valueOf(map.get("score"));
         if (0 < score.indexOf(".")){
             score = score.substring(0,score.indexOf("."));

@@ -32,7 +32,7 @@
           </el-row>
         <br/>
         <el-button type="warning" @click="clearScore" v-hasPermi="['scores:inpution:delete']"> 删除{{ submitButtonInfo }}的分数记录 </el-button>
-        <el-button type="danger" @click="cleanTemp" v-hasPermi="['scores:inpution:delete']"> 清空数据 </el-button>
+        <!--el-button type="danger" @click="cleanTemp" v-hasPermi="['scores:inpution:delete']"> 清空数据 </el-button -->
         <br/><br/>
         <el-row>
           <el-col :span="8">
@@ -49,6 +49,7 @@
                   <el-button :disabled="inputionDisabled" type="info" @click="retreatScore"> 撤回分数（{{ inputionSteps }}） </el-button>
                 </el-form-item>
                 <p>按下 “回车键” 或者“↓”直接暂存分数</p>
+                <p>如果缺考，不输入分数，直接点击下一条即可</p>
                 <p>录完一个班的分数，需要点击提交分数</p>
                 <p>分数录入错误，请点击撤回分数（6次）</p>
                 <p>如果6次全部用完，仍需修改：<br/>&nbsp;&nbsp;1、刷新页面重新录分；<br/>&nbsp;&nbsp;2、继续录分，全部录完后联系课程处单独修改</p>
