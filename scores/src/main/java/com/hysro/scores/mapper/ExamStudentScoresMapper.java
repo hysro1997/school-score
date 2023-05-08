@@ -100,4 +100,12 @@ public interface ExamStudentScoresMapper
      * @return 结果
      */
     public int deleteTotalScoreIsNull(Long examId);
+
+    /**
+     * 删除考试ID下的全部分数
+     *
+     * @param examIds 考试ID
+     * @return 结果
+     */
+    public int deleteStudentScoresByExamIds(Long[] examIds);
 }

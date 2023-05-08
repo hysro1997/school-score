@@ -70,6 +70,14 @@ public interface ExamGradeStatisticMapper
     public int deleteExamGradeStatisticByExamId(Long examId);
 
     /**
+     * 删除年级数据统计情况
+     *
+     * @param examIds 考试主键
+     * @return 结果
+     */
+    public int deleteExamGradeStatisticByExamIds(Long[] examIds);
+
+    /**
      * 批量删除年级数据统计情况
      *
      * @param examGradeStatisticsIds 需要删除的数据主键集合

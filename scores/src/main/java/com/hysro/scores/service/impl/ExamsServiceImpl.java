@@ -115,6 +115,10 @@ public class ExamsServiceImpl implements IExamsService
     @Override
     public int deleteExamsByExamIds(Long[] examIds)
     {
+        classStaticticsMapper.deleteExamClassStaticticsByExamIds(examIds);
+        gradeSummaryMapper.deleteExamGradeSummaryByExamIds(examIds);
+        gradeStatisticMapper.deleteExamGradeStatisticByExamIds(examIds);
+        studentScoresMapper.deleteStudentScoresByExamIds(examIds);
         return examsMapper.deleteExamsByExamIds(examIds);
     }
 

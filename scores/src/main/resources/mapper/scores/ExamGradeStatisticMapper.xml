@@ -273,6 +273,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from exam_grade_statistic where exam_id = #{examId}
     </delete>
 
+    <delete id="deleteExamGradeStatisticByExamIds" parameterType="String">
+        delete from exam_grade_statistic where exam_id in
+        <foreach item="examId" collection="array" open="(" separator="," close=")">
+            #{examId}
+        </foreach>
+    </delete>
+
     <delete id="deleteExamGradeStatisticByExamGradeStatisticsIds" parameterType="String">
         delete from exam_grade_statistic where exam_grade_statistics_id in
         <foreach item="examGradeStatisticsId" collection="array" open="(" separator="," close=")">

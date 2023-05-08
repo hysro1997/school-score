@@ -141,6 +141,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         DELETE FROM exam_student_scores where exam_id = #{examId} AND total_points IS NULL
     </delete>
 
+    <delete id="deleteStudentScoresByExamIds" parameterType="String">
+        DELETE FROM exam_student_scores where exam_id in
+        <foreach item="examId" collection="array" open="(" separator="," close=")">
+            #{examId}
+        </foreach>
+    </delete>
+
     <delete id="deleteExamStudentScoresByScoreId" parameterType="Long">
         delete from exam_student_scores where score_id = #{scoreId}
     </delete>
