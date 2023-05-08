@@ -1,47 +1,40 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="学科" prop="subject">
-        <!--el-input
-          v-model="queryParams.subject"
-          placeholder="请输入学科"
-          clearable
-          @keyup.enter.native="handleQuery"
-        /-->
-        <el-select v-model="queryParams.subject" placeholder="请选择学科">
-          <el-option
-            v-for="item in subjectOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-            @keyup.enter.native="handleQuery">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="年级" prop="grade">
-        <!--el-input
-          v-model="queryParams.grade"
-          placeholder="请输入年级"
-          clearable
-          @keyup.enter.native="handleQuery"
-        /-->
-        <el-select v-model="queryParams.grade" placeholder="请选择年级">
-          <el-option
-            v-for="item in gradeOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-            @keyup.enter.native="handleQuery">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-      </el-form-item>
-    </el-form>
 
-    <el-row :gutter="10" class="mb8">
+    <el-form ref="elForm" :model="queryParams" size="medium" label-width="100px" @submit.native.prevent
+             label-position="left">
+      <el-row>
+        <el-col :span="24">
+          <el-form-item label="年级" prop="grade">
+            <el-radio-group v-model="queryParams.grade" size="medium" @input="handleQuery">
+              <el-radio v-for="(item, index) in gradeOptions" :key="index" :label="item.value"
+                        :disabled="item.disabled" border>{{item.label}}</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+    <el-divider></el-divider>
+    <div style="width: 400px">
+      <el-form size="medium"
+               label-width="100px" label-position="left">
+        <el-form-item label-width="80px" label="语文" prop="语文优秀分数线">
+          <el-input :disabled="chinese.editEnable" maxlength="3" v-model="chinese.excellentScore" @input="chinese.excellentScore = chinese.excellentScore.replace(/[^\d]/g,'')"></el-input>
+        </el-form-item>
+        <el-form-item label-width="80px" label="数学" prop="数学优秀分数线">
+          <el-input :disabled="math.editEnable" maxlength="3" v-model="math.excellentScore" @input="math.excellentScore = math.excellentScore.replace(/[^\d]/g,'')"></el-input>
+        </el-form-item>
+        <el-form-item label-width="80px" label="英语" prop="英语优秀分数线">
+          <el-input :disabled="english.editEnable" maxlength="3" v-model="english.excellentScore" @input="english.excellentScore = english.excellentScore.replace(/[^\d]/g,'')" ></el-input>
+        </el-form-item>
+        <el-form-item size="large">
+          <el-button :disabled="editEnable" type="primary" @click="submitForm"  v-hasPermi="['scores:line:edit']">提交</el-button>
+          <el-button @click="editEnableChange" v-hasPermi="['scores:line:edit']">{{ editInfo }}</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+
+    <!-- el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
           type="primary"
@@ -85,9 +78,9 @@
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-    </el-row>
+    </el-row -->
 
-    <el-table v-loading="loading" :data="lineList" @selection-change="handleSelectionChange" :row-class-name="tableRowClassName">
+    <!-- el-table v-loading="loading" :data="lineList" @selection-change="handleSelectionChange" :row-class-name="tableRowClassName">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="excellentId" />
       <el-table-column label="学科" align="center" prop="subject" />
@@ -122,13 +115,13 @@
       :page.sync="queryParams.pageNum"
       :limit.sync="queryParams.pageSize"
       @pagination="getList"
-    />
+    / -->
 
     <!-- 添加或修改优秀分数线对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px"  :close-on-click-modal="false" append-to-body>
+    <!-- el-dialog :title="title" :visible.sync="open" width="500px"  :close-on-click-modal="false" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="学科" prop="subject">
-          <!--el-input v-model="form.subject" placeholder="请输入学科" /-->
+          <el-input v-model="form.subject" placeholder="请输入学科" />
           <el-select v-model="form.subject" placeholder="请选择学科">
             <el-option
               v-for="item in subjectOptions"
@@ -142,7 +135,7 @@
           <el-input maxlength="6" show-word-limit v-model="form.excellentScore" @input="form.excellentScore = form.excellentScore.replace(/[^\d.]/g,'')" placeholder="请输入优秀分数" />
         </el-form-item>
         <el-form-item label="年级" prop="grade">
-          <!--el-input v-model="form.grade" placeholder="请输入年级" /-->
+          <el-input v-model="form.grade" placeholder="请输入年级" />
           <el-select v-model="form.grade" placeholder="请选择年级">
             <el-option
               v-for="item in gradeOptions"
@@ -157,7 +150,7 @@
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
-    </el-dialog>
+    </el-dialog -->
   </div>
 </template>
 
@@ -168,17 +161,23 @@
   name: "Score-Line",
   data() {
     return {
-      //学科选项
-      subjectOptions:[{
-        value: '语文',
-        label: '语文'
-      }, {
-        value: '数学',
-        label: '数学'
-      }, {
-        value: '英语',
-        label: '英语'
-      }],
+      editInfo: '启用编辑',
+      editEnable: true,
+      chinese: {
+        excellentId: null,
+        excellentScore: null,
+        editEnable: true,
+      },
+      math: {
+        excellentId: null,
+        excellentScore: null,
+        editEnable: true,
+      },
+      english: {
+        excellentId: null,
+        excellentScore: null,
+        editEnable: true,
+      },
       //年级选项
       gradeOptions:[{
         value: '一年级',
@@ -201,49 +200,36 @@
       }],
       // 遮罩层
       loading: true,
-      // 选中数组
-      ids: [],
-      // 非单个禁用
-      single: true,
-      // 非多个禁用
-      multiple: true,
-      // 显示搜索条件
-      showSearch: true,
-      // 总条数
-      total: 0,
-      // 优秀分数线表格数据
-      lineList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
       // 查询参数
       queryParams: {
-        pageNum: 1,
-        pageSize: 10,
         subject: null,
-        grade: null
+        grade: '一年级'
       },
-      // 表单参数
-      form: {},
-      // 表单校验
-      rules:{
-        subject: [
-        { required: true, message: '请选择学科', trigger: 'change' }
-        ],
-        grade: [
-          { required: true, message: '请选择年级', trigger: 'change' }
-        ],
-        excellentScore: [
-          { required: true, message: '请填写优秀分数线', trigger: 'blur' }
-        ]
-      }
     };
   },
   created() {
     this.getList();
   },
   methods: {
+    editEnableChange(){
+      this.editInfo = this.editEnable ? "启用编辑" : "禁用编辑";
+      if (this.editEnable){
+        if ("一年级" === this.queryParams.grade || "二年级" === this.queryParams.grade){
+          this.english.editEnable = true;
+        } else {
+          this.english.editEnable = false;
+        }
+      } else {
+        this.english.editEnable = true;
+      }
+      this.chinese.editEnable = !this.chinese.editEnable;
+      this.math.editEnable = !this.math.editEnable;
+      this.editEnable = !this.editEnable;
+    },
     tableRowClassName({row, rowIndex}) {
       if (1 === rowIndex % 2) {
         return 'success-row';
@@ -252,11 +238,40 @@
     },
     /** 查询优秀分数线列表 */
     getList() {
-      this.loading = true;
+      let that = this;
+      that.editEnable = true;
+      that.chinese = {
+        excellentId: null,
+        excellentScore: null,
+        editEnable: true,
+      };
+      that.math = {
+        excellentId: null,
+        excellentScore: null,
+        editEnable: true,
+      };
+      that.english = {
+        excellentId: null,
+        excellentScore: null,
+        editEnable: true,
+      };
       listLine(this.queryParams).then(response => {
-        this.lineList = response.rows;
-        this.total = response.total;
-        this.loading = false;
+        response.data.forEach((value, index) => {
+          switch (value.subject) {
+            case "语文":
+              that.chinese = value;
+              that.chinese.editEnable = true;
+              break;
+            case "数学":
+              that.math = value;
+              that.math.editEnable = true;
+              break;
+            case "英语":
+              that.english = value;
+              that.english.editEnable = true;
+              break;
+          }
+        });
       });
     },
     // 取消按钮
@@ -276,7 +291,6 @@
     },
     /** 搜索按钮操作 */
     handleQuery() {
-      this.queryParams.pageNum = 1;
       this.getList();
     },
     /** 重置按钮操作 */
@@ -308,23 +322,30 @@
     },
     /** 提交按钮 */
     submitForm() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.excellentId != null) {
-            updateLine(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
-            });
-          } else {
-            addLine(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
-            });
-          }
-        }
+      let paramOne = {
+        excellentId: this.chinese.excellentId,
+        excellentScore: this.chinese.excellentScore
+      };
+      updateLine(paramOne).then(response => {
+        this.$modal.msgSuccess("修改成功");
       });
+      let paramTwo = {
+        excellentId: this.math.excellentId,
+        excellentScore: this.math.excellentScore
+      };
+      updateLine(paramTwo).then(response => {
+        this.$modal.msgSuccess("修改成功");
+      });
+      if (this.english.excellentId){
+        let paramThree = {
+          excellentId: this.english.excellentId,
+          excellentScore: this.english.excellentScore
+        };
+        updateLine(paramThree).then(response => {
+          this.$modal.msgSuccess("修改成功");
+        });
+      }
+      this.editEnableChange();
     },
     /** 删除按钮操作 */
     handleDelete(row) {

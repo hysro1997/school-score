@@ -322,6 +322,7 @@ export default {
         setTimeout(() => {
           that.$modal.msgSuccess("分数整合完成！");
           loading.close();
+          this.handleStatistics(row);
         }, 1000);
       });
     },

@@ -225,16 +225,8 @@ public class ExamsServiceImpl implements IExamsService
         examClassStatictics.setClasses(classes);
         examClassStatictics.setExamId(examId);
 
-        //开始分步获取优秀分数
-        ExamExcellentScoreLine examExcellentScoreLine = new ExamExcellentScoreLine();
-        examExcellentScoreLine.setGrade(grade);
-        examExcellentScoreLine.setSubject(subject);
-        examExcellentScoreLine = scoreLineMapper.selectExamExcellentScoreLine(examExcellentScoreLine);
-        if (null == examExcellentScoreLine){
-            throw new ServiceException(grade + "没有设置" + subject + "优秀分数线");
-        }
         //下面给考试成绩班级统计设置学科和对应的优秀分数线
-        examClassStatictics.setExcellentLine(examExcellentScoreLine.getExcellentScore());
+        examClassStatictics.setExcellentLine(this.getExcellentScoreLineByGradeSubject(grade,subject));
         examClassStatictics.setSubjectName(subjectName);
         examClassStatictics.setSubject(subject);
         ExamMuitipleCalculation examMuitipleCalculation;
@@ -319,7 +311,11 @@ public class ExamsServiceImpl implements IExamsService
         ExamExcellentScoreLine examExcellentScoreLine = new ExamExcellentScoreLine();
         examExcellentScoreLine.setGrade(grade);
         examExcellentScoreLine.setSubject(subject);
-        return scoreLineMapper.selectExamExcellentScoreLine(examExcellentScoreLine).getExcellentScore();
+        examExcellentScoreLine = scoreLineMapper.selectExamExcellentScoreLine(examExcellentScoreLine);
+        if (null == examExcellentScoreLine){
+            throw new ServiceException(grade + "没有设置" + subject + "优秀分数线");
+        }
+        return examExcellentScoreLine.getExcellentScore();
     }
 
     /**

@@ -23,7 +23,6 @@ public class ExamExcellentScoreLine extends BaseEntity
 
     /** 学科 */
     @Excel(name = "学科", type = Excel.Type.EXPORT)
-    @NotBlank
     private String subject;
 
     /** 优秀分数 */
@@ -33,7 +32,6 @@ public class ExamExcellentScoreLine extends BaseEntity
 
     /** 年级 */
     @Excel(name = "年级", type = Excel.Type.EXPORT)
-    @NotBlank
     private String grade;
 
     public void setExcellentId(Long excellentId)

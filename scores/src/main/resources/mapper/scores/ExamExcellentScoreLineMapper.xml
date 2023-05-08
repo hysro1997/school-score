@@ -12,13 +12,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectExamExcellentScoreLineVo">
-        select excellent_id, subject, excellent_score, grade from exam_excellent_score_line
+        select excellent_id, `subject`, excellent_score, grade from exam_excellent_score_line
     </sql>
 
     <select id="selectExamExcellentScoreLineList" parameterType="ExamExcellentScoreLine" resultMap="ExamExcellentScoreLineResult">
         <include refid="selectExamExcellentScoreLineVo"/>
         <where>
-            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
+            <if test="subject != null  and subject != ''"> and `subject` = #{subject}</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
         </where>
         order by excellent_id desc
@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectExamExcellentScoreLine" parameterType="ExamExcellentScoreLine" resultMap="ExamExcellentScoreLineResult">
         <include refid="selectExamExcellentScoreLineVo"/>
         <where>
-            <if test="subject != null  and subject != ''"> and subject = #{subject}</if>
+            <if test="subject != null  and subject != ''"> and `subject` = #{subject}</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
         </where>
     </select>
@@ -41,7 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into exam_excellent_score_line
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="excellentId != null">excellent_id,</if>
-            <if test="subject != null">subject,</if>
+            <if test="subject != null">`subject`,</if>
             <if test="excellentScore != null">excellent_score,</if>
             <if test="grade != null">grade,</if>
          </trim>
@@ -56,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateExamExcellentScoreLine" parameterType="ExamExcellentScoreLine">
         update exam_excellent_score_line
         <trim prefix="SET" suffixOverrides=",">
-            <if test="subject != null">subject = #{subject},</if>
+            <if test="subject != null">`subject` = #{subject},</if>
             <if test="excellentScore != null">excellent_score = #{excellentScore},</if>
             <if test="grade != null">grade = #{grade},</if>
         </trim>

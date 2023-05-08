@@ -3,6 +3,7 @@ package com.hysro.scores.service.impl;
 import com.hysro.scores.domain.ExamExcellentScoreLine;
 import com.hysro.scores.mapper.ExamExcellentScoreLineMapper;
 import com.hysro.scores.service.IExamExcellentScoreLineService;
+import com.ruoyi.common.core.redis.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,8 @@ public class ExamExcellentScoreLineServiceImpl implements IExamExcellentScoreLin
 {
     @Autowired
     private ExamExcellentScoreLineMapper examExcellentScoreLineMapper;
+    @Autowired
+    private RedisCache redisCache;
 
     /**
      * 查询优秀分数线
@@ -69,6 +72,7 @@ public class ExamExcellentScoreLineServiceImpl implements IExamExcellentScoreLin
     @Override
     public int updateExamExcellentScoreLine(ExamExcellentScoreLine examExcellentScoreLine)
     {
+        redisCache.deleteObject("AllExcellentScoreLine");
         return examExcellentScoreLineMapper.updateExamExcellentScoreLine(examExcellentScoreLine);
     }
 

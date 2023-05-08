@@ -34,16 +34,14 @@ public class ExamExcellentScoreLineController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('scores:line:list')")
     @GetMapping("/list")
-    public TableDataInfo list(ExamExcellentScoreLine examExcellentScoreLine)
+    public AjaxResult list(ExamExcellentScoreLine examExcellentScoreLine)
     {
-        startPage();
-        List<ExamExcellentScoreLine> list = examExcellentScoreLineService.selectExamExcellentScoreLineList(examExcellentScoreLine);
-        return getDataTable(list);
+        return success(examExcellentScoreLineService.selectExamExcellentScoreLineList(examExcellentScoreLine));
     }
 
     /**
      * 导出优秀分数线列表
-     */
+
     @PreAuthorize("@ss.hasPermi('scores:line:export')")
     @Log(title = "优秀分数线", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
@@ -53,20 +51,20 @@ public class ExamExcellentScoreLineController extends BaseController
         ExcelUtil<ExamExcellentScoreLine> util = new ExcelUtil<ExamExcellentScoreLine>(ExamExcellentScoreLine.class);
         util.exportExcel(response, list, "优秀分数线数据");
     }
-
+     */
     /**
      * 获取优秀分数线详细信息
-     */
+
     @PreAuthorize("@ss.hasPermi('scores:line:query')")
     @GetMapping(value = "/{excellentId}")
     public AjaxResult getInfo(@PathVariable("excellentId") Long excellentId)
     {
         return success(examExcellentScoreLineService.selectExamExcellentScoreLineByExcellentId(excellentId));
     }
-
+     */
     /**
      * 新增优秀分数线
-     */
+
     @PreAuthorize("@ss.hasPermi('scores:line:add')")
     @Log(title = "优秀分数线", businessType = BusinessType.INSERT)
     @PostMapping
@@ -74,6 +72,7 @@ public class ExamExcellentScoreLineController extends BaseController
     {
         return toAjax(examExcellentScoreLineService.insertExamExcellentScoreLine(examExcellentScoreLine));
     }
+     */
 
     /**
      * 修改优秀分数线
@@ -88,12 +87,12 @@ public class ExamExcellentScoreLineController extends BaseController
 
     /**
      * 删除优秀分数线
-     */
+
     @PreAuthorize("@ss.hasPermi('scores:line:remove')")
     @Log(title = "优秀分数线", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{excellentIds}")
     public AjaxResult remove(@PathVariable Long[] excellentIds)
     {
         return toAjax(examExcellentScoreLineService.deleteExamExcellentScoreLineByExcellentIds(excellentIds));
-    }
+    }*/
 }

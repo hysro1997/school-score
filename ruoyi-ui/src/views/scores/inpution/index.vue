@@ -143,6 +143,12 @@
         }, {
           "label": "8班",
           "value": "08"
+        }, {
+          "label": "9班",
+          "value": "09"
+        }, {
+          "label": "10班",
+          "value": "10"
         }],
         subjectOptions: [{
           "label": "语文",
