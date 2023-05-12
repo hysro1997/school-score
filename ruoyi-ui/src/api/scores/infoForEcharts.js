@@ -7,3 +7,11 @@ export function getStaticticsclass(query) {
     params: query
   })
 }
+
+export function getClassesHistory(query) {
+  return request({
+    url: '/echarts/getClassesHistoryRate',
+    method: 'get',
+    params: query
+  })
+}

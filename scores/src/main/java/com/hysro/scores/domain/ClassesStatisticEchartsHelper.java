@@ -19,6 +19,11 @@ public class ClassesStatisticEchartsHelper {
     public String[] subjects;
 
     /**
+     * 学科们
+     */
+    public String[] examNames;
+
+    /**
      * 班级们
      */
     public String[] classes;
@@ -29,6 +34,33 @@ public class ClassesStatisticEchartsHelper {
     public int[] chineseRates;
     public int[] mathsRates;
     public int[] englishRates;
+
+    public String examName;
+    public int rate;
+
+    public String getExamName() {
+        return examName;
+    }
+
+    public void setExamName(String examName) {
+        this.examName = examName;
+    }
+
+    public int getRate() {
+        return rate;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+
+    public String[] getExamNames() {
+        return examNames;
+    }
+
+    public void setExamNames(String[] examNames) {
+        this.examNames = examNames;
+    }
 
     public String[] getClasses() {
         return classes;
@@ -78,6 +110,9 @@ public class ClassesStatisticEchartsHelper {
                 .append("mathsRates", getMathsRates())
                 .append("englishRates", getEnglishRates())
                 .append("classes", getClasses())
+                .append("examNames", getExamNames())
+                .append("rate", getRate())
+                .append("examName", getExamName())
                 .toString();
     }
 }

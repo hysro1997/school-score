@@ -110,6 +110,14 @@ public class ExamClassStatictics extends BaseEntity
     @JSONField(serialize = false)
     private String subjectName;
 
+    /** 动态给sql传参，表明查询的是哪个学科的分数，另一情况用于表明查询的是平均分还是综合分 */
+    @JSONField(serialize = false)
+    private String subjectName2;
+
+    /** 动态给sql传参，表明查询的是哪个学科的分数，另一情况用于表明查询的是平均分还是综合分 */
+    @JSONField(serialize = false)
+    private String subjectName3;
+
     /** 动态给sql传参，表明查询的综合分计算时的优秀率系数 */
     @JSONField(serialize = false)
     private String excellentAgent;
@@ -121,6 +129,22 @@ public class ExamClassStatictics extends BaseEntity
     /** 动态给sql传参，表明查询的综合分计算时的平均分系数 */
     @JSONField(serialize = false)
     private String averageAgent;
+
+    public String getSubjectName2() {
+        return subjectName2;
+    }
+
+    public void setSubjectName2(String subjectName2) {
+        this.subjectName2 = subjectName2;
+    }
+
+    public String getSubjectName3() {
+        return subjectName3;
+    }
+
+    public void setSubjectName3(String subjectName3) {
+        this.subjectName3 = subjectName3;
+    }
 
     public String getExcellentAgent() {
         return excellentAgent;
@@ -386,7 +410,6 @@ public class ExamClassStatictics extends BaseEntity
             .append("averageRank", getAverageRank())
             .append("exams", getExams())
             .append("excellentLine", getExcellentLine())
-            .append("subjectName", getSubjectName())
             .toString();
     }
 }

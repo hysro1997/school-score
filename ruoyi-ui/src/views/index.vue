@@ -288,16 +288,26 @@
         <el-table-column label="平均分排名" sortable align="center" prop="averageRank" />
       </el-table>
     </el-drawer>
+    <el-drawer
+      title="默认名称"
+      :visible.sync="drawer2"
+      direction="btt"
+      :with-header="false"
+      size="85%"
+      append-to-body>
+      <div style="text-align: center;margin-top: 20px;font-size: 24px"><span>{{ historyRateTitle.grade }}</span> <span style="color: deeppink">{{ historyRateTitle.classes }}</span> <span v-show="'语文' === historyRateTitle.subject" style="color: #5470c6">{{ historyRateTitle.subject }}</span><span v-show="'数学' === historyRateTitle.subject" style="color: #91cc75">{{ historyRateTitle.subject }}</span><span v-show="'英语' === historyRateTitle.subject" style="color: #fac858">{{ historyRateTitle.subject }}</span> 历次考试排名情况</div>
+      <div id="classesHistoryRate"  style="width: 1400px;height: 600px"></div>
+    </el-drawer>
   </div>
 </template>
 
 <script>
 
   import { getUserProfile } from "@/api/system/user";
-  import { getStaticticsclass } from "@/api/scores/infoForEcharts"
+  import { getStaticticsclass, getClassesHistory } from "@/api/scores/infoForEcharts"
   import * as echarts from 'echarts';
   import { allExams } from '@/api/examination/exams'
-  import { getScoresFifty,getTotalPointsFifty,listScores } from '@/api/scores/scores'
+  import { getScoresFifty,getTotalPointsFifty,getScoresInfo } from '@/api/scores/scores'
   import { listSummary } from '@/api/scores/summary'
   import { listStatistic } from '@/api/scores/statistic'
   import { listStatictics, getAverage } from '@/api/scores/statictics'
@@ -307,6 +317,11 @@ export default {
   name: "Index",
   data() {
     return {
+      historyRateTitle: {
+        grade: '',
+        classes: '',
+        subject: '',
+      },
       innerVisible: false,
       innerStudents: [
         {studentsEnglish: null,
@@ -317,6 +332,7 @@ export default {
       statisticList: [],
       summaryList: [],
       drawer: false,
+      drawer2: false,
       studentList: {
         title: null,
         open: false
@@ -349,6 +365,7 @@ export default {
       rateChart4: null,
       rateChart5: null,
       rateChart6: null,
+      historyRateChart: null,
       studentsChinese: [],
       studentsMaths: [],
       studentsEnglish: [],
@@ -508,8 +525,8 @@ export default {
         examId: this.examId,
         examNumber: examNumber
       };
-      listScores(param).then(response => {
-        this.studentScore = response.rows[0];
+      getScoresInfo(param).then(response => {
+        this.studentScore = response.data;
       });
     },
     tableRowClassName({row, rowIndex}) {
@@ -526,7 +543,8 @@ export default {
       this.drawer = true;
       let param = {
         examId: this.examId,
-        grade: grade
+        grade: grade,
+        pageSize: 20,
       };
       listSummary(param).then(response => {
         this.summaryList = response.rows;
@@ -802,7 +820,30 @@ export default {
         this.postGroup = response.postGroup;
       });
     },
+    drawHistoryChart(examNames,rates){
+      this.historyRateChart = echarts.init(document.getElementById('classesHistoryRate'));
+      let option = {
+        xAxis: {
+          type: 'category',
+          data: examNames
+        },
+        yAxis: {
+          type: 'value'
+        },
+        dataZoom: { // 放大和缩放
+          type: 'slider'
+        },
+        series: [
+          {
+            data: rates,
+            type: 'line'
+          }
+        ]
+      };
+      this.historyRateChart.setOption(option);
+    },
     drawChart(chart,index,examId, grade){
+      let that = this;
       this.queryParams.examId = examId;
       this.queryParams.grade = grade;
       let subjectList = null;
@@ -847,6 +888,9 @@ export default {
             orient: 'horizontal',
             right: 0,
           },
+          dataZoom: { // 放大和缩放
+            type: 'slider'
+          },
           label:{
             show: true,
             position: 'top'
@@ -856,6 +900,31 @@ export default {
           },
           yAxis: {},
           series: rateList
+        });
+        chart.on('click', function(params) {
+          let param = {
+            subject: params.seriesName,
+            grade: grade,
+            classes: params.name,
+            examId: examId,
+            rankType: that.queryParams.rankType
+          };
+          let examNames = [];
+          let historyRates = [];
+          that.historyRateTitle = {
+            grade: param.grade,
+            classes: param.classes,
+            subject: param.subject,
+          };
+          getClassesHistory(param).then(response =>{
+            response.data.forEach((value, index) => {
+              examNames.push(value.examName);
+              historyRates.push(value.rate);
+            });
+            that.drawer2 = true;
+            //that.drawHistoryChart(examNames,historyRates)
+            setTimeout(() =>{that.drawHistoryChart(examNames,historyRates)},200);
+          });
         });
       });
 

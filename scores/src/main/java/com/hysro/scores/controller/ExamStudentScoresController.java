@@ -83,6 +83,15 @@ public class ExamStudentScoresController extends BaseController
     }
 
     /**
+     * 获取学生分数情况详细信息
+     */
+    @GetMapping("/getStudentsInfo")
+    public AjaxResult getStudentScoresInfo(ExamStudentScores examStudentScores)
+    {
+        return success(examStudentScoresService.selectExamStudentScoresByExamNumberAndExamId(examStudentScores));
+    }
+
+    /**
      * 新增学生分数情况
      */
     @PreAuthorize("@ss.hasPermi('scores:scores:add')")

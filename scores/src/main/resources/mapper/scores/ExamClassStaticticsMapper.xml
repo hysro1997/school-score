@@ -39,6 +39,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createBy"    column="sub_create_by"    />
     </resultMap>
 
+    <resultMap type="ClassesStatisticEchartsHelper" id="HelperResult">
+        <result property="examName"    column="exam_name"    />
+        <result property="rate"    column="rate"    />
+    </resultMap>
+
     <sql id="selectExamClassStaticticsVo">
         select a.exam_statistics_id, a.grade, a.classes, a.subject, a.exam_numbers, a.full_socre_numbers, a.excellent_numbers, a.good_numbers, a.qualified_numbers, a.unqualified_one_numbers, a.unqualified_two_numbers, a.unqualified_three_numbers, a.unqualified_four_numbers, a.total_score, a.average_score, a.qualified_percentage, a.excellent_percentage, a.muitiple_score, a.exam_id, a.muitiple_rank, a.average_rank, b.exam_id as sub_exam_id, b.exam_name as sub_exam_name, b.create_time as sub_create_time, b.create_by as sub_create_by  from exam_class_statictics a
          left join exams b on b.exam_id = a.exam_id
@@ -51,6 +56,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
         </where>
     </sql>
+
+    <select id="selectRatesByGradeClassesExamTimeOrderType" parameterType="ExamClassStatictics" resultMap="HelperResult">
+        SELECT e.exam_name, c.${subjectName} AS rate FROM exam_class_statictics c
+        LEFT JOIN exams e ON c.exam_id = e.exam_id
+        WHERE c.`subject` = #{subject} AND c.grade = #{grade} AND classes = #{classes} AND e.create_time BETWEEN #{subjectName2} AND #{subjectName3}
+    </select>
 
     <select id="selectSubjectsByExamIdAndGrade" parameterType="ExamClassStatictics" resultType="String">
         SELECT DISTINCT `subject` FROM `exam_class_statictics`
@@ -145,6 +156,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
 
+    <!-- 为什么这里用0.9，因为这样能统计到0.5分的情况，用1会导致多少.5分不能统计到 -->
     <select id="calculateClassStatistics" parameterType="ExamClassStatictics" resultMap="ExamClassStaticticsResult">
         SELECT *, ROUND(b.average_score * #{averageAgent} + b.excellent_percentage*#{excellentAgent} + b.qualified_percentage*#{qualifiedAgent},2) AS muitiple_score from
         (SELECT
@@ -160,12 +172,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SUM( ${subjectName} ) AS total_score,
         ROUND( AVG( ${subjectName} ), 2 ) AS average_score,
         ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} = 100 ) AS full_socre_numbers,
-        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN #{excellentLine} AND 99 ) AS excellent_numbers,
-        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 75 AND (#{excellentLine}-1) ) AS good_numbers,
-        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 60 AND 74 ) AS qualified_numbers,
-        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 55 AND 59 ) AS unqualified_one_numbers,
-        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 50 AND 54 ) AS unqualified_two_numbers,
-        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 40 AND 49 ) AS unqualified_three_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN #{excellentLine} AND 99.9 ) AS excellent_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 75 AND (#{excellentLine}-0.1) ) AS good_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 60 AND 74.9 ) AS qualified_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 55 AND 59.9 ) AS unqualified_one_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 50 AND 54.9 ) AS unqualified_two_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 40 AND 49.9 ) AS unqualified_three_numbers,
         ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} &lt; 40 ) AS unqualified_four_numbers
         FROM
         `exam_student_scores`

@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top:60px;margin-left: 30px;min-width: 1000px; overflow: auto;">
+  <div style="margin-top:60px;margin-left: 30px;min-width: 1200px; overflow: auto;">
       <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px" @submit.native.prevent
                label-position="left">
           <el-row>
@@ -58,6 +58,11 @@
           <el-col :span="2">&nbsp;</el-col>
           <el-col :span="8">
             <el-button :disabled="inputionDisabled" type="primary" @click="submitForm">提交以下 {{ submitButtonInfo }} 全部分数</el-button>
+            <el-button :disabled="inputionDisabled" @click="resetForm">清空重来</el-button>
+            <br/><br/>
+            <p>当前已暂存的得分数量：<span style="color: red">{{ scoresList.length }}</span></p>
+            <p>当前已暂存的最新一条考号：<span style="color: #9c50ff">{{ scoresList[0] ? scoresList[0].examNumber : '' }}</span></p>
+            <p>当前缺考情况： 缺考人数：<span style="color: red">{{ missExam.number }}</span> 详情：<span style="color: red">{{ missExam.list }}</span></p>
             <br/><br/>
               <el-table :data="scoresList" :row-class-name="tableRowClassName">
                 <el-table-column width="150" label="考试号" align="center" prop="examNumber" />
@@ -82,6 +87,10 @@
     props: [],
     data() {
       return {
+        missExam: {
+          number: 0,
+          list: []
+        },
         inputionSteps: 6,
         inputionDisabled: true,
         submitButtonInfo: '',
@@ -242,6 +251,10 @@
         if (null !== this.scoresList && this.scoresList.length > 0) {
           if (0 < this.inputionSteps) {
             this.inputionSteps -= 1;
+            if (undefined === this.scoresList[0].score || null === this.scoresList[0].score || "" === this.scoresList[0].score){
+              this.missExam.number--;
+              this.missExam.list.pop();
+            }
             this.scoresList.shift();
             let num = Number(this.examNumber.substring(3)) - 1;
             if (2 > num.toString().length){
@@ -269,6 +282,10 @@
           }
           if(6 > this.inputionSteps){
             this.inputionSteps +=1 ;
+          }
+          if (undefined === this.formData.scores || null === this.formData.scores || "" === this.formData.scores){
+            this.missExam.number ++;
+            this.missExam.list.push(this.examNumber);
           }
           this.scoresList.unshift(scoreItem);
           let num = Number(this.examNumber.substring(3)) + 1;
@@ -441,7 +458,7 @@
           addExamTempScores(this.scoresList).then(response => {
             if(0 < response.data){
               this.$modal.msgSuccess("分数上报成功");
-              this.scoresList = [];
+              this.resetForm();
               this.inputionDisabled = true;
             } else {
               this.$modal.alertWarning("分数上报失败");
@@ -451,7 +468,11 @@
         })
       },
       resetForm() {
-        this.$refs['elForm'].resetFields()
+        //this.$refs['elForm'].resetFields()
+        this.scoresList = [];
+        this.missExam.number = 0;
+        this.missExam.list = [];
+        this.inputionSteps = 6;
       },
       tableRowClassName({row, rowIndex}) {
         if (1 === rowIndex % 2) {

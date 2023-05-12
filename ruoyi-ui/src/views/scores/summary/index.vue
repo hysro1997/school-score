@@ -428,6 +428,7 @@
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
+      this.queryParams.examId = null;
       this.handleQuery();
     },
     // 多选框选中数据

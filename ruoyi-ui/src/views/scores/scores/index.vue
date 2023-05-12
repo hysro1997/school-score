@@ -14,6 +14,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
+            @change="handleQuery"
             @keyup.enter.native="handleQuery">
           </el-option>
         </el-select>
@@ -31,6 +32,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
+            @change="handleQuery"
             @keyup.enter.native="handleQuery">
           </el-option>
         </el-select>
@@ -437,6 +439,7 @@
     resetQuery() {
       this.resetForm("queryForm");
       this.queryParams.examNumber = null;
+      this.queryParams.examId = null;
       this.examName = null;
       this.handleQuery();
     },

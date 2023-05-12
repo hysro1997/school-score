@@ -9,6 +9,15 @@ export function listScores(query) {
   })
 }
 
+// 查询学生分数情况列表
+export function getScoresInfo(query) {
+  return request({
+    url: '/scores/scores/getStudentsInfo',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询学生前后50名情况列表
 export function getScoresFifty(query) {
   return request({

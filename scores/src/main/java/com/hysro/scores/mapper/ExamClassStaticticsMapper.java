@@ -3,6 +3,7 @@ package com.hysro.scores.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.hysro.scores.domain.ClassesStatisticEchartsHelper;
 import com.hysro.scores.domain.ExamClassStatictics;
 
 /**
@@ -156,4 +157,6 @@ public interface ExamClassStaticticsMapper
      * @return 结果列表
      */
     public String[] selectAverageScoreByExamIdAndGrade(ExamClassStatictics statictics);
+
+    public List<ClassesStatisticEchartsHelper> selectRatesByGradeClassesExamTimeOrderType(ExamClassStatictics classStatictics);
 }
