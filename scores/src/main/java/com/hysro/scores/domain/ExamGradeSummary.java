@@ -61,9 +61,20 @@ public class ExamGradeSummary extends BaseEntity
     @JSONField(serialize = false)
     private Long excellentLine;
 
+    @JSONField(serialize = false)
+    private Long qualifiedLine;
+
     /** 动态给sql传参，表明查询的是哪个学科的分数 */
     @JSONField(serialize = false)
     private String subjectName;
+
+    public Long getQualifiedLine() {
+        return qualifiedLine;
+    }
+
+    public void setQualifiedLine(Long qualifiedLine) {
+        this.qualifiedLine = qualifiedLine;
+    }
 
     public Long getExcellentLine() {
         return excellentLine;

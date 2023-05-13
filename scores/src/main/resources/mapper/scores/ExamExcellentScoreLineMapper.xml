@@ -9,10 +9,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="subject"    column="subject"    />
         <result property="excellentScore"    column="excellent_score"    />
         <result property="grade"    column="grade"    />
+        <result property="examId"    column="exam_id"    />
+        <result property="fullScore"    column="full_score"    />
+        <result property="goodScore"    column="good_score"    />
+        <result property="qualifiedScore"    column="qualified_score"    />
+        <result property="unqualifiedOneScore"    column="unqualified_one_score"    />
+        <result property="unqualifiedTwoScore"    column="unqualified_two_score"    />
+        <result property="unqualifiedThreeScore"    column="unqualified_three_score"    />
+        <result property="unqualifiedFourScore"    column="unqualified_four_score"    />
     </resultMap>
 
     <sql id="selectExamExcellentScoreLineVo">
-        select excellent_id, `subject`, excellent_score, grade from exam_excellent_score_line
+        select excellent_id, `subject`, excellent_score, grade, exam_id, full_score, good_score, qualified_score, unqualified_one_score, unqualified_two_score, unqualified_three_score, unqualified_four_score from exam_excellent_score_line
     </sql>
 
     <select id="selectExamExcellentScoreLineList" parameterType="ExamExcellentScoreLine" resultMap="ExamExcellentScoreLineResult">
@@ -20,6 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="subject != null  and subject != ''"> and `subject` = #{subject}</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="examId != null "> and exam_id = #{examId}</if>
         </where>
         order by excellent_id desc
     </select>
@@ -29,6 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="subject != null  and subject != ''"> and `subject` = #{subject}</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="examId != null "> and exam_id = #{examId}</if>
         </where>
     </select>
 
@@ -40,25 +50,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertExamExcellentScoreLine" parameterType="ExamExcellentScoreLine">
         insert into exam_excellent_score_line
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="excellentId != null">excellent_id,</if>
-            <if test="subject != null">`subject`,</if>
+            <if test="subject != null">subject,</if>
             <if test="excellentScore != null">excellent_score,</if>
             <if test="grade != null">grade,</if>
-         </trim>
+            <if test="examId != null">exam_id,</if>
+            <if test="fullScore != null">full_score,</if>
+            <if test="goodScore != null">good_score,</if>
+            <if test="qualifiedScore != null">qualified_score,</if>
+            <if test="unqualifiedOneScore != null">unqualified_one_score,</if>
+            <if test="unqualifiedTwoScore != null">unqualified_two_score,</if>
+            <if test="unqualifiedThreeScore != null">unqualified_three_score,</if>
+            <if test="unqualifiedFourScore != null">unqualified_four_score,</if>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="excellentId != null">#{excellentId},</if>
             <if test="subject != null">#{subject},</if>
             <if test="excellentScore != null">#{excellentScore},</if>
             <if test="grade != null">#{grade},</if>
-         </trim>
+            <if test="examId != null">#{examId},</if>
+            <if test="fullScore != null">#{fullScore},</if>
+            <if test="goodScore != null">#{goodScore},</if>
+            <if test="qualifiedScore != null">#{qualifiedScore},</if>
+            <if test="unqualifiedOneScore != null">#{unqualifiedOneScore},</if>
+            <if test="unqualifiedTwoScore != null">#{unqualifiedTwoScore},</if>
+            <if test="unqualifiedThreeScore != null">#{unqualifiedThreeScore},</if>
+            <if test="unqualifiedFourScore != null">#{unqualifiedFourScore},</if>
+        </trim>
     </insert>
 
     <update id="updateExamExcellentScoreLine" parameterType="ExamExcellentScoreLine">
         update exam_excellent_score_line
         <trim prefix="SET" suffixOverrides=",">
-            <if test="subject != null">`subject` = #{subject},</if>
+            <if test="subject != null">subject = #{subject},</if>
             <if test="excellentScore != null">excellent_score = #{excellentScore},</if>
             <if test="grade != null">grade = #{grade},</if>
+            <if test="examId != null">exam_id = #{examId},</if>
+            <if test="fullScore != null">full_score = #{fullScore},</if>
+            <if test="goodScore != null">good_score = #{goodScore},</if>
+            <if test="qualifiedScore != null">qualified_score = #{qualifiedScore},</if>
+            <if test="unqualifiedOneScore != null">unqualified_one_score = #{unqualifiedOneScore},</if>
+            <if test="unqualifiedTwoScore != null">unqualified_two_score = #{unqualifiedTwoScore},</if>
+            <if test="unqualifiedThreeScore != null">unqualified_three_score = #{unqualifiedThreeScore},</if>
+            <if test="unqualifiedFourScore != null">unqualified_four_score = #{unqualifiedFourScore},</if>
         </trim>
         where excellent_id = #{excellentId}
     </update>

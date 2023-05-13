@@ -76,6 +76,18 @@ public class ExamGradeStatistic extends BaseEntity
     private Long excellentLineMath;
     @JSONField(serialize = false)
     private Long excellentLineEnglish;
+    @JSONField(serialize = false)
+    private Long qualifiedLineChinese;
+    @JSONField(serialize = false)
+    private Long qualifiedLineMath;
+    @JSONField(serialize = false)
+    private Long qualifiedLineEnglish;
+    @JSONField(serialize = false)
+    private Long fullLineChinese;
+    @JSONField(serialize = false)
+    private Long fullLineMath;
+    @JSONField(serialize = false)
+    private Long fullLineEnglish;
 
     /** 动态给sql传参，表明查询的综合分计算时的优秀率系数 */
     @JSONField(serialize = false)
@@ -88,6 +100,54 @@ public class ExamGradeStatistic extends BaseEntity
     /** 动态给sql传参，表明查询的综合分计算时的平均分系数 */
     @JSONField(serialize = false)
     private String averageAgent;
+
+    public Long getQualifiedLineChinese() {
+        return qualifiedLineChinese;
+    }
+
+    public void setQualifiedLineChinese(Long qualifiedLineChinese) {
+        this.qualifiedLineChinese = qualifiedLineChinese;
+    }
+
+    public Long getQualifiedLineMath() {
+        return qualifiedLineMath;
+    }
+
+    public void setQualifiedLineMath(Long qualifiedLineMath) {
+        this.qualifiedLineMath = qualifiedLineMath;
+    }
+
+    public Long getQualifiedLineEnglish() {
+        return qualifiedLineEnglish;
+    }
+
+    public void setQualifiedLineEnglish(Long qualifiedLineEnglish) {
+        this.qualifiedLineEnglish = qualifiedLineEnglish;
+    }
+
+    public Long getFullLineChinese() {
+        return fullLineChinese;
+    }
+
+    public void setFullLineChinese(Long fullLineChinese) {
+        this.fullLineChinese = fullLineChinese;
+    }
+
+    public Long getFullLineMath() {
+        return fullLineMath;
+    }
+
+    public void setFullLineMath(Long fullLineMath) {
+        this.fullLineMath = fullLineMath;
+    }
+
+    public Long getFullLineEnglish() {
+        return fullLineEnglish;
+    }
+
+    public void setFullLineEnglish(Long fullLineEnglish) {
+        this.fullLineEnglish = fullLineEnglish;
+    }
 
     public String getExcellentAgent() {
         return excellentAgent;

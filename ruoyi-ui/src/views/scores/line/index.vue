@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-
-    <el-form ref="elForm" :model="queryParams" size="medium" label-width="100px" @submit.native.prevent
+    此页面已弃用
+    <!-- el-form ref="elForm" :model="queryParams" size="medium" label-width="100px" @submit.native.prevent
              label-position="left">
       <el-row>
         <el-col :span="24">
@@ -32,7 +32,7 @@
           <el-button @click="editEnableChange" v-hasPermi="['scores:line:edit']">{{ editInfo }}</el-button>
         </el-form-item>
       </el-form>
-    </div>
+    </div -->
 
     <!-- el-row :gutter="10" class="mb8">
       <el-col :span="1.5">

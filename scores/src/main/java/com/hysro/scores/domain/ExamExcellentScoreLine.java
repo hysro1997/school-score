@@ -34,6 +34,86 @@ public class ExamExcellentScoreLine extends BaseEntity
     @Excel(name = "年级", type = Excel.Type.EXPORT)
     private String grade;
 
+    private Long examId;
+    @NotNull
+    private Long fullScore;
+    @NotNull
+    private Long goodScore;
+    @NotNull
+    private Long qualifiedScore;
+    @NotNull
+    private Long unqualifiedOneScore;
+    @NotNull
+    private Long unqualifiedTwoScore;
+    @NotNull
+    private Long unqualifiedThreeScore;
+    @NotNull
+    private Long unqualifiedFourScore;
+
+    public Long getExamId() {
+        return examId;
+    }
+
+    public void setExamId(Long examId) {
+        this.examId = examId;
+    }
+
+    public Long getFullScore() {
+        return fullScore;
+    }
+
+    public void setFullScore(Long fullScore) {
+        this.fullScore = fullScore;
+    }
+
+    public Long getGoodScore() {
+        return goodScore;
+    }
+
+    public void setGoodScore(Long goodScore) {
+        this.goodScore = goodScore;
+    }
+
+    public Long getQualifiedScore() {
+        return qualifiedScore;
+    }
+
+    public void setQualifiedScore(Long qualifiedScore) {
+        this.qualifiedScore = qualifiedScore;
+    }
+
+    public Long getUnqualifiedOneScore() {
+        return unqualifiedOneScore;
+    }
+
+    public void setUnqualifiedOneScore(Long unqualifiedOneScore) {
+        this.unqualifiedOneScore = unqualifiedOneScore;
+    }
+
+    public Long getUnqualifiedTwoScore() {
+        return unqualifiedTwoScore;
+    }
+
+    public void setUnqualifiedTwoScore(Long unqualifiedTwoScore) {
+        this.unqualifiedTwoScore = unqualifiedTwoScore;
+    }
+
+    public Long getUnqualifiedThreeScore() {
+        return unqualifiedThreeScore;
+    }
+
+    public void setUnqualifiedThreeScore(Long unqualifiedThreeScore) {
+        this.unqualifiedThreeScore = unqualifiedThreeScore;
+    }
+
+    public Long getUnqualifiedFourScore() {
+        return unqualifiedFourScore;
+    }
+
+    public void setUnqualifiedFourScore(Long unqualifiedFourScore) {
+        this.unqualifiedFourScore = unqualifiedFourScore;
+    }
+
     public void setExcellentId(Long excellentId)
     {
         this.excellentId = excellentId;

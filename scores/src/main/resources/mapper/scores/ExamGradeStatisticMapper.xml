@@ -72,7 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             (
                 SELECT
                     *,
-                    CONCAT( ROUND( a.all_score / ( a.exam_numbers * 200 ) * 100, 2 ), "%" ) AS all_score_percentage,
+                    CONCAT( ROUND( a.all_score / ( a.exam_numbers * (#{fullLineChinese} + #{fullLineMath}) ) * 100, 2 ), "%" ) AS all_score_percentage,
                     CONCAT( ROUND( a.triple_qualified_numbers / a.exam_numbers * 100, 2 ), "%" ) AS triple_qualified_percentage,
                     CONCAT( ROUND( a.triple_excellent_numbers / a.exam_numbers * 100, 2 ), "%" ) AS triple_excellent_percentage
                 FROM
@@ -104,8 +104,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                                     exam_id = #{examId}
                                   AND grade = #{grade}
                                   AND classes = #{classes}
-                                  AND chinese_score &gt;= 60
-                                  AND maths_score  &gt;= 60
+                                  AND chinese_score &gt;= #{qualifiedLineChinese}
+                                  AND maths_score  &gt;= #{qualifiedLineMath}
                             ) AS triple_qualified_numbers,
                             (
                                 SELECT
@@ -137,7 +137,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             (
                 SELECT
                     *,
-                    CONCAT( ROUND( a.all_score / ( a.exam_numbers * 300 ) * 100, 2 ), "%" ) AS all_score_percentage,
+                    CONCAT( ROUND( a.all_score / ( a.exam_numbers * (#{fullLineChinese} + #{fullLineMath} + #{fullLineEnglish}) ) * 100, 2 ), "%" ) AS all_score_percentage,
                     CONCAT( ROUND( a.triple_qualified_numbers / a.exam_numbers * 100, 2 ), "%" ) AS triple_qualified_percentage,
                     CONCAT( ROUND( a.triple_excellent_numbers / a.exam_numbers * 100, 2 ), "%" ) AS triple_excellent_percentage
                 FROM
@@ -152,9 +152,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                                     exam_id = #{examId}
                                   AND grade = #{grade}
                                   AND classes = #{classes}
-                                  AND maths_score IS NOT NULL
-                                  AND chinese_score IS NOT NULL
-                                  AND english_score IS NOT NULL
+                                  AND (maths_score IS NOT NULL
+				                    OR chinese_score IS NOT NULL
+				                    OR english_score IS NOT NULL )
                             ) AS exam_numbers,
                             grade,
                             exam_id,
@@ -170,9 +170,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                                     exam_id = #{examId}
                                   AND grade = #{grade}
                                   AND classes = #{classes}
-                                  AND chinese_score &gt;= 60
-                                  AND maths_score  &gt;= 60
-                                  AND english_score  &gt;= 60
+                                  AND chinese_score &gt;= #{qualifiedLineChinese}
+                                  AND maths_score  &gt;= #{qualifiedLineMath}
+                                  AND english_score  &gt;= #{qualifiedLineEnglish}
                             ) AS triple_qualified_numbers,
                             (
                                 SELECT

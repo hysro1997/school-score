@@ -71,8 +71,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         COUNT( ${subjectName} ) AS exam_total_numbers,
         SUM( ${subjectName} ) AS grade_total_scores,
         ROUND( AVG( ${subjectName} ), 2 ) AS grade_average_score,
-        ( SELECT COUNT(*) FROM exam_student_scores WHERE exam_id = #{examId} AND grade = #{grade} AND ${subjectName} &lt; 60 ) AS grade_unqualified_numbers,
-        ( SELECT COUNT(*) FROM exam_student_scores WHERE exam_id = #{examId} AND grade = #{grade} AND ${subjectName} &gt;= 60 ) AS grade_qualified_numbers,
+        ( SELECT COUNT(*) FROM exam_student_scores WHERE exam_id = #{examId} AND grade = #{grade} AND ${subjectName} &lt; #{qualifiedLine} ) AS grade_unqualified_numbers,
+        ( SELECT COUNT(*) FROM exam_student_scores WHERE exam_id = #{examId} AND grade = #{grade} AND ${subjectName} &gt;= #{qualifiedLine} ) AS grade_qualified_numbers,
         ( SELECT COUNT(*) FROM exam_student_scores WHERE exam_id = #{examId} AND grade = #{grade} AND ${subjectName} &gt;= #{excellentLine} ) AS grade_excellent_numbers
         FROM
         `exam_student_scores`

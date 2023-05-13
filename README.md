@@ -3,7 +3,14 @@
 <h4 align="center">基于若依前后端分离的小学成绩管理系统</h4>
 <p align="center">
 	<a href="https://gitee.com/hysro/school-score/tree/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
+    <a href='https://gitee.com/hysro/school-score/stargazers'><img src='https://gitee.com/hysro/school-score/badge/star.svg?theme=dark' alt='star'></img></a>
 </p>
+
+镜像仓库  
+<a href="https://gitee.com/hysro/school-score">GITEE.COM</a><br/>
+<a href="https://github.com/hysro1997/school-score">GITHUB.COM</a>
+
+
 
 <p>常州地区最受欢迎的成绩管理系统，吹牛不打草稿</p>
 <p>给学校随便做着玩玩的，不一定适合其他学校用，基于若依框架做的，方便有需求进行二次开发</p>

@@ -130,6 +130,83 @@ public class ExamClassStatictics extends BaseEntity
     @JSONField(serialize = false)
     private String averageAgent;
 
+    @JSONField(serialize = false)
+    private Long goodLine;
+
+    @JSONField(serialize = false)
+    private Long fullLine;
+
+    @JSONField(serialize = false)
+    private Long qualifiedLine;
+
+    @JSONField(serialize = false)
+    private Long unqualifiedOneLine;
+
+    @JSONField(serialize = false)
+    private Long unqualifiedTwoLine;
+
+    @JSONField(serialize = false)
+    private Long unqualifiedThreeLine;
+
+    @JSONField(serialize = false)
+    private Long unqualifiedFourLine;
+
+    public Long getQualifiedLine() {
+        return qualifiedLine;
+    }
+
+    public void setQualifiedLine(Long qualifiedLine) {
+        this.qualifiedLine = qualifiedLine;
+    }
+
+    public Long getGoodLine() {
+        return goodLine;
+    }
+
+    public void setGoodLine(Long goodLine) {
+        this.goodLine = goodLine;
+    }
+
+    public Long getFullLine() {
+        return fullLine;
+    }
+
+    public void setFullLine(Long fullLine) {
+        this.fullLine = fullLine;
+    }
+
+    public Long getUnqualifiedOneLine() {
+        return unqualifiedOneLine;
+    }
+
+    public void setUnqualifiedOneLine(Long unqualifiedOneLine) {
+        this.unqualifiedOneLine = unqualifiedOneLine;
+    }
+
+    public Long getUnqualifiedTwoLine() {
+        return unqualifiedTwoLine;
+    }
+
+    public void setUnqualifiedTwoLine(Long unqualifiedTwoLine) {
+        this.unqualifiedTwoLine = unqualifiedTwoLine;
+    }
+
+    public Long getUnqualifiedThreeLine() {
+        return unqualifiedThreeLine;
+    }
+
+    public void setUnqualifiedThreeLine(Long unqualifiedThreeLine) {
+        this.unqualifiedThreeLine = unqualifiedThreeLine;
+    }
+
+    public Long getUnqualifiedFourLine() {
+        return unqualifiedFourLine;
+    }
+
+    public void setUnqualifiedFourLine(Long unqualifiedFourLine) {
+        this.unqualifiedFourLine = unqualifiedFourLine;
+    }
+
     public String getSubjectName2() {
         return subjectName2;
     }

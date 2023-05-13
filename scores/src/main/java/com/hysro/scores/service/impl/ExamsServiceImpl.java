@@ -226,7 +226,16 @@ public class ExamsServiceImpl implements IExamsService
         examClassStatictics.setExamId(examId);
 
         //下面给考试成绩班级统计设置学科和对应的优秀分数线
-        examClassStatictics.setExcellentLine(this.getExcellentScoreLineByGradeSubject(grade,subject));
+        ExamExcellentScoreLine examExcellentScoreLine = this.getExcellentScoreLineByGradeSubject(grade,subject,examId);
+        examClassStatictics.setExcellentLine(examExcellentScoreLine.getExcellentScore());
+        examClassStatictics.setFullLine(examExcellentScoreLine.getFullScore());
+        examClassStatictics.setGoodLine(examExcellentScoreLine.getGoodScore());
+        examClassStatictics.setQualifiedLine(examExcellentScoreLine.getQualifiedScore());
+        examClassStatictics.setUnqualifiedOneLine(examExcellentScoreLine.getUnqualifiedOneScore());
+        examClassStatictics.setUnqualifiedTwoLine(examExcellentScoreLine.getUnqualifiedTwoScore());
+        examClassStatictics.setUnqualifiedThreeLine(examExcellentScoreLine.getUnqualifiedThreeScore());
+        examClassStatictics.setUnqualifiedFourLine(examExcellentScoreLine.getUnqualifiedFourScore());
+
         examClassStatictics.setSubjectName(subjectName);
         examClassStatictics.setSubject(subject);
         ExamMuitipleCalculation examMuitipleCalculation;
@@ -267,10 +276,16 @@ public class ExamsServiceImpl implements IExamsService
         examGradeStatistic.setClasses(classes);
         examGradeStatistic.setExamId(examId);
         //开始分步获取优秀分数
-        Long chineseScore = this.getExcellentScoreLineByGradeSubject(grade,"语文");
-        examGradeStatistic.setExcellentLineChinese(chineseScore);
-        Long mathScore = this.getExcellentScoreLineByGradeSubject(grade,"数学");
-        examGradeStatistic.setExcellentLineMath(mathScore);
+        ExamExcellentScoreLine examExcellentScoreLine = this.getExcellentScoreLineByGradeSubject(grade,"语文",examId);
+        examGradeStatistic.setExcellentLineChinese(examExcellentScoreLine.getExcellentScore());
+        examGradeStatistic.setFullLineChinese(examExcellentScoreLine.getFullScore());
+        examGradeStatistic.setQualifiedLineChinese(examExcellentScoreLine.getQualifiedScore());
+
+        examExcellentScoreLine = this.getExcellentScoreLineByGradeSubject(grade,"数学",examId);
+        examGradeStatistic.setExcellentLineMath(examExcellentScoreLine.getExcellentScore());
+        examGradeStatistic.setFullLineMath(examExcellentScoreLine.getFullScore());
+        examGradeStatistic.setQualifiedLineMath(examExcellentScoreLine.getQualifiedScore());
+
         ExamMuitipleCalculation examMuitipleCalculation;
         if (redisCache.hasKey("multipleCalculation2")){
             examMuitipleCalculation = redisCache.getCacheObject("multipleCalculation2");
@@ -282,8 +297,10 @@ public class ExamsServiceImpl implements IExamsService
         examGradeStatistic.setQualifiedAgent(String.valueOf(examMuitipleCalculation.getQualified() * 0.01));
         examGradeStatistic.setAverageAgent(String.valueOf(examMuitipleCalculation.getAverage() * 0.01));
         if (!"一年级".equals(grade) && !"二年级".equals(grade)){
-            Long englishScore = this.getExcellentScoreLineByGradeSubject(grade,"英语");
-            examGradeStatistic.setExcellentLineEnglish(englishScore);
+            examExcellentScoreLine = this.getExcellentScoreLineByGradeSubject(grade,"英语",examId);
+            examGradeStatistic.setExcellentLineEnglish(examExcellentScoreLine.getExcellentScore());
+            examGradeStatistic.setFullLineEnglish(examExcellentScoreLine.getFullScore());
+            examGradeStatistic.setQualifiedLineEnglish(examExcellentScoreLine.getQualifiedScore());
             //得出三优
             examGradeStatistic = gradeStatisticMapper.calculateExamGradeStatisticFourGrade(examGradeStatistic);
         } else {
@@ -307,15 +324,16 @@ public class ExamsServiceImpl implements IExamsService
      * @param subject 学科
      * @return 优秀分数线 Long
      */
-    public Long getExcellentScoreLineByGradeSubject(String grade, String subject){
+    public ExamExcellentScoreLine getExcellentScoreLineByGradeSubject(String grade, String subject,Long examId){
         ExamExcellentScoreLine examExcellentScoreLine = new ExamExcellentScoreLine();
         examExcellentScoreLine.setGrade(grade);
         examExcellentScoreLine.setSubject(subject);
+        examExcellentScoreLine.setExamId(examId);
         examExcellentScoreLine = scoreLineMapper.selectExamExcellentScoreLine(examExcellentScoreLine);
         if (null == examExcellentScoreLine){
             throw new ServiceException(grade + "没有设置" + subject + "优秀分数线");
         }
-        return examExcellentScoreLine.getExcellentScore();
+        return examExcellentScoreLine;
     }
 
     /**
@@ -332,7 +350,9 @@ public class ExamsServiceImpl implements IExamsService
         gradeSummary.setGrade(grade);
         gradeSummary.setSubject(subject);
         gradeSummary.setSubjectName(subjectName);
-        gradeSummary.setExcellentLine(this.getExcellentScoreLineByGradeSubject(grade,subject));
+        ExamExcellentScoreLine excellentScoreLine = this.getExcellentScoreLineByGradeSubject(grade,subject,examId);
+        gradeSummary.setExcellentLine(excellentScoreLine.getExcellentScore());
+        gradeSummary.setQualifiedLine(excellentScoreLine.getQualifiedScore());
         gradeSummary = gradeSummaryMapper.calculateGradeSummaryByGradeSubjectExamId(gradeSummary);
         if (null == gradeSummary.getExamTotalNumbers()){
             return;

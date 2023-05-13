@@ -171,14 +171,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         COUNT( ${subjectName} ) AS exam_numbers,
         SUM( ${subjectName} ) AS total_score,
         ROUND( AVG( ${subjectName} ), 2 ) AS average_score,
-        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} = 100 ) AS full_socre_numbers,
-        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN #{excellentLine} AND 99.9 ) AS excellent_numbers,
-        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 75 AND (#{excellentLine}-0.1) ) AS good_numbers,
-        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 60 AND 74.9 ) AS qualified_numbers,
-        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 55 AND 59.9 ) AS unqualified_one_numbers,
-        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 50 AND 54.9 ) AS unqualified_two_numbers,
-        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN 40 AND 49.9 ) AS unqualified_three_numbers,
-        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} &lt; 40 ) AS unqualified_four_numbers
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} = #{fullLine} ) AS full_socre_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN #{excellentLine} AND (${fullLine - 0.01}) ) AS excellent_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN #{goodLine} AND (${excellentLine - 0.01}) ) AS good_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN #{qualifiedLine} AND (${goodLine - 0.01}) ) AS qualified_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN #{unqualifiedOneLine} AND (${qualifiedLine - 0.01}) ) AS unqualified_one_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN #{unqualifiedTwoLine} AND (${unqualifiedOneLine - 0.01}) ) AS unqualified_two_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN #{unqualifiedThreeLine} AND (${unqualifiedTwoLine - 0.01}) ) AS unqualified_three_numbers,
+        ( <include refid="calculateClassStatisticsVo" /> and ${subjectName} BETWEEN #{unqualifiedFourLine} AND (${unqualifiedThreeLine - 0.01})  ) AS unqualified_four_numbers
         FROM
         `exam_student_scores`
         WHERE
