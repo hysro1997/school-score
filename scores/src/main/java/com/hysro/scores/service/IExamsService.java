@@ -41,7 +41,7 @@ public interface IExamsService
      * @param exams 各种考试
      * @return 结果
      */
-    public int insertExams(Exams exams);
+    public Long insertExams(Exams exams);
 
     /**
      * 修改各种考试
@@ -50,6 +50,14 @@ public interface IExamsService
      * @return 结果
      */
     public int updateExams(Exams exams);
+
+    /**
+     * 修改各种考试
+     *
+     * @param examId 各种考试
+     * @return 结果
+     */
+    public int confirmExams(Long examId);
 
     /**
      * 批量删除各种考试

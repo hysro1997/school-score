@@ -96,7 +96,7 @@ public class ExamsController extends BaseController
     @PostMapping
     public AjaxResult add(@Valid @RequestBody Exams exams)
     {
-        return toAjax(examsService.insertExams(exams));
+        return success(examsService.insertExams(exams));
     }
 
     /**
@@ -146,6 +146,21 @@ public class ExamsController extends BaseController
     public AjaxResult edit(@RequestBody Exams exams)
     {
         return toAjax(examsService.updateExams(exams));
+    }
+
+
+    /**
+     * 修改各种考试
+     */
+    @PreAuthorize("@ss.hasPermi('examination:exams:edit')")
+    @Log(title = "各种考试", businessType = BusinessType.UPDATE)
+    @PostMapping("/confirm")
+    public AjaxResult confirm(@RequestBody Long examId)
+    {
+        if (null == examId){
+            return error("没有考试ID");
+        }
+        return toAjax(examsService.confirmExams(examId));
     }
 
     /**

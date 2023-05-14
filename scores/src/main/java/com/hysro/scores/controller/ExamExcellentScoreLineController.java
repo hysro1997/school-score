@@ -32,7 +32,7 @@ public class ExamExcellentScoreLineController extends BaseController
     /**
      * 查询优秀分数线列表
      */
-    @PreAuthorize("@ss.hasPermi('scores:line:list')")
+    @PreAuthorize("@ss.hasPermi('examination:exams:list')")
     @GetMapping("/list")
     public AjaxResult list(ExamExcellentScoreLine examExcellentScoreLine)
     {
@@ -64,20 +64,19 @@ public class ExamExcellentScoreLineController extends BaseController
      */
     /**
      * 新增优秀分数线
-
-    @PreAuthorize("@ss.hasPermi('scores:line:add')")
+     */
+    @PreAuthorize("@ss.hasPermi('examination:exams:add')")
     @Log(title = "优秀分数线", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Valid @RequestBody ExamExcellentScoreLine examExcellentScoreLine)
     {
-        return toAjax(examExcellentScoreLineService.insertExamExcellentScoreLine(examExcellentScoreLine));
+        return success(examExcellentScoreLineService.insertExamExcellentScoreLine(examExcellentScoreLine));
     }
-     */
 
     /**
      * 修改优秀分数线
      */
-    @PreAuthorize("@ss.hasPermi('scores:line:edit')")
+    @PreAuthorize("@ss.hasPermi('examination:exams:edit')")
     @Log(title = "优秀分数线", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Valid@RequestBody ExamExcellentScoreLine examExcellentScoreLine)
@@ -87,12 +86,12 @@ public class ExamExcellentScoreLineController extends BaseController
 
     /**
      * 删除优秀分数线
-
-    @PreAuthorize("@ss.hasPermi('scores:line:remove')")
+     */
+    @PreAuthorize("@ss.hasPermi('examination:exams:remove')")
     @Log(title = "优秀分数线", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{excellentIds}")
     public AjaxResult remove(@PathVariable Long[] excellentIds)
     {
         return toAjax(examExcellentScoreLineService.deleteExamExcellentScoreLineByExcellentIds(excellentIds));
-    }*/
+    }
 }

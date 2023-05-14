@@ -80,15 +80,16 @@ public class ExamsServiceImpl implements IExamsService
      * @return 结果
      */
     @Override
-    public int insertExams(Exams exams)
+    public Long insertExams(Exams exams)
     {
         exams.setCreateTime(DateUtils.getNowDate());
         String operName = SecurityUtils.getUsername();
         if (null == exams.getExamName() || "".equals(exams.getExamName())){
-            return 0;
+            return 0L;
         }
         exams.setCreateBy(operName);
-        return examsMapper.insertExams(exams);
+        examsMapper.insertExams(exams);
+        return exams.getExamId();
     }
 
     /**
@@ -103,6 +104,15 @@ public class ExamsServiceImpl implements IExamsService
         if (null != exams.getEnableFlag() && "0".equals(exams.getEnableFlag())){
             return 1 <= countExamsEnables() ? 0 : examsMapper.updateExams(exams);
         }
+        return examsMapper.updateExams(exams);
+    }
+
+    @Override
+    public int confirmExams(Long examId) {
+        scoreLineMapper.updateExamExcellentScoreLineByExamId(examId);
+        Exams exams = new Exams();
+        exams.setExamId(examId);
+        exams.setConfirmFlag(1);
         return examsMapper.updateExams(exams);
     }
 

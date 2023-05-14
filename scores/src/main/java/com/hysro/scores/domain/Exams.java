@@ -1,5 +1,6 @@
 package com.hysro.scores.domain;
 
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -29,6 +30,17 @@ public class Exams extends BaseEntity
 
     @Excel(name = "启用状态", readConverterExp = "0=正常,1=停用")
     private String enableFlag;
+
+    @JSONField(serialize = false)
+    private Integer confirmFlag;
+
+    public Integer getConfirmFlag() {
+        return confirmFlag;
+    }
+
+    public void setConfirmFlag(Integer confirmFlag) {
+        this.confirmFlag = confirmFlag;
+    }
 
     public String getEnableFlag() {
         return enableFlag;

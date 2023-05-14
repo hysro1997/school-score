@@ -44,6 +44,15 @@ export function addExams(data) {
   })
 }
 
+// 确认各种考试
+export function confirmExams(data) {
+  return request({
+    url: '/examination/exams/confirm',
+    method: 'post',
+    data: data
+  })
+}
+
 // 统计考试数据
 export function statisticExams(data) {
   return request({

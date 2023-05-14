@@ -128,16 +128,8 @@
     />
 
     <!-- 添加或修改各种考试对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px"  :close-on-click-modal="false" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px" @submit.native.prevent>
-        <el-form-item label="考试名称" prop="examName">
-          <el-input v-model="form.examName" maxlength="50" placeholder="请输入考试名称" @keyup.enter.native="submitForm"/>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
+    <el-dialog :title="title" :visible.sync="open" width="1600px" :before-close="resetFromBeforeClose" @close="closeEditExam" @closeDialog="closeEditExam" :close-on-click-modal="false" append-to-body>
+        <ExamSave ref="SaveExamReference" :examId="childPageParam.examId"/>
     </el-dialog>
 
     <!-- 统计进度显示对话框 -->
@@ -160,11 +152,16 @@
 
 <script>
 import { listExams, getExams, delExams, addExams, updateExams, getExamsEnables, statisticExams, mixScores } from "@/api/examination/exams";
+import ExamSave from './examSave'
 
 export default {
   name: "Exams",
+  components: { ExamSave },
   data() {
     return {
+      childPageParam:{
+        examId: null
+      },
       //统计按钮统计完成前禁用
       finishDisable:true,
       //统计进度显示内容
@@ -209,6 +206,10 @@ export default {
     this.getList();
   },
   methods: {
+    closeEditExam(){
+      this.childPageParam.examId = null;
+      this.open = false;
+    },
     tableRowClassName({row, rowIndex}) {
       if (1 === rowIndex % 2) {
         return 'success-row';
@@ -263,6 +264,11 @@ export default {
       this.open = false;
       this.reset();
     },
+    resetFromBeforeClose(){
+      this.$refs.SaveExamReference.resetFrom();
+      this.closeEditExam();
+      this.$modal.notifyWarning("取消操作");
+    },
     // 表单重置
     reset() {
       this.form = {
@@ -293,18 +299,17 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
+      this.childPageParam.examId = null;
       this.open = true;
       this.title = "添加考试";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const examId = row.examId || this.ids
-      getExams(examId).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改考试";
-      });
+      const examId = row.examId || this.ids;
+      this.childPageParam.examId = examId;
+      this.open = true;
+      this.title = "修改考试";
     },
     handleMixScore(row){
       let that = this;

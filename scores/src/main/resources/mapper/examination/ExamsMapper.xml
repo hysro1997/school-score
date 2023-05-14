@@ -20,26 +20,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectExamsVo"/>
         <where>
             <if test="examName != null  and examName != ''"> and exam_name like concat('%', #{examName}, '%')</if>
+            and confirm_flag = 1
         </where>
         order by create_time desc
     </select>
 
     <select id="countExamsEnables" resultType="Integer">
         select count(exam_id) from exams
-        where enable_flag = 0
+        where enable_flag = 0 and confirm_flag = 1
     </select>
 
     <select id="selectExamsByExamId" parameterType="Long" resultMap="ExamsResult">
         <include refid="selectExamsVo"/>
-        where exam_id = #{examId}
+        where exam_id = #{examId} and confirm_flag = 1
     </select>
 
     <select id="selectExamsEnabled" parameterType="Exams" resultMap="ExamsResult">
         <include refid="selectExamsVo"/>
-        where enable_flag = 0
+        where enable_flag = 0 and confirm_flag = 1
     </select>
 
-    <insert id="insertExams" parameterType="Exams">
+    <insert id="insertExams" parameterType="Exams" keyProperty="examId">
         insert into exams
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="examId != null">exam_id,</if>
@@ -47,6 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time,</if>
             <if test="createBy != null">create_by,</if>
             <if test="enableFlag != null">enable_flag,</if>
+            <if test="confirmFlag != null">confirm_flag,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="examId != null">#{examId},</if>
@@ -54,6 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">#{createTime},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="enableFlag != null">#{enableFlag},</if>
+            <if test="confirmFlag != null">#{confirmFlag},</if>
          </trim>
     </insert>
 
@@ -64,6 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="enableFlag != null">enable_flag = #{enableFlag},</if>
+            <if test="confirmFlag != null">confirm_flag = #{confirmFlag},</if>
         </trim>
         where exam_id = #{examId}
     </update>

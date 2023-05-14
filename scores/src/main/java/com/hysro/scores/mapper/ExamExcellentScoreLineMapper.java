@@ -53,6 +53,14 @@ public interface ExamExcellentScoreLineMapper
     public int updateExamExcellentScoreLine(ExamExcellentScoreLine examExcellentScoreLine);
 
     /**
+     * 修改优秀分数线
+     *
+     * @param examId 优秀分数线
+     * @return 结果
+     */
+    public int updateExamExcellentScoreLineByExamId(Long examId);
+
+    /**
      * 删除优秀分数线
      *
      * @param excellentId 优秀分数线主键

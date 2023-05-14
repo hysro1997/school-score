@@ -29,8 +29,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="subject != null  and subject != ''"> and `subject` = #{subject}</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="examId != null "> and exam_id = #{examId}</if>
+            and confirm_flag = 1
         </where>
-        order by excellent_id desc
+        order by grade desc
     </select>
 
     <select id="selectExamExcellentScoreLine" parameterType="ExamExcellentScoreLine" resultMap="ExamExcellentScoreLineResult">
@@ -39,15 +40,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="subject != null  and subject != ''"> and `subject` = #{subject}</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="examId != null "> and exam_id = #{examId}</if>
+            and confirm_flag = 1
         </where>
     </select>
 
     <select id="selectExamExcellentScoreLineByExcellentId" parameterType="Long" resultMap="ExamExcellentScoreLineResult">
         <include refid="selectExamExcellentScoreLineVo"/>
-        where excellent_id = #{excellentId}
+        where excellent_id = #{excellentId} and confirm_flag = 1
     </select>
 
-    <insert id="insertExamExcellentScoreLine" parameterType="ExamExcellentScoreLine">
+    <insert id="insertExamExcellentScoreLine" parameterType="ExamExcellentScoreLine" keyProperty="excellentId">
         insert into exam_excellent_score_line
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="subject != null">subject,</if>
@@ -61,6 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="unqualifiedTwoScore != null">unqualified_two_score,</if>
             <if test="unqualifiedThreeScore != null">unqualified_three_score,</if>
             <if test="unqualifiedFourScore != null">unqualified_four_score,</if>
+            <if test="confirmFlag != null">confirm_flag,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="subject != null">#{subject},</if>
@@ -74,13 +77,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="unqualifiedTwoScore != null">#{unqualifiedTwoScore},</if>
             <if test="unqualifiedThreeScore != null">#{unqualifiedThreeScore},</if>
             <if test="unqualifiedFourScore != null">#{unqualifiedFourScore},</if>
+            <if test="confirmFlag != null">#{confirmFlag},</if>
         </trim>
     </insert>
 
     <update id="updateExamExcellentScoreLine" parameterType="ExamExcellentScoreLine">
         update exam_excellent_score_line
         <trim prefix="SET" suffixOverrides=",">
-            <if test="subject != null">subject = #{subject},</if>
+            <if test="subject != null">`subject` = #{subject},</if>
             <if test="excellentScore != null">excellent_score = #{excellentScore},</if>
             <if test="grade != null">grade = #{grade},</if>
             <if test="examId != null">exam_id = #{examId},</if>
@@ -91,8 +95,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="unqualifiedTwoScore != null">unqualified_two_score = #{unqualifiedTwoScore},</if>
             <if test="unqualifiedThreeScore != null">unqualified_three_score = #{unqualifiedThreeScore},</if>
             <if test="unqualifiedFourScore != null">unqualified_four_score = #{unqualifiedFourScore},</if>
+            <if test="confirmFlag != null">confirm_flag = #{confirmFlag},</if>
         </trim>
         where excellent_id = #{excellentId}
+    </update>
+
+    <update id="updateExamExcellentScoreLineByExamId" parameterType="ExamExcellentScoreLine">
+        update exam_excellent_score_line
+        SET confirm_flag = 1
+        where exam_id = #{examId}
     </update>
 
     <delete id="deleteExamExcellentScoreLineByExcellentId" parameterType="Long">

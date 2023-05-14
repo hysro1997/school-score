@@ -34,7 +34,7 @@ public interface IExamExcellentScoreLineService
      * @param examExcellentScoreLine 优秀分数线
      * @return 结果
      */
-    public int insertExamExcellentScoreLine(ExamExcellentScoreLine examExcellentScoreLine);
+    public Long insertExamExcellentScoreLine(ExamExcellentScoreLine examExcellentScoreLine);
 
     /**
      * 修改优秀分数线

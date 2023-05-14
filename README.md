@@ -1,5 +1,5 @@
 
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">爱家成绩管理系统 v1.2</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">爱家成绩管理系统 v1.4</h1>
 <h4 align="center">基于若依前后端分离的小学成绩管理系统</h4>
 <p align="center">
 	<a href="https://gitee.com/hysro/school-score/tree/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
@@ -42,7 +42,11 @@
 
 ![p9QfzzF.jpg](https://s1.ax1x.com/2023/04/27/p9QfzzF.jpg)
 
-![p9QfjiV.jpg](https://s1.ax1x.com/2023/04/27/p9QfjiV.jpg)
+![p9czGCR.png](https://s1.ax1x.com/2023/05/14/p9czGCR.png)
+
+![p9czJ81.png](https://s1.ax1x.com/2023/05/14/p9czJ81.png)
+
+![p9czYgx.png](https://s1.ax1x.com/2023/05/14/p9czYgx.png)
 
 ![p9QhpM4.jpg](https://s1.ax1x.com/2023/04/27/p9QhpM4.jpg)
 
@@ -76,6 +80,9 @@
 
 ## 更新历史
 
+* v1.4:  
+    1、修改了新增考试、修改考试的功能  
+    
 * v1.2:  
     1、点击首页柱状图，能显示历次考试排名情况
     2、修改了优秀分数线的修改方式

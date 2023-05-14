@@ -54,12 +54,13 @@ public class ExamExcellentScoreLineServiceImpl implements IExamExcellentScoreLin
      * @return 结果
      */
     @Override
-    public int insertExamExcellentScoreLine(ExamExcellentScoreLine examExcellentScoreLine)
+    public Long insertExamExcellentScoreLine(ExamExcellentScoreLine examExcellentScoreLine)
     {
         if (null == examExcellentScoreLineMapper.selectExamExcellentScoreLine(examExcellentScoreLine)){
-            return examExcellentScoreLineMapper.insertExamExcellentScoreLine(examExcellentScoreLine);
+            examExcellentScoreLineMapper.insertExamExcellentScoreLine(examExcellentScoreLine);
+            return examExcellentScoreLine.getExcellentId();
         }
-        return -1;
+        return -1L;
 
     }
 
