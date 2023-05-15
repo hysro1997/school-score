@@ -153,7 +153,7 @@
           <el-button-group>
             <el-button :disabled="0 === stepsActive" type="primary" icon="el-icon-arrow-left" @click="preStep">上一页</el-button>
             <el-button type="info" @click="cancelSubmit" round><i class="el-icon-delete"></i>取消</el-button>
-            <el-button v-if="2 === stepsActive" :disabled="2 !== stepsActive" @click="confirmSubmit" type="primary" round><i class="el-icon-s-promotion"></i>添加考试</el-button>
+            <el-button v-if="2 === stepsActive" :disabled="2 !== stepsActive" @click="confirmSubmit" type="primary" round><i class="el-icon-s-promotion"></i>{{addOrUpdate}}考试</el-button>
             <el-button :disabled="2 === stepsActive" type="primary" @click="nextStep">下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
           </el-button-group>
         </div>
@@ -173,6 +173,7 @@
     props:['examId'],
     data() {
       return {
+        addOrUpdate: '添加',
         childExamId: '',
         checkAllDisabled: false,
         grades: [{value:'一年级',disabled: false},{value:'二年级',disabled: false},{value:'三年级',disabled: false},{value:'四年级',disabled: false},{value:'五年级',disabled: false},{value:'六年级',disabled: false}],
@@ -197,6 +198,7 @@
         handler(newValue, oldValue){
           this.$nextTick(() => {
             this.stepsActive = 0;
+            this.addOrUpdate = '添加';
             this.grades = [{value:'一年级',disabled: false},{value:'二年级',disabled: false},{value:'三年级',disabled: false},{value:'四年级',disabled: false},{value:'五年级',disabled: false},{value:'六年级',disabled: false}];
             this.initGetExam();
           });
@@ -211,6 +213,7 @@
         this.childExamId = this.examId;
         this.examForm.examName = '';
         if (this.childExamId){
+          this.addOrUpdate = '修改';
           getExams(this.childExamId).then(response =>{
             this.examForm.examName = response.data.examName;
           });
