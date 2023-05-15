@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 /**
  * 优秀分数线对象 exam_excellent_score_line
@@ -37,22 +38,31 @@ public class ExamExcellentScoreLine extends BaseEntity
 
     private Long examId;
     @NotNull
-    private Long fullScore;
+    private BigDecimal fullScore;
     @NotNull
-    private Long goodScore;
+    private BigDecimal goodScore;
     @NotNull
-    private Long qualifiedScore;
+    private BigDecimal qualifiedScore;
     @NotNull
-    private Long unqualifiedOneScore;
+    private BigDecimal unqualifiedOneScore;
     @NotNull
-    private Long unqualifiedTwoScore;
+    private BigDecimal unqualifiedTwoScore;
     @NotNull
-    private Long unqualifiedThreeScore;
+    private BigDecimal unqualifiedThreeScore;
     @NotNull
-    private Long unqualifiedFourScore;
+    private BigDecimal unqualifiedFourScore;
+    private BigDecimal tripleFullScore;
 
     @JSONField(serialize = false)
     private Integer confirmFlag;
+
+    public BigDecimal getTripleFullScore() {
+        return tripleFullScore;
+    }
+
+    public void setTripleFullScore(BigDecimal tripleFullScore) {
+        this.tripleFullScore = tripleFullScore;
+    }
 
     public Integer getConfirmFlag() {
         return confirmFlag;
@@ -69,59 +79,59 @@ public class ExamExcellentScoreLine extends BaseEntity
         this.examId = examId;
     }
 
-    public Long getFullScore() {
+    public BigDecimal getFullScore() {
         return fullScore;
     }
 
-    public void setFullScore(Long fullScore) {
+    public void setFullScore(BigDecimal fullScore) {
         this.fullScore = fullScore;
     }
 
-    public Long getGoodScore() {
+    public BigDecimal getGoodScore() {
         return goodScore;
     }
 
-    public void setGoodScore(Long goodScore) {
+    public void setGoodScore(BigDecimal goodScore) {
         this.goodScore = goodScore;
     }
 
-    public Long getQualifiedScore() {
+    public BigDecimal getQualifiedScore() {
         return qualifiedScore;
     }
 
-    public void setQualifiedScore(Long qualifiedScore) {
+    public void setQualifiedScore(BigDecimal qualifiedScore) {
         this.qualifiedScore = qualifiedScore;
     }
 
-    public Long getUnqualifiedOneScore() {
+    public BigDecimal getUnqualifiedOneScore() {
         return unqualifiedOneScore;
     }
 
-    public void setUnqualifiedOneScore(Long unqualifiedOneScore) {
+    public void setUnqualifiedOneScore(BigDecimal unqualifiedOneScore) {
         this.unqualifiedOneScore = unqualifiedOneScore;
     }
 
-    public Long getUnqualifiedTwoScore() {
+    public BigDecimal getUnqualifiedTwoScore() {
         return unqualifiedTwoScore;
     }
 
-    public void setUnqualifiedTwoScore(Long unqualifiedTwoScore) {
+    public void setUnqualifiedTwoScore(BigDecimal unqualifiedTwoScore) {
         this.unqualifiedTwoScore = unqualifiedTwoScore;
     }
 
-    public Long getUnqualifiedThreeScore() {
+    public BigDecimal getUnqualifiedThreeScore() {
         return unqualifiedThreeScore;
     }
 
-    public void setUnqualifiedThreeScore(Long unqualifiedThreeScore) {
+    public void setUnqualifiedThreeScore(BigDecimal unqualifiedThreeScore) {
         this.unqualifiedThreeScore = unqualifiedThreeScore;
     }
 
-    public Long getUnqualifiedFourScore() {
+    public BigDecimal getUnqualifiedFourScore() {
         return unqualifiedFourScore;
     }
 
-    public void setUnqualifiedFourScore(Long unqualifiedFourScore) {
+    public void setUnqualifiedFourScore(BigDecimal unqualifiedFourScore) {
         this.unqualifiedFourScore = unqualifiedFourScore;
     }
 

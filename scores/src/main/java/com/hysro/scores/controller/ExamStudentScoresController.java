@@ -1,10 +1,13 @@
 package com.hysro.scores.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.hysro.scores.domain.ExamExcellentScoreLine;
 import com.hysro.scores.domain.Exams;
+import com.hysro.scores.service.IExamExcellentScoreLineService;
 import com.hysro.scores.service.IExamsService;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.exception.ServiceException;
@@ -44,6 +47,8 @@ public class ExamStudentScoresController extends BaseController
     private IExamStudentScoresService examStudentScoresService;
     @Autowired
     private IExamsService examsService;
+    @Autowired
+    private IExamExcellentScoreLineService examExcellentScoreLineService;
     private static final String ASC = "0";
     private static final String DESC = "1";
 
@@ -174,27 +179,36 @@ public class ExamStudentScoresController extends BaseController
         if (null == examStudentScores.getExamId()){
             return AjaxResult.error("没有选择查看哪一场考试的成绩");
         }
+        ExamExcellentScoreLine scoreLine = this.getScoreBoundry(examStudentScores);
         this.switchSubject(examStudentScores);
         switch (boundryType){
             case 0:
-                examStudentScores.setUnderLine(0);
-                examStudentScores.setUpLine(39);
+                examStudentScores.setUnderLine(scoreLine.getUnqualifiedFourScore());
+                examStudentScores.setUpLine(scoreLine.getUnqualifiedThreeScore().subtract(BigDecimal.valueOf(0.01)));
                 break;
             case 1:
-                examStudentScores.setUnderLine(40);
-                examStudentScores.setUpLine(49);
+                examStudentScores.setUnderLine(scoreLine.getUnqualifiedThreeScore());
+                examStudentScores.setUpLine(scoreLine.getUnqualifiedTwoScore().subtract(BigDecimal.valueOf(0.01)));
                 break;
             case 2:
-                examStudentScores.setUnderLine(50);
-                examStudentScores.setUpLine(54);
+                examStudentScores.setUnderLine(scoreLine.getUnqualifiedTwoScore());
+                examStudentScores.setUpLine(scoreLine.getUnqualifiedOneScore().subtract(BigDecimal.valueOf(0.01)));
                 break;
             case 3:
-                examStudentScores.setUnderLine(55);
-                examStudentScores.setUpLine(59);
+                examStudentScores.setUnderLine(scoreLine.getUnqualifiedOneScore());
+                examStudentScores.setUpLine(scoreLine.getQualifiedScore().subtract(BigDecimal.valueOf(0.01)));
                 break;
             case 4:
-                examStudentScores.setUnderLine(0);
-                examStudentScores.setUpLine(59);
+                examStudentScores.setUnderLine(scoreLine.getUnqualifiedFourScore());
+                examStudentScores.setUpLine(scoreLine.getQualifiedScore().subtract(BigDecimal.valueOf(0.01)));
+                break;
+            case 5:
+                examStudentScores.setUnderLine(scoreLine.getFullScore());
+                examStudentScores.setUpLine(scoreLine.getFullScore());
+                break;
+            case 6:
+                examStudentScores.setUnderLine(BigDecimal.valueOf(scoreLine.getExcellentScore()));
+                examStudentScores.setUpLine(scoreLine.getFullScore().subtract(BigDecimal.valueOf(0.01)));
                 break;
             default:
                 break;
@@ -217,6 +231,9 @@ public class ExamStudentScoresController extends BaseController
         }
     }
     private void switchSubject(ExamStudentScores examStudentScores){
+        if (null == examStudentScores.getSubject()){
+            throw new ServiceException("没有学科");
+        }
         switch (examStudentScores.getSubject()){
             case "语文" :
                 examStudentScores.setSubject("chinese_score");
@@ -230,5 +247,18 @@ public class ExamStudentScoresController extends BaseController
             default:
                 throw new ServiceException("参数错误");
         }
+    }
+    private ExamExcellentScoreLine getScoreBoundry(ExamStudentScores examStudentScores){
+        if (null == examStudentScores.getGrade()){
+            throw new ServiceException("没有年级");
+        }
+        if (null == examStudentScores.getSubject()){
+            throw new ServiceException("没有学科");
+        }
+        ExamExcellentScoreLine scoreLine = new ExamExcellentScoreLine();
+        scoreLine.setExamId(examStudentScores.getExamId());
+        scoreLine.setSubject(examStudentScores.getSubject());
+        scoreLine.setGrade(examStudentScores.getGrade());
+        return examExcellentScoreLineService.selectExamExcellentScoreLine(scoreLine);
     }
 }

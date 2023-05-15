@@ -8,10 +8,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.hysro.scores.domain.ExamExcellentScoreLine;
 import com.hysro.scores.domain.ExamTempScores;
 import com.hysro.scores.domain.Exams;
 import com.hysro.scores.mapper.ExamTempScoresMapper;
 import com.hysro.scores.mapper.ExamsMapper;
+import com.hysro.scores.service.IExamExcellentScoreLineService;
 import com.hysro.scores.service.IExamsService;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.exception.ServiceException;
@@ -49,6 +51,8 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
     protected Validator validator;
     @Autowired
     private IExamsService examsService;
+    @Autowired
+    private IExamExcellentScoreLineService examExcellentScoreLineService;
     @Autowired
     private ExamTempScoresMapper tempScoresMapper;
 
@@ -228,12 +232,15 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         Map<String,String> map = scoreMap.get(scoreMap.size()-1);
         String score = String.valueOf(map.get("score"));
         score = score.substring(0,score.indexOf("."));
+
+        ExamExcellentScoreLine scoreLine = this.getScoreBoundry(examStudentScores);
+
         if (ORDER_TYPE_ASC.equals(examStudentScores.getOrderType())){
-            examStudentScores.setUnderLine(0);
-            examStudentScores.setUpLine(Integer.parseInt(score));
+            examStudentScores.setUnderLine((BigDecimal.valueOf(0)));
+            examStudentScores.setUpLine(BigDecimal.valueOf(Integer.parseInt(score)));
         }else {
-            examStudentScores.setUnderLine(Integer.parseInt(score));
-            examStudentScores.setUpLine(100);
+            examStudentScores.setUnderLine(BigDecimal.valueOf(Integer.parseInt(score)));
+            examStudentScores.setUpLine(scoreLine.getFullScore());
         }
 
         return examStudentScoresMapper.selectExamStudentScoresByScoresBoundry(examStudentScores);
@@ -245,6 +252,9 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         if (STUDENT_SIZE_FIFTY > scoreMap.size()){
             return scoreMap;
         }
+
+        ExamExcellentScoreLine scoreLine = this.getScoreBoundry(examStudentScores);
+
         examStudentScores.setClasses(null);
         Map<String,String> map = scoreMap.get(scoreMap.size()-1);
         String score = String.valueOf(map.get("score"));
@@ -252,11 +262,11 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
             score = score.substring(0,score.indexOf("."));
         }
         if (ORDER_TYPE_ASC.equals(examStudentScores.getOrderType())){
-            examStudentScores.setUnderLine(0);
-            examStudentScores.setUpLine(Integer.parseInt(score));
+            examStudentScores.setUnderLine((BigDecimal.valueOf(0)));
+            examStudentScores.setUpLine(BigDecimal.valueOf(Integer.parseInt(score)));
         }else {
-            examStudentScores.setUnderLine(Integer.parseInt(score));
-            examStudentScores.setUpLine(300);
+            examStudentScores.setUnderLine(BigDecimal.valueOf(Integer.parseInt(score)));
+            examStudentScores.setUpLine(scoreLine.getTripleFullScore());
         }
         return examStudentScoresMapper.selectExamStudentScoresByScoresBoundry(examStudentScores);
     }
@@ -439,5 +449,32 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         if (null != scores.getChineseScore() || null != scores.getMathsScore() || null != scores.getEnglishScore()){
             scores.setTotalPoints(sum);
         }
+    }
+    private ExamExcellentScoreLine getScoreBoundry(ExamStudentScores examStudentScores){
+        ExamExcellentScoreLine scoreLine = new ExamExcellentScoreLine();
+        scoreLine.setGrade(examStudentScores.getGrade());
+        scoreLine.setExamId(examStudentScores.getExamId());
+        BigDecimal allFullScore = new BigDecimal(0);
+        switch (examStudentScores.getSubject()){
+            case "chinese_score" :
+                scoreLine.setSubject("语文");
+                break;
+            case "maths_score":
+                scoreLine.setSubject("数学");
+                break;
+            case "english_score":
+                scoreLine.setSubject("英语");
+                break;
+            default:
+                scoreLine.setSubject("语文");
+                allFullScore = allFullScore.add(examExcellentScoreLineService.selectExamExcellentScoreLine(scoreLine).getFullScore());
+                scoreLine.setSubject("数学");
+                allFullScore = allFullScore.add(examExcellentScoreLineService.selectExamExcellentScoreLine(scoreLine).getFullScore());
+                scoreLine.setSubject("英语");
+                allFullScore = allFullScore.add(examExcellentScoreLineService.selectExamExcellentScoreLine(scoreLine).getFullScore());
+                scoreLine.setTripleFullScore(allFullScore);
+                return scoreLine;
+        }
+        return examExcellentScoreLineService.selectExamExcellentScoreLine(scoreLine);
     }
 }

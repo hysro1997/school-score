@@ -153,8 +153,22 @@
       <el-table-column label="及格率" sortable align="center" prop="qualifiedPercentage" />
       <el-table-column label="优秀率" sortable align="center" prop="excellentPercentage" />
       <el-table-column label="综合分" sortable align="center" prop="muitipleScore" />
-      <el-table-column label="满分人数" sortable align="center" prop="fullSocreNumbers" />
-      <el-table-column label="优秀人数(优秀-99)" sortable align="center" prop="excellentNumbers" />
+      <el-table-column label="满分人数" sortable align="center" prop="fullSocreNumbers">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            @click="getUnqualified(scope.row,5)">{{scope.row.fullSocreNumbers}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="优秀人数(优秀-99)" sortable align="center" prop="excellentNumbers">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            @click="getUnqualified(scope.row,6)">{{scope.row.excellentNumbers}}</el-button>
+        </template>
+      </el-table-column>
       <el-table-column label="良好人数(75-优秀)" sortable align="center" prop="goodNumbers" />
       <el-table-column label="及格人数(60-75)" sortable align="center" prop="qualifiedNumbers" />
       <el-table-column label="不及格人数(55-59)" sortable align="center" prop="unqualifiedOneNumbers">
@@ -402,6 +416,12 @@
           break;
         case 3:
           msg = "不及格名单(55-59)";
+          break;
+        case 5:
+          msg = "满分名单";
+          break;
+        case 6:
+          msg = "优秀名单(优秀-满分)";
           break;
         default:
           break;

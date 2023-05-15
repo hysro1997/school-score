@@ -73,9 +73,9 @@ public class ExamStudentScores extends BaseEntity
     @JSONField(serialize = false)
     private String orderType;
     @JSONField(serialize = false)
-    private Integer underLine;
+    private BigDecimal underLine;
     @JSONField(serialize = false)
-    private Integer upLine;
+    private BigDecimal upLine;
 
     public BigDecimal getTotalPoints() {
         return totalPoints;
@@ -85,19 +85,19 @@ public class ExamStudentScores extends BaseEntity
         this.totalPoints = totalPoints;
     }
 
-    public Integer getUnderLine() {
+    public BigDecimal getUnderLine() {
         return underLine;
     }
 
-    public void setUnderLine(Integer underLine) {
+    public void setUnderLine(BigDecimal underLine) {
         this.underLine = underLine;
     }
 
-    public Integer getUpLine() {
+    public BigDecimal getUpLine() {
         return upLine;
     }
 
-    public void setUpLine(Integer upLine) {
+    public void setUpLine(BigDecimal upLine) {
         this.upLine = upLine;
     }
 

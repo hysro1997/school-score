@@ -47,6 +47,11 @@ public class ExamExcellentScoreLineServiceImpl implements IExamExcellentScoreLin
         return examExcellentScoreLineMapper.selectExamExcellentScoreLineList(examExcellentScoreLine);
     }
 
+    @Override
+    public ExamExcellentScoreLine selectExamExcellentScoreLine(ExamExcellentScoreLine examExcellentScoreLine) {
+        return examExcellentScoreLineMapper.selectExamExcellentScoreLine(examExcellentScoreLine);
+    }
+
     /**
      * 新增优秀分数线
      *

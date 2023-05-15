@@ -39,7 +39,7 @@
               <el-row :span="24">
                 <p>当前的考号：{{ examNumber }}</p><br/>
                 <el-form-item label="分数" prop="scores">
-                  <el-input :disabled="inputionDisabled" @keyup.enter.native="nextScore" @keyup.down.native="nextScore" maxlength="3" v-model="formData.scores" ref="formScore" @input="formData.scores = formData.scores.replace(/[^\d]/g,'')" placeholder="请输入分数" clearable :style="{width: '70%'}">
+                  <el-input :disabled="inputionDisabled" @keyup.enter.native="nextScore" @keyup.down.native="nextScore" maxlength="5" v-model="formData.scores" ref="formScore" @input="formData.scores = formData.scores.replace(/[^\d.]/g,'')" placeholder="请输入分数" clearable :style="{width: '70%'}">
                   </el-input>
                 </el-form-item>
               </el-row>
@@ -275,6 +275,11 @@
       nextScore() {
         this.$refs['elForm'].validate(valid => {
           if (!valid) return false;
+          if (0 === this.formData.scores.indexOf('.')){
+            this.formData.scores = '0'+this.formData.scores;
+          } else if (this.formData.scores.length - 1 === this.formData.scores.indexOf('.')){
+            this.formData.scores = this.formData.scores.substring(0,this.formData.scores.length - 1);
+          }
           let scoreItem = {
             score : this.formData.scores,
             examNumber : this.examNumber,

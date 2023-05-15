@@ -38,56 +38,56 @@
                   prop="scores.fullScore"
                   label="满分">
                   <template slot-scope="scope">
-                    <el-input v-model="scope.row.scores.fullScore" @input="scope.row.scores.fullScore = scope.row.scores.fullScore.replace(/[^\d.]/g,'')" size="small"></el-input>
+                    <el-input v-model="scope.row.scores.fullScore" @input="scope.row.scores.fullScore = scope.row.scores.fullScore.replace(/[^\d]/g,'')" size="small"></el-input>
                   </template>
                 </el-table-column>
                 <el-table-column
                   prop="scores.excellentScore"
                   label="优秀">
                   <template slot-scope="scope">
-                    <el-input v-model="scope.row.scores.excellentScore" @input="scope.row.scores.excellentScore = scope.row.scores.excellentScore.replace(/[^\d.]/g,'')" size="small"></el-input>
+                    <el-input v-model="scope.row.scores.excellentScore" @input="scope.row.scores.excellentScore = scope.row.scores.excellentScore.replace(/[^\d]/g,'')" size="small"></el-input>
                   </template>
                 </el-table-column>
                 <el-table-column
                   prop="scores.goodScore"
                   label="良好">
                   <template slot-scope="scope">
-                    <el-input v-model="scope.row.scores.goodScore" @input="scope.row.scores.goodScore = scope.row.scores.goodScore.replace(/[^\d.]/g,'')" size="small"></el-input>
+                    <el-input v-model="scope.row.scores.goodScore" @input="scope.row.scores.goodScore = scope.row.scores.goodScore.replace(/[^\d]/g,'')" size="small"></el-input>
                   </template>
                 </el-table-column>
                 <el-table-column
                   prop="scores.qualifiedScore"
                   label="合格">
                   <template slot-scope="scope">
-                    <el-input v-model="scope.row.scores.qualifiedScore" @input="scope.row.scores.qualifiedScore = scope.row.scores.qualifiedScore.replace(/[^\d.]/g,'')" size="small"></el-input>
+                    <el-input v-model="scope.row.scores.qualifiedScore" @input="scope.row.scores.qualifiedScore = scope.row.scores.qualifiedScore.replace(/[^\d]/g,'')" size="small"></el-input>
                   </template>
                 </el-table-column>
                 <el-table-column
                   prop="scores.unqualifiedOneScore"
                   label="不合格段1">
                   <template slot-scope="scope">
-                    <el-input v-model="scope.row.scores.unqualifiedOneScore" @input="scope.row.scores.unqualifiedOneScore = scope.row.scores.unqualifiedOneScore.replace(/[^\d.]/g,'')" size="small"></el-input>
+                    <el-input v-model="scope.row.scores.unqualifiedOneScore" @input="scope.row.scores.unqualifiedOneScore = scope.row.scores.unqualifiedOneScore.replace(/[^\d]/g,'')" size="small"></el-input>
                   </template>
                 </el-table-column>
                 <el-table-column
                   prop="scores.unqualifiedTwoScore"
                   label="不合格段2">
                   <template slot-scope="scope">
-                    <el-input v-model="scope.row.scores.unqualifiedTwoScore" @input="scope.row.scores.unqualifiedTwoScore = scope.row.scores.unqualifiedTwoScore.replace(/[^\d.]/g,'')" size="small"></el-input>
+                    <el-input v-model="scope.row.scores.unqualifiedTwoScore" @input="scope.row.scores.unqualifiedTwoScore = scope.row.scores.unqualifiedTwoScore.replace(/[^\d]/g,'')" size="small"></el-input>
                   </template>
                 </el-table-column>
                 <el-table-column
                   prop="scores.unqualifiedThreeScore"
                   label="不合格段3">
                   <template slot-scope="scope">
-                    <el-input v-model="scope.row.scores.unqualifiedThreeScore" @input="scope.row.scores.unqualifiedThreeScore = scope.row.scores.unqualifiedThreeScore.replace(/[^\d.]/g,'')" size="small"></el-input>
+                    <el-input v-model="scope.row.scores.unqualifiedThreeScore" @input="scope.row.scores.unqualifiedThreeScore = scope.row.scores.unqualifiedThreeScore.replace(/[^\d]/g,'')" size="small"></el-input>
                   </template>
                 </el-table-column>
                 <el-table-column
                   prop="scores.unqualifiedFourScore"
                   label="不合格段4">
                   <template slot-scope="scope">
-                    <el-input v-model="scope.row.scores.unqualifiedFourScore" @input="scope.row.scores.unqualifiedFourScore = scope.row.scores.unqualifiedFourScore.replace(/[^\d.]/g,'')" size="small"></el-input>
+                    <el-input v-model="scope.row.scores.unqualifiedFourScore" @input="scope.row.scores.unqualifiedFourScore = scope.row.scores.unqualifiedFourScore.replace(/[^\d]/g,'')" size="small"></el-input>
                   </template>
                 </el-table-column>
               </el-table>
