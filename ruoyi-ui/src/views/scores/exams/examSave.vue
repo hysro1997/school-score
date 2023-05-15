@@ -443,6 +443,7 @@
         this.checkAll = false;
       },
       cancelSubmit(){
+        this.resetFrom();
         this.$parent.$parent.closeEditExam();
         this.$modal.notifyWarning("取消操作")
       },
