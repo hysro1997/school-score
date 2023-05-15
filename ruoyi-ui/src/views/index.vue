@@ -544,7 +544,7 @@ export default {
       let param = {
         examId: this.examId,
         grade: grade,
-        pageSize: 20,
+        pageSize: 40,
       };
       listSummary(param).then(response => {
         this.summaryList = response.rows;
