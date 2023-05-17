@@ -142,7 +142,11 @@
           <el-table-column label="用户名称" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
           <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
           <el-table-column label="部门" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
-          <el-table-column label="手机号码" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
+          <el-table-column label="角色" align="center" key="roles" prop="roles" v-if="columns[4].visible" width="120" >
+            <template slot-scope="scope">
+              <span v-for="(role, index) in scope.row.roles"><span><span v-if="0 < index">、</span>{{role.roleName}}</span></span>
+            </template>
+          </el-table-column>
           <el-table-column label="状态" align="center" key="status" v-if="columns[5].visible">
             <template slot-scope="scope">
               <el-switch
@@ -347,7 +351,7 @@
     delUser,
     deptTreeSelect,
     getUser,
-    listUser,
+    listUser2,
     resetUserPwd,
     updateUser
   } from '@/api/system/user'
@@ -427,7 +431,7 @@
         { key: 1, label: `用户名称`, visible: true },
         { key: 2, label: `用户昵称`, visible: true },
         { key: 3, label: `部门`, visible: true },
-        { key: 4, label: `手机号码`, visible: true },
+        { key: 4, label: `角色`, visible: true },
         { key: 5, label: `状态`, visible: true },
         { key: 6, label: `创建时间`, visible: true }
       ],
@@ -478,7 +482,7 @@
     /** 查询用户列表 */
     getList() {
       this.loading = true;
-      listUser(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+      listUser2(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
           this.userList = response.rows;
           this.total = response.total;
           this.loading = false;

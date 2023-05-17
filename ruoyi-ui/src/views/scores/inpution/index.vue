@@ -23,7 +23,7 @@
             </el-col>
             <el-col :span="24">
               <el-form-item label="学科" prop="subject">
-                <el-radio-group v-model="formData.subject" size="medium" @input="calculateExamNumber">
+                <el-radio-group :disabled="classesOptionsDisabled" v-model="formData.subject" size="medium" @input="calculateExamNumber">
                   <el-radio v-for="(item, index) in subjectOptions" :key="index" :label="item.value"
                             :disabled="item.disabled" border>{{item.label}}</el-radio>
                 </el-radio-group>
@@ -95,6 +95,7 @@
         inputionDisabled: true,
         submitButtonInfo: '',
         gradeOptionsDisabled: false,
+        classesOptionsDisabled: false,
         scoresList: [],
         examNumber: '请选择年级、班级、学科来自动生成考号',
         nowDate: '',
@@ -412,9 +413,10 @@
         this.submitButtonInfo = gradeName + " " + classesName + " " + subjectName;
       },
       getDeptInfo(){
-        const deptName = Cookies.get("deptName");
-        if (undefined !== deptName){
-          switch (deptName) {
+        const deptNameGrade = Cookies.get("deptNameGrade");
+        const deptNameSubject = Cookies.get("deptNameSubject");
+        if (undefined !== deptNameGrade){
+          switch (deptNameGrade) {
             case "一年级":
               this.formData.grade = 1;
               this.gradeOptionsDisabled = true;
@@ -438,6 +440,24 @@
             case "六年级":
               this.formData.grade = 6;
               this.gradeOptionsDisabled = true;
+              break;
+            default:
+              break;
+          }
+        }
+        if (undefined !== deptNameSubject){
+          switch (deptNameSubject) {
+            case "语文":
+              this.formData.subject = "语文";
+              this.classesOptionsDisabled = true;
+              break;
+            case "数学":
+              this.formData.subject = "数学";
+              this.classesOptionsDisabled = true;
+              break;
+            case "英语":
+              this.formData.subject = "英语";
+              this.classesOptionsDisabled = true;
               break;
             default:
               break;

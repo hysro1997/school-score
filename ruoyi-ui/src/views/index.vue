@@ -811,7 +811,12 @@ export default {
       getUserProfile().then(response => {
         this.user.nickName = response.data.nickName;
         if (response.data.dept){
-          Cookies.set("deptName",response.data.dept.deptName);
+          let originDeptName = response.data.dept.deptName;
+          let charPlace = originDeptName.indexOf("：");
+          if (0 < charPlace){
+            Cookies.set("deptNameGrade",originDeptName.substring(0,charPlace));
+            Cookies.set("deptNameSubject",originDeptName.substring(charPlace + 1));
+          }
           this.user.dept.deptName = response.data.dept.deptName;
         } else {
           this.user.dept.deptName = "";

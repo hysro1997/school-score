@@ -437,7 +437,7 @@
       },
       resetFrom(){
         this.gradeScoreLines = [];
-        this.childExamId = '';
+        this.childExamId = null;
         this.checkedGrades = [];
         this.gradeCheckedSize = 0;
         this.mixRows = [];
