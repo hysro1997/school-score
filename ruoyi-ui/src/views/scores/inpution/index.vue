@@ -57,7 +57,7 @@
           </el-col>
           <el-col :span="2">&nbsp;</el-col>
           <el-col :span="8">
-            <el-button :disabled="inputionDisabled" type="primary" @click="submitForm">提交以下 {{ submitButtonInfo }} 全部分数</el-button>
+            <el-button :disabled="inputionDisabled" type="danger" round class="apparent-button" @click="submitForm">提交以下 {{ submitButtonInfo }} 全部分数</el-button>
             <el-button :disabled="inputionDisabled" @click="resetForm">清空重来</el-button>
             <br/><br/>
             <p>当前已暂存的得分数量：<span style="color: red">{{ scoresList.length }}</span></p>
@@ -474,6 +474,10 @@
         this.$refs['elForm'].validate(valid => {
           if (!valid) return false;
           let that = this;
+          if (0 === this.scoresList.length){
+            this.$modal.alertWarning("没有暂存任何分数");
+            return false;
+          }
           const loading = this.$loading({
             lock: true,
             text: '上报分数中',
@@ -498,6 +502,7 @@
         this.missExam.number = 0;
         this.missExam.list = [];
         this.inputionSteps = 6;
+        this.gengrateExamNumber();
       },
       tableRowClassName({row, rowIndex}) {
         if (1 === rowIndex % 2) {

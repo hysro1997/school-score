@@ -816,6 +816,8 @@ export default {
           if (0 < charPlace){
             Cookies.set("deptNameGrade",originDeptName.substring(0,charPlace));
             Cookies.set("deptNameSubject",originDeptName.substring(charPlace + 1));
+          } else if ("年级" === originDeptName.substring(1)){
+            Cookies.set("deptNameGrade",originDeptName);
           }
           this.user.dept.deptName = response.data.dept.deptName;
         } else {
