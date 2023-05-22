@@ -470,8 +470,10 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
                 allFullScore = allFullScore.add(examExcellentScoreLineService.selectExamExcellentScoreLine(scoreLine).getFullScore());
                 scoreLine.setSubject("数学");
                 allFullScore = allFullScore.add(examExcellentScoreLineService.selectExamExcellentScoreLine(scoreLine).getFullScore());
-                scoreLine.setSubject("英语");
-                allFullScore = allFullScore.add(examExcellentScoreLineService.selectExamExcellentScoreLine(scoreLine).getFullScore());
+                if (!GRADE_TWO.equals(examStudentScores.getGrade()) && !GRADE_ONE.equals(examStudentScores.getGrade())){
+                    scoreLine.setSubject("英语");
+                    allFullScore = allFullScore.add(examExcellentScoreLineService.selectExamExcellentScoreLine(scoreLine).getFullScore());
+                }
                 scoreLine.setTripleFullScore(allFullScore);
                 return scoreLine;
         }

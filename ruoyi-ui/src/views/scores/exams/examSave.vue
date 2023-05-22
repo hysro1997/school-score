@@ -290,10 +290,12 @@
         this.checkedGrades = [...arr2];
         this.calculateMixRows();
         if (0 < this.checkedGrades.length){
+          this.gradeCheckedSize = 0;
           this.grades.forEach((element) => {
             if (0 <= this.checkedGrades.findIndex(item => item === element.value)){
               element.disabled = true;
               this.checkAllDisabled = true;
+              this.gradeCheckedSize ++;
             }
           });
         } else {
@@ -432,7 +434,6 @@
       },
       delUnusedLine(excellentId){
         delLine(excellentId).then(response => {
-
         })
       },
       resetFrom(){
