@@ -52,7 +52,7 @@ public class ExamStudentScores extends BaseEntity
     @Excel(name = "英语分数")
     private BigDecimal englishScore;
 
-    /** 英语分数 */
+    /** 总分 */
     @Excel(name = "总分", type = Excel.Type.EXPORT)
     private BigDecimal totalPoints;
 
@@ -68,6 +68,18 @@ public class ExamStudentScores extends BaseEntity
     @Excel(name = "考试名称", targetAttr = "examName", type = Excel.Type.EXPORT)
     private Exams exams;
 
+    /** 语文偏差率 */
+    private BigDecimal chineseDeviationRate;
+
+    /** 数学偏差率 */
+    private BigDecimal mathsDeviationRate;
+
+    /** 英语偏差率 */
+    private BigDecimal englishDeviationRate;
+
+    /** 总偏差率 */
+    private BigDecimal totalDeviationRate;
+
     @JSONField(serialize = false)
     private String subject;
     @JSONField(serialize = false)
@@ -76,6 +88,38 @@ public class ExamStudentScores extends BaseEntity
     private BigDecimal underLine;
     @JSONField(serialize = false)
     private BigDecimal upLine;
+
+    public BigDecimal getChineseDeviationRate() {
+        return chineseDeviationRate;
+    }
+
+    public void setChineseDeviationRate(BigDecimal chineseDeviationRate) {
+        this.chineseDeviationRate = chineseDeviationRate;
+    }
+
+    public BigDecimal getMathsDeviationRate() {
+        return mathsDeviationRate;
+    }
+
+    public void setMathsDeviationRate(BigDecimal mathsDeviationRate) {
+        this.mathsDeviationRate = mathsDeviationRate;
+    }
+
+    public BigDecimal getEnglishDeviationRate() {
+        return englishDeviationRate;
+    }
+
+    public void setEnglishDeviationRate(BigDecimal englishDeviationRate) {
+        this.englishDeviationRate = englishDeviationRate;
+    }
+
+    public BigDecimal getTotalDeviationRate() {
+        return totalDeviationRate;
+    }
+
+    public void setTotalDeviationRate(BigDecimal totalDeviationRate) {
+        this.totalDeviationRate = totalDeviationRate;
+    }
 
     public BigDecimal getTotalPoints() {
         return totalPoints;
@@ -214,6 +258,10 @@ public class ExamStudentScores extends BaseEntity
             .append("updateBy", getUpdateBy())
             .append("examId", getExamId())
             .append("exams", getExams())
+            .append("chineseDeviationRate", getChineseDeviationRate())
+            .append("mathsDeviationRate", getMathsDeviationRate())
+            .append("englishDeviationRate", getEnglishDeviationRate())
+            .append("totalDeviationRate", getTotalDeviationRate())
             .toString();
     }
 }

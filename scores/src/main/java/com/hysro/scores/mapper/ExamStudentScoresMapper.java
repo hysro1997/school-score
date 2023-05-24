@@ -46,6 +46,14 @@ public interface ExamStudentScoresMapper
     public ExamStudentScores selectExamStudentScoresByExamNumberAndExamId(ExamStudentScores examStudentScores);
 
     /**
+     * 根据考试号和考试ID查询考试记录
+     *
+     * @param examId 学生分数情况
+     * @return 学生分数情况
+     */
+    public List<ExamStudentScores> selectExamStudentScoresByExamId(Long examId);
+
+    /**
      * 新增学生分数情况
      *
      * @param examStudentScores 学生分数情况

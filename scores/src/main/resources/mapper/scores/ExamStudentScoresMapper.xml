@@ -18,6 +18,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="examId"    column="exam_id"    />
         <result property="totalPoints"    column="total_points"    />
+        <result property="chineseDeviationRate"    column="chinese_deviation_rate"    />
+        <result property="mathsDeviationRate"    column="maths_deviation_rate"    />
+        <result property="englishDeviationRate"    column="english_deviation_rate"    />
+        <result property="totalDeviationRate"    column="total_deviation_rate"    />
     </resultMap>
 
     <resultMap id="ExamStudentScoresExamsResult" type="ExamStudentScores" extends="ExamStudentScoresResult">
@@ -33,7 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
     <sql id="selectExamStudentScoresVo">
-        select a.score_id, a.grade, a.classes, a.exam_number, a.chinese_score, a.maths_score, a.english_score, a.create_time, a.create_by, a.update_time, a.update_by, a.exam_id,a.total_points, b.exam_id as sub_exam_id, b.exam_name as sub_exam_name, b.create_time as sub_create_time, b.create_by as sub_create_by
+        select a.score_id, a.grade, a.classes, a.exam_number, a.chinese_score, a.maths_score, a.english_score, a.create_time, a.create_by, a.update_time, a.update_by, a.exam_id,a.total_points,a.chinese_deviation_rate,a.maths_deviation_rate,a.english_deviation_rate,a.total_deviation_rate, b.exam_id as sub_exam_id, b.exam_name as sub_exam_name, b.create_time as sub_create_time, b.create_by as sub_create_by
  from exam_student_scores a
         left join exams b on b.exam_id = a.exam_id
     </sql>
@@ -81,6 +85,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where a.exam_number = #{examNumber}  and a.exam_id = #{examId}
     </select>
 
+    <select id="selectExamStudentScoresByExamId" resultMap="ExamStudentScoresExamsResult">
+        <include refid="selectExamStudentScoresVo"/>
+        where a.exam_id = #{examId}
+    </select>
+
     <select id="selectExamStudentScoresByScoreId" parameterType="Long" resultMap="ExamStudentScoresResult">
         <include refid="selectExamStudentScoresVo"/>
         where score_id = #{scoreId}
@@ -101,6 +110,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="examId != null">exam_id,</if>
             <if test="totalPoints != null">total_points,</if>
+            <if test="chineseDeviationRate != null">chinese_deviation_rate,</if>
+            <if test="mathsDeviationRate != null">maths_deviation_rate,</if>
+            <if test="englishDeviationRate != null">english_deviation_rate,</if>
+            <if test="totalDeviationRate != null">total_deviation_rate,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="grade != null">#{grade},</if>
@@ -115,6 +128,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="examId != null">#{examId},</if>
             <if test="totalPoints != null">#{totalPoints},</if>
+            <if test="chineseDeviationRate != null">#{chineseDeviationRate},</if>
+            <if test="mathsDeviationRate != null">#{mathsDeviationRate},</if>
+            <if test="englishDeviationRate != null">#{englishDeviationRate},</if>
+            <if test="totalDeviationRate != null">#{totalDeviationRate},</if>
          </trim>
     </insert>
 
@@ -133,6 +150,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="examId != null">exam_id = #{examId},</if>
             <if test="totalPoints != null">total_points = #{totalPoints},</if>
+            <if test="chineseDeviationRate != null">chinese_deviation_rate = #{chineseDeviationRate},</if>
+            <if test="mathsDeviationRate != null">maths_deviation_rate = #{mathsDeviationRate},</if>
+            <if test="englishDeviationRate != null">english_deviation_rate = #{englishDeviationRate},</if>
+            <if test="totalDeviationRate != null">total_deviation_rate = #{totalDeviationRate},</if>
         </trim>
         where score_id = #{scoreId}
     </update>

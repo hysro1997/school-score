@@ -11,6 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -211,7 +216,15 @@ public class ExamsServiceImpl implements IExamsService
             }
 
         }
-
+        //计算并更新学生分数的标准差
+        List<ExamStudentScores> studentScoresList = studentScoresMapper.selectExamStudentScoresByExamId(examId);
+        for (ExamStudentScores studentScore: studentScoresList){
+            studentScore.setChineseDeviationRate(ExamsServiceImpl.calculateDeviationRate(studentScore.getChineseScore(),this.getAverageScoreInGradeSummary(examId,studentScore.getGrade(),"语文")));
+            studentScore.setMathsDeviationRate(ExamsServiceImpl.calculateDeviationRate(studentScore.getMathsScore(),this.getAverageScoreInGradeSummary(examId,studentScore.getGrade(),"数学")));
+            studentScore.setEnglishDeviationRate(ExamsServiceImpl.calculateDeviationRate(studentScore.getEnglishScore(),this.getAverageScoreInGradeSummary(examId,studentScore.getGrade(),"英语")));
+            studentScore.setTotalDeviationRate(ExamsServiceImpl.calculateTotalDeviationRate(studentScore.getChineseDeviationRate(),studentScore.getMathsDeviationRate(),studentScore.getEnglishDeviationRate()));
+            studentScoresMapper.updateExamStudentScores(studentScore);
+        }
         return gradeClasses;
     }
 
@@ -378,6 +391,57 @@ public class ExamsServiceImpl implements IExamsService
             gradeSummary.setExamGradeSummaryId(egs.getExamGradeSummaryId());
             gradeSummaryMapper.updateExamGradeSummary(gradeSummary);
         }
+    }
+
+    /**
+     * 从学生分数中计算学生的标准差
+     *
+     * @param studentScore 学生分数
+     * @param averageScore 年级均分
+     * @return 偏差率
+     */
+    public static BigDecimal calculateDeviationRate(BigDecimal studentScore, String averageScore){
+        if (null == studentScore || null == averageScore){
+            return null;
+        }
+        BigDecimal average = BigDecimal.valueOf(Double.parseDouble(averageScore));
+        BigDecimal differ = studentScore.subtract(average);
+        BigDecimal deviation = differ.divide(average,4, RoundingMode.HALF_UP);
+        //(分数-均分)/均分 * 100 格式化返回2个小数点的数
+        return deviation.multiply(BigDecimal.valueOf(100));
+    }
+
+    /**
+     *
+     * @param chineseDeviation 语文偏差率
+     * @param mathsDeviation 数学偏差率
+     * @param englishDeviation 英语偏差率
+     * @return 总偏差率
+     */
+    public static BigDecimal calculateTotalDeviationRate(BigDecimal chineseDeviation, BigDecimal mathsDeviation, BigDecimal englishDeviation){
+        BigDecimal totalDeviation = BigDecimal.ZERO;
+        if (null != chineseDeviation){
+            totalDeviation = totalDeviation.add(chineseDeviation);
+        }
+        if (null != mathsDeviation){
+            totalDeviation = totalDeviation.add(mathsDeviation);
+        }
+        if (null != englishDeviation){
+            totalDeviation = totalDeviation.add(englishDeviation);
+        }
+        return totalDeviation;
+    }
+
+    public String getAverageScoreInGradeSummary(Long examId, String grade, String subject){
+        ExamGradeSummary examGradeSummary = new ExamGradeSummary();
+        examGradeSummary.setExamId(examId);
+        examGradeSummary.setGrade(grade);
+        examGradeSummary.setSubject(subject);
+        ExamGradeSummary subjectExamGradeSummary = gradeSummaryMapper.selectExamGradeSummary(examGradeSummary);
+        if (null != subjectExamGradeSummary){
+            return subjectExamGradeSummary.getGradeAverageScore();
+        }
+        return null;
     }
 
 

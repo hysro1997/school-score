@@ -8,13 +8,12 @@
           clearable
           @keyup.enter.native="handleQuery"
         /-->
-        <el-select v-model="queryParams.grade" placeholder="请选择年级">
+        <el-select v-model="queryParams.grade" @change="handleQuery" placeholder="请选择年级">
           <el-option
             v-for="item in gradeOptions"
             :key="item.value"
             :label="item.label"
             :value="item.value"
-            @change="handleQuery"
             @keyup.enter.native="handleQuery">
           </el-option>
         </el-select>
@@ -26,13 +25,12 @@
           clearable
           @keyup.enter.native="handleQuery"
         /-->
-        <el-select v-model="queryParams.classes" placeholder="请选择班级">
+        <el-select v-model="queryParams.classes" @change="handleQuery" placeholder="请选择班级">
           <el-option
             v-for="item in classesOptions"
             :key="item.value"
             :label="item.label"
             :value="item.value"
-            @change="handleQuery"
             @keyup.enter.native="handleQuery">
           </el-option>
         </el-select>
