@@ -83,11 +83,21 @@ public class ExamStudentScores extends BaseEntity
     @JSONField(serialize = false)
     private String subject;
     @JSONField(serialize = false)
+    private String subjectName;
+    @JSONField(serialize = false)
     private String orderType;
     @JSONField(serialize = false)
     private BigDecimal underLine;
     @JSONField(serialize = false)
     private BigDecimal upLine;
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
 
     public BigDecimal getChineseDeviationRate() {
         return chineseDeviationRate;

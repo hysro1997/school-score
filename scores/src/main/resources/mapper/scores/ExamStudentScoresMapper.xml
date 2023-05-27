@@ -66,13 +66,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectExamStudentScoresList" parameterType="ExamStudentScores" resultMap="ExamStudentScoresExamsResult">
         <include refid="selectExamStudentScoresVo"/>
         <where>
+            <if test="examId != null "> and a.exam_id = #{examId}</if>
+            <if test="exams != null and exams.examName != null  and exams.examName != ''"> and b.exam_name like concat('%', #{exams.examName}, '%')</if>
             <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
             <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
             <if test="examNumber != null  and examNumber != ''"> and exam_number = #{examNumber}</if>
-            <if test="examId != null "> and a.exam_id = #{examId}</if>
-            <if test="exams != null and exams.examName != null  and exams.examName != ''"> and b.exam_name like concat('%', #{exams.examName}, '%')</if>
         </where>
         order by a.score_id desc
+    </select>
+
+    <select id="selectExamStudentScoresListForAnalysis" resultMap="ExamStudentScoresExamsResult">
+        <include refid="selectExamStudentScoresVo"/>
+        <where>
+            <if test="examStudentScores.examId != null "> and a.exam_id = #{examStudentScores.examId}</if>
+            <if test="examStudentScores.grade != null  and examStudentScores.grade != ''"> and grade = #{examStudentScores.grade}</if>
+            <if test="examStudentScores.classes != null  and examStudentScores.classes != ''"> and classes = #{examStudentScores.classes}</if>
+            <if test="examStudentScores.subject != null  and examStudentScores.subject != ''"> and ${examStudentScores.subject} ${direction} #{ration}</if>
+            <if test="examStudentScores.subjectName != null  and examStudentScores.subjectName == 'high'"> and chinese_deviation_rate ${direction} #{ration}  and maths_deviation_rate ${direction} #{ration} and english_deviation_rate ${direction} #{ration}</if>
+            <if test="examStudentScores.subjectName != null  and examStudentScores.subjectName == 'low'"> and chinese_deviation_rate ${direction} #{ration}  and maths_deviation_rate ${direction} #{ration}</if>
+        </where>
+        order by <if test="examStudentScores.subject != null  and examStudentScores.subject != ''"> ${examStudentScores.subject}</if>
+        <if test="examStudentScores.subjectName != null  and examStudentScores.subjectName != ''">total_deviation_rate</if>
+        <if test='direction == "&gt;"'>desc</if>
     </select>
 
     <select id="selectDistinctGradeClassesByExamId" parameterType="Long" resultType="Map">

@@ -10,6 +10,15 @@ export function listScores(query) {
 }
 
 // 查询学生分数情况列表
+export function listScores2(query) {
+  return request({
+    url: '/scores/scores/list2',
+    method: 'get',
+    params: query
+  })
+}
+
+// 查询学生分数情况列表
 export function getScoresInfo(query) {
   return request({
     url: '/scores/scores/getStudentsInfo',

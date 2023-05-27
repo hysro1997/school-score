@@ -86,6 +86,11 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         return examStudentScoresMapper.selectExamStudentScoresList(examStudentScores);
     }
 
+    @Override
+    public List<ExamStudentScores> selectExamStudentScoresListForAnalysis(ExamStudentScores examStudentScores, String direction, String ration) {
+        return examStudentScoresMapper.selectExamStudentScoresListForAnalysis(examStudentScores,direction,ration);
+    }
+
     /**
      * 新增学生分数情况
      *

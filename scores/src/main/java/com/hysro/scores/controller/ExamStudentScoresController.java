@@ -51,6 +51,13 @@ public class ExamStudentScoresController extends BaseController
     private IExamExcellentScoreLineService examExcellentScoreLineService;
     private static final String ASC = "0";
     private static final String DESC = "1";
+    private static final String GRADE_ONE = "一年级";
+    private static final String GRADE_TWO = "二年级";
+    private static final String RATION_ZERO = "0";
+    private static final String RATION_TEN = "10";
+    private static final String RATION_MINUS_TEN = "-10";
+    private static final String COMPARE_LARGE = ">";
+    private static final String COMPARE_SMALL = "<";
 
     /**
      * 查询学生分数情况列表
@@ -61,6 +68,76 @@ public class ExamStudentScoresController extends BaseController
     {
         startPage();
         List<ExamStudentScores> list = examStudentScoresService.selectExamStudentScoresList(examStudentScores);
+        return getDataTable(list);
+    }
+
+    /**
+     * 查询学生分数情况列表
+     */
+    @PreAuthorize("@ss.hasPermi('scores:scores:list')")
+    @GetMapping("/list2")
+    public TableDataInfo list2(ExamStudentScores examStudentScores)
+    {
+        String direction = COMPARE_LARGE;
+        String ration = RATION_ZERO;
+        examStudentScores.setSubject(null);
+        examStudentScores.setSubjectName(null);
+        switch (examStudentScores.getOrderType()){
+            case "1":
+                examStudentScores.setSubject("chinese_deviation_rate");
+                break;
+            case "2":
+                examStudentScores.setSubject("maths_deviation_rate");
+                break;
+            case "3":
+                if (GRADE_ONE.equals(examStudentScores.getGrade()) || GRADE_TWO.equals(examStudentScores.getGrade())){
+                    throw new ServiceException("没有英语");
+                }
+                examStudentScores.setSubject("english_deviation_rate");
+                break;
+            case "4":
+                examStudentScores.setSubject("chinese_deviation_rate");
+                direction = COMPARE_SMALL;
+                break;
+            case "5":
+                examStudentScores.setSubject("maths_deviation_rate");
+                direction = COMPARE_SMALL;
+                break;
+            case "6":
+                if (GRADE_ONE.equals(examStudentScores.getGrade()) || GRADE_TWO.equals(examStudentScores.getGrade())){
+                    throw new ServiceException("没有英语");
+                }
+                examStudentScores.setSubject("english_deviation_rate");
+                direction = COMPARE_SMALL;
+                break;
+            case "7":
+                this.switchSubjectName(examStudentScores);
+                break;
+            case "8":
+                this.switchSubjectName(examStudentScores);
+                ration = RATION_TEN;
+                break;
+            case "9":
+                this.switchSubjectName(examStudentScores);
+                direction = COMPARE_SMALL;
+                break;
+            case "10":
+                this.switchSubjectName(examStudentScores);
+                ration = RATION_MINUS_TEN;
+                direction = COMPARE_SMALL;
+                break;
+            case "11":
+                examStudentScores.setSubject("total_deviation_rate");
+                break;
+            case "12":
+                examStudentScores.setSubject("total_deviation_rate");
+                direction = COMPARE_SMALL;
+                break;
+            default:
+                return null;
+        }
+        startPage();
+        List<ExamStudentScores> list = examStudentScoresService.selectExamStudentScoresListForAnalysis(examStudentScores,direction,ration);
         return getDataTable(list);
     }
 
@@ -216,6 +293,13 @@ public class ExamStudentScoresController extends BaseController
         return AjaxResult.success(examStudentScoresService.selectExamStudentScoresByScoresBoundry(examStudentScores));
     }
 
+    private void switchSubjectName(ExamStudentScores examStudentScores){
+        if (GRADE_ONE.equals(examStudentScores.getGrade()) || GRADE_TWO.equals(examStudentScores.getGrade())){
+            examStudentScores.setSubjectName("low");
+        } else {
+            examStudentScores.setSubjectName("high");
+        }
+    }
     private void setOrderType(ExamStudentScores examStudentScores){
         if (null == examStudentScores.getExamId()){
             throw new ServiceException("没有选择查看哪一场考试的成绩");

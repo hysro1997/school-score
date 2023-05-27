@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hysro.scores.domain.ExamStudentScores;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 学生分数情况Mapper接口
@@ -28,6 +29,15 @@ public interface ExamStudentScoresMapper
      * @return 学生分数情况集合
      */
     public List<ExamStudentScores> selectExamStudentScoresList(ExamStudentScores examStudentScores);
+
+
+    /**
+     * 查询学生分数情况列表
+     *
+     * @param examStudentScores 学生分数情况
+     * @return 学生分数情况集合
+     */
+    public List<ExamStudentScores> selectExamStudentScoresListForAnalysis(@Param("examStudentScores")ExamStudentScores examStudentScores, @Param("direction")String direction, @Param("ration")String ration);
 
     /**
      * 根据考试ID获取有学生分数的年级班级

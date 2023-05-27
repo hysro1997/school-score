@@ -29,6 +29,15 @@ public interface IExamStudentScoresService
      */
     public List<ExamStudentScores> selectExamStudentScoresList(ExamStudentScores examStudentScores);
 
+
+    /**
+     * 查询学生分数情况列表
+     *
+     * @param examStudentScores 学生分数情况
+     * @return 学生分数情况集合
+     */
+    public List<ExamStudentScores> selectExamStudentScoresListForAnalysis(ExamStudentScores examStudentScores, String direction, String ration);
+
     /**
      * 新增学生分数情况
      *
