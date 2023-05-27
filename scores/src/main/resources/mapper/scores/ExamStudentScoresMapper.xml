@@ -86,8 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="examStudentScores.subjectName != null  and examStudentScores.subjectName == 'low'"> and chinese_deviation_rate ${direction} #{ration}  and maths_deviation_rate ${direction} #{ration}</if>
         </where>
         order by <if test="examStudentScores.subject != null  and examStudentScores.subject != ''"> ${examStudentScores.subject}</if>
-        <if test="examStudentScores.subjectName != null  and examStudentScores.subjectName != ''">total_deviation_rate</if>
-        <if test='direction == "&gt;"'>desc</if>
+        <if test="examStudentScores.subjectName != null  and examStudentScores.subjectName != ''">total_deviation_rate</if> desc
     </select>
 
     <select id="selectDistinctGradeClassesByExamId" parameterType="Long" resultType="Map">
