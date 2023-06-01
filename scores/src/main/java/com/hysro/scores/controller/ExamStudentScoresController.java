@@ -155,6 +155,77 @@ public class ExamStudentScoresController extends BaseController
     }
 
     /**
+     * 导出学生分数情况列表
+     */
+    @PreAuthorize("@ss.hasPermi('scores:scores:export')")
+    @Log(title = "学生分数情况", businessType = BusinessType.EXPORT)
+    @PostMapping("/export2")
+    public void export2(HttpServletResponse response, ExamStudentScores examStudentScores)
+    {
+        String direction = COMPARE_LARGE;
+        String ration = RATION_ZERO;
+        examStudentScores.setSubject(null);
+        examStudentScores.setSubjectName(null);
+        switch (examStudentScores.getOrderType()){
+            case "1":
+                examStudentScores.setSubject("chinese_deviation_rate");
+                break;
+            case "2":
+                examStudentScores.setSubject("maths_deviation_rate");
+                break;
+            case "3":
+                if (GRADE_ONE.equals(examStudentScores.getGrade()) || GRADE_TWO.equals(examStudentScores.getGrade())){
+                    throw new ServiceException("没有英语");
+                }
+                examStudentScores.setSubject("english_deviation_rate");
+                break;
+            case "4":
+                examStudentScores.setSubject("chinese_deviation_rate");
+                direction = COMPARE_SMALL;
+                break;
+            case "5":
+                examStudentScores.setSubject("maths_deviation_rate");
+                direction = COMPARE_SMALL;
+                break;
+            case "6":
+                if (GRADE_ONE.equals(examStudentScores.getGrade()) || GRADE_TWO.equals(examStudentScores.getGrade())){
+                    throw new ServiceException("没有英语");
+                }
+                examStudentScores.setSubject("english_deviation_rate");
+                direction = COMPARE_SMALL;
+                break;
+            case "7":
+                this.switchSubjectName(examStudentScores);
+                break;
+            case "8":
+                this.switchSubjectName(examStudentScores);
+                ration = RATION_TEN;
+                break;
+            case "9":
+                this.switchSubjectName(examStudentScores);
+                direction = COMPARE_SMALL;
+                break;
+            case "10":
+                this.switchSubjectName(examStudentScores);
+                ration = RATION_MINUS_TEN;
+                direction = COMPARE_SMALL;
+                break;
+            case "11":
+                examStudentScores.setSubject("total_deviation_rate");
+                break;
+            case "12":
+                examStudentScores.setSubject("total_deviation_rate");
+                direction = COMPARE_SMALL;
+                break;
+            default:
+                throw new ServiceException("没有参数");
+        }
+        List<ExamStudentScores> list = examStudentScoresService.selectExamStudentScoresListForAnalysis(examStudentScores,direction,ration);
+        ExcelUtil<ExamStudentScores> util = new ExcelUtil<ExamStudentScores>(ExamStudentScores.class);
+        util.exportExcel(response, list, "学生分数情况数据");
+    }
+
+    /**
      * 获取学生分数情况详细信息
      */
     @PreAuthorize("@ss.hasPermi('scores:scores:query')")

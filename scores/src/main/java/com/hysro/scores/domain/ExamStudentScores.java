@@ -69,15 +69,20 @@ public class ExamStudentScores extends BaseEntity
     private Exams exams;
 
     /** 语文偏差率 */
+    /** 总分 */
+    @Excel(name = "语文偏差率", type = Excel.Type.EXPORT)
     private BigDecimal chineseDeviationRate;
 
     /** 数学偏差率 */
+    @Excel(name = "数学偏差率", type = Excel.Type.EXPORT)
     private BigDecimal mathsDeviationRate;
 
     /** 英语偏差率 */
+    @Excel(name = "英语偏差率", type = Excel.Type.EXPORT)
     private BigDecimal englishDeviationRate;
 
     /** 总偏差率 */
+    @Excel(name = "总偏差率", type = Excel.Type.EXPORT)
     private BigDecimal totalDeviationRate;
 
     @JSONField(serialize = false)

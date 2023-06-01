@@ -90,6 +90,17 @@
         </el-form-item>
       </el-form>
 
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+          v-hasPermi="['scores:scores:export']"
+        >导出</el-button>
+      </el-col>
+
 
       <el-table v-loading="loading2" :data="scoresList" :row-class-name="tableRowClassName">
         <el-table-column type="index" width="50" align="center" />
@@ -287,6 +298,17 @@
         this.resetForm("queryForm");
         this.queryParams.orderType = null;
         this.handleQuery();
+      },
+      /** 导出按钮操作 */
+      handleExport() {
+        this.$refs['queryForm'].validate(valid => {
+          if (!valid) return false;
+          this.queryParams.pageNum = 1;
+          this.download('scores/scores/export2', {
+            ...this.queryParams
+          }, `学生分数分析_${new Date().getTime()}.xlsx`)
+        })
+
       },
       remoteMethod(query){
         if (query !== '') {
