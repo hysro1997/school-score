@@ -119,10 +119,10 @@ public class ExamsController extends BaseController
     }
 
     /**
-     * 统计考试数据
+     * 整合考试数据
      */
     @PreAuthorize("@ss.hasPermi('examination:exams:edit')")
-    @Log(title = "统计考试数据", businessType = BusinessType.OTHER)
+    @Log(title = "整合考试数据", businessType = BusinessType.OTHER)
     @PostMapping("/mixScores")
     public AjaxResult mixScores(@RequestBody Long examId)
     {

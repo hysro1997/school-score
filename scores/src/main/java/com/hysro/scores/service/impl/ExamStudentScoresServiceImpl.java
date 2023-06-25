@@ -361,6 +361,10 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         }
         //删除总分是null的学生
         examStudentScoresMapper.deleteTotalScoreIsNull(examId);
+        //清空临时表，避免后续有得分修改后，整合分数时脏读
+        tempScoresMapper.cleanExamChineseTempTables();
+        tempScoresMapper.cleanExamMathsTempTables();
+        tempScoresMapper.cleanExamEnglishTempTables();
         return 0;
     }
 
