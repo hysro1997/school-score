@@ -366,9 +366,9 @@
           { required: true, message: "考试号不能为空", trigger: "blur" },
           { pattern: /([1-9]|[A])[0-1]\d\d\d/, message: "考试号有5位，首位为年份的最后一个数字，举例2024年入学的03班05号学生考试号为考试号（40305），2020年入学的则是(A0305)"}
         ],
-        chineseScore:[{pattern: /([1-9]\d*\.?\d*)|(0\.\d*[1-9])/, message: "只能输入纯数字"}],
-        mathsScore:[{pattern: /([1-9]\d*\.?\d*)|(0\.\d*[1-9])/, message: "只能输入纯数字"}],
-        englishScore:[{pattern: /([1-9]\d*\.?\d*)|(0\.\d*[1-9])/, message: "只能输入纯数字"}]
+        chineseScore:[{pattern: /([0-9]\d*\.?\d*)|(0\.\d*[1-9])/, message: "只能输入纯数字"}],
+        mathsScore:[{pattern: /([0-9]\d*\.?\d*)|(0\.\d*[1-9])/, message: "只能输入纯数字"}],
+        englishScore:[{pattern: /([0-9]\d*\.?\d*)|(0\.\d*[1-9])/, message: "只能输入纯数字"}]
       }
     };
   },
