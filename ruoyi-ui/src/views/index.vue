@@ -832,10 +832,16 @@ export default {
       let option = {
         xAxis: {
           type: 'category',
-          data: examNames
+          data: examNames,
+          position: 'top'
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          inverse: true
+        },
+        label:{
+          show: true,
+          position: 'bottom'
         },
         dataZoom: { // 放大和缩放
           type: 'slider'
@@ -900,12 +906,15 @@ export default {
           },
           label:{
             show: true,
-            position: 'top'
+            position: 'bottom'
           },
           xAxis: {
-            data: classesList
+            data: classesList,
+            position: 'top'
           },
-          yAxis: {},
+          yAxis: {
+            inverse: true
+          },
           series: rateList
         });
         chart.on('click', function(params) {
