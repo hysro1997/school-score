@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hysro.scores.mapper.ExamReportSheetImgsMapper">
+
+    <resultMap type="ExamReportSheetImgs" id="ExamReportSheetImgsResult">
+        <result property="id"    column="id"    />
+        <result property="imgSrc"    column="img_src"    />
+        <result property="positionX"    column="position_x"    />
+        <result property="positionY"    column="position_y"    />
+        <result property="sizeWidth"    column="size_width"    />
+        <result property="sizeHeight"    column="size_height"    />
+    </resultMap>
+
+    <sql id="selectExamReportSheetImgsVo">
+        select id, img_src, position_x, position_y, size_width, size_height from exam_report_sheet_imgs
+    </sql>
+
+    <select id="selectExamReportSheetImgsList" parameterType="ExamReportSheetImgs" resultMap="ExamReportSheetImgsResult">
+        <include refid="selectExamReportSheetImgsVo"/>
+        <where>
+            <if test="imgSrc != null  and imgSrc != ''"> and img_src = #{imgSrc}</if>
+            <if test="positionX != null  and positionX != ''"> and position_x = #{positionX}</if>
+            <if test="positionY != null  and positionY != ''"> and position_y = #{positionY}</if>
+            <if test="sizeWidth != null  and sizeWidth != ''"> and size_width = #{sizeWidth}</if>
+            <if test="sizeHeight != null  and sizeHeight != ''"> and size_height = #{sizeHeight}</if>
+        </where>
+    </select>
+
+    <select id="selectExamReportSheetImgsById" parameterType="Long" resultMap="ExamReportSheetImgsResult">
+        <include refid="selectExamReportSheetImgsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertExamReportSheetImgs" parameterType="ExamReportSheetImgs" useGeneratedKeys="true" keyProperty="id">
+        insert into exam_report_sheet_imgs
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="imgSrc != null">img_src,</if>
+            <if test="positionX != null">position_x,</if>
+            <if test="positionY != null">position_y,</if>
+            <if test="sizeWidth != null">size_width,</if>
+            <if test="sizeHeight != null">size_height,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="imgSrc != null">#{imgSrc},</if>
+            <if test="positionX != null">#{positionX},</if>
+            <if test="positionY != null">#{positionY},</if>
+            <if test="sizeWidth != null">#{sizeWidth},</if>
+            <if test="sizeHeight != null">#{sizeHeight},</if>
+        </trim>
+    </insert>
+
+    <update id="updateExamReportSheetImgs" parameterType="ExamReportSheetImgs">
+        update exam_report_sheet_imgs
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="imgSrc != null">img_src = #{imgSrc},</if>
+            <if test="positionX != null">position_x = #{positionX},</if>
+            <if test="positionY != null">position_y = #{positionY},</if>
+            <if test="sizeWidth != null">size_width = #{sizeWidth},</if>
+            <if test="sizeHeight != null">size_height = #{sizeHeight},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteExamReportSheetImgsById" parameterType="Long">
+        delete from exam_report_sheet_imgs where id = #{id}
+    </delete>
+
+    <delete id="deleteExamReportSheetImgsByIds" parameterType="String">
+        delete from exam_report_sheet_imgs where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

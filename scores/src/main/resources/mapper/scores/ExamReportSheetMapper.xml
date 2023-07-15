@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hysro.scores.mapper.ExamReportSheetMapper">
+
+    <resultMap type="ExamReportSheet" id="ExamReportSheetResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="educationDays"    column="education_days"    />
+        <result property="nextSchoolDay"   column="next_school_day"    />
+    </resultMap>
+
+    <sql id="selectExamReportSheetVo">
+        select id, title, education_days, next_school_day from exam_report_sheet
+    </sql>
+
+    <select id="selectExamReportSheetList" parameterType="ExamReportSheet" resultMap="ExamReportSheetResult">
+        <include refid="selectExamReportSheetVo"/>
+        <where>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="educationDays != null "> and education_days = #{educationDays}</if>
+            <if test="nextSchoolDay != null "> and next_school_day = #{nextSchoolDay}</if>
+        </where>
+    </select>
+
+    <select id="selectExamReportSheetById" parameterType="Long" resultMap="ExamReportSheetResult">
+        <include refid="selectExamReportSheetVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertExamReportSheet" parameterType="ExamReportSheet" useGeneratedKeys="true" keyProperty="id">
+        insert into exam_report_sheet
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">title,</if>
+            <if test="educationDays != null">education_days,</if>
+            <if test="nextSchoolDay != null">next_school_day,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">#{title},</if>
+            <if test="educationDays != null">#{educationDays},</if>
+            <if test="nextSchoolDay != null">#{nextSchoolDay},</if>
+        </trim>
+    </insert>
+
+    <update id="updateExamReportSheet" parameterType="ExamReportSheet">
+        update exam_report_sheet
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="educationDays != null">education_days = #{educationDays},</if>
+            <if test="nextSchoolDay != null">next_school_day = #{nextSchoolDay},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteExamReportSheetById" parameterType="Long">
+        delete from exam_report_sheet where id = #{id}
+    </delete>
+
+    <delete id="deleteExamReportSheetByIds" parameterType="String">
+        delete from exam_report_sheet where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -906,15 +906,12 @@ export default {
           },
           label:{
             show: true,
-            position: 'bottom'
+            position: 'top'
           },
           xAxis: {
             data: classesList,
-            position: 'top'
           },
-          yAxis: {
-            inverse: true
-          },
+          yAxis: {},
           series: rateList
         });
         chart.on('click', function(params) {

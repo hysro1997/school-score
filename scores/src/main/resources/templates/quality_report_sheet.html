@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<div style="height: 25cm;width: 18.5cm;" class="pdfpage">
+    #foreach( $img in $imgs)
+        #if($img.sizeWidth && $img.sizeHeight)
+    <img src="$!{img.imgSrc}" style="position:absolute;top: $!{img.positionX}cm;left:$!{img.positionY}cm;z-index: 2;width: $!{img.sizeWidth}cm;height: $!{img.sizeHeight}cm;">
+        #else
+    <img src="$!{img.imgSrc}" style="position:absolute;top: $!{img.positionX}cm;left:$!{img.positionY}cm;z-index: 2;">
+        #end
+
+    #end
+    <div class="title-class">$!{sys.title}</div>
+    <br/>
+    <div style="text-align: center;">
+        <span>班级：$!{studentCriticle.classes}</span><span style="margin-left: 180px">姓名：$!{studentCriticle.name}</span>
+    </div>
+<br/>
+    <table cellpadding="6">
+        <colgroup>
+            <col style="width:0.5cm;"/>
+            <col style="width:1.25cm;"/>
+            <col style="width:1.25cm;"/>
+            <col style="width:1.25cm;"/>
+            <col style="width:1.25cm;"/>
+            <col style="width:1.25cm;"/>
+            <col style="width:1.25cm;"/>
+            <col style="width:1.25cm;"/>
+            <col style="width:1.25cm;"/>
+
+            <col style="width:0.5cm;"/>
+            <col style="width:0.5cm;"/>
+            <col style="width:0.5cm;"/>
+            <col style="width:0.5cm;"/>
+            <col style="width:1cm;"/>
+            <col style="width:1cm;"/>
+            <col style="width:0.5cm;"/>
+            <col style="width:0.5cm;"/>
+            <col style="width:0.5cm;"/>
+            <col style="width:0.5cm;"/>
+        </colgroup>
+        <tr>
+            <td class="left-width" rowspan="18"><p>学</p><p>科</p><p>等</p><p>第</p></td>
+            <td colspan="4">品德</td>
+            <td colspan="4">$!{studentCriticle.morality}</td>
+            <td colspan="6">身高（厘米）</td>
+            <td colspan="4">$!{studentCriticle.height}</td>
+        </tr>
+        <tr>
+            <td colspan="2" rowspan="3">语文</td>
+            <td colspan="2">阅读</td>
+            <td colspan="2">$!{studentCriticle.reading}</td>
+            <td colspan="2" rowspan="3">$!{studentCriticle.chinese}</td>
+            <td colspan="6">体重（千克）</td>
+            <td colspan="4">$!{studentCriticle.weight}</td>
+        </tr>
+        <tr>
+            <td colspan="2">写话</td>
+            <td colspan="2">$!{studentCriticle.words}</td>
+            <td colspan="4" rowspan="2">视力</td>
+            <td colspan="2">左</td>
+            <td colspan="4">$!{studentCriticle.leftEye}</td>
+        </tr>
+        <tr>
+            <td colspan="2">写字</td>
+            <td colspan="2">$!{studentCriticle.writing}</td>
+            <td colspan="2">右</td>
+            <td colspan="4">$!{studentCriticle.rightEye}</td>
+        </tr>
+        <tr>
+            <td colspan="2" rowspan="3">数学</td>
+            <td colspan="2">口算</td>
+            <td colspan="2">$!{studentCriticle.mentalArithmetic}</td>
+            <td colspan="2" rowspan="3">$!{studentCriticle.math}</td>
+            <td colspan="6" colspan="2">体锻达标等级</td>
+            <td colspan="4">$!{studentCriticle.exercise}</td>
+        </tr>
+        <tr>
+            <td colspan="2">笔算</td>
+            <td colspan="2">$!{studentCriticle.calculation}</td>
+            <td colspan="10" colspan="3">班主任评语</td>
+        </tr>
+        <tr>
+            <td colspan="2">操作</td>
+            <td colspan="2">$!{studentCriticle.manipulation}</td>
+            <td colspan="10" rowspan="7"><div>$!{studentCriticle.evaluate}</div></td>
+        </tr>
+        <tr>
+            <td colspan="2" rowspan="3">英语</td>
+            <td colspan="2">语基</td>
+            <td colspan="2">$!{studentCriticle.language}</td>
+            <td colspan="2" rowspan="3">$!{studentCriticle.english}</td>
+        </tr>
+        <tr>
+            <td colspan="2">口语</td>
+            <td colspan="2">$!{studentCriticle.oral}</td>
+        </tr>
+        <tr>
+            <td colspan="2">书写</td>
+            <td colspan="2">$!{studentCriticle.englishWriting}</td>
+        </tr>
+        <tr>
+            <td colspan="4">科学</td>
+            <td colspan="4">$!{studentCriticle.science}</td>
+        </tr>
+        <tr>
+            <td colspan="4">劳动</td>
+            <td colspan="4">$!{studentCriticle.labor}</td>
+        </tr>
+        <tr>
+            <td colspan="4">音乐</td>
+            <td colspan="4">$!{studentCriticle.music}</td>
+        </tr>
+        <tr>
+            <td colspan="4">体育</td>
+            <td colspan="4">$!{studentCriticle.PE}</td>
+            <td colspan="4">操行等第</td>
+            <td colspan="6">$!{studentCriticle.behavior}</td>
+        </tr>
+        <tr>
+            <td colspan="4">美术</td>
+            <td colspan="4">$!{studentCriticle.art}</td>
+            <td rowspan="2" colspan="4">奖惩记载</td>
+            <td rowspan="2" colspan="6">$!{studentCriticle.prize}</td>
+        </tr>
+        <tr>
+            <td colspan="4">综合实践</td>
+            <td colspan="4">$!{studentCriticle.practise}</td>
+        </tr>
+        <tr>
+            <td colspan="4">信息科学</td>
+            <td colspan="4">$!{studentCriticle.compute}</td>
+            <td colspan="6">教育教学时间</td>
+            <td colspan="4">$!{sys.educationDays}</td>
+        </tr>
+        <tr>
+            <td colspan="4">校本课程</td>
+            <td colspan="4">$!{studentCriticle.school}</td>
+            <td colspan="6">下学期报到时间</td>
+            <td colspan="4">$!{sys.nextSchoolDay}</td>
+        </tr>
+         <tr>
+            <td class="left-width"><p>签</p><p>章</p></td>
+            <td colspan="3" style="width: 2cm">校长</td>
+            <td colspan="3"><div class="square"></div></td>
+            <td colspan="3">教导主任</td>
+            <td colspan="3"><div class="square"></div></td>
+            <td colspan="3">班主任</td>
+             <td colspan="3"><div class="square"></div></td>
+        </tr>
+         <tr>
+            <td class="left-width"><p>家</p><p>长</p><p>意</p><p>见</p></td>
+            <td colspan="18"></td>
+        </tr>
+     </table>
+</div>
+</body>
+<style>
+    .pdfpage{page-break-inside:avoid;}
+    *{
+        font-family: SimSun;
+    }
+    .evaluate-td{
+        width: 8cm;
+    }
+    .square {
+        width: 100px;
+        height: 100px;
+    }
+    .left-width {
+        writing-mode: vertical-lr;
+        width: 20px;
+        text-align: center;
+    }
+    .title-class {
+        font-size: 30px;
+        text-align: center;
+    }
+    table {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        font-size: 16px;
+        border-collapse: collapse;
+    }
+    table,tr, th, td {
+        border: solid 2px black;
+    }
+</style>
+</html>
+
