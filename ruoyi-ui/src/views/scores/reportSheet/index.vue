@@ -175,7 +175,7 @@ export default {
   methods: {
     handleDownload() {
       this.download('velocity/downloadTemplate', {
-      }, `分数导入模板_${new Date().getTime()}.xlsx`)
+      }, `素质报告单成绩统计表模板_${new Date().getTime()}.xls`)
     },
     handlePrint(){
       window.open(this.windowSrc);

@@ -309,7 +309,7 @@
         if (this.formData.grade && this.formData.classes){
           this.examNumber = '请选择年级、班级、学科来自动生成考号';
           let gradeYear = this.nowDate.substring(3,4);
-          let gradeMonth = this.nowDate.substring(6,7);
+          let gradeMonth = this.nowDate.substring(5,7);
           let firstNumberOfExamNumber;
           //先判断年级
           if (this.formData.grade < gradeYear){

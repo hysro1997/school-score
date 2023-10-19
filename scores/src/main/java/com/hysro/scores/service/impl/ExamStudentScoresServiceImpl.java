@@ -386,7 +386,7 @@ public class ExamStudentScoresServiceImpl implements IExamStudentScoresService
         //当前年份
         int year = (int) date.charAt(3) - (int)('0');
         //当前月份
-        int month = (int)date.charAt(6) - (int)('0');
+        int month = Integer.parseInt(date.substring(5,7));
         String classes  =examNumber.substring(1,3);
         if (year < gradeyYear){
             year += 10;

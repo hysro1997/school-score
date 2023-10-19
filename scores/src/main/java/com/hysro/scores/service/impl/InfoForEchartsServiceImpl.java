@@ -99,7 +99,7 @@ public class InfoForEchartsServiceImpl implements IInfoForEchartsService {
      */
     private static int getRegisterYear(String nowDate, int grade){
         int year = Integer.parseInt(nowDate.substring(0,4));
-        int month = (int)nowDate.charAt(6) - (int)('0');
+        int month = Integer.parseInt(nowDate.substring(5,7));
         if (MONTH_NINE > month){
             return year - grade;
         } else {
