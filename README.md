@@ -71,7 +71,7 @@
         运行build:prod 打包前端页面
 
 ## 查看效果
-<p> <a href="https://cowtransfer.com/s/78448b5f42734a"> 点击链接查看 [ Ubuntu cjgl ] </a> ，或访问奶牛快传 cowtransfer.com 输入传输口令 e2gpyo 查看；</p>
+<p> <a href="https://pan.baidu.com/s/1gMJj4lD7bCgzGHqJhKkQFg?pwd=8rdt"> 点击链接查看 [ Ubuntu cjgl ] </a> </p>
     
     1、下载文件，在VMware虚拟机中选择打开文件，打开下载文件中的 Ubuntu cjgl.vmx 文件
     2、待虚拟机运行后：用户名：hhb 密码：123456
