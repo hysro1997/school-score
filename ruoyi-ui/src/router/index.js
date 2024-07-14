@@ -84,7 +84,13 @@ export const constantRoutes = [
         component: () => import('@/views/system/user/profile/index'),
         name: 'Profile',
         meta: { title: '个人中心', icon: 'user' }
-      }
+      },
+      {
+        path: 'crack',
+        component: () => import('@/views/scores/crack/index'),
+        name: 'chengjifenxi',
+        meta: { title: '成绩分析', icon: 'dashboard', affix: true }
+      },
     ]
   }
 ]

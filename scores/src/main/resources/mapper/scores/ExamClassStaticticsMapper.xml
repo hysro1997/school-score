@@ -42,6 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="ClassesStatisticEchartsHelper" id="HelperResult">
         <result property="examName"    column="exam_name"    />
         <result property="rate"    column="rate"    />
+        <result property="teacherName" column="teacher_name"    />
     </resultMap>
 
     <sql id="selectExamClassStaticticsVo">
@@ -58,9 +59,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectRatesByGradeClassesExamTimeOrderType" parameterType="ExamClassStatictics" resultMap="HelperResult">
-        SELECT e.exam_name, c.${subjectName} AS rate FROM exam_class_statictics c
+        SELECT e.exam_name, c.${subjectName} AS rate, et.teacher_name FROM exam_class_statictics c
         LEFT JOIN exams e ON c.exam_id = e.exam_id
-        WHERE c.`subject` = #{subject} AND c.grade = #{grade} AND classes = #{classes} AND e.create_time BETWEEN #{subjectName2} AND #{subjectName3}
+		LEFT JOIN exam_teacher et ON c.exam_id = et.exam_id
+        WHERE c.`subject` = #{subject} AND c.grade = #{grade} AND c.classes = #{classes}
+          AND et.classes = #{classes} AND et.subjects = #{subject} AND et.grade = #{grade}
+         AND e.create_time BETWEEN #{subjectName2} AND #{subjectName3}
     </select>
 
     <select id="selectSubjectsByExamIdAndGrade" parameterType="ExamClassStatictics" resultType="String">

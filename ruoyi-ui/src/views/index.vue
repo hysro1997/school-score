@@ -39,6 +39,20 @@
       inactive-color="rgb(145, 204, 117)"
       @change="drawAllEcharts(examId)"
     ></el-switch> 平均分 排名数据
+      <br/>
+      <br/>
+      <div v-hasPermi="['scores:teacher:list']">
+        显示
+        <el-switch
+
+          v-model="teacherPermission"
+          active-value="1"
+          inactive-value="0"
+          inactive-color="rgb(145, 204, 117)"
+          @change="drawAllEcharts(examId)"
+        ></el-switch>不显示&nbsp;&nbsp;&nbsp;&nbsp;教师姓名
+      </div>
+
     </div>
 <br/><br/>
     <div style="width: 1500px">
@@ -312,11 +326,13 @@
   import { listStatistic } from '@/api/scores/statistic'
   import { listStatictics, getAverage } from '@/api/scores/statictics'
   import Cookies from 'js-cookie'
+  import { getTeachers } from '../api/scores/teacher'
 
 export default {
   name: "Index",
   data() {
     return {
+      teacherPermission: "1",
       historyRateTitle: {
         grade: '',
         classes: '',
@@ -827,7 +843,8 @@ export default {
         this.postGroup = response.postGroup;
       });
     },
-    drawHistoryChart(examNames,rates){
+    drawHistoryChart(examNames,rates,teacherName){
+      let that = this;
       this.historyRateChart = echarts.init(document.getElementById('classesHistoryRate'));
       let option = {
         xAxis: {
@@ -849,7 +866,18 @@ export default {
         series: [
           {
             data: rates,
-            type: 'line'
+            type: 'line',
+            label: {
+              show: true,
+              position: "top",
+              formatter: function(params) {
+                if (teacherName.length!==0 && that.teacherPermission==="0"){
+                  return rates[params.dataIndex] + teacherName[params.dataIndex];
+                }else {
+                  return rates[params.dataIndex];
+                }
+              }
+            },
           }
         ]
       };
@@ -874,71 +902,92 @@ export default {
         chart = echarts.init(document.getElementById(index));
         subjectList = response.data.subjects;
         classesList = response.data.classes;
-        subjectList.forEach(function(value) {
-          let subjectsRates = {
-            name: null,
-            type: 'bar',
-            data: []
-          };
-          subjectsRates.name = value;
-          if ("语文"===value){
-            subjectsRates.data = response.data.chineseRates;
-          }else if ("数学"===value){
-            subjectsRates.data = response.data.mathsRates;
-          }else if ("英语"===value){
-            subjectsRates.data = response.data.englishRates;
-          }
-          rateList.push(subjectsRates);
-        });
-        // 绘制图表
-        chart.setOption({
-          title: {
-            text: grade
-          },
-          tooltip: {},
-          legend:{
-            data: subjectList,
-            orient: 'horizontal',
-            right: 0,
-          },
-          dataZoom: { // 放大和缩放
-            type: 'slider'
-          },
-          label:{
-            show: true,
-            position: 'top'
-          },
-          xAxis: {
-            data: classesList,
-          },
-          yAxis: {},
-          series: rateList
-        });
-        chart.on('click', function(params) {
-          let param = {
-            subject: params.seriesName,
-            grade: grade,
-            classes: params.name,
-            examId: examId,
-            rankType: that.queryParams.rankType
-          };
-          let examNames = [];
-          let historyRates = [];
-          that.historyRateTitle = {
-            grade: param.grade,
-            classes: param.classes,
-            subject: param.subject,
-          };
-          getClassesHistory(param).then(response =>{
-            response.data.forEach((value, index) => {
-              examNames.push(value.examName);
-              historyRates.push(value.rate);
+        let teachersData = {
+          examId: examId,
+          grade: grade
+        }
+        let response3 = response;
+        getTeachers(teachersData).then(response2 =>{
+          let chineseteachers = response2.data.chineseteachers;
+          let mathsteachers = response2.data.mathsteachers;
+          let englishteachers = response2.data.englishteachers;
+          subjectList.forEach(function(value) {
+            let dataRates = "语文"===value?response3.data.chineseRates:"数学"===value?response3.data.mathsRates:response3.data.englishRates;
+            let teachers = "语文"===value?chineseteachers:"数学"===value?mathsteachers:englishteachers;
+            let subjectsRates = {
+              name: value,
+              type: 'bar',
+              label: {
+                show: true,
+                position: "top",
+                formatter: function(params) {
+                  if (teachers.length!==0 && that.teacherPermission==="0"){
+                    return dataRates[params.dataIndex] + teachers[params.dataIndex];
+                  }else {
+                    return dataRates[params.dataIndex];
+                  }
+                }
+              },
+              data: dataRates,
+            };
+            rateList.push(subjectsRates);
+          });
+          // 绘制图表
+          chart.setOption({
+            title: {
+              text: grade
+            },
+            tooltip: {},
+            legend:{
+              data: subjectList,
+              orient: 'horizontal',
+              right: 0,
+            },
+            dataZoom: { // 放大和缩放
+              type: 'slider'
+            },
+            label:{
+              show: true,
+              position: 'top',
+            },
+            xAxis: {
+              data: classesList,
+            },
+            yAxis: {},
+            series: rateList,
+          });
+          chart.on('click', function(params) {
+            let param = {
+              subject: params.seriesName,
+              grade: grade,
+              classes: params.name,
+              examId: examId,
+              rankType: that.queryParams.rankType
+            };
+            let examNames = [];
+            let historyRates = [];
+            let teacherName = [];
+            that.historyRateTitle = {
+              grade: param.grade,
+              classes: param.classes,
+              subject: param.subject,
+            };
+            getClassesHistory(param).then(response =>{
+              response.data.forEach((value, index) => {
+                examNames.push(value.examName);
+                historyRates.push(value.rate);
+                teacherName.push(value.teacherName);
+              });
+              console.log(response.data)
+              console.log(teacherName)
+              that.drawer2 = true;
+              //that.drawHistoryChart(examNames,historyRates)
+              setTimeout(() =>{that.drawHistoryChart(examNames,historyRates,teacherName)},200);
             });
-            that.drawer2 = true;
-            //that.drawHistoryChart(examNames,historyRates)
-            setTimeout(() =>{that.drawHistoryChart(examNames,historyRates)},200);
           });
         });
+
+
       });
 
     }

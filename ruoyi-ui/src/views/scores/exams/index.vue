@@ -65,6 +65,16 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="考试ID" align="center" prop="examId" />
       <el-table-column label="考试名称" align="center" prop="examName" />
+      <el-table-column label="导入班级老师" align="center">
+        <template slot-scope="scope">
+        <el-button
+          size="mini"
+          type="text"
+          icon="el-icon-tickets"
+          @click="handleImportTeacher(scope.row)"
+          v-hasPermi="['scores:teacher:import']"
+        >导入班级老师</el-button></template>
+      </el-table-column>
       <el-table-column label="启用状态" align="center" key="enableFlag">
         <template slot-scope="scope">
           <el-switch
@@ -147,12 +157,42 @@
       </div>
     </el-dialog>
 
+    <el-dialog title="导入班级老师" :visible.sync="upload.open" width="400px" :close-on-click-modal="false">
+      <el-upload
+        ref="upload"
+        :limit="1"
+        accept=".xlsx, .xls"
+        :headers="upload.headers"
+        :action="upload.url + '?examId=' + upload.examId"
+        :disabled="upload.isUploading"
+        :on-progress="handleFileUploadProgress"
+        :on-success="handleFileSuccess"
+        :auto-upload="false"
+        :show-close="false"
+        drag
+      >
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">
+          将文件拖到此处，或
+          <em>点击上传</em>
+        </div>
+        <div class="el-upload__tip" slot="tip">
+          <el-link type="info" style="font-size:18px;" @click="importTemplate">点击这里下载模板</el-link>
+        </div>
+        <div class="el-upload__tip" style="color:red" slot="tip">提示：仅允许导入“xls”或“xlsx”格式文件！</div>
+      </el-upload>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitFileForm">确 定</el-button>
+        <el-button @click="upload.open = false">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { listExams, getExams, delExams, addExams, updateExams, getExamsEnables, statisticExams, mixScores } from "@/api/examination/exams";
 import ExamSave from './examSave'
+import { getToken } from '@/utils/auth'
 
 export default {
   name: "Exams",
@@ -191,6 +231,21 @@ export default {
         pageNum: 1,
         pageSize: 10,
         examName: null,
+      },
+      upload: {
+        // 是否显示弹出层（用户导入）
+        open: false,
+        examId: '',
+        // 弹出层标题（用户导入）
+        title: "班级老师导入",
+        // 是否禁用上传
+        isUploading: false,
+        // 是否更新已经存在的用户数据
+        updateSupport: 0,
+        // 设置上传的请求头部
+        headers: { Authorization: "Bearer " + getToken() },
+        // 上传的地址
+        url: process.env.VUE_APP_BASE_API + "/scores/teacher/importData"
       },
       // 表单参数
       form: {},
@@ -331,6 +386,14 @@ export default {
         }, 1000);
       });
     },
+    handleImportTeacher(row){
+      this.upload.examId = row.examId;
+      this.upload.open = true;
+    },
+    importTemplate() {
+      this.download('scores/teacher/importTemplate', {
+      }, `班级责任老师_${new Date().getTime()}.xlsx`)
+    },
     /** 统计考试的结果数据 */
     handleStatistics(row) {
       if ("0"===row.enableFlag){
@@ -409,7 +472,29 @@ export default {
       this.download('examination/exams/export', {
         ...this.queryParams
       }, `exams_${new Date().getTime()}.xlsx`)
-    }
+    },
+    // 文件上传中处理
+handleFileUploadProgress(event, file, fileList) {
+  this.upload.isUploading = true;
+},
+// 文件上传成功处理
+handleFileSuccess(response, file, fileList) {
+  this.upload.open = false;
+  this.upload.isUploading = false;
+  this.textarea = '';
+  if (undefined === response.msg || null === response.msg || ''=== response.msg){
+    this.$alert("导入失败，请检查文件内容格式是否符合要求，或联系管理员处理");
+  }else {
+    this.uploadResult.open = true;
+    this.$alert("导入成功");
+  }
+  this.$refs.upload.clearFiles();
+  //this.$alert(response.msg, "导入结果", { dangerouslyUseHTMLString: true });
+},
+// 提交上传文件
+submitFileForm() {
+  this.$refs.upload.submit();
+}
   }
 };
 </script>

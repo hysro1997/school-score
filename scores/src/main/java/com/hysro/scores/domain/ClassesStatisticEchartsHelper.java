@@ -37,6 +37,16 @@ public class ClassesStatisticEchartsHelper {
 
     public String examName;
     public int rate;
+    public String teacherName;
+
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
 
     public String getExamName() {
         return examName;

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hysro.scores.mapper.ExamTeacherMapper">
+
+    <resultMap type="ExamTeacher" id="ExamTeacherResult">
+        <result property="id"    column="id"    />
+        <result property="examId"    column="exam_id"    />
+        <result property="grade"    column="grade"    />
+        <result property="classes"    column="classes"    />
+        <result property="teacherName"    column="teacher_name"    />
+        <result property="subjects"    column="subjects"    />
+    </resultMap>
+
+    <sql id="selectExamTeacherVo">
+        select id, exam_id, grade, classes, teacher_name, subjects from exam_teacher
+    </sql>
+
+    <select id="selectExamTeacherList" parameterType="ExamTeacher" resultMap="ExamTeacherResult">
+        <include refid="selectExamTeacherVo"/>
+        <where>
+            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="classes != null  and classes != ''"> and classes = #{classes}</if>
+            <if test="subjects != null  and subjects != ''"> and subjects = #{subjects}</if>
+            <if test="teacherName != null  and teacherName != ''"> and teacher_name like concat('%', #{teacherName}, '%')</if>
+        </where>
+        order by exam_id desc
+    </select>
+
+    <select id="selectExamTeachers" parameterType="ExamTeacher" resultMap="ExamTeacherResult">
+        <include refid="selectExamTeacherVo"/>
+        <where>
+            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="subjects != null  and subjects != ''"> and subjects = #{subjects}</if>
+        </where>
+        order by classes ASC
+    </select>
+
+    <select id="selectExamTeacherById" parameterType="Long" resultMap="ExamTeacherResult">
+        <include refid="selectExamTeacherVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertExamTeacher" parameterType="ExamTeacher" useGeneratedKeys="true" keyProperty="id">
+        insert into exam_teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="examId != null">exam_id,</if>
+            <if test="grade != null">grade,</if>
+            <if test="classes != null">classes,</if>
+            <if test="teacherName != null">teacher_name,</if>
+            <if test="subjects != null">subjects,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="examId != null">#{examId},</if>
+            <if test="grade != null">#{grade},</if>
+            <if test="classes != null">#{classes},</if>
+            <if test="teacherName != null">#{teacherName},</if>
+            <if test="subjects != null">#{subjects},</if>
+         </trim>
+    </insert>
+
+    <update id="updateExamTeacher" parameterType="ExamTeacher">
+        update exam_teacher
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="examId != null">exam_id = #{examId},</if>
+            <if test="grade != null">grade = #{grade},</if>
+            <if test="classes != null">classes = #{classes},</if>
+            <if test="teacherName != null">teacher_name = #{teacherName},</if>
+            <if test="subjects != null"> subjects = #{subjects}</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteExamTeacherById" parameterType="Long">
+        delete from exam_teacher where id = #{id}
+    </delete>
+
+    <delete id="deleteExamTeacherByExamId" parameterType="Long">
+        delete from exam_teacher where exam_id = #{examId}
+    </delete>
+
+    <delete id="deleteExamTeacherByIds" parameterType="String">
+        delete from exam_teacher where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
