@@ -78,7 +78,7 @@ public class InfoForEchartsServiceImpl implements IInfoForEchartsService {
         Exams exams = examsMapper.selectExamsByExamId(classStatictics.getExamId());
         ArrayList<ClassesStatisticEchartsHelper> resultList = new ArrayList<>();
         //对获取到的考试时间进行处理，得到这个班级入学的时间
-        int registerYear = getRegisterYear(DateUtils.dateTime(exams.getCreateTime()), toNumberGrade(classStatictics.getGrade()));
+        int registerYear = getRegisterYear(DateUtils.dateTime(new Date()), toNumberGrade(classStatictics.getGrade()));
         //依次获取一到六年级的年份范围，并查询对应的排名数据
         for (String grade : GRADES) {
             classStatictics.setGrade(grade);
